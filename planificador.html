@@ -489,10 +489,18 @@ function updateLinks(row,txt){
 }
 function refreshAllLinks(root){
  if(!root)return;
+ // Files (.row): activitats, recursos, audiovisuals
  var rows=root.querySelectorAll('.row'),i;
  for(i=0;i<rows.length;i++){
   var ta=rows[i].querySelector('textarea');
   updateLinks(rows[i],ta?ta.value:'');
+ }
+ // Blocs (.sect amb data-linkblock): objectius, comp, ev
+ var secs=root.querySelectorAll('.sect[data-linkblock]'),j;
+ for(j=0;j<secs.length;j++){
+  var s=secs[j];
+  var ta2=s.querySelector('textarea');
+  if(ta2)updateLinks(s,ta2.value);
  }
 }
 
@@ -528,9 +536,11 @@ function avRow(v){
 }
 function block(title,key,val,inner,cls,clau){
  var btn=clau?('<button type="button" class="cpy" data-copyb="'+clau+'" title="'+esc(t('cpyT'))+'">&#10697;</button>'):'';
- return '<div class="sect '+(cls||'')+'"><div class="secth"><h3>'+title+'</h3>'+btn
+ return '<div class="sect '+(cls||'')+'" data-linkblock="'+(clau||'')+'"><div class="secth"><h3>'+title+'</h3>'+btn
  +'<label class="chk"><input type="checkbox" data-f="'+key+'"'+(val?' checked':'')+'>'+esc(t('visStudent'))+'</label></div>'
- +inner+'</div>';
+ +inner
+ +'<div class="lks lks-block"></div>'
+ +'</div>';
 }
 
 /* ================== TARGETA DE SESSIO ================== */
@@ -666,6 +676,10 @@ function onEdit(e){
  var i,f=el.getAttribute('data-f');
  if(f!==null&&f!==undefined&&f!==''){
   if(f==='date'||f==='topic'||f==='obj'||f==='comp'||f==='ev')x[f]=el.value;
+if(f==='obj'||f==='comp'||f==='ev'){
+  var sec=el.closest('.sect');
+  if(sec)updateLinks(sec,el.value);
+}
   if(f==='objVis'||f==='compVis'||f==='evVis')x[f]=el.checked;
   if(f==='date'||f==='topic'){var m=cardEl.querySelector('.cmeta');if(m)m.innerHTML=metaHTML(x,idxOf(x.id)+1);}
  }else{
