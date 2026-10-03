@@ -796,6 +796,9 @@ function buildSessionPage(x){
    '.list li:last-child{border-bottom:none}'+
    '.list a{color:#1f5f8b;text-decoration:none}'+
    '.list a:hover{text-decoration:underline}'+
+   /* NOU: Estil explícit perquè els enllaços en aquests blocs també es vegin clarament */
+   '.pre a, .btxt a{color:#1f5f8b;text-decoration:underline}'+
+   '.pre a:hover, .btxt a:hover{color:#15456b}'+
    '.hint{margin-top:2rem;text-align:center;color:#6b6570;font-size:.85rem}'+
    '@media(max-width:640px){body{padding:.5rem}.wrap{padding:1.2rem}h1{font-size:1.4rem}.act{grid-template-columns:1fr}.act .btime{text-align:left}}';
 
@@ -811,7 +814,7 @@ function buildSessionPage(x){
   /* ---------- OBJECTIUS: sempre visible ---------- */
   h+='<div class="sect se-obj"><h2>'+t('bigObj')+'</h2>';
   if(x.obj&&String(x.obj).replace(/\s/g,'')){
-h+='<pre class="pre">'+linkify(x.obj)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.obj)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -833,7 +836,7 @@ h+='<pre class="pre">'+linkify(x.obj)+'</pre>';
     var cls=(st==='drop')?'act drop':'act';
     h+='<div class="'+cls+'"><div class="btxt">';
     h+='<span class="bst st-'+st+'">'+esc(stLbl)+'</span>';
-h+=(hasTxt?linkify(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
+    h+=(hasTxt?linkify(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
     h+='</div>';
     if(a.time)h+='<div class="btime">'+esc(a.time)+'</div>';
     h+='</div>';
@@ -880,7 +883,7 @@ h+=(hasTxt?linkify(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
   /* ---------- TREBALL COMPLEMENTARI ---------- */
   h+='<div class="sect se-comp"><h2>'+t('bigComp')+'</h2>';
   if(x.comp&&String(x.comp).replace(/\s/g,'')){
-h+='<pre class="pre">'+linkify(x.comp)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.comp)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -889,7 +892,7 @@ h+='<pre class="pre">'+linkify(x.comp)+'</pre>';
   /* ---------- EVIDÈNCIES ---------- */
   h+='<div class="sect se-ev"><h2>'+t('bigEv')+'</h2>';
   if(x.ev&&String(x.ev).replace(/\s/g,'')){
-h+='<pre class="pre">'+linkify(x.ev)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.ev)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -921,28 +924,22 @@ function linkify(txt){
  }
 }
 
-/* Obre la sessió en una pestanya nova fent servir un Blob URL.
-   Aquest mètode funciona bé en file:// i en http:// */
+/* Obre la sessió en una pestanya nova fent servir un Blob URL. */
 function openBig(sid){
  var x=plan.sessions[idxOf(sid)];
  if(!x){toast('Sessió no trobada');return;}
  var html=buildSessionPage(x);
  
- // Creem un Blob amb el contingut HTML
  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
  var url=URL.createObjectURL(blob);
- 
- // Obrim la pestanya nova
  var w=window.open(url,'_blank');
  
  if(!w){
-  // Si el navegador bloqueja la finestra, alliberem l'URL i avisem
   URL.revokeObjectURL(url);
   toast(t('bigBlocked'));
   return;
  }
  
- // Alliberem l'URL quan ja no calgui (donem 1 minut de marge)
  setTimeout(function(){try{URL.revokeObjectURL(url);}catch(e){}},60000);
 }
 /* fi NOU */
