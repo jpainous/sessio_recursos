@@ -811,7 +811,7 @@ function buildSessionPage(x){
   /* ---------- OBJECTIUS: sempre visible ---------- */
   h+='<div class="sect se-obj"><h2>'+t('bigObj')+'</h2>';
   if(x.obj&&String(x.obj).replace(/\s/g,'')){
-   h+='<pre class="pre">'+esc(x.obj)+'</pre>';
+h+='<pre class="pre">'+linkify(x.obj)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -833,7 +833,7 @@ function buildSessionPage(x){
     var cls=(st==='drop')?'act drop':'act';
     h+='<div class="'+cls+'"><div class="btxt">';
     h+='<span class="bst st-'+st+'">'+esc(stLbl)+'</span>';
-    h+=(hasTxt?esc(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
+h+=(hasTxt?linkify(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
     h+='</div>';
     if(a.time)h+='<div class="btime">'+esc(a.time)+'</div>';
     h+='</div>';
@@ -880,7 +880,7 @@ function buildSessionPage(x){
   /* ---------- TREBALL COMPLEMENTARI ---------- */
   h+='<div class="sect se-comp"><h2>'+t('bigComp')+'</h2>';
   if(x.comp&&String(x.comp).replace(/\s/g,'')){
-   h+='<pre class="pre">'+esc(x.comp)+'</pre>';
+h+='<pre class="pre">'+linkify(x.comp)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -889,7 +889,7 @@ function buildSessionPage(x){
   /* ---------- EVIDÈNCIES ---------- */
   h+='<div class="sect se-ev"><h2>'+t('bigEv')+'</h2>';
   if(x.ev&&String(x.ev).replace(/\s/g,'')){
-   h+='<pre class="pre">'+esc(x.ev)+'</pre>';
+h+='<pre class="pre">'+linkify(x.ev)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
