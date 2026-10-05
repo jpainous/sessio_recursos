@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casos Clínicos - Homeostasis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .language-selector {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 15px 20px 0;
+            background: white;
+        }
+
+        .language-selector button {
+            background: rgba(102,126,234,0.1);
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .language-selector button:hover { background: rgba(102,126,234,0.25); }
+        .language-selector button.active { background: #667eea; color: white; }
+
+        .slide { display: none; padding: 40px; min-height: 650px; animation: fadeIn 0.5s; }
+        .slide.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-number { font-size: 14px; color: #999; margin-bottom: 10px; }
+        .slide-title {
+            font-size: 32px; color: #667eea; margin-bottom: 20px;
+            font-weight: bold; text-align: center;
+        }
+
+        .progress-bar { height: 4px; background: #e0e0e0; position: relative; }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .config-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .config-title { font-size: 18px; color: #667eea; font-weight: bold; margin-bottom: 15px; }
+
+        .config-input {
+            width: 100%; padding: 12px; border: 2px solid #e0e0e0;
+            border-radius: 8px; font-size: 14px; margin-bottom: 10px;
+        }
+        .config-input:focus { outline: none; border-color: #667eea; }
+
+        .case-container { background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 15px 0; }
+
+        .case-description {
+            font-size: 15px; color: #333; line-height: 1.6; margin-bottom: 15px;
+            padding: 15px; background: white; border-left: 4px solid #f5576c; border-radius: 8px;
+        }
+
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 15px 0;
+            background: white; border-radius: 8px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 12px; text-align: left; font-size: 14px;
+        }
+        .data-table td {
+            padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 14px;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+
+        .value-altered { color: #f5576c; font-weight: bold; }
+        .value-normal { color: #4caf50; }
+
+        .explanation-box {
+            background: #fff3cd; padding: 12px; border-radius: 8px; margin: 10px 0;
+            font-size: 14px; color: #856404; border-left: 4px solid #ffc107;
+        }
+
+        .options { display: flex; flex-direction: column; gap: 10px; margin: 15px 0; }
+        .option {
+            padding: 12px 15px; background: white; border: 2px solid #e0e0e0;
+            border-radius: 10px; font-size: 14px; cursor: pointer; transition: all 0.3s;
+        }
+        .option:hover { border-color: #667eea; background: #f0f4ff; }
+        .option.selected { border-color: #667eea; background: #e8eeff; font-weight: 500; }
+        .option-label { font-weight: bold; color: #667eea; margin-right: 10px; }
+
+        .justification-box { margin-top: 15px; }
+        .justification-label { font-size: 14px; color: #667eea; font-weight: bold; margin-bottom: 8px; }
+        .justification-textarea {
+            width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;
+            font-size: 13px; font-family: inherit; resize: vertical; min-height: 60px;
+        }
+        .justification-textarea:focus { outline: none; border-color: #667eea; }
+
+        .navigation {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: #f8f9fa; border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            padding: 12px 28px; border: none; border-radius: 25px; font-size: 15px;
+            font-weight: bold; cursor: pointer; transition: all 0.3s;
+            background: #667eea; color: white;
+        }
+        .nav-button:hover {
+            background: #764ba2; transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+        .slide-counter { font-size: 16px; color: #666; font-weight: bold; }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0;
+        }
+        .score-number { font-size: 42px; font-weight: bold; margin: 10px 0; }
+
+        .answers-container {
+            display: flex; flex-direction: column; gap: 12px; margin-top: 15px;
+            max-height: 400px; overflow-y: auto; padding-right: 5px;
+        }
+
+        .answer-item {
+            background: white; padding: 12px; border-radius: 8px;
+            border-left: 5px solid #4caf50; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 13px;
+        }
+        .answer-item.incorrect { border-left-color: #f44336; }
+
+        .answer-question { font-size: 13px; color: #666; margin-bottom: 5px; font-weight: 500; }
+        .answer-text { font-size: 14px; color: #333; font-weight: bold; }
+        .answer-justification {
+            font-size: 12px; color: #555; margin-top: 5px; font-style: italic;
+            background: #f8f9fa; padding: 6px; border-radius: 4px;
+        }
+
+        .email-button {
+            background: #4caf50; color: white; padding: 15px 30px; border: none;
+            border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;
+            transition: all 0.3s; margin-top: 20px; width: 100%;
+        }
+        .email-button:hover {
+            background: #45a049; transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 25px 20px; }
+            .slide-title { font-size: 24px; }
+            .data-table th, .data-table td { padding: 8px; font-size: 12px; }
+            .language-selector { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="language-selector">
+            <button onclick="setLanguage('es', this)">ES</button>
+            <button class="active" onclick="setLanguage('ca', this)">CA</button>
+            <button onclick="setLanguage('en', this)">EN</button>
+        </div>
+
+        <!-- Slide 1: Configuración -->
+        <div class="slide active">
+            <div class="slide-number" data-i18n="config_num">Configuració</div>
+            <div class="slide-title" data-i18n="config_title">🧪 Casos Clínics d'Homeòstasi</div>
+
+            <div class="config-section">
+                <div class="config-title" data-i18n="config_student">📝 Informació de l'Alumne</div>
+                <input type="text" class="config-input" id="studentName" data-i18n-placeholder="config_name" placeholder="Nom complet de l'alumne">
+                <input type="text" class="config-input" id="studentGroup" data-i18n-placeholder="config_group" placeholder="Grup / Curs">
+                <input type="date" class="config-input" id="studentDate">
+            </div>
+
+            <div class="config-section">
+                <div class="config-title" data-i18n="config_teacher">📧 Email del Professor</div>
+                <input type="email" class="config-input" id="teacherEmail" data-i18n-placeholder="config_email" placeholder="professor@exemple.com">
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <p style="font-size: 15px; color: #666; line-height: 1.8;" data-i18n="config_desc">
+                    Aquest test conté <strong>10 casos clínics ficticis</strong> sobre alteracions homeostàtiques.<br>
+                    Per a cada cas hauràs de:<br>
+                    ✅ Analitzar la taula de valors<br>
+                    ✅ Seleccionar la solució correcta<br>
+                    ✅ Justificar la teva elecció per escrit
+                </p>
+            </div>
+        </div>
+
+        <!-- Els 10 casos es generen dinàmicament -->
+        <div id="casesContainer"></div>
+
+        <!-- Diapositiva de Respuestas -->
+        <div class="slide" id="resultsSlide">
+            <div class="slide-number" data-i18n="results_num">Resultats</div>
+            <div class="slide-title" data-i18n="results_title">📊 Informe de Resultats</div>
+
+            <div class="score-display">
+                <div style="font-size: 16px; opacity: 0.9;" data-i18n="results_score_label">Puntuació</div>
+                <div class="score-number" id="scoreDisplay">0 / 10</div>
+                <div style="font-size: 18px;" id="percentageDisplay">0%</div>
+            </div>
+
+            <div class="answers-container" id="answersContainer"></div>
+
+            <button class="email-button" onclick="sendResultsByEmail()" data-i18n="results_email_btn">
+                📧 Enviar informe al professor
+            </button>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" data-i18n="nav_prev">← Anterior</button>
+            <div class="slide-counter" id="slideCounter">1 / 12</div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)" data-i18n="nav_next">Següent →</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== TRADUCCIONS ====================
+        const translations = {
+            es: {
+                config_num: "Configuración",
+                config_title: "🧪 Casos Clínicos de Homeostasis",
+                config_student: "📝 Información del Alumno",
+                config_name: "Nombre completo del alumno",
+                config_group: "Grupo / Curso",
+                config_teacher: "📧 Email del Profesor",
+                config_email: "profesor@ejemplo.com",
+                config_desc: 'Este test contiene <strong>10 casos clínicos ficticios</strong> sobre alteraciones homeostáticas.<br>Para cada caso deberás:<br>✅ Analizar la tabla de valores<br>✅ Seleccionar la solución correcta<br>✅ Justificar tu elección por escrito',
+                nav_prev: "← Anterior",
+                nav_next: "Siguiente →",
+                results_num: "Resultados",
+                results_title: "📊 Informe de Resultados",
+                results_score_label: "Puntuación",
+                results_email_btn: "📧 Enviar informe al profesor",
+                case_word: "Caso",
+                of_word: "de",
+                variable: "Variable",
+                value_measured: "Valor medido",
+                normal_range: "Rango normal",
+                state: "Estado",
+                normal: "✅ Normal",
+                altered: "⚠️ Alterado",
+                analysis: "🔍 Análisis:",
+                intervention_question: "¿Cuál es la intervención más adecuada?",
+                justification_label: "✍️ Explica brevemente por qué has elegido esa opción:",
+                justification_placeholder: "Escribe tu justificación basándote en los valores alterados...",
+                your_answer: "Tu respuesta",
+                correct_answer: "Correcta",
+                no_answer: "Sin respuesta",
+                your_justification: "Tu justificación",
+                no_justification: "Sin justificación",
+                alert_email: "⚠️ Por favor, introduce el email del profesor en la primera diapositiva.",
+                email_title: "INFORME DE CASOS CLÍNICOS - HOMEOSTASIS",
+                email_student: "Alumno/a",
+                email_group: "Grupo",
+                email_date: "Fecha",
+                email_score: "Puntuación",
+                email_details: "DETALLE DE RESPUESTAS",
+                email_answer: "Respuesta del alumno",
+                email_correct: "Respuesta correcta",
+                email_justification: "Justificación",
+                email_subject: "Casos Homeostasis",
+                cases: [
+                    {
+                        title: "Caso 1: Bailarín con mareos en ensayo",
+                        description: "Laura, bailarina de 17 años, lleva 3 horas de ensayo intenso sin comer. De repente siente mareos, temblores y sudoración fría. Su monitor la lleva a la enfermería.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "55 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,8°C", rango: "36-37,5", normal: true },
+                            { variable: "Presión arterial", valor: "100/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "La glucosa está muy por debajo del rango normal (hipoglucemia). Tras horas de ejercicio sin ingesta, las reservas de glucógeno se han agotado.",
+                        options: [
+                            "Administrar suero glucosado y un plátano para recuperar glucosa rápidamente",
+                            "Darle un café con mucha cafeína para estimular el sistema nervioso",
+                            "Ponerla en una habitación fría para bajar la temperatura corporal",
+                            "Administrarle insulina para regular el azúcar en sangre",
+                            "Dejarla dormir 8 horas sin comer nada"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Caso 2: Bailarín con sed excesiva",
+                        description: "Marc, bailarín profesional, acude a consulta porque bebe mucha agua, orina con frecuencia y ha perdido peso sin proponérselo. Se le realiza un análisis.",
+                        table: [
+                            { variable: "pH", valor: "7,38", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "220 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,5°C", rango: "36-37,5", normal: true },
+                            { variable: "Presión arterial", valor: "125/82", rango: "120/80", normal: false }
+                        ],
+                        explanation: "La glucosa está muy elevada (hiperglucemia). Los síntomas clásicos (polidipsia, poliuria, pérdida de peso) sugieren diabetes mellitus.",
+                        options: [
+                            "Recomendarle beber más bebidas azucaradas para compensar",
+                            "Derivarlo a endocrinología para estudio de diabetes y control dietético",
+                            "Indicarle reposo absoluto durante una semana",
+                            "Darle suplementos de vitamina D y calcio",
+                            "Sugerirle aumentar el consumo de grasas saturadas"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Caso 3: Bailarín tras sprint final",
+                        description: "Diego acaba de realizar una coreografía muy intensa de 45 segundos con saltos explosivos. Está agotado, con respiración acelerada y dolor muscular.",
+                        table: [
+                            { variable: "pH", valor: "7,28", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "95 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,8°C", rango: "36-37,5", normal: false },
+                            { variable: "Presión arterial", valor: "135/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "El pH está bajo (acidosis metabólica) por acumulación de ácido láctico tras ejercicio anaeróbico intenso. Es una situación temporal y fisiológica.",
+                        options: [
+                            "Llevarlo urgentemente al hospital, es una emergencia grave",
+                            "Administrarle bicarbonato intravenoso de inmediato",
+                            "Dejarlo descansar, respirar profundamente y rehidratarse; el cuerpo lo compensará solo",
+                            "Obligarlo a seguir bailando para 'quemar' el ácido láctico",
+                            "Darle un medicamento alcalinizante de por vida"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Caso 4: Bailarina nerviosa antes del estreno",
+                        description: "Sofía está muy nerviosa 10 minutos antes de salir a escena. Respira muy rápido, siente hormigueo en las manos y mareo.",
+                        table: [
+                            { variable: "pH", valor: "7,52", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "100 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "36,6°C", rango: "36-37,5", normal: true },
+                            { variable: "Presión arterial", valor: "130/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "El pH está elevado (alcalosis respiratoria) por hiperventilación. Al respirar rápido elimina demasiado CO₂, lo que alcaliniza la sangre.",
+                        options: [
+                            "Indicarle que respire dentro de una bolsa de papel para recuperar CO₂",
+                            "Darle un ansiolítico muy potente para dormir",
+                            "Hacerla correr 10 minutos para cansarse",
+                            "Administrarle oxígeno puro a alto flujo",
+                            "Sugerirle que beba vinagre diluido"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Caso 5: Ensayo al aire libre en invierno",
+                        description: "El grupo está ensayando danza contemporánea al aire libre en un día de enero a 5°C. Llevan 40 minutos y un bailarín empieza a temblar incontrolablemente.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "85 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "34,5°C", rango: "36-37,5", normal: false },
+                            { variable: "Presión arterial", valor: "115/75", rango: "120/80", normal: true }
+                        ],
+                        explanation: "Temperatura corporal por debajo de 35°C indica hipotermia leve. El temblor es un mecanismo homeostático para generar calor.",
+                        options: [
+                            "Meterlo en agua caliente a 50°C directamente",
+                            "Retirarlo del frío, darle ropa seca y caliente, y una bebida templada azucarada",
+                            "Dejarlo seguir bailando para que genere más calor",
+                            "Aplicarle hielo en las extremidades para 'reactivar' la circulación",
+                            "Administrarle antitérmicos como si tuviera fiebre"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Caso 6: Golpe de calor en gira",
+                        description: "Durante una actuación en un teatro sin aire acondicionado en julio, una bailarina se siente confusa, tiene la piel muy caliente y seca, y deja de sudar.",
+                        table: [
+                            { variable: "pH", valor: "7,32", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "90 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "40,2°C", rango: "36-37,5", normal: false },
+                            { variable: "Presión arterial", valor: "90/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Temperatura superior a 40°C con ausencia de sudoración indica golpe de calor, una emergencia médica grave que puede dañar órganos vitales.",
+                        options: [
+                            "Dejarla terminar la función y luego darle agua",
+                            "Cubrirla con mantas para que sude más",
+                            "Darle antitérmicos orales y esperar",
+                            "Traslado urgente a hospital, enfriamiento progresivo y rehidratación IV",
+                            "Ponerla bajo el sol directo para 'sudar las toxinas'"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        title: "Caso 7: Estrés pre-examen práctico",
+                        description: "Un alumno tiene el examen práctico de danza mañana. Esta noche no duerme, toma 4 cafés y al medirse la presión está muy alta.",
+                        table: [
+                            { variable: "pH", valor: "7,41", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "115 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,9°C", rango: "36-37,5", normal: true },
+                            { variable: "Presión arterial", valor: "155/95", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Hipertensión y glucosa ligeramente elevada por activación del sistema simpático (adrenalina y cortisol) ante el estrés.",
+                        options: [
+                            "Administrarte medicación antihipertensiva de por vida",
+                            "Técnicas de relajación, reducir cafeína, dormir bien y volver a medir en reposo",
+                            "Tomar más café para 'rendir más' en el examen",
+                            "Hacer ejercicio intenso inmediatamente antes del examen",
+                            "No hacer nada, es completamente normal y no tiene importancia"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Caso 8: Desmayo tras actuación",
+                        description: "Tras una función de 2 horas con vestuario pesado y focos calientes, un bailarín se levanta bruscamente del camerino y se desmaya.",
+                        table: [
+                            { variable: "pH", valor: "7,39", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "80 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,3°C", rango: "36-37,5", normal: true },
+                            { variable: "Presión arterial", valor: "85/55", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Hipotensión ortostática probablemente por deshidratación, vasodilatación por calor y cambio brusco de posición. La sangre se acumula en las piernas.",
+                        options: [
+                            "Ponerlo de pie inmediatamente para 'que se le pase'",
+                            "Echarle agua fría en la cara y darle un café",
+                            "Tumbarlo con piernas elevadas, hidratarlo y dejarlo recuperar gradualmente",
+                            "Administrarle adrenalina intravenosa",
+                            "Obligarlo a seguir actuando por compromiso con el público"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Caso 9: Bailarina con dieta restrictiva",
+                        description: "Ana, bailarina de ballet, sigue una dieta muy baja en calorías para 'mantener la línea'. Lleva meses con menstruación irregular y cansancio constante.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "68 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "35,8°C", rango: "36-37,5", normal: false },
+                            { variable: "Presión arterial", valor: "95/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Patrón compatible con RED-S (Déficit Energético Relativo en el Deporte): baja disponibilidad energética afecta a múltiples sistemas (termorregulación, hormonal, cardiovascular).",
+                        options: [
+                            "Felicitarla por su disciplina y recomendarle seguir así",
+                            "Derivarla a equipo multidisciplinar (médico, nutricionista, psicólogo) y ajustar ingesta",
+                            "Recetarle suplementos vitamínicos sin cambiar la dieta",
+                            "Aumentar las horas de entrenamiento para 'quemar más'",
+                            "Decirle que es normal en bailarinas y no hacer nada"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Caso 10: Deshidratación severa",
+                        description: "Un bailarín ha olvidado beber agua durante un ensayo de 5 horas en verano. Tiene boca seca, orina muy oscura, calambres musculares y taquicardia.",
+                        table: [
+                            { variable: "pH", valor: "7,34", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "105 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,9°C", rango: "36-37,5", normal: false },
+                            { variable: "Presión arterial", valor: "100/65", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Deshidratación con alteración de varios parámetros: pH ligeramente ácido por acumulación de metabolitos, temperatura elevada por fallo termorregulador, hipotensión por pérdida de volumen.",
+                        options: [
+                            "Darle 2 litros de agua de golpe para rehidratar rápido",
+                            "Solo bebidas isotónicas con mucho azúcar, nada de agua",
+                            "Rehidratación oral gradual con soluciones de rehidratación, descanso y control",
+                            "Administrarle diuréticos para 'limpiar el cuerpo'",
+                            "Meterlo en una sauna para 'sudar las toxinas'"
+                        ],
+                        correct: 2
+                    }
+                ]
+            },
+            ca: {
+                config_num: "Configuració",
+                config_title: "🧪 Casos Clínics d'Homeòstasi",
+                config_student: "📝 Informació de l'Alumne",
+                config_name: "Nom complet de l'alumne",
+                config_group: "Grup / Curs",
+                config_teacher: "📧 Email del Professor",
+                config_email: "professor@exemple.com",
+                config_desc: 'Aquest test conté <strong>10 casos clínics ficticis</strong> sobre alteracions homeostàtiques.<br>Per a cada cas hauràs de:<br>✅ Analitzar la taula de valors<br>✅ Seleccionar la solució correcta<br>✅ Justificar la teva elecció per escrit',
+                nav_prev: "← Anterior",
+                nav_next: "Següent →",
+                results_num: "Resultats",
+                results_title: "📊 Informe de Resultats",
+                results_score_label: "Puntuació",
+                results_email_btn: "📧 Enviar informe al professor",
+                case_word: "Cas",
+                of_word: "de",
+                variable: "Variable",
+                value_measured: "Valor mesurat",
+                normal_range: "Rang normal",
+                state: "Estat",
+                normal: "✅ Normal",
+                altered: "⚠️ Alterat",
+                analysis: "🔍 Anàlisi:",
+                intervention_question: "Quina és la intervenció més adequada?",
+                justification_label: "✍️ Explica breument per què has triat aquesta opció:",
+                justification_placeholder: "Escriu la teva justificació basant-te en els valors alterats...",
+                your_answer: "La teva resposta",
+                correct_answer: "Correcta",
+                no_answer: "Sense resposta",
+                your_justification: "La teva justificació",
+                no_justification: "Sense justificació",
+                alert_email: "⚠️ Si us plau, introdueix l'email del professor a la primera diapositiva.",
+                email_title: "INFORME DE CASOS CLÍNICS - HOMEÒSTASI",
+                email_student: "Alumne/a",
+                email_group: "Grup",
+                email_date: "Data",
+                email_score: "Puntuació",
+                email_details: "DETALL DE RESPOSTES",
+                email_answer: "Resposta de l'alumne",
+                email_correct: "Resposta correcta",
+                email_justification: "Justificació",
+                email_subject: "Casos Homeòstasi",
+                cases: [
+                    {
+                        title: "Cas 1: Ballarina amb marejos a l'assaig",
+                        description: "La Laura, ballarina de 17 anys, porta 3 hores d'assaig intens sense menjar. De sobte sent marejos, tremolors i sudoració freda. El seu monitor la porta a la infermeria.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "55 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,8°C", rango: "36-37,5", normal: true },
+                            { variable: "Pressió arterial", valor: "100/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "La glucosa està molt per sota del rang normal (hipoglucèmia). Després d'hores d'exercici sense ingesta, les reserves de glucogen s'han esgotat.",
+                        options: [
+                            "Administrar sèrum glucosat i un plàtan per recuperar glucosa ràpidament",
+                            "Donar-li un cafè amb molta cafeïna per estimular el sistema nerviós",
+                            "Posar-la en una habitació freda per baixar la temperatura corporal",
+                            "Administrar-li insulina per regular el sucre en sang",
+                            "Deixar-la dormir 8 hores sense menjar res"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Cas 2: Ballarí amb set excessiva",
+                        description: "En Marc, ballarí professional, acudeix a consulta perquè beu molta aigua, orina amb freqüència i ha perdut pes sense proposar-s'ho. Se li fa una anàlisi.",
+                        table: [
+                            { variable: "pH", valor: "7,38", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "220 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,5°C", rango: "36-37,5", normal: true },
+                            { variable: "Pressió arterial", valor: "125/82", rango: "120/80", normal: false }
+                        ],
+                        explanation: "La glucosa està molt elevada (hiperglucèmia). Els símptomes clàssics (polidípsia, poliúria, pèrdua de pes) suggereixen diabetis mellitus.",
+                        options: [
+                            "Recomanar-li beure més begudes ensucrades per compensar",
+                            "Derivar-lo a endocrinologia per a estudi de diabetis i control dietètic",
+                            "Indicar-li repòs absolut durant una setmana",
+                            "Donar-li suplements de vitamina D i calci",
+                            "Suggerir-li augmentar el consum de greixos saturats"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Cas 3: Ballarí després d'un sprint final",
+                        description: "En Diego acaba de fer una coreografia molt intensa de 45 segons amb salts explosius. Està esgotat, amb respiració accelerada i dolor muscular.",
+                        table: [
+                            { variable: "pH", valor: "7,28", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "95 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,8°C", rango: "36-37,5", normal: false },
+                            { variable: "Pressió arterial", valor: "135/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "El pH està baix (acidosi metabòlica) per acumulació d'àcid làctic després d'exercici anaeròbic intens. És una situació temporal i fisiològica.",
+                        options: [
+                            "Portar-lo urgentment a l'hospital, és una emergència greu",
+                            "Administrar-li bicarbonat intravenós immediatament",
+                            "Deixar-lo descansar, respirar profundament i rehidratar-se; el cos ho compensarà sol",
+                            "Obligar-lo a seguir ballant per 'cremar' l'àcid làctic",
+                            "Donar-li un medicament alcalinitzant de per vida"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Cas 4: Ballarina nerviosa abans de l'estrena",
+                        description: "La Sofia està molt nerviosa 10 minuts abans de sortir a escena. Respira molt ràpid, sent formigueig a les mans i mareig.",
+                        table: [
+                            { variable: "pH", valor: "7,52", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "100 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "36,6°C", rango: "36-37,5", normal: true },
+                            { variable: "Pressió arterial", valor: "130/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "El pH està elevat (alcalosi respiratòria) per hiperventilació. En respirar ràpid elimina massa CO₂, cosa que alcalinitza la sang.",
+                        options: [
+                            "Indicar-li que respiri dins d'una bossa de paper per recuperar CO₂",
+                            "Donar-li un ansiolític molt potent per dormir",
+                            "Fer-la córrer 10 minuts per cansar-se",
+                            "Administrar-li oxigen pur a alt flux",
+                            "Suggerir-li que begui vinagre diluït"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Cas 5: Assaig a l'aire lliure a l'hivern",
+                        description: "El grup està assajant dansa contemporània a l'aire lliure un dia de gener a 5°C. Porten 40 minuts i un ballarí comença a tremolar incontroladament.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "85 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "34,5°C", rango: "36-37,5", normal: false },
+                            { variable: "Pressió arterial", valor: "115/75", rango: "120/80", normal: true }
+                        ],
+                        explanation: "Temperatura corporal per sota de 35°C indica hipotèrmia lleu. El tremolor és un mecanisme homeostàtic per generar calor.",
+                        options: [
+                            "Meter-lo en aigua calenta a 50°C directament",
+                            "Retirar-lo del fred, donar-li roba seca i calenta, i una beguda tèbia ensucrada",
+                            "Deixar-lo seguir ballant perquè generi més calor",
+                            "Aplicar-li gel a les extremitats per 'reactivar' la circulació",
+                            "Administrar-li antitèrmics com si tingués febre"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Cas 6: Cop de calor en gira",
+                        description: "Durant una actuació en un teatre sense aire condicionat al juliol, una ballarina se sent confusa, té la pell molt calenta i seca, i deixa de suar.",
+                        table: [
+                            { variable: "pH", valor: "7,32", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "90 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "40,2°C", rango: "36-37,5", normal: false },
+                            { variable: "Pressió arterial", valor: "90/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Temperatura superior a 40°C amb absència de sudoració indica cop de calor, una emergència mèdica greu que pot danyar òrgans vitals.",
+                        options: [
+                            "Deixar-la acabar la funció i després donar-li aigua",
+                            "Cobrir-la amb mantes perquè sudi més",
+                            "Donar-li antitèrmics orals i esperar",
+                            "Trasllat urgent a hospital, refredament progressiu i rehidratació IV",
+                            "Posar-la sota el sol directe per 'suar les toxines'"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        title: "Cas 7: Estrès pre-examen pràctic",
+                        description: "Un alumne té l'examen pràctic de dansa demà. Aquesta nit no dorm, pren 4 cafès i en mesurar-se la pressió està molt alta.",
+                        table: [
+                            { variable: "pH", valor: "7,41", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "115 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "36,9°C", rango: "36-37,5", normal: true },
+                            { variable: "Pressió arterial", valor: "155/95", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Hipertensió i glucosa lleugerament elevada per activació del sistema simpàtic (adrenalina i cortisol) davant l'estrès.",
+                        options: [
+                            "Administrar-te medicació antihipertensiva de per vida",
+                            "Tècniques de relaxació, reduir cafeïna, dormir bé i tornar a mesurar en repòs",
+                            "Prendre més cafè per 'rendir més' a l'examen",
+                            "Fer exercici intens immediatament abans de l'examen",
+                            "No fer res, és completament normal i no té importància"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Cas 8: Desmai després de l'actuació",
+                        description: "Després d'una funció de 2 hores amb vestuari pesat i focus calents, un ballarí s'aixeca bruscament del camerino i es desmaia.",
+                        table: [
+                            { variable: "pH", valor: "7,39", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "80 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,3°C", rango: "36-37,5", normal: true },
+                            { variable: "Pressió arterial", valor: "85/55", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Hipotensió ortostàtica probablement per deshidratació, vasodilatació per calor i canvi brusc de posició. La sang s'acumula a les cames.",
+                        options: [
+                            "Posar-lo dret immediatament perquè 'se li passi'",
+                            "Tirar-li aigua freda a la cara i donar-li un cafè",
+                            "Estirar-lo amb les cames elevades, hidratar-lo i deixar-lo recuperar gradualment",
+                            "Administrar-li adrenalina intravenosa",
+                            "Obligar-lo a seguir actuant pel compromís amb el públic"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Cas 9: Ballarina amb dieta restrictiva",
+                        description: "L'Ana, ballarina de ballet, segueix una dieta molt baixa en calories per 'mantenir la línia'. Porta mesos amb menstruació irregular i cansament constant.",
+                        table: [
+                            { variable: "pH", valor: "7,40", rango: "7,35-7,45", normal: true },
+                            { variable: "Glucosa", valor: "68 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperatura", valor: "35,8°C", rango: "36-37,5", normal: false },
+                            { variable: "Pressió arterial", valor: "95/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Patró compatible amb RED-S (Dèficit Energètic Relatiu en l'Esport): baixa disponibilitat energètica afecta múltiples sistemes (termoregulació, hormonal, cardiovascular).",
+                        options: [
+                            "Felicitat per la seva disciplina i recomanar-li seguir així",
+                            "Derivar-la a equip multidisciplinari (metge, nutricionista, psicòleg) i ajustar ingesta",
+                            "Receptar-li suplements vitamínics sense canviar la dieta",
+                            "Augmentar les hores d'entrenament per 'cremar més'",
+                            "Dir-li que és normal en ballarines i no fer res"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Cas 10: Deshidratació severa",
+                        description: "Un ballarí ha oblidat beure aigua durant un assaig de 5 hores a l'estiu. Té boca seca, orina molt fosca, rampes musculars i taquicàrdia.",
+                        table: [
+                            { variable: "pH", valor: "7,34", rango: "7,35-7,45", normal: false },
+                            { variable: "Glucosa", valor: "105 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperatura", valor: "37,9°C", rango: "36-37,5", normal: false },
+                            { variable: "Pressió arterial", valor: "100/65", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Deshidratació amb alteració de diversos paràmetres: pH lleugerament àcid per acumulació de metabòlits, temperatura elevada per fallada termoreguladora, hipotensió per pèrdua de volum.",
+                        options: [
+                            "Donar-li 2 litres d'aigua de cop per rehidratar ràpid",
+                            "Només begudes isotòniques amb molt de sucre, gens d'aigua",
+                            "Rehidratació oral gradual amb solucions de rehidratació, descans i control",
+                            "Administrar-li diürètics per 'netejar el cos'",
+                            "Meter-lo en una sauna per 'suar les toxines'"
+                        ],
+                        correct: 2
+                    }
+                ]
+            },
+            en: {
+                config_num: "Configuration",
+                config_title: "🧪 Clinical Cases of Homeostasis",
+                config_student: "📝 Student Information",
+                config_name: "Student's full name",
+                config_group: "Group / Course",
+                config_teacher: "📧 Teacher's Email",
+                config_email: "teacher@example.com",
+                config_desc: 'This test contains <strong>10 fictional clinical cases</strong> about homeostatic alterations.<br>For each case you must:<br>✅ Analyze the values table<br>✅ Select the correct solution<br>✅ Justify your choice in writing',
+                nav_prev: "← Previous",
+                nav_next: "Next →",
+                results_num: "Results",
+                results_title: "📊 Results Report",
+                results_score_label: "Score",
+                results_email_btn: "📧 Send report to teacher",
+                case_word: "Case",
+                of_word: "of",
+                variable: "Variable",
+                value_measured: "Measured value",
+                normal_range: "Normal range",
+                state: "Status",
+                normal: "✅ Normal",
+                altered: "⚠️ Altered",
+                analysis: "🔍 Analysis:",
+                intervention_question: "What is the most appropriate intervention?",
+                justification_label: "✍️ Briefly explain why you chose that option:",
+                justification_placeholder: "Write your justification based on the altered values...",
+                your_answer: "Your answer",
+                correct_answer: "Correct",
+                no_answer: "No answer",
+                your_justification: "Your justification",
+                no_justification: "No justification",
+                alert_email: "⚠️ Please enter the teacher's email on the first slide.",
+                email_title: "CLINICAL CASES REPORT - HOMEOSTASIS",
+                email_student: "Student",
+                email_group: "Group",
+                email_date: "Date",
+                email_score: "Score",
+                email_details: "DETAILED ANSWERS",
+                email_answer: "Student's answer",
+                email_correct: "Correct answer",
+                email_justification: "Justification",
+                email_subject: "Homeostasis Cases",
+                cases: [
+                    {
+                        title: "Case 1: Dancer with dizziness in rehearsal",
+                        description: "Laura, a 17-year-old dancer, has been in intense rehearsal for 3 hours without eating. Suddenly she feels dizzy, trembles, and breaks into cold sweat. Her coach takes her to the infirmary.",
+                        table: [
+                            { variable: "pH", valor: "7.40", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "55 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperature", valor: "36.8°C", rango: "36-37.5", normal: true },
+                            { variable: "Blood pressure", valor: "100/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Glucose is far below the normal range (hypoglycemia). After hours of exercise without intake, glycogen reserves have been depleted.",
+                        options: [
+                            "Administer glucose serum and a banana to quickly recover glucose",
+                            "Give her a coffee with lots of caffeine to stimulate the nervous system",
+                            "Put her in a cold room to lower her body temperature",
+                            "Administer insulin to regulate blood sugar",
+                            "Let her sleep 8 hours without eating anything"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Case 2: Dancer with excessive thirst",
+                        description: "Marc, a professional dancer, comes to the clinic because he drinks a lot of water, urinates frequently and has lost weight unintentionally. A blood test is performed.",
+                        table: [
+                            { variable: "pH", valor: "7.38", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "220 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperature", valor: "36.5°C", rango: "36-37.5", normal: true },
+                            { variable: "Blood pressure", valor: "125/82", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Glucose is very elevated (hyperglycemia). The classic symptoms (polydipsia, polyuria, weight loss) suggest diabetes mellitus.",
+                        options: [
+                            "Recommend drinking more sugary drinks to compensate",
+                            "Refer him to endocrinology for diabetes study and dietary control",
+                            "Recommend absolute rest for a week",
+                            "Give him vitamin D and calcium supplements",
+                            "Suggest increasing saturated fat intake"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Case 3: Dancer after final sprint",
+                        description: "Diego has just performed a very intense 45-second choreography with explosive jumps. He is exhausted, with accelerated breathing and muscle pain.",
+                        table: [
+                            { variable: "pH", valor: "7.28", rango: "7.35-7.45", normal: false },
+                            { variable: "Glucose", valor: "95 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "37.8°C", rango: "36-37.5", normal: false },
+                            { variable: "Blood pressure", valor: "135/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "pH is low (metabolic acidosis) due to lactic acid accumulation after intense anaerobic exercise. It is a temporary and physiological situation.",
+                        options: [
+                            "Take him urgently to the hospital, it is a serious emergency",
+                            "Administer intravenous bicarbonate immediately",
+                            "Let him rest, breathe deeply and rehydrate; the body will compensate on its own",
+                            "Force him to keep dancing to 'burn' the lactic acid",
+                            "Give him an alkalinizing medication for life"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Case 4: Nervous dancer before premiere",
+                        description: "Sofía is very nervous 10 minutes before going on stage. She breathes very fast, feels tingling in her hands and dizziness.",
+                        table: [
+                            { variable: "pH", valor: "7.52", rango: "7.35-7.45", normal: false },
+                            { variable: "Glucose", valor: "100 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "36.6°C", rango: "36-37.5", normal: true },
+                            { variable: "Blood pressure", valor: "130/85", rango: "120/80", normal: false }
+                        ],
+                        explanation: "pH is elevated (respiratory alkalosis) due to hyperventilation. Breathing fast eliminates too much CO₂, which alkalinizes the blood.",
+                        options: [
+                            "Instruct her to breathe into a paper bag to recover CO₂",
+                            "Give her a very strong anxiolytic to sleep",
+                            "Make her run 10 minutes to tire out",
+                            "Administer pure oxygen at high flow",
+                            "Suggest she drink diluted vinegar"
+                        ],
+                        correct: 0
+                    },
+                    {
+                        title: "Case 5: Outdoor rehearsal in winter",
+                        description: "The group is rehearsing contemporary dance outdoors on a January day at 5°C. After 40 minutes, one dancer starts trembling uncontrollably.",
+                        table: [
+                            { variable: "pH", valor: "7.40", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "85 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "34.5°C", rango: "36-37.5", normal: false },
+                            { variable: "Blood pressure", valor: "115/75", rango: "120/80", normal: true }
+                        ],
+                        explanation: "Body temperature below 35°C indicates mild hypothermia. The tremor is a homeostatic mechanism to generate heat.",
+                        options: [
+                            "Put him in hot water at 50°C directly",
+                            "Remove him from the cold, give him dry and warm clothes, and a warm sugary drink",
+                            "Let him keep dancing so he generates more heat",
+                            "Apply ice to his extremities to 'reactivate' circulation",
+                            "Administer antipyretics as if he had a fever"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Case 6: Heat stroke on tour",
+                        description: "During a performance in a theater without air conditioning in July, a dancer feels confused, has very hot and dry skin, and stops sweating.",
+                        table: [
+                            { variable: "pH", valor: "7.32", rango: "7.35-7.45", normal: false },
+                            { variable: "Glucose", valor: "90 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "40.2°C", rango: "36-37.5", normal: false },
+                            { variable: "Blood pressure", valor: "90/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Temperature above 40°C with absence of sweating indicates heat stroke, a serious medical emergency that can damage vital organs.",
+                        options: [
+                            "Let her finish the show and then give her water",
+                            "Cover her with blankets so she sweats more",
+                            "Give her oral antipyretics and wait",
+                            "Urgent transfer to hospital, progressive cooling and IV rehydration",
+                            "Put her in direct sunlight to 'sweat out toxins'"
+                        ],
+                        correct: 3
+                    },
+                    {
+                        title: "Case 7: Pre-practical exam stress",
+                        description: "A student has the practical dance exam tomorrow. Tonight he doesn't sleep, drinks 4 coffees and when measuring his blood pressure it is very high.",
+                        table: [
+                            { variable: "pH", valor: "7.41", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "115 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperature", valor: "36.9°C", rango: "36-37.5", normal: true },
+                            { variable: "Blood pressure", valor: "155/95", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Hypertension and slightly elevated glucose due to activation of the sympathetic system (adrenaline and cortisol) in response to stress.",
+                        options: [
+                            "Take antihypertensive medication for life",
+                            "Relaxation techniques, reduce caffeine, sleep well and re-measure at rest",
+                            "Drink more coffee to 'perform better' in the exam",
+                            "Do intense exercise immediately before the exam",
+                            "Do nothing, it is completely normal and unimportant"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Case 8: Fainting after performance",
+                        description: "After a 2-hour show with heavy costume and hot spotlights, a dancer stands up abruptly from the dressing room and faints.",
+                        table: [
+                            { variable: "pH", valor: "7.39", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "80 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "37.3°C", rango: "36-37.5", normal: true },
+                            { variable: "Blood pressure", valor: "85/55", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Orthostatic hypotension probably due to dehydration, heat-induced vasodilation and abrupt position change. Blood pools in the legs.",
+                        options: [
+                            "Stand him up immediately so 'it passes'",
+                            "Throw cold water on his face and give him a coffee",
+                            "Lay him down with legs elevated, hydrate him and let him recover gradually",
+                            "Administer intravenous adrenaline",
+                            "Force him to keep performing out of commitment to the audience"
+                        ],
+                        correct: 2
+                    },
+                    {
+                        title: "Case 9: Dancer with restrictive diet",
+                        description: "Ana, a ballet dancer, follows a very low-calorie diet to 'stay thin'. She has had irregular menstruation and constant fatigue for months.",
+                        table: [
+                            { variable: "pH", valor: "7.40", rango: "7.35-7.45", normal: true },
+                            { variable: "Glucose", valor: "68 mg/dL", rango: "75-110", normal: false },
+                            { variable: "Temperature", valor: "35.8°C", rango: "36-37.5", normal: false },
+                            { variable: "Blood pressure", valor: "95/60", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Pattern compatible with RED-S (Relative Energy Deficiency in Sport): low energy availability affects multiple systems (thermoregulation, hormonal, cardiovascular).",
+                        options: [
+                            "Congratulate her on her discipline and recommend she continue",
+                            "Refer her to a multidisciplinary team (doctor, nutritionist, psychologist) and adjust intake",
+                            "Prescribe vitamin supplements without changing the diet",
+                            "Increase training hours to 'burn more'",
+                            "Tell her it's normal in dancers and do nothing"
+                        ],
+                        correct: 1
+                    },
+                    {
+                        title: "Case 10: Severe dehydration",
+                        description: "A dancer forgot to drink water during a 5-hour rehearsal in summer. He has dry mouth, very dark urine, muscle cramps and tachycardia.",
+                        table: [
+                            { variable: "pH", valor: "7.34", rango: "7.35-7.45", normal: false },
+                            { variable: "Glucose", valor: "105 mg/dL", rango: "75-110", normal: true },
+                            { variable: "Temperature", valor: "37.9°C", rango: "36-37.5", normal: false },
+                            { variable: "Blood pressure", valor: "100/65", rango: "120/80", normal: false }
+                        ],
+                        explanation: "Dehydration with alteration of several parameters: slightly acidic pH due to metabolite accumulation, elevated temperature due to thermoregulatory failure, hypotension due to volume loss.",
+                        options: [
+                            "Give him 2 liters of water at once to rehydrate quickly",
+                            "Only isotonic drinks with lots of sugar, no water",
+                            "Gradual oral rehydration with rehydration solutions, rest and monitoring",
+                            "Administer diuretics to 'cleanse the body'",
+                            "Put him in a sauna to 'sweat out toxins'"
+                        ],
+                        correct: 2
+                    }
+                ]
+            }
+        };
+
+        // ==================== ESTAT ====================
+        let currentLang = 'ca';
+        let currentSlide = 0;
+        const totalSlides = 12; // 1 config + 10 casos + 1 resultats
+        let userAnswers = {};
+        let userJustifications = {};
+
+        // ==================== IDIOMA ====================
+        function setLanguage(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.language-selector button').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            document.documentElement.lang = lang;
+            renderCases();
+            if (currentSlide === totalSlides - 1) calculateResults();
+        }
+
+        // ==================== RENDER CASOS ====================
+        function renderCases() {
+            const container = document.getElementById('casesContainer');
+            container.innerHTML = '';
+            const t = translations[currentLang];
+            const cases = t.cases;
+            const slides = document.querySelectorAll('.slide');
+
+            cases.forEach((c, idx) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                if (idx + 1 === currentSlide) slide.classList.add('active');
+                slide.innerHTML = `
+                    <div class="slide-number">${t.case_word} ${idx + 1} ${t.of_word} 10</div>
+                    <div class="slide-title">🩺 ${c.title}</div>
+
+                    <div class="case-description">${c.description}</div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>${t.variable}</th>
+                                <th>${t.value_measured}</th>
+                                <th>${t.normal_range}</th>
+                                <th>${t.state}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${c.table.map(row => `
+                                <tr>
+                                    <td><strong>${row.variable}</strong></td>
+                                    <td class="${row.normal ? 'value-normal' : 'value-altered'}">${row.valor}</td>
+                                    <td>${row.rango}</td>
+                                    <td>${row.normal ? t.normal : t.altered}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div class="explanation-box">
+                        <strong>${t.analysis}</strong> ${c.explanation}
+                    </div>
+
+                    <div style="margin-top:15px; font-weight:bold; color:#667eea; font-size:15px;">
+                        ${t.intervention_question}
+                    </div>
+
+                    <div class="options" id="options-${idx}">
+                        ${c.options.map((opt, i) => `
+                            <div class="option ${userAnswers[idx] === i ? 'selected' : ''}"
+                                 data-case="${idx}" data-option="${i}"
+                                 onclick="selectOption(${idx}, ${i})">
+                                <span class="option-label">${String.fromCharCode(65 + i)})</span>
+                                ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="justification-box">
+                        <div class="justification-label">${t.justification_label}</div>
+                        <textarea class="justification-textarea"
+                                  id="justification-${idx}"
+                                  placeholder="${t.justification_placeholder}">${userJustifications[idx] || ''}</textarea>
+                    </div>
+                `;
+                container.appendChild(slide);
+            });
+        }
+
+        // ==================== SELECCIÓ ====================
+        function selectOption(caseIdx, optionIdx) {
+            document.querySelectorAll(`[data-case="${caseIdx}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelector(`[data-case="${caseIdx}"][data-option="${optionIdx}"]`).classList.add('selected');
+            userAnswers[caseIdx] = optionIdx;
+        }
+
+        // ==================== NAVEGACIÓ ====================
+        function updateSlides() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(s => s.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progressFill').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            // Guardar justificacions actuals
+            saveJustifications();
+
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+
+            if (currentSlide === totalSlides - 1) calculateResults();
+            updateSlides();
+        }
+
+        function saveJustifications() {
+            const t = translations[currentLang];
+            t.cases.forEach((c, idx) => {
+                const ta = document.getElementById(`justification-${idx}`);
+                if (ta) userJustifications[idx] = ta.value;
+            });
+        }
+
+        // ==================== RESULTATS ====================
+        function calculateResults() {
+            saveJustifications();
+            const t = translations[currentLang];
+            const cases = t.cases;
+            let score = 0;
+            let answersHTML = '';
+
+            cases.forEach((c, idx) => {
+                const userAnswer = userAnswers[idx];
+                const isCorrect = userAnswer === c.correct;
+                if (isCorrect) score++;
+
+                const userAnswerText = userAnswer !== undefined
+                    ? `${String.fromCharCode(65 + userAnswer)}) ${c.options[userAnswer]}`
+                    : t.no_answer;
+                const correctAnswerText = `${String.fromCharCode(65 + c.correct)}) ${c.options[c.correct]}`;
+                const justification = userJustifications[idx] || t.no_justification;
+
+                answersHTML += `
+                    <div class="answer-item ${isCorrect ? '' : 'incorrect'}">
+                        <div class="answer-question"><strong>${t.case_word} ${idx + 1}:</strong> ${c.title}</div>
+                        <div class="answer-text">
+                            ${t.your_answer}: ${userAnswerText} ${isCorrect ? '✅' : '❌'}
+                        </div>
+                        ${!isCorrect ? `<div style="font-size:12px; color:#4caf50; margin-top:3px;">${t.correct_answer}: ${correctAnswerText}</div>` : ''}
+                        <div class="answer-justification"><strong>${t.your_justification}:</strong> ${justification}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('answersContainer').innerHTML = answersHTML;
+            document.getElementById('scoreDisplay').textContent = `${score} / 10`;
+            document.getElementById('percentageDisplay').textContent = `${score * 10}%`;
+        }
+
+        // ==================== EMAIL ====================
+        function sendResultsByEmail() {
+            saveJustifications();
+            const t = translations[currentLang];
+            const cases = t.cases;
+
+            const studentName = document.getElementById('studentName').value || t.email_student;
+            const studentGroup = document.getElementById('studentGroup').value || '-';
+            const studentDate = document.getElementById('studentDate').value || new Date().toLocaleDateString();
+            const teacherEmail = document.getElementById('teacherEmail').value;
+
+            if (!teacherEmail) {
+                alert(t.alert_email);
+                return;
+            }
+
+            let score = 0;
+            cases.forEach((c, idx) => {
+                if (userAnswers[idx] === c.correct) score++;
+            });
+
+            let emailBody = `${t.email_title}\n`;
+            emailBody += `${'='.repeat(50)}\n\n`;
+            emailBody += `${t.email_student}: ${studentName}\n`;
+            emailBody += `${t.email_group}: ${studentGroup}\n`;
+            emailBody += `${t.email_date}: ${studentDate}\n`;
+            emailBody += `${t.email_score}: ${score}/10 (${score * 10}%)\n\n`;
+            emailBody += `${'='.repeat(50)}\n\n`;
+            emailBody += `${t.email_details}:\n\n`;
+
+            cases.forEach((c, idx) => {
+                const userAnswer = userAnswers[idx];
+                const isCorrect = userAnswer === c.correct;
+                const userText = userAnswer !== undefined
+                    ? `${String.fromCharCode(65 + userAnswer)}) ${c.options[userAnswer]}`
+                    : t.no_answer;
+                const correctText = `${String.fromCharCode(65 + c.correct)}) ${c.options[c.correct]}`;
+                const justification = userJustifications[idx] || t.no_justification;
+
+                emailBody += `${t.case_word.toUpperCase()} ${idx + 1}: ${c.title}\n`;
+                emailBody += `${t.email_answer}: ${userText} ${isCorrect ? '✓' : '✗'}\n`;
+                if (!isCorrect) emailBody += `${t.email_correct}: ${correctText}\n`;
+                emailBody += `${t.email_justification}: ${justification}\n`;
+                emailBody += `${'-'.repeat(40)}\n`;
+            });
+
+            const subject = `${t.email_subject} - ${studentName} - ${score}/10`;
+            const mailtoLink = `mailto:${teacherEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // ==================== TECLAT ====================
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // ==================== INICIALITZACIÓ ====================
+        document.getElementById('studentDate').valueAsDate = new Date();
+        setLanguage('ca', document.querySelector('.language-selector button.active'));
+        updateSlides();
+    </script>
+</body>
+</html>

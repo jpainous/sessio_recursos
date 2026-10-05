@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomía vs Fisiología - Metáforas de Danza</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .lang-selector {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: transparent;
+            color: #666;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: #e8eaf6;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px 50px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-number {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .slide-title {
+            font-size: 42px;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .metaphor-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .metaphor-box {
+            flex: 1;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .anatomy-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .physiology-box {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .metaphor-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .metaphor-label {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metaphor-content {
+            font-size: 22px;
+            line-height: 1.6;
+        }
+
+        .metaphor-content small {
+            font-size: 0.75em;
+            opacity: 0.9;
+        }
+
+        .explanation {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .explanation-title {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .explanation-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 18px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .metaphor-container {
+                flex-direction: column;
+            }
+
+            .slide {
+                padding: 30px 20px;
+            }
+
+            .slide-title {
+                font-size: 32px;
+            }
+
+            .metaphor-content {
+                font-size: 18px;
+            }
+
+            .navigation {
+                padding: 15px 20px;
+            }
+
+            .nav-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .lang-selector {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-selector">
+            <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
+            <button class="lang-btn" onclick="setLanguage('ca')">CA</button>
+            <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Slide 1: Título / Títol / Title -->
+        <div class="slide active">
+            <div class="slide-number" 
+                 data-es="Introducción" 
+                 data-ca="Introducció" 
+                 data-en="Introduction">Introducción</div>
+            <div class="slide-title" 
+                 data-es="Anatomía vs Fisiología" 
+                 data-ca="Anatomia vs Fisiologia" 
+                 data-en="Anatomy vs Physiology">Anatomía vs Fisiología</div>
+            <div style="text-align: center; margin-top: 80px;">
+                <div style="font-size: 100px; margin-bottom: 30px;">🎭</div>
+                <p style="font-size: 24px; color: #666; line-height: 1.8;">
+                    <strong style="color: #f5576c;" 
+                            data-es="La anatomía es el escenario" 
+                            data-ca="L'anatomia és l'escenari" 
+                            data-en="Anatomy is the stage">La anatomía es el escenario</strong><br>
+                    <strong style="color: #4facfe;" 
+                            data-es="La fisiología es la coreografía" 
+                            data-ca="La fisiologia és la coreografia" 
+                            data-en="Physiology is the choreography">La fisiología es la coreografía</strong>
+                </p>
+                <p style="font-size: 18px; color: #999; margin-top: 40px;" 
+                   data-es="6 metáforas para entender la diferencia" 
+                   data-ca="6 metàfores per entendre la diferència" 
+                   data-en="6 metaphors to understand the difference">
+                    6 metáforas para entender la diferencia
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Instrumento y Música -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 1 de 6" 
+                 data-ca="Metàfora 1 de 6" 
+                 data-en="Metaphor 1 of 6">Metáfora 1 de 6</div>
+            <div class="slide-title" 
+                 data-es="El instrumento y la música" 
+                 data-ca="L'instrument i la música" 
+                 data-en="The instrument and the music">El instrumento y la música</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">🎻</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="El <strong>instrumento</strong>" 
+                              data-ca="L'<strong>instrument</strong>" 
+                              data-en="The <strong>instrument</strong>">El <strong>instrumento</strong></span><br>
+                        <small data-es="(la madera del violín, la forma de la caja de resonancia, la tensión física de las cuerdas)" 
+                               data-ca="(la fusta del violí, la forma de la caixa de ressonància, la tensió física de les cordes)" 
+                               data-en="(the wood of the violin, the shape of the sound box, the physical tension of the strings)">(la madera del violín, la forma de la caja de resonancia, la tensión física de las cuerdas)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">🎶</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>música</strong>" 
+                              data-ca="La <strong>música</strong>" 
+                              data-en="The <strong>music</strong>">La <strong>música</strong></span><br>
+                        <small data-es="(la vibración, la melodía, el sonido que se produce cuando el arco roza las cuerdas)" 
+                               data-ca="(la vibració, la melodia, el so que es produeix quan l'arc frega les cordes)" 
+                               data-en="(the vibration, the melody, the sound produced when the bow brushes the strings)">(la vibración, la melodía, el sonido que se produce cuando el arco roza las cuerdas)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="Muestra que tener las partes (huesos, órganos) no es suficiente; se necesita el proceso activo (metabolismo, contracción) para que el cuerpo &quot;suene&quot; y funcione." 
+                     data-ca="Mostra que tenir les parts (ossos, òrgans) no és suficient; cal el procés actiu (metabolisme, contracció) perquè el cos &quot;soni&quot; i funcioni." 
+                     data-en="It shows that having the parts (bones, organs) is not enough; the active process (metabolism, contraction) is needed for the body to 'sound' and function.">
+                    Muestra que tener las partes (huesos, órganos) no es suficiente; se necesita el proceso activo (metabolismo, contracción) para que el cuerpo "suene" y funcione.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Tarima y Amortiguación -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 2 de 6" 
+                 data-ca="Metàfora 2 de 6" 
+                 data-en="Metaphor 2 of 6">Metáfora 2 de 6</div>
+            <div class="slide-title" 
+                 data-es="La tarima de danza y la amortiguación" 
+                 data-ca="La tarima de dansa i l'amortiment" 
+                 data-en="The dance floor and the cushioning">La tarima de danza y la amortiguación</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">🪵</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="El <strong>suelo flotante o tarima</strong>" 
+                              data-ca="El <strong>terra flotant o tarima</strong>" 
+                              data-en="The <strong>floating floor or stage</strong>">El <strong>suelo flotante o tarima</strong></span><br>
+                        <small data-es="(los tablones de madera, los muelles, la estructura física y los materiales)" 
+                               data-ca="(els taulons de fusta, les molles, l'estructura física i els materials)" 
+                               data-en="(the wooden planks, the springs, the physical structure and materials)">(los tablones de madera, los muelles, la estructura física y los materiales)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">🦘</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>absorción del impacto y el rebote</strong>" 
+                              data-ca="L'<strong>absorció de l'impacte i el rebot</strong>" 
+                              data-en="The <strong>impact absorption and rebound</strong>">La <strong>absorción del impacto y el rebote</strong></span><br>
+                        <small data-es="(cómo responde y cede el suelo cuando un bailarín aterriza de un grand jeté para proteger las rodillas)" 
+                               data-ca="(com respon i cedeix el terra quan un ballarí aterra d'un grand jeté per protegir els genolls)" 
+                               data-en="(how the floor responds and yields when a dancer lands from a grand jeté to protect the knees)">(cómo responde y cede el suelo cuando un bailarín aterriza de un grand jeté para proteger las rodillas)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="Ilustra la diferencia entre los materiales anatómicos (huesos, cartílagos, meniscos) y su función biomecánica (amortiguar fuerzas y redistribuir la carga)." 
+                     data-ca="Il·lustra la diferència entre els materials anatòmics (ossos, cartílags, meniscs) i la seva funció biomecànica (amortir forces i redistribuir la càrrega)." 
+                     data-en="It illustrates the difference between anatomical materials (bones, cartilage, menisci) and their biomechanical function (cushioning forces and redistributing load).">
+                    Ilustra la diferencia entre los materiales anatómicos (huesos, cartílagos, meniscos) y su función biomecánica (amortiguar fuerzas y redistribuir la carga).
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Partitura e Interpretación -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 3 de 6" 
+                 data-ca="Metàfora 3 de 6" 
+                 data-en="Metaphor 3 of 6">Metáfora 3 de 6</div>
+            <div class="slide-title" 
+                 data-es="La partitura y la interpretación" 
+                 data-ca="La partitura i la interpretació" 
+                 data-en="The score and the interpretation">La partitura y la interpretación</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">📜</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>partitura</strong>" 
+                              data-ca="La <strong>partitura</strong>" 
+                              data-en="The <strong>score</strong>">La <strong>partitura</strong></span><br>
+                        <small data-es="(las notas escritas en el papel, los silencios, la estructura estática de la obra)" 
+                               data-ca="(les notes escrites al paper, els silencis, l'estructura estàtica de l'obra)" 
+                               data-en="(the notes written on paper, the silences, the static structure of the work)">(las notas escritas en el papel, los silencios, la estructura estática de la obra)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">🎭</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>interpretación</strong>" 
+                              data-ca="La <strong>interpretació</strong>" 
+                              data-en="The <strong>interpretation</strong>">La <strong>interpretación</strong></span><br>
+                        <small data-es="(el tempo, la intensidad, la respiración agitada del músico y la emoción que da vida a esas notas en tiempo real)" 
+                               data-ca="(el tempo, la intensitat, la respiració agitada del músic i l'emoció que dona vida a aquestes notes en temps real)" 
+                               data-en="(the tempo, the intensity, the musician's agitated breathing and the emotion that brings those notes to life in real time)">(el tempo, la intensidad, la respiración agitada del músico y la emoción que da vida a esas notas en tiempo real)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="La anatomía es como el ADN o el mapa estructural del cuerpo; la fisiología es la expresión de esos genes y estructuras adaptándose al momento presente." 
+                     data-ca="L'anatomia és com l'ADN o el mapa estructural del cos; la fisiologia és l'expressió d'aquests gens i estructures adaptant-se al moment present." 
+                     data-en="Anatomy is like the DNA or the structural map of the body; physiology is the expression of those genes and structures adapting to the present moment.">
+                    La anatomía es como el ADN o el mapa estructural del cuerpo; la fisiología es la expresión de esos genes y estructuras adaptándose al momento presente.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Zapatilla de Puntera y Equilibrio -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 4 de 6" 
+                 data-ca="Metàfora 4 de 6" 
+                 data-en="Metaphor 4 of 6">Metáfora 4 de 6</div>
+            <div class="slide-title" 
+                 data-es="La zapatilla de punta y el equilibrio dinámico" 
+                 data-ca="La sabatilla de punta i l'equilibri dinàmic" 
+                 data-en="The pointe shoe and dynamic balance">La zapatilla de punta y el equilibrio dinámico</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">🩰</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>zapatilla de punta</strong>" 
+                              data-ca="La <strong>sabatilla de punta</strong>" 
+                              data-en="The <strong>pointe shoe</strong>">La <strong>zapatilla de punta</strong></span><br>
+                        <small data-es="(la caja dura, el raso, la suela, la forma de los huesos del pie)" 
+                               data-ca="(la caixa dura, el setinat, la sola, la forma dels ossos del peu)" 
+                               data-en="(the hard box, the satin, the sole, the shape of the foot bones)">(la caja dura, el raso, la suela, la forma de los huesos del pie)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">⚖️</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="El <strong>equilibrio dinámico y la propiocepción</strong>" 
+                              data-ca="L'<strong>equilibri dinàmic i la propiocepció</strong>" 
+                              data-en="The <strong>dynamic balance and proprioception</strong>">El <strong>equilibrio dinámico y la propiocepción</strong></span><br>
+                        <small data-es="(el micro-ajuste constante e invisible de los músculos del tobillo y el core para no caer mientras se sostiene el peso)" 
+                               data-ca="(el micro-ajust constant i invisible dels músculs del turmell i el core per no caure mentre se sosté el pes)" 
+                               data-en="(the constant and invisible micro-adjustment of the ankle and core muscles to avoid falling while holding the weight)">(el micro-ajuste constante e invisible de los músculos del tobillo y el core para no caer mientras se sostiene el peso)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="Destaca que la anatomía es el soporte pasivo, mientras que la fisiología es el control neurológico y activo que nos mantiene en pie." 
+                     data-ca="Destaca que l'anatomia és el suport passiu, mentre que la fisiologia és el control neurològic i actiu que ens manté dempeus." 
+                     data-en="It highlights that anatomy is the passive support, while physiology is the neurological and active control that keeps us standing.">
+                    Destaca que la anatomía es el soporte pasivo, mientras que la fisiología es el control neurológico y activo que nos mantiene en pie.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Marioneta y Tensión -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 5 de 6" 
+                 data-ca="Metàfora 5 de 6" 
+                 data-en="Metaphor 5 of 6">Metáfora 5 de 6</div>
+            <div class="slide-title" 
+                 data-es="La marioneta y la tensión de los hilos" 
+                 data-ca="La marioneta i la tensió dels fils" 
+                 data-en="The puppet and the tension of the strings">La marioneta y la tensión de los hilos</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">🪆</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>marioneta</strong>" 
+                              data-ca="La <strong>marioneta</strong>" 
+                              data-en="The <strong>puppet</strong>">La <strong>marioneta</strong></span><br>
+                        <small data-es="(las articulaciones de madera, los hilos que conectan las partes, el peso de los materiales)" 
+                               data-ca="(les articulacions de fusta, els fils que connecten les parts, el pes dels materials)" 
+                               data-en="(the wooden joints, the strings that connect the parts, the weight of the materials)">(las articulaciones de madera, los hilos que conectan las partes, el peso de los materiales)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">🧠</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="La <strong>acción de tirar de los hilos</strong>" 
+                              data-ca="L'<strong>acció d'estirar els fils</strong>" 
+                              data-en="The <strong>action of pulling the strings</strong>">La <strong>acción de tirar de los hilos</strong></span><br>
+                        <small data-es="(la tensión, la contracción y la coordinación que hacen que la marioneta camine o baile)" 
+                               data-ca="(la tensió, la contracció i la coordinació que fan que la marioneta camini o balli)" 
+                               data-en="(the tension, contraction and coordination that make the puppet walk or dance)">(la tensión, la contracción y la coordinación que hacen que la marioneta camine o baile)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="Es la metáfora perfecta para el sistema nervioso y muscular: los huesos son la madera, los tendones los hilos, y la fisiología es la orden cerebral (el impulso nervioso) que genera el movimiento." 
+                     data-ca="És la metàfora perfecta per al sistema nerviós i muscular: els ossos són la fusta, els tendons els fils, i la fisiologia és l'ordre cerebral (l'impuls nerviós) que genera el moviment." 
+                     data-en="It is the perfect metaphor for the nervous and muscular system: the bones are the wood, the tendons the strings, and physiology is the brain's order (the nerve impulse) that generates movement.">
+                    Es la metáfora perfecta para el sistema nervioso y muscular: los huesos son la madera, los tendones los hilos, y la fisiología es la orden cerebral (el impulso nervioso) que genera el movimiento.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Vestuario y Vuelo -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Metáfora 6 de 6" 
+                 data-ca="Metàfora 6 de 6" 
+                 data-en="Metaphor 6 of 6">Metáfora 6 de 6</div>
+            <div class="slide-title" 
+                 data-es="El vestuario y el vuelo de la tela" 
+                 data-ca="El vestuari i el vol de la tela" 
+                 data-en="The costume and the flight of the fabric">El vestuario y el vuelo de la tela</div>
+            
+            <div class="metaphor-container">
+                <div class="metaphor-box anatomy-box">
+                    <div class="metaphor-icon">👗</div>
+                    <div class="metaphor-label" 
+                         data-es="Anatomía" 
+                         data-ca="Anatomia" 
+                         data-en="Anatomy">Anatomía</div>
+                    <div class="metaphor-content">
+                        <span data-es="El <strong>vestuario</strong>" 
+                              data-ca="El <strong>vestuari</strong>" 
+                              data-en="The <strong>costume</strong>">El <strong>vestuario</strong></span><br>
+                        <small data-es="(la tela, las costuras, el peso y la forma del tutú o la falda)" 
+                               data-ca="(la tela, les costures, el pes i la forma del tutú o la falda)" 
+                               data-en="(the fabric, the seams, the weight and shape of the tutu or skirt)">(la tela, las costuras, el peso y la forma del tutú o la falda)</small>
+                    </div>
+                </div>
+                
+                <div class="metaphor-box physiology-box">
+                    <div class="metaphor-icon">🌪️</div>
+                    <div class="metaphor-label" 
+                         data-es="Fisiología" 
+                         data-ca="Fisiologia" 
+                         data-en="Physiology">Fisiología</div>
+                    <div class="metaphor-content">
+                        <span data-es="El <strong>vuelo y la inercia</strong> de la tela al hacer un giro" 
+                              data-ca="El <strong>vol i la inèrcia</strong> de la tela en fer un gir" 
+                              data-en="The <strong>flight and inertia</strong> of the fabric when spinning">El <strong>vuelo y la inercia</strong> de la tela al hacer un giro</span><br>
+                        <small data-es="(cómo reacciona el material a la fuerza centrífuga, al calor del cuerpo y al sudor)" 
+                               data-ca="(com reacciona el material a la força centrífuga, a la calor del cos i a la suor)" 
+                               data-en="(how the material reacts to centrifugal force, body heat and sweat)">(cómo reacciona el material a la fuerza centrífuga, al calor del cuerpo y al sudor)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title" 
+                     data-es="💡 ¿Por qué funciona?" 
+                     data-ca="💡 Per què funciona?" 
+                     data-en="💡 Why does it work?">💡 ¿Por qué funciona?</div>
+                <div class="explanation-text" 
+                     data-es="Ayuda a entender conceptos como la termodinámica o la homeostasis: la anatomía es el tejido (piel, glándulas sudoríparas), la fisiología es cómo ese tejido reacciona al calor y al movimiento para enfriar el cuerpo." 
+                     data-ca="Ajuda a entendre conceptes com la termodinàmica o l'homeòstasi: l'anatomia és el teixit (pell, glàndules sudorípares), la fisiologia és com aquest teixit reacciona a la calor i al moviment per refredar el cos." 
+                     data-en="It helps to understand concepts such as thermodynamics or homeostasis: anatomy is the tissue (skin, sweat glands), physiology is how that tissue reacts to heat and movement to cool the body.">
+                    Ayuda a entender conceptos como la termodinámica o la homeostasis: la anatomía es el tejido (piel, glándulas sudoríparas), la fisiología es cómo ese tejido reacciona al calor y al movimiento para enfriar el cuerpo.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Conclusión -->
+        <div class="slide">
+            <div class="slide-number" 
+                 data-es="Conclusión" 
+                 data-ca="Conclusió" 
+                 data-en="Conclusion">Conclusión</div>
+            <div class="slide-title" 
+                 data-es="¡Recuerda!" 
+                 data-ca="Recorda!" 
+                 data-en="Remember!">¡Recuerda!</div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <div style="font-size: 80px; margin-bottom: 40px;">🎓</div>
+                
+                <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 30px; border-radius: 15px; margin-bottom: 20px; color: white;">
+                    <h3 style="font-size: 28px; margin-bottom: 15px;" 
+                        data-es="ANATOMÍA" 
+                        data-ca="ANATOMIA" 
+                        data-en="ANATOMY">ANATOMÍA</h3>
+                    <p style="font-size: 20px;" 
+                       data-es="Estructura • Forma • Estática • Las partes" 
+                       data-ca="Estructura • Forma • Estàtica • Les parts" 
+                       data-en="Structure • Form • Static • The parts">Estructura • Forma • Estática • Las partes</p>
+                </div>
+
+                <div style="font-size: 40px; margin: 30px 0;">⬇️</div>
+
+                <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 30px; border-radius: 15px; color: white;">
+                    <h3 style="font-size: 28px; margin-bottom: 15px;" 
+                        data-es="FISIOLOGÍA" 
+                        data-ca="FISIOLOGIA" 
+                        data-en="PHYSIOLOGY">FISIOLOGÍA</h3>
+                    <p style="font-size: 20px;" 
+                       data-es="Función • Movimiento • Dinámica • Los procesos" 
+                       data-ca="Funció • Moviment • Dinàmica • Els processos" 
+                       data-en="Function • Movement • Dynamics • The processes">Función • Movimiento • Dinámica • Los procesos</p>
+                </div>
+
+                <p style="font-size: 22px; color: #666; margin-top: 50px; line-height: 1.8;">
+                    <strong data-es="La anatomía es el escenario" 
+                            data-ca="L'anatomia és l'escenari" 
+                            data-en="Anatomy is the stage">La anatomía es el escenario</strong><br>
+                    <strong data-es="La fisiología es la coreografía" 
+                            data-ca="La fisiologia és la coreografia" 
+                            data-en="Physiology is the choreography">La fisiología es la coreografía</strong>
+                </p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Anterior</button>
+            <div class="slide-counter" id="slideCounter">1 / 8</div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Siguiente →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let currentLang = 'es';
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Traduccions dels elements de navegació i títols
+        const translations = {
+            es: {
+                prev: '← Anterior',
+                next: 'Siguiente →',
+                title: 'Anatomía vs Fisiología - Metáforas de Danza'
+            },
+            ca: {
+                prev: '← Anterior',
+                next: 'Següent →',
+                title: 'Anatomia vs Fisiologia - Metàfores de Dansa'
+            },
+            en: {
+                prev: '← Previous',
+                next: 'Next →',
+                title: 'Anatomy vs Physiology - Dance Metaphors'
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Actualitzar botons d'idioma
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+            });
+
+            // Actualitzar tots els elements amb atributs de traducció
+            document.querySelectorAll('[data-es][data-ca][data-en]').forEach(el => {
+                el.innerHTML = el.getAttribute(`data-${lang}`);
+            });
+
+            // Actualitzar botons de navegació
+            document.getElementById('prevBtn').textContent = translations[lang].prev;
+            document.getElementById('nextBtn').textContent = translations[lang].next;
+            
+            // Actualitzar el títol de la pàgina
+            document.title = translations[lang].title;
+
+            // Actualitzar l'atribut lang
+            document.documentElement.lang = lang;
+        }
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+            
+            document.getElementById('slideCounter').textContent = `${n + 1} / ${totalSlides}`;
+            document.getElementById('progressFill').style.width = `${((n + 1) / totalSlides) * 100}%`;
+            
+            document.getElementById('prevBtn').disabled = n === 0;
+            document.getElementById('nextBtn').disabled = n === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            showSlide(currentSlide);
+        }
+
+        // Navegació amb teclat
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Inicialitzar
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

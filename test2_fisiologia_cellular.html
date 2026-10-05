@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Fisiologia Cel·lular</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .language-selector {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 15px 20px 0;
+            background: white;
+        }
+
+        .language-selector button {
+            background: rgba(102,126,234,0.1);
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .language-selector button:hover { background: rgba(102,126,234,0.25); }
+        .language-selector button.active { background: #667eea; color: white; }
+
+        .slide { display: none; padding: 50px 40px; min-height: 650px; animation: fadeIn 0.5s; }
+        .slide.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-number { font-size: 14px; color: #999; margin-bottom: 10px; }
+        .slide-title { font-size: 36px; color: #667eea; margin-bottom: 30px; font-weight: bold; text-align: center; }
+
+        .question-container { background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 20px 0; }
+        .question-text { font-size: 20px; color: #333; margin-bottom: 25px; line-height: 1.6; font-weight: 500; }
+
+        .options { display: flex; flex-direction: column; gap: 15px; }
+        .option {
+            padding: 15px 20px; background: white; border: 2px solid #e0e0e0;
+            border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.3s;
+        }
+        .option:hover { border-color: #667eea; background: #f0f4ff; }
+        .option.selected { border-color: #667eea; background: #e8eeff; }
+        .option-label { font-weight: bold; color: #667eea; margin-right: 10px; }
+
+        .answers-container {
+            display: flex; flex-direction: column; gap: 15px; margin-top: 20px;
+            max-height: 500px; overflow-y: auto;
+        }
+
+        .answer-item {
+            background: white; padding: 15px; border-radius: 10px;
+            border-left: 5px solid #4caf50; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .answer-question { font-size: 14px; color: #666; margin-bottom: 5px; font-weight: 500; }
+        .answer-text { font-size: 16px; color: #333; font-weight: bold; }
+
+        .navigation {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: #f8f9fa; border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            padding: 12px 28px; border: none; border-radius: 25px; font-size: 15px;
+            font-weight: bold; cursor: pointer; transition: all 0.3s;
+            background: #667eea; color: white;
+        }
+        .nav-button:hover { background: #764ba2; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+
+        .slide-counter { font-size: 16px; color: #666; font-weight: bold; }
+        .progress-bar { height: 4px; background: #e0e0e0; position: relative; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s; }
+
+        .config-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .config-title { font-size: 18px; color: #667eea; font-weight: bold; margin-bottom: 15px; }
+        .config-input {
+            width: 100%; padding: 10px; border: 2px solid #e0e0e0;
+            border-radius: 8px; font-size: 14px; margin-bottom: 10px;
+        }
+
+        .email-button {
+            background: #4caf50; color: white; padding: 15px 30px; border: none;
+            border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer;
+            transition: all 0.3s; margin-top: 20px; width: 100%;
+        }
+        .email-button:hover { background: #45a049; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4); }
+
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; padding: 30px; border-radius: 15px; text-align: center; margin: 20px 0;
+        }
+        .score-number { font-size: 48px; font-weight: bold; margin: 10px 0; }
+        .score-label { font-size: 18px; opacity: 0.9; }
+
+        @media (max-width: 768px) {
+            .slide { padding: 30px 20px; }
+            .slide-title { font-size: 28px; }
+            .question-text { font-size: 18px; }
+            .language-selector { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="language-selector">
+            <button onclick="setLanguage('es', this)">ES</button>
+            <button class="active" onclick="setLanguage('ca', this)">CA</button>
+            <button onclick="setLanguage('en', this)">EN</button>
+        </div>
+
+        <!-- Slide 1: Configuración -->
+        <div class="slide active">
+            <div class="slide-number" data-i18n="config_num">Configuració</div>
+            <div class="slide-title" data-i18n="config_title">Test de Fisiologia Cel·lular</div>
+
+            <div class="config-section">
+                <div class="config-title" data-i18n="config_student">📝 Informació de l'Alumne</div>
+                <input type="text" class="config-input" id="studentName" data-i18n-placeholder="config_name" placeholder="Nom de l'alumne">
+                <input type="text" class="config-input" id="studentGroup" data-i18n-placeholder="config_group" placeholder="Grup/Classe">
+            </div>
+
+            <div class="config-section">
+                <div class="config-title" data-i18n="config_teacher">📧 Email del Professor</div>
+                <input type="email" class="config-input" id="teacherEmail" data-i18n-placeholder="config_email" placeholder="professor@exemple.com">
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="font-size: 16px; color: #666; line-height: 1.8;" data-i18n="config_desc">
+                    Aquest test conté <strong>28 preguntes</strong> organitzades en 7 apartats:<br>
+                    Estructura cel·lular • Quantitat de cèl·lules • Teixits • Òrgans • Sistemes • Aparells • Organisme
+                </p>
+            </div>
+        </div>
+
+        <!-- Preguntas 1-28 -->
+        <div class="slide">
+            <div class="slide-number" data-i18n="q1_num"></div>
+            <div class="slide-title" data-i18n="q1_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q1_q"></div>
+                <div class="options">
+                    <div class="option" data-question="1" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q1_oA"></span></div>
+                    <div class="option" data-question="1" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q1_oB"></span></div>
+                    <div class="option" data-question="1" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q1_oC"></span></div>
+                    <div class="option" data-question="1" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q1_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q2_num"></div>
+            <div class="slide-title" data-i18n="q2_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q2_q"></div>
+                <div class="options">
+                    <div class="option" data-question="2" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q2_oA"></span></div>
+                    <div class="option" data-question="2" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q2_oB"></span></div>
+                    <div class="option" data-question="2" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q2_oC"></span></div>
+                    <div class="option" data-question="2" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q2_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q3_num"></div>
+            <div class="slide-title" data-i18n="q3_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q3_q"></div>
+                <div class="options">
+                    <div class="option" data-question="3" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q3_oA"></span></div>
+                    <div class="option" data-question="3" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q3_oB"></span></div>
+                    <div class="option" data-question="3" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q3_oC"></span></div>
+                    <div class="option" data-question="3" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q3_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q4_num"></div>
+            <div class="slide-title" data-i18n="q4_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q4_q"></div>
+                <div class="options">
+                    <div class="option" data-question="4" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q4_oA"></span></div>
+                    <div class="option" data-question="4" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q4_oB"></span></div>
+                    <div class="option" data-question="4" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q4_oC"></span></div>
+                    <div class="option" data-question="4" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q4_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q5_num"></div>
+            <div class="slide-title" data-i18n="q5_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q5_q"></div>
+                <div class="options">
+                    <div class="option" data-question="5" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q5_oA"></span></div>
+                    <div class="option" data-question="5" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q5_oB"></span></div>
+                    <div class="option" data-question="5" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q5_oC"></span></div>
+                    <div class="option" data-question="5" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q5_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q6_num"></div>
+            <div class="slide-title" data-i18n="q6_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q6_q"></div>
+                <div class="options">
+                    <div class="option" data-question="6" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q6_oA"></span></div>
+                    <div class="option" data-question="6" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q6_oB"></span></div>
+                    <div class="option" data-question="6" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q6_oC"></span></div>
+                    <div class="option" data-question="6" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q6_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q7_num"></div>
+            <div class="slide-title" data-i18n="q7_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q7_q"></div>
+                <div class="options">
+                    <div class="option" data-question="7" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q7_oA"></span></div>
+                    <div class="option" data-question="7" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q7_oB"></span></div>
+                    <div class="option" data-question="7" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q7_oC"></span></div>
+                    <div class="option" data-question="7" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q7_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q8_num"></div>
+            <div class="slide-title" data-i18n="q8_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q8_q"></div>
+                <div class="options">
+                    <div class="option" data-question="8" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q8_oA"></span></div>
+                    <div class="option" data-question="8" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q8_oB"></span></div>
+                    <div class="option" data-question="8" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q8_oC"></span></div>
+                    <div class="option" data-question="8" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q8_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q9_num"></div>
+            <div class="slide-title" data-i18n="q9_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q9_q"></div>
+                <div class="options">
+                    <div class="option" data-question="9" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q9_oA"></span></div>
+                    <div class="option" data-question="9" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q9_oB"></span></div>
+                    <div class="option" data-question="9" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q9_oC"></span></div>
+                    <div class="option" data-question="9" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q9_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q10_num"></div>
+            <div class="slide-title" data-i18n="q10_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q10_q"></div>
+                <div class="options">
+                    <div class="option" data-question="10" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q10_oA"></span></div>
+                    <div class="option" data-question="10" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q10_oB"></span></div>
+                    <div class="option" data-question="10" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q10_oC"></span></div>
+                    <div class="option" data-question="10" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q10_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q11_num"></div>
+            <div class="slide-title" data-i18n="q11_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q11_q"></div>
+                <div class="options">
+                    <div class="option" data-question="11" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q11_oA"></span></div>
+                    <div class="option" data-question="11" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q11_oB"></span></div>
+                    <div class="option" data-question="11" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q11_oC"></span></div>
+                    <div class="option" data-question="11" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q11_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q12_num"></div>
+            <div class="slide-title" data-i18n="q12_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q12_q"></div>
+                <div class="options">
+                    <div class="option" data-question="12" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q12_oA"></span></div>
+                    <div class="option" data-question="12" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q12_oB"></span></div>
+                    <div class="option" data-question="12" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q12_oC"></span></div>
+                    <div class="option" data-question="12" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q12_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q13_num"></div>
+            <div class="slide-title" data-i18n="q13_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q13_q"></div>
+                <div class="options">
+                    <div class="option" data-question="13" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q13_oA"></span></div>
+                    <div class="option" data-question="13" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q13_oB"></span></div>
+                    <div class="option" data-question="13" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q13_oC"></span></div>
+                    <div class="option" data-question="13" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q13_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q14_num"></div>
+            <div class="slide-title" data-i18n="q14_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q14_q"></div>
+                <div class="options">
+                    <div class="option" data-question="14" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q14_oA"></span></div>
+                    <div class="option" data-question="14" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q14_oB"></span></div>
+                    <div class="option" data-question="14" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q14_oC"></span></div>
+                    <div class="option" data-question="14" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q14_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q15_num"></div>
+            <div class="slide-title" data-i18n="q15_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q15_q"></div>
+                <div class="options">
+                    <div class="option" data-question="15" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q15_oA"></span></div>
+                    <div class="option" data-question="15" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q15_oB"></span></div>
+                    <div class="option" data-question="15" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q15_oC"></span></div>
+                    <div class="option" data-question="15" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q15_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q16_num"></div>
+            <div class="slide-title" data-i18n="q16_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q16_q"></div>
+                <div class="options">
+                    <div class="option" data-question="16" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q16_oA"></span></div>
+                    <div class="option" data-question="16" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q16_oB"></span></div>
+                    <div class="option" data-question="16" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q16_oC"></span></div>
+                    <div class="option" data-question="16" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q16_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q17_num"></div>
+            <div class="slide-title" data-i18n="q17_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q17_q"></div>
+                <div class="options">
+                    <div class="option" data-question="17" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q17_oA"></span></div>
+                    <div class="option" data-question="17" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q17_oB"></span></div>
+                    <div class="option" data-question="17" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q17_oC"></span></div>
+                    <div class="option" data-question="17" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q17_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q18_num"></div>
+            <div class="slide-title" data-i18n="q18_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q18_q"></div>
+                <div class="options">
+                    <div class="option" data-question="18" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q18_oA"></span></div>
+                    <div class="option" data-question="18" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q18_oB"></span></div>
+                    <div class="option" data-question="18" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q18_oC"></span></div>
+                    <div class="option" data-question="18" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q18_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q19_num"></div>
+            <div class="slide-title" data-i18n="q19_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q19_q"></div>
+                <div class="options">
+                    <div class="option" data-question="19" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q19_oA"></span></div>
+                    <div class="option" data-question="19" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q19_oB"></span></div>
+                    <div class="option" data-question="19" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q19_oC"></span></div>
+                    <div class="option" data-question="19" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q19_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q20_num"></div>
+            <div class="slide-title" data-i18n="q20_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q20_q"></div>
+                <div class="options">
+                    <div class="option" data-question="20" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q20_oA"></span></div>
+                    <div class="option" data-question="20" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q20_oB"></span></div>
+                    <div class="option" data-question="20" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q20_oC"></span></div>
+                    <div class="option" data-question="20" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q20_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q21_num"></div>
+            <div class="slide-title" data-i18n="q21_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q21_q"></div>
+                <div class="options">
+                    <div class="option" data-question="21" data-answer="C"><span class="option-label">A)</span> <span data-i18n="q21_oA"></span></div>
+                    <div class="option" data-question="21" data-answer="C"><span class="option-label">B)</span> <span data-i18n="q21_oB"></span></div>
+                    <div class="option" data-question="21" data-answer="C"><span class="option-label">C)</span> <span data-i18n="q21_oC"></span></div>
+                    <div class="option" data-question="21" data-answer="C"><span class="option-label">D)</span> <span data-i18n="q21_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q22_num"></div>
+            <div class="slide-title" data-i18n="q22_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q22_q"></div>
+                <div class="options">
+                    <div class="option" data-question="22" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q22_oA"></span></div>
+                    <div class="option" data-question="22" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q22_oB"></span></div>
+                    <div class="option" data-question="22" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q22_oC"></span></div>
+                    <div class="option" data-question="22" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q22_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q23_num"></div>
+            <div class="slide-title" data-i18n="q23_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q23_q"></div>
+                <div class="options">
+                    <div class="option" data-question="23" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q23_oA"></span></div>
+                    <div class="option" data-question="23" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q23_oB"></span></div>
+                    <div class="option" data-question="23" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q23_oC"></span></div>
+                    <div class="option" data-question="23" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q23_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q24_num"></div>
+            <div class="slide-title" data-i18n="q24_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q24_q"></div>
+                <div class="options">
+                    <div class="option" data-question="24" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q24_oA"></span></div>
+                    <div class="option" data-question="24" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q24_oB"></span></div>
+                    <div class="option" data-question="24" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q24_oC"></span></div>
+                    <div class="option" data-question="24" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q24_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q25_num"></div>
+            <div class="slide-title" data-i18n="q25_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q25_q"></div>
+                <div class="options">
+                    <div class="option" data-question="25" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q25_oA"></span></div>
+                    <div class="option" data-question="25" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q25_oB"></span></div>
+                    <div class="option" data-question="25" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q25_oC"></span></div>
+                    <div class="option" data-question="25" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q25_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q26_num"></div>
+            <div class="slide-title" data-i18n="q26_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q26_q"></div>
+                <div class="options">
+                    <div class="option" data-question="26" data-answer="D"><span class="option-label">A)</span> <span data-i18n="q26_oA"></span></div>
+                    <div class="option" data-question="26" data-answer="D"><span class="option-label">B)</span> <span data-i18n="q26_oB"></span></div>
+                    <div class="option" data-question="26" data-answer="D"><span class="option-label">C)</span> <span data-i18n="q26_oC"></span></div>
+                    <div class="option" data-question="26" data-answer="D"><span class="option-label">D)</span> <span data-i18n="q26_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q27_num"></div>
+            <div class="slide-title" data-i18n="q27_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q27_q"></div>
+                <div class="options">
+                    <div class="option" data-question="27" data-answer="A"><span class="option-label">A)</span> <span data-i18n="q27_oA"></span></div>
+                    <div class="option" data-question="27" data-answer="A"><span class="option-label">B)</span> <span data-i18n="q27_oB"></span></div>
+                    <div class="option" data-question="27" data-answer="A"><span class="option-label">C)</span> <span data-i18n="q27_oC"></span></div>
+                    <div class="option" data-question="27" data-answer="A"><span class="option-label">D)</span> <span data-i18n="q27_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="slide-number" data-i18n="q28_num"></div>
+            <div class="slide-title" data-i18n="q28_section"></div>
+            <div class="question-container">
+                <div class="question-text" data-i18n="q28_q"></div>
+                <div class="options">
+                    <div class="option" data-question="28" data-answer="B"><span class="option-label">A)</span> <span data-i18n="q28_oA"></span></div>
+                    <div class="option" data-question="28" data-answer="B"><span class="option-label">B)</span> <span data-i18n="q28_oB"></span></div>
+                    <div class="option" data-question="28" data-answer="B"><span class="option-label">C)</span> <span data-i18n="q28_oC"></span></div>
+                    <div class="option" data-question="28" data-answer="B"><span class="option-label">D)</span> <span data-i18n="q28_oD"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diapositiva de Respuestas -->
+        <div class="slide">
+            <div class="slide-number" data-i18n="results_num">Resultats</div>
+            <div class="slide-title" data-i18n="results_title">Respostes Correctes</div>
+
+            <div class="score-display">
+                <div class="score-label" data-i18n="results_score_label">La teva puntuació</div>
+                <div class="score-number" id="scoreDisplay">0 / 28</div>
+                <div class="score-label" id="percentageDisplay">0%</div>
+            </div>
+
+            <div class="answers-container" id="answersContainer"></div>
+
+            <button class="email-button" onclick="sendResultsByEmail()" data-i18n="results_email_btn">
+                📧 Enviar resultats al professor
+            </button>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" data-i18n="nav_prev">← Anterior</button>
+            <div class="slide-counter" id="slideCounter">1 / 30</div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)" data-i18n="nav_next">Següent →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let userAnswers = {};
+        let currentLang = 'ca';
+
+        // ==================== TRADUCCIONS ====================
+        const translations = {
+            es: {
+                config_num: "Configuración",
+                config_title: "Test de Fisiología Celular",
+                config_student: "📝 Información del Alumno",
+                config_name: "Nombre del alumno",
+                config_group: "Grupo/Clase",
+                config_teacher: "📧 Email del Profesor",
+                config_email: "profesor@ejemplo.com",
+                config_desc: 'Este test contiene <strong>28 preguntas</strong> organizadas en 7 apartados:<br>Estructura celular • Cantidad de células • Tejidos • Órganos • Sistemas • Aparatos • Organismo',
+                nav_prev: "← Anterior",
+                nav_next: "Siguiente →",
+                results_num: "Resultados",
+                results_title: "Respuestas Correctas",
+                results_score_label: "Tu puntuación",
+                results_email_btn: "📧 Enviar resultados al profesor",
+                answer_your: "Tu respuesta",
+                answer_correct: "Correcta",
+                answer_none: "Sin respuesta",
+                alert_email: "Por favor, introduce el email del profesor en la primera diapositiva.",
+                email_subject: "Resultados Test Fisiología",
+                email_body_title: "Resultados del Test de Biología Celular",
+                email_body_student: "Alumno",
+                email_body_group: "Grupo",
+                email_body_score: "Puntuación",
+                email_body_answers: "Respuestas detalladas",
+                question_word: "Pregunta",
+                // Títols de diapositiva
+                q1_num: "Pregunta 1 de 28 - Estructura Celular",
+                q2_num: "Pregunta 2 de 28 - Estructura Celular",
+                q3_num: "Pregunta 3 de 28 - Estructura Celular",
+                q4_num: "Pregunta 4 de 28 - Estructura Celular",
+                q5_num: "Pregunta 5 de 28 - Cantidad de Células",
+                q6_num: "Pregunta 6 de 28 - Cantidad de Células",
+                q7_num: "Pregunta 7 de 28 - Cantidad de Células",
+                q8_num: "Pregunta 8 de 28 - Cantidad de Células",
+                q9_num: "Pregunta 9 de 28 - Tejido Celular",
+                q10_num: "Pregunta 10 de 28 - Tejido Celular",
+                q11_num: "Pregunta 11 de 28 - Tejido Celular",
+                q12_num: "Pregunta 12 de 28 - Tejido Celular",
+                q13_num: "Pregunta 13 de 28 - Órganos",
+                q14_num: "Pregunta 14 de 28 - Órganos",
+                q15_num: "Pregunta 15 de 28 - Órganos",
+                q16_num: "Pregunta 16 de 28 - Órganos",
+                q17_num: "Pregunta 17 de 28 - Sistemas",
+                q18_num: "Pregunta 18 de 28 - Sistemas",
+                q19_num: "Pregunta 19 de 28 - Sistemas",
+                q20_num: "Pregunta 20 de 28 - Sistemas",
+                q21_num: "Pregunta 21 de 28 - Aparatos",
+                q22_num: "Pregunta 22 de 28 - Aparatos",
+                q23_num: "Pregunta 23 de 28 - Aparatos",
+                q24_num: "Pregunta 24 de 28 - Aparatos",
+                q25_num: "Pregunta 25 de 28 - Organismo",
+                q26_num: "Pregunta 26 de 28 - Organismo",
+                q27_num: "Pregunta 27 de 28 - Organismo",
+                q28_num: "Pregunta 28 de 28 - Organismo",
+                // Preguntes i opcions
+                q1_section: "Estructura Celular",
+                q1_q: "¿Cuál es la estructura que controla todas las actividades de la célula?",
+                q1_oA: "Mitocondria", q1_oB: "Núcleo", q1_oC: "Membrana plasmática", q1_oD: "Citoplasma",
+                q2_section: "Estructura Celular",
+                q2_q: "¿Qué orgánulo es responsable de la producción de energía (ATP) en la célula?",
+                q2_oA: "Ribosoma", q2_oB: "Aparato de Golgi", q2_oC: "Mitocondria", q2_oD: "Retículo endoplasmático",
+                q3_section: "Estructura Celular",
+                q3_q: "¿Qué estructura rodea la célula y controla el paso de sustancias?",
+                q3_oA: "Membrana plasmática", q3_oB: "Pared celular", q3_oC: "Cápsula", q3_oD: "Citoplasma",
+                q4_section: "Estructura Celular",
+                q4_q: "¿Dónde se encuentra el ADN en la célula eucariota?",
+                q4_oA: "En el citoplasma", q4_oB: "En el núcleo", q4_oC: "En las mitocondrias únicamente", q4_oD: "En los ribosomas",
+                q5_section: "Cantidad de Células",
+                q5_q: "¿Aproximadamente cuántas células tiene el cuerpo humano adulto?",
+                q5_oA: "37 mil millones", q5_oB: "37 millones", q5_oC: "37 billones", q5_oD: "37 trillones",
+                q6_section: "Cantidad de Células",
+                q6_q: "¿Qué tipo de célula es la más abundante en el cuerpo humano?",
+                q6_oA: "Glóbulos rojos (eritrocitos)", q6_oB: "Neuronas", q6_oC: "Células musculares", q6_oD: "Células de la piel",
+                q7_section: "Cantidad de Células",
+                q7_q: "¿Cuántas células se renuevan aproximadamente cada día en el cuerpo humano?",
+                q7_oA: "330 millones", q7_oB: "330 mil millones", q7_oC: "330 billones", q7_oD: "330 mil",
+                q8_section: "Cantidad de Células",
+                q8_q: "¿Qué porcentaje del cuerpo humano está compuesto por células?",
+                q8_oA: "10%", q8_oB: "30-40%", q8_oC: "60-70%", q8_oD: "90-100%",
+                q9_section: "Tejido Celular",
+                q9_q: "¿Cuál de los siguientes NO es un tipo de tejido básico del cuerpo humano?",
+                q9_oA: "Tejido epitelial", q9_oB: "Tejido conectivo", q9_oC: "Tejido muscular", q9_oD: "Tejido adiposo",
+                q10_section: "Tejido Celular",
+                q10_q: "¿Qué tipo de tejido forma la epidermis (capa externa de la piel)?",
+                q10_oA: "Tejido epitelial", q10_oB: "Tejido conectivo", q10_oC: "Tejido muscular", q10_oD: "Tejido nervioso",
+                q11_section: "Tejido Celular",
+                q11_q: "¿Qué tipo de tejido es responsable de la transmisión de impulsos nerviosos?",
+                q11_oA: "Tejido epitelial", q11_oB: "Tejido conectivo", q11_oC: "Tejido muscular", q11_oD: "Tejido nervioso",
+                q12_section: "Tejido Celular",
+                q12_q: "¿Qué tipo de tejido forma los huesos, la sangre y el cartílago?",
+                q12_oA: "Tejido epitelial", q12_oB: "Tejido conectivo", q12_oC: "Tejido muscular", q12_oD: "Tejido nervioso",
+                q13_section: "Órganos",
+                q13_q: "¿Qué es un órgano?",
+                q13_oA: "Un grupo de células iguales", q13_oB: "Una sola célula especializada",
+                q13_oC: "Una estructura formada por dos o más tipos de tejidos que trabajan juntos", q13_oD: "Un conjunto de sistemas",
+                q14_section: "Órganos",
+                q14_q: "¿Cuál de los siguientes es un ejemplo de órgano?",
+                q14_oA: "Una neurona", q14_oB: "El corazón", q14_oC: "El tejido muscular", q14_oD: "Una fibra muscular",
+                q15_section: "Órganos",
+                q15_q: "¿Qué órgano es el más grande del cuerpo humano?",
+                q15_oA: "La piel", q15_oB: "El hígado", q15_oC: "El intestino delgado", q15_oD: "Los pulmones",
+                q16_section: "Órganos",
+                q16_q: "¿Cuántos órganos vitales tiene el cuerpo humano?",
+                q16_oA: "3", q16_oB: "4", q16_oC: "5 (cerebro, corazón, pulmones, hígado, riñones)", q16_oD: "7",
+                q17_section: "Sistemas",
+                q17_q: "¿Qué es un sistema en el cuerpo humano?",
+                q17_oA: "Un solo órgano", q17_oB: "Un conjunto de órganos que trabajan juntos para realizar una función específica",
+                q17_oC: "Un grupo de células", q17_oD: "Un tipo de tejido",
+                q18_section: "Sistemas",
+                q18_q: "¿Qué sistema incluye el corazón, las arterias, las venas y los capilares?",
+                q18_oA: "Sistema cardiovascular", q18_oB: "Sistema respiratorio", q18_oC: "Sistema digestivo", q18_oD: "Sistema nervioso",
+                q19_section: "Sistemas",
+                q19_q: "¿Qué sistema es responsable de la coordinación y control del cuerpo?",
+                q19_oA: "Sistema muscular", q19_oB: "Sistema esquelético", q19_oC: "Sistema endocrino", q19_oD: "Sistema nervioso",
+                q20_section: "Sistemas",
+                q20_q: "¿Cuántos sistemas principales tiene el cuerpo humano?",
+                q20_oA: "7", q20_oB: "9", q20_oC: "11", q20_oD: "15",
+                q21_section: "Aparatos",
+                q21_q: "¿Cuál es la diferencia entre un sistema y un aparato?",
+                q21_oA: "No hay diferencia, son sinónimos", q21_oB: "Los sistemas son más grandes que los aparatos",
+                q21_oC: "Los aparatos están formados por varios sistemas que trabajan juntos", q21_oD: "Los aparatos solo existen en animales",
+                q22_section: "Aparatos",
+                q22_q: "¿Qué aparato incluye el estómago, intestinos, hígado y páncreas?",
+                q22_oA: "Aparato respiratorio", q22_oB: "Aparato digestivo", q22_oC: "Aparato circulatorio", q22_oD: "Aparato urinario",
+                q23_section: "Aparatos",
+                q23_q: "¿Qué aparato es responsable del intercambio de gases (oxígeno y dióxido de carbono)?",
+                q23_oA: "Aparato respiratorio", q23_oB: "Aparato digestivo", q23_oC: "Aparato circulatorio", q23_oD: "Aparato excretor",
+                q24_section: "Aparatos",
+                q24_q: "¿Qué aparato incluye los riñones, uréteres, vejiga y uretra?",
+                q24_oA: "Aparato digestivo", q24_oB: "Aparato respiratorio", q24_oC: "Aparato circulatorio", q24_oD: "Aparato urinario",
+                q25_section: "Organismo",
+                q25_q: "¿Qué es un organismo?",
+                q25_oA: "Un solo órgano", q25_oB: "Un sistema completo", q25_oC: "Un grupo de células",
+                q25_oD: "Un ser vivo completo formado por todos los sistemas y aparatos trabajando juntos",
+                q26_section: "Organismo",
+                q26_q: "¿Cuál es el nivel de organización más complejo en el cuerpo humano?",
+                q26_oA: "Célula", q26_oB: "Tejido", q26_oC: "Órgano", q26_oD: "Organismo",
+                q27_section: "Organismo",
+                q27_q: "¿Qué mantiene el equilibrio interno del organismo?",
+                q27_oA: "La homeostasis", q27_oB: "La mitosis", q27_oC: "La fotosíntesis", q27_oD: "La digestión",
+                q28_section: "Organismo",
+                q28_q: "¿Cuál es el orden correcto de organización del cuerpo humano?",
+                q28_oA: "Órgano → Célula → Tejido → Sistema → Organismo",
+                q28_oB: "Célula → Tejido → Órgano → Sistema → Organismo",
+                q28_oC: "Tejido → Célula → Órgano → Organismo → Sistema",
+                q28_oD: "Sistema → Órgano → Tejido → Célula → Organismo"
+            },
+            ca: {
+                config_num: "Configuració",
+                config_title: "Test de Fisiologia Cel·lular",
+                config_student: "📝 Informació de l'Alumne",
+                config_name: "Nom de l'alumne",
+                config_group: "Grup/Classe",
+                config_teacher: "📧 Email del Professor",
+                config_email: "professor@exemple.com",
+                config_desc: 'Aquest test conté <strong>28 preguntes</strong> organitzades en 7 apartats:<br>Estructura cel·lular • Quantitat de cèl·lules • Teixits • Òrgans • Sistemes • Aparells • Organisme',
+                nav_prev: "← Anterior",
+                nav_next: "Següent →",
+                results_num: "Resultats",
+                results_title: "Respostes Correctes",
+                results_score_label: "La teva puntuació",
+                results_email_btn: "📧 Enviar resultats al professor",
+                answer_your: "La teva resposta",
+                answer_correct: "Correcta",
+                answer_none: "Sense resposta",
+                alert_email: "Si us plau, introdueix l'email del professor a la primera diapositiva.",
+                email_subject: "Resultats Test Fisiologia",
+                email_body_title: "Resultats del Test de Biologia Cel·lular",
+                email_body_student: "Alumne",
+                email_body_group: "Grup",
+                email_body_score: "Puntuació",
+                email_body_answers: "Respostes detallades",
+                question_word: "Pregunta",
+                q1_num: "Pregunta 1 de 28 - Estructura Cel·lular",
+                q2_num: "Pregunta 2 de 28 - Estructura Cel·lular",
+                q3_num: "Pregunta 3 de 28 - Estructura Cel·lular",
+                q4_num: "Pregunta 4 de 28 - Estructura Cel·lular",
+                q5_num: "Pregunta 5 de 28 - Quantitat de Cèl·lules",
+                q6_num: "Pregunta 6 de 28 - Quantitat de Cèl·lules",
+                q7_num: "Pregunta 7 de 28 - Quantitat de Cèl·lules",
+                q8_num: "Pregunta 8 de 28 - Quantitat de Cèl·lules",
+                q9_num: "Pregunta 9 de 28 - Teixit Cel·lular",
+                q10_num: "Pregunta 10 de 28 - Teixit Cel·lular",
+                q11_num: "Pregunta 11 de 28 - Teixit Cel·lular",
+                q12_num: "Pregunta 12 de 28 - Teixit Cel·lular",
+                q13_num: "Pregunta 13 de 28 - Òrgans",
+                q14_num: "Pregunta 14 de 28 - Òrgans",
+                q15_num: "Pregunta 15 de 28 - Òrgans",
+                q16_num: "Pregunta 16 de 28 - Òrgans",
+                q17_num: "Pregunta 17 de 28 - Sistemes",
+                q18_num: "Pregunta 18 de 28 - Sistemes",
+                q19_num: "Pregunta 19 de 28 - Sistemes",
+                q20_num: "Pregunta 20 de 28 - Sistemes",
+                q21_num: "Pregunta 21 de 28 - Aparells",
+                q22_num: "Pregunta 22 de 28 - Aparells",
+                q23_num: "Pregunta 23 de 28 - Aparells",
+                q24_num: "Pregunta 24 de 28 - Aparells",
+                q25_num: "Pregunta 25 de 28 - Organisme",
+                q26_num: "Pregunta 26 de 28 - Organisme",
+                q27_num: "Pregunta 27 de 28 - Organisme",
+                q28_num: "Pregunta 28 de 28 - Organisme",
+                q1_section: "Estructura Cel·lular",
+                q1_q: "Quina és l'estructura que controla totes les activitats de la cèl·lula?",
+                q1_oA: "Mitocondri", q1_oB: "Nucli", q1_oC: "Membrana plasmàtica", q1_oD: "Citoplasma",
+                q2_section: "Estructura Cel·lular",
+                q2_q: "Quin orgànul és responsable de la producció d'energia (ATP) a la cèl·lula?",
+                q2_oA: "Ribosoma", q2_oB: "Aparell de Golgi", q2_oC: "Mitocondri", q2_oD: "Reticle endoplasmàtic",
+                q3_section: "Estructura Cel·lular",
+                q3_q: "Quina estructura envolta la cèl·lula i controla el pas de substàncies?",
+                q3_oA: "Membrana plasmàtica", q3_oB: "Paret cel·lular", q3_oC: "Càpsula", q3_oD: "Citoplasma",
+                q4_section: "Estructura Cel·lular",
+                q4_q: "On es troba l'ADN a la cèl·lula eucariota?",
+                q4_oA: "Al citoplasma", q4_oB: "Al nucli", q4_oC: "Als mitocondris únicament", q4_oD: "Als ribosomes",
+                q5_section: "Quantitat de Cèl·lules",
+                q5_q: "Aproximadament quantes cèl·lules té el cos humà adult?",
+                q5_oA: "37 mil milions", q5_oB: "37 milions", q5_oC: "37 bilions", q5_oD: "37 trilions",
+                q6_section: "Quantitat de Cèl·lules",
+                q6_q: "Quin tipus de cèl·lula és la més abundant al cos humà?",
+                q6_oA: "Glòbuls vermells (eritròcits)", q6_oB: "Neurones", q6_oC: "Cèl·lules musculars", q6_oD: "Cèl·lules de la pell",
+                q7_section: "Quantitat de Cèl·lules",
+                q7_q: "Quantes cèl·lules es renoven aproximadament cada dia al cos humà?",
+                q7_oA: "330 milions", q7_oB: "330 mil milions", q7_oC: "330 bilions", q7_oD: "330 mil",
+                q8_section: "Quantitat de Cèl·lules",
+                q8_q: "Quin percentatge del cos humà està compost per cèl·lules?",
+                q8_oA: "10%", q8_oB: "30-40%", q8_oC: "60-70%", q8_oD: "90-100%",
+                q9_section: "Teixit Cel·lular",
+                q9_q: "Quin dels següents NO és un tipus de teixit bàsic del cos humà?",
+                q9_oA: "Teixit epitelial", q9_oB: "Teixit connectiu", q9_oC: "Teixit muscular", q9_oD: "Teixit adipós",
+                q10_section: "Teixit Cel·lular",
+                q10_q: "Quin tipus de teixit forma l'epidermis (capa externa de la pell)?",
+                q10_oA: "Teixit epitelial", q10_oB: "Teixit connectiu", q10_oC: "Teixit muscular", q10_oD: "Teixit nerviós",
+                q11_section: "Teixit Cel·lular",
+                q11_q: "Quin tipus de teixit és responsable de la transmissió d'impulsos nerviosos?",
+                q11_oA: "Teixit epitelial", q11_oB: "Teixit connectiu", q11_oC: "Teixit muscular", q11_oD: "Teixit nerviós",
+                q12_section: "Teixit Cel·lular",
+                q12_q: "Quin tipus de teixit forma els ossos, la sang i el cartílag?",
+                q12_oA: "Teixit epitelial", q12_oB: "Teixit connectiu", q12_oC: "Teixit muscular", q12_oD: "Teixit nerviós",
+                q13_section: "Òrgans",
+                q13_q: "Què és un òrgan?",
+                q13_oA: "Un grup de cèl·lules iguals", q13_oB: "Una sola cèl·lula especialitzada",
+                q13_oC: "Una estructura formada per dos o més tipus de teixits que treballen junts", q13_oD: "Un conjunt de sistemes",
+                q14_section: "Òrgans",
+                q14_q: "Quin dels següents és un exemple d'òrgan?",
+                q14_oA: "Una neurona", q14_oB: "El cor", q14_oC: "El teixit muscular", q14_oD: "Una fibra muscular",
+                q15_section: "Òrgans",
+                q15_q: "Quin òrgan és el més gran del cos humà?",
+                q15_oA: "La pell", q15_oB: "El fetge", q15_oC: "L'intestí prim", q15_oD: "Els pulmons",
+                q16_section: "Òrgans",
+                q16_q: "Quants òrgans vitals té el cos humà?",
+                q16_oA: "3", q16_oB: "4", q16_oC: "5 (cervell, cor, pulmons, fetge, ronyons)", q16_oD: "7",
+                q17_section: "Sistemes",
+                q17_q: "Què és un sistema al cos humà?",
+                q17_oA: "Un sol òrgan", q17_oB: "Un conjunt d'òrgans que treballen junts per realitzar una funció específica",
+                q17_oC: "Un grup de cèl·lules", q17_oD: "Un tipus de teixit",
+                q18_section: "Sistemes",
+                q18_q: "Quin sistema inclou el cor, les artèries, les venes i els capil·lars?",
+                q18_oA: "Sistema cardiovascular", q18_oB: "Sistema respiratori", q18_oC: "Sistema digestiu", q18_oD: "Sistema nerviós",
+                q19_section: "Sistemes",
+                q19_q: "Quin sistema és responsable de la coordinació i control del cos?",
+                q19_oA: "Sistema muscular", q19_oB: "Sistema esquelètic", q19_oC: "Sistema endocrí", q19_oD: "Sistema nerviós",
+                q20_section: "Sistemes",
+                q20_q: "Quants sistemes principals té el cos humà?",
+                q20_oA: "7", q20_oB: "9", q20_oC: "11", q20_oD: "15",
+                q21_section: "Aparells",
+                q21_q: "Quina és la diferència entre un sistema i un aparell?",
+                q21_oA: "No hi ha diferència, són sinònims", q21_oB: "Els sistemes són més grans que els aparells",
+                q21_oC: "Els aparells estan formats per diversos sistemes que treballen junts", q21_oD: "Els aparells només existeixen en animals",
+                q22_section: "Aparells",
+                q22_q: "Quin aparell inclou l'estómac, intestins, fetge i pàncrees?",
+                q22_oA: "Aparell respiratori", q22_oB: "Aparell digestiu", q22_oC: "Aparell circulatori", q22_oD: "Aparell urinari",
+                q23_section: "Aparells",
+                q23_q: "Quin aparell és responsable de l'intercanvi de gasos (oxigen i diòxid de carboni)?",
+                q23_oA: "Aparell respiratori", q23_oB: "Aparell digestiu", q23_oC: "Aparell circulatori", q23_oD: "Aparell excretor",
+                q24_section: "Aparells",
+                q24_q: "Quin aparell inclou els ronyons, urèters, bufeta i uretra?",
+                q24_oA: "Aparell digestiu", q24_oB: "Aparell respiratori", q24_oC: "Aparell circulatori", q24_oD: "Aparell urinari",
+                q25_section: "Organisme",
+                q25_q: "Què és un organisme?",
+                q25_oA: "Un sol òrgan", q25_oB: "Un sistema complet", q25_oC: "Un grup de cèl·lules",
+                q25_oD: "Un ésser viu complet format per tots els sistemes i aparells treballant junts",
+                q26_section: "Organisme",
+                q26_q: "Quin és el nivell d'organització més complex al cos humà?",
+                q26_oA: "Cèl·lula", q26_oB: "Teixit", q26_oC: "Òrgan", q26_oD: "Organisme",
+                q27_section: "Organisme",
+                q27_q: "Què manté l'equilibri intern de l'organisme?",
+                q27_oA: "L'homeòstasi", q27_oB: "La mitosi", q27_oC: "La fotosíntesi", q27_oD: "La digestió",
+                q28_section: "Organisme",
+                q28_q: "Quin és l'ordre correcte d'organització del cos humà?",
+                q28_oA: "Òrgan → Cèl·lula → Teixit → Sistema → Organisme",
+                q28_oB: "Cèl·lula → Teixit → Òrgan → Sistema → Organisme",
+                q28_oC: "Teixit → Cèl·lula → Òrgan → Organisme → Sistema",
+                q28_oD: "Sistema → Òrgan → Teixit → Cèl·lula → Organisme"
+            },
+            en: {
+                config_num: "Configuration",
+                config_title: "Cell Physiology Test",
+                config_student: "📝 Student Information",
+                config_name: "Student name",
+                config_group: "Group/Class",
+                config_teacher: "📧 Teacher's Email",
+                config_email: "teacher@example.com",
+                config_desc: 'This test contains <strong>28 questions</strong> organized into 7 sections:<br>Cellular structure • Cell count • Tissues • Organs • Systems • Apparatuses • Organism',
+                nav_prev: "← Previous",
+                nav_next: "Next →",
+                results_num: "Results",
+                results_title: "Correct Answers",
+                results_score_label: "Your score",
+                results_email_btn: "📧 Send results to teacher",
+                answer_your: "Your answer",
+                answer_correct: "Correct",
+                answer_none: "No answer",
+                alert_email: "Please enter the teacher's email on the first slide.",
+                email_subject: "Physiology Test Results",
+                email_body_title: "Cell Biology Test Results",
+                email_body_student: "Student",
+                email_body_group: "Group",
+                email_body_score: "Score",
+                email_body_answers: "Detailed answers",
+                question_word: "Question",
+                q1_num: "Question 1 of 28 - Cellular Structure",
+                q2_num: "Question 2 of 28 - Cellular Structure",
+                q3_num: "Question 3 of 28 - Cellular Structure",
+                q4_num: "Question 4 of 28 - Cellular Structure",
+                q5_num: "Question 5 of 28 - Cell Count",
+                q6_num: "Question 6 of 28 - Cell Count",
+                q7_num: "Question 7 of 28 - Cell Count",
+                q8_num: "Question 8 of 28 - Cell Count",
+                q9_num: "Question 9 of 28 - Cellular Tissue",
+                q10_num: "Question 10 of 28 - Cellular Tissue",
+                q11_num: "Question 11 of 28 - Cellular Tissue",
+                q12_num: "Question 12 of 28 - Cellular Tissue",
+                q13_num: "Question 13 of 28 - Organs",
+                q14_num: "Question 14 of 28 - Organs",
+                q15_num: "Question 15 of 28 - Organs",
+                q16_num: "Question 16 of 28 - Organs",
+                q17_num: "Question 17 of 28 - Systems",
+                q18_num: "Question 18 of 28 - Systems",
+                q19_num: "Question 19 of 28 - Systems",
+                q20_num: "Question 20 of 28 - Systems",
+                q21_num: "Question 21 of 28 - Apparatuses",
+                q22_num: "Question 22 of 28 - Apparatuses",
+                q23_num: "Question 23 of 28 - Apparatuses",
+                q24_num: "Question 24 of 28 - Apparatuses",
+                q25_num: "Question 25 of 28 - Organism",
+                q26_num: "Question 26 of 28 - Organism",
+                q27_num: "Question 27 of 28 - Organism",
+                q28_num: "Question 28 of 28 - Organism",
+                q1_section: "Cellular Structure",
+                q1_q: "Which structure controls all the activities of the cell?",
+                q1_oA: "Mitochondrion", q1_oB: "Nucleus", q1_oC: "Plasma membrane", q1_oD: "Cytoplasm",
+                q2_section: "Cellular Structure",
+                q2_q: "Which organelle is responsible for energy production (ATP) in the cell?",
+                q2_oA: "Ribosome", q2_oB: "Golgi apparatus", q2_oC: "Mitochondrion", q2_oD: "Endoplasmic reticulum",
+                q3_section: "Cellular Structure",
+                q3_q: "Which structure surrounds the cell and controls the passage of substances?",
+                q3_oA: "Plasma membrane", q3_oB: "Cell wall", q3_oC: "Capsule", q3_oD: "Cytoplasm",
+                q4_section: "Cellular Structure",
+                q4_q: "Where is DNA found in the eukaryotic cell?",
+                q4_oA: "In the cytoplasm", q4_oB: "In the nucleus", q4_oC: "Only in mitochondria", q4_oD: "In ribosomes",
+                q5_section: "Cell Count",
+                q5_q: "Approximately how many cells does the adult human body have?",
+                q5_oA: "37 billion", q5_oB: "37 million", q5_oC: "37 trillion", q5_oD: "37 quadrillion",
+                q6_section: "Cell Count",
+                q6_q: "Which type of cell is the most abundant in the human body?",
+                q6_oA: "Red blood cells (erythrocytes)", q6_oB: "Neurons", q6_oC: "Muscle cells", q6_oD: "Skin cells",
+                q7_section: "Cell Count",
+                q7_q: "Approximately how many cells are renewed each day in the human body?",
+                q7_oA: "330 million", q7_oB: "330 billion", q7_oC: "330 trillion", q7_oD: "330 thousand",
+                q8_section: "Cell Count",
+                q8_q: "What percentage of the human body is composed of cells?",
+                q8_oA: "10%", q8_oB: "30-40%", q8_oC: "60-70%", q8_oD: "90-100%",
+                q9_section: "Cellular Tissue",
+                q9_q: "Which of the following is NOT a basic tissue type of the human body?",
+                q9_oA: "Epithelial tissue", q9_oB: "Connective tissue", q9_oC: "Muscle tissue", q9_oD: "Adipose tissue",
+                q10_section: "Cellular Tissue",
+                q10_q: "What type of tissue forms the epidermis (outer layer of the skin)?",
+                q10_oA: "Epithelial tissue", q10_oB: "Connective tissue", q10_oC: "Muscle tissue", q10_oD: "Nervous tissue",
+                q11_section: "Cellular Tissue",
+                q11_q: "What type of tissue is responsible for transmitting nerve impulses?",
+                q11_oA: "Epithelial tissue", q11_oB: "Connective tissue", q11_oC: "Muscle tissue", q11_oD: "Nervous tissue",
+                q12_section: "Cellular Tissue",
+                q12_q: "What type of tissue forms bones, blood and cartilage?",
+                q12_oA: "Epithelial tissue", q12_oB: "Connective tissue", q12_oC: "Muscle tissue", q12_oD: "Nervous tissue",
+                q13_section: "Organs",
+                q13_q: "What is an organ?",
+                q13_oA: "A group of identical cells", q13_oB: "A single specialized cell",
+                q13_oC: "A structure formed by two or more types of tissues working together", q13_oD: "A set of systems",
+                q14_section: "Organs",
+                q14_q: "Which of the following is an example of an organ?",
+                q14_oA: "A neuron", q14_oB: "The heart", q14_oC: "Muscle tissue", q14_oD: "A muscle fiber",
+                q15_section: "Organs",
+                q15_q: "Which organ is the largest in the human body?",
+                q15_oA: "The skin", q15_oB: "The liver", q15_oC: "The small intestine", q15_oD: "The lungs",
+                q16_section: "Organs",
+                q16_q: "How many vital organs does the human body have?",
+                q16_oA: "3", q16_oB: "4", q16_oC: "5 (brain, heart, lungs, liver, kidneys)", q16_oD: "7",
+                q17_section: "Systems",
+                q17_q: "What is a system in the human body?",
+                q17_oA: "A single organ", q17_oB: "A set of organs that work together to perform a specific function",
+                q17_oC: "A group of cells", q17_oD: "A type of tissue",
+                q18_section: "Systems",
+                q18_q: "Which system includes the heart, arteries, veins and capillaries?",
+                q18_oA: "Cardiovascular system", q18_oB: "Respiratory system", q18_oC: "Digestive system", q18_oD: "Nervous system",
+                q19_section: "Systems",
+                q19_q: "Which system is responsible for the coordination and control of the body?",
+                q19_oA: "Muscular system", q19_oB: "Skeletal system", q19_oC: "Endocrine system", q19_oD: "Nervous system",
+                q20_section: "Systems",
+                q20_q: "How many main systems does the human body have?",
+                q20_oA: "7", q20_oB: "9", q20_oC: "11", q20_oD: "15",
+                q21_section: "Apparatuses",
+                q21_q: "What is the difference between a system and an apparatus?",
+                q21_oA: "No difference, they are synonyms", q21_oB: "Systems are larger than apparatuses",
+                q21_oC: "Apparatuses are made up of several systems working together", q21_oD: "Apparatuses only exist in animals",
+                q22_section: "Apparatuses",
+                q22_q: "Which apparatus includes the stomach, intestines, liver and pancreas?",
+                q22_oA: "Respiratory apparatus", q22_oB: "Digestive apparatus", q22_oC: "Circulatory apparatus", q22_oD: "Urinary apparatus",
+                q23_section: "Apparatuses",
+                q23_q: "Which apparatus is responsible for gas exchange (oxygen and carbon dioxide)?",
+                q23_oA: "Respiratory apparatus", q23_oB: "Digestive apparatus", q23_oC: "Circulatory apparatus", q23_oD: "Excretory apparatus",
+                q24_section: "Apparatuses",
+                q24_q: "Which apparatus includes the kidneys, ureters, bladder and urethra?",
+                q24_oA: "Digestive apparatus", q24_oB: "Respiratory apparatus", q24_oC: "Circulatory apparatus", q24_oD: "Urinary apparatus",
+                q25_section: "Organism",
+                q25_q: "What is an organism?",
+                q25_oA: "A single organ", q25_oB: "A complete system", q25_oC: "A group of cells",
+                q25_oD: "A complete living being formed by all systems and apparatuses working together",
+                q26_section: "Organism",
+                q26_q: "What is the most complex level of organization in the human body?",
+                q26_oA: "Cell", q26_oB: "Tissue", q26_oC: "Organ", q26_oD: "Organism",
+                q27_section: "Organism",
+                q27_q: "What maintains the internal balance of the organism?",
+                q27_oA: "Homeostasis", q27_oB: "Mitosis", q27_oC: "Photosynthesis", q27_oD: "Digestion",
+                q28_section: "Organism",
+                q28_q: "What is the correct order of organization of the human body?",
+                q28_oA: "Organ → Cell → Tissue → System → Organism",
+                q28_oB: "Cell → Tissue → Organ → System → Organism",
+                q28_oC: "Tissue → Cell → Organ → Organism → System",
+                q28_oD: "System → Organ → Tissue → Cell → Organism"
+            }
+        };
+
+        const correctAnswers = {
+            1: 'B', 2: 'C', 3: 'A', 4: 'B',
+            5: 'C', 6: 'A', 7: 'B', 8: 'B',
+            9: 'D', 10: 'A', 11: 'D', 12: 'B',
+            13: 'C', 14: 'B', 15: 'A', 16: 'C',
+            17: 'B', 18: 'A', 19: 'D', 20: 'C',
+            21: 'C', 22: 'B', 23: 'A', 24: 'D',
+            25: 'D', 26: 'D', 27: 'A', 28: 'B'
+        };
+
+        // ==================== IDIOMA ====================
+        function setLanguage(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.language-selector button').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            document.documentElement.lang = lang;
+        }
+
+        // ==================== OPCIONS ====================
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const question = this.getAttribute('data-question');
+                const answer = this.getAttribute('data-answer');
+
+                document.querySelectorAll(`[data-question="${question}"]`).forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+
+                this.classList.add('selected');
+                userAnswers[question] = answer;
+            });
+        });
+
+        // ==================== NAVEGACIÓ ====================
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+
+            document.getElementById('slideCounter').textContent = `${n + 1} / ${totalSlides}`;
+            document.getElementById('progressFill').style.width = `${((n + 1) / totalSlides) * 100}%`;
+
+            document.getElementById('prevBtn').disabled = n === 0;
+            document.getElementById('nextBtn').disabled = n === totalSlides - 1;
+
+            if (n === totalSlides - 1) {
+                calculateResults();
+            }
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            showSlide(currentSlide);
+        }
+
+        // ==================== RESULTATS ====================
+        function calculateResults() {
+            const t = translations[currentLang];
+            let score = 0;
+            let answersHTML = '';
+
+            for (let i = 1; i <= 28; i++) {
+                const userAnswer = userAnswers[i] || t.answer_none;
+                const correctAnswer = correctAnswers[i];
+                const isCorrect = userAnswers[i] === correctAnswer;
+
+                if (isCorrect) score++;
+
+                answersHTML += `
+                    <div class="answer-item" style="border-left-color: ${isCorrect ? '#4caf50' : '#f44336'}">
+                        <div class="answer-question">${t.question_word} ${i}: ${t['q' + i + '_q']}</div>
+                        <div class="answer-text">
+                            ${t.answer_your}: ${userAnswer} | ${t.answer_correct}: ${correctAnswer}
+                            ${isCorrect ? '✓' : '✗'}
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('answersContainer').innerHTML = answersHTML;
+            document.getElementById('scoreDisplay').textContent = `${score} / 28`;
+            document.getElementById('percentageDisplay').textContent = `${Math.round((score / 28) * 100)}%`;
+        }
+
+        // ==================== EMAIL ====================
+        function sendResultsByEmail() {
+            const t = translations[currentLang];
+            const studentName = document.getElementById('studentName').value || 'Alumne';
+            const studentGroup = document.getElementById('studentGroup').value || 'Sense grup';
+            const teacherEmail = document.getElementById('teacherEmail').value;
+
+            if (!teacherEmail) {
+                alert(t.alert_email);
+                return;
+            }
+
+            const score = document.getElementById('scoreDisplay').textContent;
+            const percentage = document.getElementById('percentageDisplay').textContent;
+
+            let emailBody = `${t.email_body_title}\n\n`;
+            emailBody += `${t.email_body_student}: ${studentName}\n`;
+            emailBody += `${t.email_body_group}: ${studentGroup}\n`;
+            emailBody += `${t.email_body_score}: ${score} (${percentage})\n\n`;
+            emailBody += `${t.email_body_answers}:\n\n`;
+
+            for (let i = 1; i <= 28; i++) {
+                const userAnswer = userAnswers[i] || t.answer_none;
+                const correctAnswer = correctAnswers[i];
+                const isCorrect = userAnswers[i] === correctAnswer;
+                emailBody += `${t.question_word} ${i}: ${userAnswer} ${isCorrect ? '✓' : '✗'} (${t.answer_correct}: ${correctAnswer})\n`;
+            }
+
+            const subject = `${t.email_subject} - ${studentName}`;
+            const mailtoLink = `mailto:${teacherEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // ==================== TECLAT ====================
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // ==================== INICIALITZACIÓ ====================
+        setLanguage('ca', document.querySelector('.language-selector button.active'));
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
