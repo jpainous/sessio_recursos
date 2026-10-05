@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Índex de Diapositives i Activitats · TEMA 1 - Fisiologia de la Dansa</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  body {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    padding: 35px 30px;
+    text-align: center;
+    position: relative;
+  }
+  header h1 { font-size: 2em; margin-bottom: 8px; }
+  header p { opacity: 0.9; font-size: 1.05em; }
+  header .subtitle { font-size: 0.9em; opacity: 0.75; margin-top: 10px; font-style: italic; }
+
+  .lang-selector {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+  .lang-btn {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85em;
+    transition: all 0.3s;
+  }
+  .lang-btn:hover { background: rgba(255,255,255,0.3); }
+  .lang-btn.active { background: #fff; color: #0f2027; border-color: #fff; }
+
+  .intro {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left: 5px solid #1976d2;
+    padding: 20px 25px;
+    margin: 25px 30px;
+    border-radius: 10px;
+    line-height: 1.7;
+  }
+  .intro h2 { color: #1565c0; margin-bottom: 10px; font-size: 1.15em; }
+  .intro p { color: #263238; }
+
+  .stats-bar {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px 30px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 10px 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .stat-item .stat-value {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #2a5298;
+    display: block;
+  }
+  .stat-item .stat-label {
+    font-size: 0.8em;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .section-title {
+    color: #0f2027;
+    font-size: 1.4em;
+    margin: 30px 30px 8px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #2a5298;
+  }
+  .section-sub {
+    color: #555;
+    font-size: 0.95em;
+    margin: 0 30px 20px;
+    font-style: italic;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 0 30px 30px;
+  }
+
+  .card {
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 18px;
+    transition: all 0.25s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    border-color: #2a5298;
+    box-shadow: 0 6px 20px rgba(42,82,152,0.15);
+    transform: translateY(-3px);
+  }
+  .card .num {
+    display: inline-block;
+    background: linear-gradient(135deg, #2a5298, #1e3c72);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    align-self: flex-start;
+  }
+  .card h3 {
+    color: #0f2027;
+    font-size: 1.05em;
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+  .card .desc {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    flex-grow: 1;
+  }
+  .card .link-btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #2a5298, #1e3c72);
+    color: white;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.25s;
+    align-self: flex-start;
+  }
+  .card .link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(42,82,152,0.4);
+  }
+  .card .no-link {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #999;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    font-style: italic;
+    align-self: flex-start;
+  }
+  .card .link-btn.multi {
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  .card .links-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .card.guide-card { background: linear-gradient(135deg, #f0f4ff 0%, #e0e8ff 100%); border-color: #5c6bc0; }
+  .card.guide-card .num { background: linear-gradient(135deg, #3949ab, #283593); }
+
+  .card.homeo-card { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #43a047; }
+  .card.homeo-card .num { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
+
+  .card.skeleton-card { background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%); border-color: #f39c12; }
+  .card.skeleton-card .num { background: linear-gradient(135deg, #e67e22, #d35400); }
+
+  .card.boneTissue-card { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%); border-color: #c2185b; }
+  .card.boneTissue-card .num { background: linear-gradient(135deg, #c2185b, #880e4f); }
+
+  .card.tendonsJoints-card { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); border-color: #00acc1; }
+  .card.tendonsJoints-card .num { background: linear-gradient(135deg, #0097a7, #006064); }
+
+  .card.anatomy-card { background: linear-gradient(135deg, #ede7f6 0%, #d1c4e9 100%); border-color: #7e57c2; }
+  .card.anatomy-card .num { background: linear-gradient(135deg, #673ab7, #4527a0); }
+
+  .card.muscle-card { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border-color: #ef6c00; }
+  .card.muscle-card .num { background: linear-gradient(135deg, #ef6c00, #e65100); }
+
+  .card.cases-card { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); border-color: #e53935; }
+  .card.cases-card .num { background: linear-gradient(135deg, #d32f2f, #b71c1c); }
+
+  footer {
+    background: #0f2027;
+    color: #ccc;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.5em; }
+    .grid { grid-template-columns: 1fr; padding: 0 15px 20px; }
+    .intro, .section-title, .section-sub { margin-left: 15px; margin-right: 15px; }
+    .lang-selector { position: static; justify-content: center; margin-top: 15px; }
+    .stats-bar { padding: 10px 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="lang-selector">
+      <button class="lang-btn active" onclick="setLang('es')" id="btn-es">ESP</button>
+      <button class="lang-btn" onclick="setLang('ca')" id="btn-ca">CAT</button>
+      <button class="lang-btn" onclick="setLang('en')" id="btn-en">ENG</button>
+    </div>
+    <h1 id="t-title">📚 Índice de Diapositivas y Actividades</h1>
+    <p id="t-sub">Fisiología de la Danza · Curso 2026-2027</p>
+    <div class="subtitle" id="t-sub2">Dra. Cèlia Painous, MD, PhD · Institut del Teatre de la Diputació de Barcelona</div>
+  </header>
+
+  <div class="intro">
+    <h2 id="t-intro-h">ℹ️ Cómo usar este índice</h2>
+    <p id="t-intro-p">Este índice recoge las diapositivas del temario con su descripción y los archivos HTML de actividades disponibles, organizados por bloques temáticos. Los archivos HTML se abren en una pestaña nueva. Las diapositivas sin actividad HTML asociada se indican claramente.</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="stat-slides">36</span>
+      <span class="stat-label" id="t-stat-slides">Diapositivas</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat-activities">46</span>
+      <span class="stat-label" id="t-stat-activities">Actividades HTML</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat-blocks">8</span>
+      <span class="stat-label" id="t-stat-blocks">Bloques temáticos</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="stat-linked">16</span>
+      <span class="stat-label" id="t-stat-linked">Diapositivas con HTML</span>
+    </div>
+  </div>
+
+  <h2 class="section-title" id="t-slides-title">🗂️ Diapositivas del Temario</h2>
+  <p class="section-sub" id="t-slides-sub">Listado según la relación del documento original. Se indica el HTML asociado cuando existe.</p>
+  <div class="grid" id="slidesGrid"></div>
+
+  <h2 class="section-title" id="t-activities-title">🎮 Actividades HTML por Bloques Temáticos</h2>
+  <p class="section-sub" id="t-activities-sub">Archivos HTML independientes organizados por tema. Haz clic en cada uno para abrirlo en una pestaña nueva.</p>
+  <div id="activitiesContainer"></div>
+
+  <footer>
+    <p id="t-footer">Fisiología de la Danza · Dra. Cèlia Painous · Institut del Teatre de la Diputació de Barcelona · Curso 2026-2027</p>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================
+   TRADUCCIONS
+   ============================================================ */
+const I18N = {
+  es: {
+    title: "📚 Índice de Diapositivas y Actividades - TEMA 1",
+    sub: "Fisiología de la Danza · Curso 2026-2027",
+    sub2: "Dra. Cèlia Painous, MD, PhD · Institut del Teatre de la Diputació de Barcelona",
+    introH: "ℹ️ Cómo usar este índice",
+    introP: "Este índice recoge las diapositivas del temario con su descripción y los archivos HTML de actividades disponibles, organizados por bloques temáticos. Los archivos HTML se abren en una pestaña nueva. Las diapositivas sin actividad HTML asociada se indican claramente.",
+    statSlides: "Diapositivas",
+    statActivities: "Actividades HTML",
+    statBlocks: "Bloques temáticos",
+    statLinked: "Diapositivas con HTML",
+    slidesTitle: "🗂️ Diapositivas del Temario",
+    slidesSub: "Listado según la relación del documento original. Se indica el HTML asociado cuando existe.",
+    activitiesTitle: "🎮 Actividades HTML por Bloques Temáticos",
+    activitiesSub: "Archivos HTML independientes organizados por tema. Haz clic en cada uno para abrirlo en una pestaña nueva.",
+    footer: "Fisiología de la Danza · Dra. Cèlia Painous · Institut del Teatre de la Diputació de Barcelona · Curso 2026-2027",
+    slideLabel: "Diapositiva",
+    noLink: "Sin actividad HTML asociada",
+    openBtn: "Abrir actividad",
+    activityLabel: "Actividad",
+    blocks: {
+      guides: "📚 Bloque 1: Guías y Mapeos de Recursos",
+      homeostasis: "🏠 Bloque 2: Homeostasis y Regulación",
+      skeleton: "🦴 Bloque 3: El Esqueleto",
+      boneTissue: "🦴 Bloque 4: Tejido Óseo y Recubrimientos",
+      tendonsJoints: "🦵 Bloque 5: Tendones y Articulaciones",
+      anatomy: "🖐️ Bloque 6: Anatomía Específica",
+      muscle: "💪 Bloque 7: Músculo, Contracción y Coactivación",
+      cases: "📝 Bloque 8: Casos Prácticos y Evaluación"
+    }
+  },
+  ca: {
+    title: "📚 Índex de Diapositives i Activitats - TEMA 1",
+    sub: "Fisiologia de la Dansa · Curs 2026-2027",
+    sub2: "Dra. Cèlia Painous, MD, PhD · Institut del Teatre de la Diputació de Barcelona",
+    introH: "ℹ️ Com utilitzar aquest índex",
+    introP: "Aquest índex recull les diapositives del temari amb la seva descripció i els arxius HTML d'activitats disponibles, organitzats per blocs temàtics. Els arxius HTML s'obren en una pestanya nova. Les diapositives sense activitat HTML associada s'indiquen clarament.",
+    statSlides: "Diapositives",
+    statActivities: "Activitats HTML",
+    statBlocks: "Blocs temàtics",
+    statLinked: "Diapositives amb HTML",
+    slidesTitle: "🗂️ Diapositives del Temari",
+    slidesSub: "Llistat segons la relació del document original. S'indica l'HTML associat quan existeix.",
+    activitiesTitle: "🎮 Activitats HTML per Blocs Temàtics",
+    activitiesSub: "Arxius HTML independents organitzats per tema. Fes clic a cadascun per obrir-lo en una pestanya nova.",
+    footer: "Fisiologia de la Dansa · Dra. Cèlia Painous · Institut del Teatre de la Diputació de Barcelona · Curs 2026-2027",
+    slideLabel: "Diapositiva",
+    noLink: "Sense activitat HTML associada",
+    openBtn: "Obrir activitat",
+    activityLabel: "Activitat",
+    blocks: {
+      guides: "📚 Bloc 1: Guies i Mapatges de Recursos",
+      homeostasis: "🏠 Bloc 2: Homeòstasi i Regulació",
+      skeleton: "🦴 Bloc 3: L'Esquelet",
+      boneTissue: "🦴 Bloc 4: Teixit Ossi i Recobriments",
+      tendonsJoints: "🦵 Bloc 5: Tendons i Articulacions",
+      anatomy: "🖐️ Bloc 6: Anatomia Específica",
+      muscle: "💪 Bloc 7: Múscul, Contracció i Coactivació",
+      cases: "📝 Bloc 8: Casos Pràctics i Avaluació"
+    }
+  },
+  en: {
+    title: "📚 Slide and Activity Index - Unit 1",
+    sub: "Physiology of Dance · Academic year 2026-2027",
+    sub2: "Dr. Cèlia Painous, MD, PhD · Institut del Teatre de the Diputació de Barcelona",
+    introH: "ℹ️ How to use this index",
+    introP: "This index lists the syllabus slides with their description and the available HTML activity files, organised by thematic blocks. HTML files open in a new tab. Slides without an associated HTML activity are clearly indicated.",
+    statSlides: "Slides",
+    statActivities: "HTML Activities",
+    statBlocks: "Thematic blocks",
+    statLinked: "Slides with HTML",
+    slidesTitle: "🗂️ Syllabus Slides",
+    slidesSub: "Listed according to the original document. The associated HTML is shown when available.",
+    activitiesTitle: "🎮 HTML Activities by Thematic Blocks",
+    activitiesSub: "Independent HTML files organised by topic. Click each one to open it in a new tab.",
+    footer: "Physiology of Dance · Dr. Cèlia Painous · Institut del Teatre de la Diputació de Barcelona · Academic year 2026-2027",
+    slideLabel: "Slide",
+    noLink: "No associated HTML activity",
+    openBtn: "Open activity",
+    activityLabel: "Activity",
+    blocks: {
+      guides: "📚 Block 1: Resource Guides and Mappings",
+      homeostasis: "🏠 Block 2: Homeostasis and Regulation",
+      skeleton: "🦴 Block 3: The Skeleton",
+      boneTissue: "🦴 Block 4: Bone Tissue and Coverings",
+      tendonsJoints: "🦵 Block 5: Tendons and Joints",
+      anatomy: "🖐️ Block 6: Specific Anatomy",
+      muscle: "💪 Block 7: Muscle, Contraction and Coactivation",
+      cases: "📝 Block 8: Practical Cases and Assessment"
+    }
+  }
+};
+
+/* ============================================================
+   DIAPOSITIVES AMB ENLLAÇOS HTML ASSOCIATS
+   ============================================================ */
+const SLIDES = [
+  { num: 1, title: "Portada de la asignatura — FISIOLOGÍA: Presentación", desc: "Contiene la información del curso académico (2026-2027), la docente responsable (Dra. Cèlia Painous, MD, PhD) e información institucional del Institut del Teatre de la Diputació de Barcelona." },
+  { num: 2, title: "Concepto de fisiología — ¿Qué es la fisiología?", desc: "Define la disciplina como el estudio del funcionamiento del organismo y de sus procesos físicos y químicos." },
+  { num: 3, title: "Comparativa entre disciplinas — Anatomía vs Fisiología", desc: "Compara la Anatomía (\"El Escenario\") con la Fisiología (\"La Coreografía\"), remarcando que ambas son complementarias." },
+  { num: 4, title: "Preguntas reflexivas — ¿Anatomía o Fisiología?", desc: "Presenta preguntas de ejemplo para diferenciar ambas disciplinas." },
+  { num: 5, title: "Aplicación a la danza (Fase 1) — ¿Por qué estudiar fisiología en la danza?", desc: "Expone el primer pilar: 1. RENDIMIENTO." },
+  { num: 6, title: "Aplicación a la danza (Fase 2) — ¿Por qué estudiar fisiología en la danza?", desc: "Incorpora el segundo pilar: 2. RESILIENCIA." },
+  { num: 7, title: "Aplicación a la danza (Fase 3 completa)", desc: "Completa los tres pilares al añadir 3. CRITERIO." },
+  { num: 8, title: "Cronograma de la asignatura — TEMARIO", desc: "Presenta la tabla con las fechas de las clases y los temas a tratar desde el 9 de octubre de 2026 hasta el 22 de enero de 2027." },
+  { num: 9, title: "Estructura y evaluación — Estructura de la asignatura", desc: "Especifica el horario (viernes, 3 horas), la presencialidad (12 clases) y el sistema de evaluación (50% evaluación continuada y 50% examen final)." },
+  { num: 10, title: "Evaluación diagnóstica (Pregunta 1) — TEST 1", desc: "Pregunta sobre el objeto de estudio de la fisiología (opción B correcta)." },
+  { num: 11, title: "Evaluación diagnóstica (Pregunta 2) — TEST 2", desc: "Pregunta sobre qué planteamiento corresponde a la fisiología (opción B correcta)." },
+  { num: 12, title: "Portada de sección — FISIOLOGÍA: Fisiología básica", desc: "Carátula que da inicio al bloque de fisiología celular y de los tejidos." },
+  { num: 13, title: "Nivel celular — Célula: unidad básica del cuerpo humano", desc: "Describe las funciones de la célula, señala la cantidad total (100 billones) y de eritrocitos (25 billones), identificando partes clave.",
+    links: [{ file: "t3_actividad001.html", label: { es: "Simulador del Sarcómero", ca: "Simulador del Sarcòmer", en: "Sarcomere Simulator" } }] },
+  { num: 14, title: "Nivel tisular (Definición) — Tejido: sinergia celular", desc: "Define concepto, estructura y cohesión del tejido." },
+  { num: 15, title: "Tipos de tejido (Progreso 1)", desc: "Introduce el Tejido Epitelial." },
+  { num: 16, title: "Tipos de tejido (Progreso 2)", desc: "Añade el Tejido Conectivo." },
+  { num: 17, title: "Tipos de tejido (Progreso 3)", desc: "Suma el Tejido Muscular." },
+  { num: 18, title: "Tipos de tejido (Progreso 4 completo)", desc: "Completa los cuatro tipos con el Tejido Nervioso." },
+  { num: 19, title: "Nivel orgánico — Órgano: fusión de tejidos", desc: "Define el órgano como la asociación organizada de varios tejidos.",
+    links: [{ file: "trabajo_musculos.html", label: { es: "Estructuras del Sistema Musculoesquelético", ca: "Estructures del Sistema Musculoesquelètic", en: "Musculoskeletal System Structures" } }] },
+  { num: 20, title: "Organización por sistemas — Sistemas y aparatos", desc: "Define los sistemas como conjuntos de órganos homogéneos." },
+  { num: 21, title: "Aparatos y organismo — Los Aparatos / El Organismo", desc: "Define los aparatos (órganos heterogéneos) y el organismo como la unidad suprema integrada para la homeostasis." },
+  { num: 22, title: "Ejemplo jerárquico 1 — De la célula al sistema (1. Bíceps)", desc: "Progresión: Célula → Tejido → Órgano → Sistema." },
+  { num: 23, title: "Ejemplo jerárquico 2 — De la célula al sistema (2. Corazón)", desc: "Progresión: Célula → Tejido → Órgano → Aparato." },
+  { num: 24, title: "Símil artístico — La Estructura de la Danza", desc: "Metáfora que equipara la célula con el paso básico, el tejido con la frase coreográfica, el órgano con la variación y los sistemas con la obra." },
+  { num: 25, title: "Medio interno — Líquido intra y extracelular", desc: "Explica que el 60% del cuerpo es líquido y distingue LIC (60-65%) y LEC (35-40% / Medio Interno).",
+    links: [{ file: "homeostasis_movimiento.html", label: { es: "Homeostasis y Movimiento", ca: "Homeòstasi i Moviment", en: "Homeostasis and Movement" } }] },
+  { num: 26, title: "Equilibrio biológico y rangos — Homeostasis", desc: "Define homeostasis e incluye los rangos de pH, glucosa, temperatura y presión arterial." },
+  { num: 27, title: "Mecanismo de control — Homeostasis (Esquema)", desc: "Muestra los elementos del bucle de regulación: Sensor → Centro de integración → Efector." },
+  { num: 28, title: "Efecto de la danza en la regulación", desc: "Explica que el ejercicio rompe el equilibrio del medio interno y resalta la premisa: \"El esfuerzo lo rompe; el reposo lo restaura\"." },
+  { num: 29, title: "Regulación térmica", desc: "Circuito ante el calor: Termorreceptores → Hipotálamo → Vasodilatación y sudoración." },
+  { num: 30, title: "Regulación gaseosa y cardíaca", desc: "Respuesta: Quimiorreceptores → Bulbo raquídeo → Aumento de frecuencia respiratoria y gasto cardíaco.",
+    links: [{ file: "t3_bloque02.html", label: { es: "FAQ Reflexivo: Nutrición e Hidratación", ca: "FAQ Reflexiu: Nutrició i Hidratació", en: "Reflective FAQ: Nutrition and Hydration" } }] },
+  { num: 31, title: "Regulación metabólica (Ejemplo práctico)", desc: "Caso de una bailarina ensayando sin comer: células alfa del páncreas liberan glucagón.",
+    links: [{ file: "t3_bloque01.html", label: { es: "Bloques Fisiológicos y Biomecánicos (Tema 3)", ca: "Blocs Fisiològics i Biomecànics (Tema 3)", en: "Physiological and Biomechanical Blocks (Topic 3)" } }] },
+  { num: 32, title: "Retroalimentación negativa", desc: "Bucle de corrección y control para contrarrestar el estímulo inicial." },
+  { num: 33, title: "Retroalimentación positiva", desc: "Bucle de refuerzo de carácter explosivo que amplifica el cambio." },
+  { num: 34, title: "Comprobación de conocimientos (Pregunta 3) — TEST 3", desc: "Pregunta sobre el orgánulo productor de energía (opción C: Mitocondria)." },
+  { num: 35, title: "Comprobación de conocimientos (Pregunta 4) — TEST 4", desc: "Pregunta por el orden correcto de niveles de organización (opción B)." },
+  { num: 36, title: "Comprobación de conocimientos (Pregunta 5) — TEST 5", desc: "Pregunta por el tipo de retroalimentación (opción D: Negativa)." }
+];
+
+/* ============================================================
+   ACTIVITATS HTML ORGANITZADES PER BLOCS (FINAL)
+   ============================================================ */
+const ACTIVITY_BLOCKS = [
+  {
+    key: "guides",
+    activities: [
+      { id: "guia_maestra", file: "guia_maestra_recursos.html",
+        title: { es: "Guía de Recursos · Sistema Musculoesquelético II", ca: "Guia de Recursos · Sistema Musculoesquelètic II", en: "Resource Guide · Musculoskeletal System II" },
+        desc: { es: "Guía completa de recursos interactivos para el Sistema Musculoesquelético II, con justificaciones didácticas.",
+                ca: "Guia completa de recursos interactius per al Sistema Musculoesquelètic II, amb justificacions didàctiques.",
+                en: "Complete interactive resource guide for the Musculoskeletal System II, with didactic justifications." } },
+      { id: "guia_T2", file: "guia_recursos_presentacion_T2.html",
+        title: { es: "Guía de Recursos · Sistema Musculoesquelético I", ca: "Guia de Recursos · Sistema Musculoesquelètic I", en: "Resource Guide · Musculoskeletal System I" },
+        desc: { es: "Guía de recursos para el Sistema Musculoesquelético I: niveles de organización, homeostasis, sarcómero y contracción.",
+                ca: "Guia de recursos per al Sistema Musculoesquelètic I: nivells d'organització, homeòstasi, sarcòmer i contracció.",
+                en: "Resource guide for the Musculoskeletal System I: organization levels, homeostasis, sarcomere and contraction." } },
+      { id: "mapa_P2", file: "listado_P2_conhtml.html",
+        title: { es: "Mapeo Diapositivas vs. HTML · Presentación II", ca: "Mapatge Diapositives vs. HTML · Presentació II", en: "Slide vs. HTML Mapping · Presentation II" },
+        desc: { es: "Tabla de correspondencia entre las 61 diapositivas de la Presentación II y los archivos HTML disponibles.",
+                ca: "Taula de correspondència entre les 61 diapositives de la Presentació II i els arxius HTML disponibles.",
+                en: "Correspondence table between the 61 slides of Presentation II and the available HTML files." } },
+      { id: "mapa_P3", file: "listado_P3_conhtml.html",
+        title: { es: "Mapeo Diapositivas vs. HTML · Presentación III", ca: "Mapatge Diapositives vs. HTML · Presentació III", en: "Slide vs. HTML Mapping · Presentation III" },
+        desc: { es: "Tabla de correspondencia entre las 80 diapositivas de la Presentación III y los archivos HTML disponibles.",
+                ca: "Taula de correspondència entre les 80 diapositives de la Presentació III i els arxius HTML disponibles.",
+                en: "Correspondence table between the 80 slides of Presentation III and the available HTML files." } },
+      { id: "bloc01", file: "t3_bloque01.html",
+        title: { es: "Presentación Tema 3 · Bloques Fisiológicos y Biomecánicos", ca: "Presentació Tema 3 · Blocs Fisiològics i Biomecànics", en: "Topic 3 Presentation · Physiological and Biomechanical Blocks" },
+        desc: { es: "Presentación navegable de 25 diapositivas que cubre los 6 bloques del tema: mecanismo contráctil, precauciones, ATP, fatiga, recuperación y RED-S.",
+                ca: "Presentació navegable de 25 diapositives que cobreix els 6 blocs del tema: mecanisme contràctil, precaucions, ATP, fatiga, recuperació i RED-S.",
+                en: "Navigable 25-slide presentation covering the 6 blocks of the topic: contractile mechanism, precautions, ATP, fatigue, recovery and RED-S." } },
+      { id: "bloc02", file: "t3_bloque02.html",
+        title: { es: "FAQ Reflexivo · Nutrición, Hidratación y Prevención", ca: "FAQ Reflexiu · Nutrició, Hidratació i Prevenció", en: "Reflective FAQ · Nutrition, Hydration and Prevention" },
+        desc: { es: "Presentación interactiva con 10 preguntas reflexivas: el alumno escribe su hipótesis antes de revelar la respuesta científica.",
+                ca: "Presentació interactiva amb 10 preguntes reflexives: l'alumne escriu la seva hipòtesi abans de revelar la resposta científica.",
+                en: "Interactive presentation with 10 reflective questions: the student writes their hypothesis before revealing the scientific answer." } }
+    ]
+  },
+  {
+    key: "homeostasis",
+    activities: [
+      { id: "homeostasis", file: "homeostasis_movimiento.html",
+        title: { es: "Homeostasis y Movimiento", ca: "Homeòstasi i Moviment", en: "Homeostasis and Movement" },
+        desc: { es: "Líquidos corporales (LIC/LEC), rangos homeostáticos, sistemas de regulación y retroalimentación positiva.",
+                ca: "Líquids corporals (LIC/LEC), rangs homeostàtics, sistemes de regulació i retroalimentació positiva.",
+                en: "Body fluids (ICF/ECF), homeostatic ranges, regulatory systems and positive feedback." } }
+    ]
+  },
+  {
+    key: "skeleton",
+    activities: [
+      { id: "esq_00_A", file: "esqueleto_00_A.html",
+        title: { es: "El Esqueleto en la Danza (Parte 1, A)", ca: "L'Esquelet en la Dansa (Part 1, A)", en: "The Skeleton in Dance (Part 1, A)" },
+        desc: { es: "Esqueleto vivo, Ley de Wolff y palancas del cuerpo, con quiz y actividades prácticas.",
+                ca: "Esquelet viu, Llei de Wolff i palanques del cos, amb quiz i activitats pràctiques.",
+                en: "Living skeleton, Wolff's Law and body levers, with quiz and practical activities." } },
+      { id: "esq_00_B", file: "esqueleto_00_B.html",
+        title: { es: "El Esqueleto Vivo (Parte 1, B)", ca: "L'Esquelet Viu (Part 1, B)", en: "The Living Skeleton (Part 1, B)" },
+        desc: { es: "Recorrido guiado por el hueso como órgano dinámico, el ciclo de renovación y las palancas.",
+                ca: "Recorregut guiat per l'os com a òrgan dinàmic, el cicle de renovació i les palanques.",
+                en: "Guided tour of bone as a dynamic organ, the renewal cycle and levers." } },
+      { id: "esq_01_A", file: "esqueleto_01_A.html",
+        title: { es: "El Esqueleto Vivo (Parte 1, A) — versión alternativa", ca: "L'Esquelet Viu (Part 1, A) — versió alternativa", en: "The Living Skeleton (Part 1, A) — alternative version" },
+        desc: { es: "Versión alternativa con actividades de reflexión y quiz final.",
+                ca: "Versió alternativa amb activitats de reflexió i quiz final.",
+                en: "Alternative version with reflection activities and final quiz." } },
+      { id: "esq_02_A", file: "esqueleto_02_A.html",
+        title: { es: "El Esqueleto en la Danza (Parte 3): Diferencias y Prevención", ca: "L'Esquelet en la Dansa (Part 3): Diferències i Prevenció", en: "The Skeleton in Dance (Part 3): Differences and Prevention" },
+        desc: { es: "Diferencias individuales, Tríada de la Mujer Atleta, RED-S y prevención de lesiones óseas.",
+                ca: "Diferències individuals, Tríada de la Dona Atleta, RED-S i prevenció de lesions òssies.",
+                en: "Individual differences, Female Athlete Triad, RED-S and prevention of bone injuries." } }
+    ]
+  },
+  {
+    key: "boneTissue",
+    activities: [
+      { id: "bone_03_A", file: "esqueleto_03_A.html",
+        title: { es: "Tejido Óseo y Recubrimientos (1): El Periostio", ca: "Teixit Ossi i Recobriments (1): El Periosti", en: "Bone Tissue and Coverings (1): The Periosteum" },
+        desc: { es: "La \"piel viva\" del hueso: nutrición, reparación de fracturas y dolor.",
+                ca: "La \"pell viva\" de l'os: nutrició, reparació de fractures i dolor.",
+                en: "The \"living skin\" of bone: nutrition, fracture repair and pain." } },
+      { id: "bone_03_B", file: "esqueleto_03_B.html",
+        title: { es: "Tejido Óseo y Recubrimientos (1): El Periostio — versión B", ca: "Teixit Ossi i Recobriments (1): El Periosti — versió B", en: "Bone Tissue and Coverings (1): The Periosteum — version B" },
+        desc: { es: "Versión alternativa sobre el periostio y la reparación de fracturas.",
+                ca: "Versió alternativa sobre el periosti i la reparació de fractures.",
+                en: "Alternative version on the periosteum and fracture repair." } },
+      { id: "bone_03_C", file: "esqueleto_03_C.html",
+        title: { es: "Tejido Óseo y Recubrimientos (3): La Parte Interna del Hueso", ca: "Teixit Ossi i Recobriments (3): La Part Interna de l'Os", en: "Bone Tissue and Coverings (3): The Inside of Bone" },
+        desc: { es: "Hueso compacto, esponjoso, trabéculas y sistema de Havers.",
+                ca: "Os compacte, esponjós, trabècules i sistema de Havers.",
+                en: "Compact bone, spongy bone, trabeculae and Haversian system." } },
+      { id: "bone_03_D", file: "esqueleto_03_D.html",
+        title: { es: "Tejido Óseo y Recubrimientos (4): Las Células del Hueso", ca: "Teixit Ossi i Recobriments (4): Les Cèl·lules de l'Os", en: "Bone Tissue and Coverings (4): Bone Cells" },
+        desc: { es: "Osteoblastos, osteoclastos, osteocitos y células osteoprogenitoras.",
+                ca: "Osteoblasts, osteoclasts, osteòcits i cèl·lules osteoprogenitores.",
+                en: "Osteoblasts, osteoclasts, osteocytes and osteoprogenitor cells." } },
+      { id: "bone_03_E", file: "esqueleto_03_E.html",
+        title: { es: "Tejido Óseo y Recubrimientos (5): La Remodelación Ósea", ca: "Teixit Ossi i Recobriments (5): La Remodelació Òssia", en: "Bone Tissue and Coverings (5): Bone Remodelling" },
+        desc: { es: "El ciclo continuo de destrucción y construcción que renueva el esqueleto cada 10 años.",
+                ca: "El cicle continu de destrucció i construcció que renova l'esquelet cada 10 anys.",
+                en: "The continuous cycle of destruction and construction that renews the skeleton every 10 years." },
+        links: [{ file: "t3_actividad005.html", label: { es: "Línea del Tiempo de la Remodelación Ósea", ca: "Línia del Temps de la Remodelació Òssia", en: "Bone Remodeling Timeline" } }] },
+      { id: "bone_03_F", file: "esqueleto_03_F.html",
+        title: { es: "Tejido Óseo y Recubrimientos (6): Adaptación a la Carga", ca: "Teixit Ossi i Recobriments (6): Adaptació a la Càrrega", en: "Bone Tissue and Coverings (6): Adaptation to Load" },
+        desc: { es: "Mecanotransducción, Ley de Wolff y la \"Zona Ricitos de Oro\".",
+                ca: "Mecanotransducció, Llei de Wolff i la \"Zona Rínxols d'Or\".",
+                en: "Mechanotransduction, Wolff's Law and the \"Goldilocks Zone\"." } },
+      { id: "reds", file: "t3_actividad010.html",
+        title: { es: "Escape Room: Diagnóstico del RED-S", ca: "Escape Room: Diagnòstic del RED-S", en: "Escape Room: RED-S Diagnosis" },
+        desc: { es: "Caso clínico interactivo sobre la deficiencia energética relativa en el deporte (RED-S) en una bailarina.",
+                ca: "Cas clínic interactiu sobre la deficiència energètica relativa en l'esport (RED-S) en una ballarina.",
+                en: "Interactive clinical case on Relative Energy Deficiency in Sport (RED-S) in a dancer." } }
+    ]
+  },
+  {
+    key: "tendonsJoints",
+    activities: [
+      { id: "tendons", file: "esqueleto_04_tendones.html",
+        title: { es: "Fisiología de los Tendones: 10 Casos Prácticos", ca: "Fisiologia dels Tendons: 10 Casos Pràctics", en: "Tendon Physiology: 10 Practical Cases" },
+        desc: { es: "Transmisión de fuerza, energía elástica, ciclo estiramiento-acortamiento y rehabilitación.",
+                ca: "Transmissió de força, energia elàstica, cicle estirament-escurçament i rehabilitació.",
+                en: "Force transmission, elastic energy, stretch-shortening cycle and rehabilitation." } },
+      { id: "joints_A", file: "esqueleto_05_articulaciones_A.html",
+        title: { es: "Fisiología de las Articulaciones: 10 Casos Prácticos (A)", ca: "Fisiologia de les Articulacions: 10 Casos Pràctics (A)", en: "Joint Physiology: 10 Practical Cases (A)" },
+        desc: { es: "Tipos de articulaciones, estructura, cartílago, planos del movimiento y propiocepción.",
+                ca: "Tipus d'articulacions, estructura, cartílag, plans del moviment i propiocepció.",
+                en: "Joint types, structure, cartilage, movement planes and proprioception." } },
+      { id: "joints_B", file: "esqueleto_05_articulaciones_B.html",
+        title: { es: "Fisiología Articular: 10 Casos Prácticos (B)", ca: "Fisiologia Articular: 10 Casos Pràctics (B)", en: "Joint Physiology: 10 Practical Cases (B)" },
+        desc: { es: "Cartílago, líquido sinovial, lubricina, propiocepción y biomecánica.",
+                ca: "Cartílag, líquid sinovial, lubricina, propiocepció i biomecànica.",
+                en: "Cartilage, synovial fluid, lubricin, proprioception and biomechanics." } },
+      { id: "cartilago", file: "t3_actividad008.html",
+        title: { es: "Nutrición del Cartílago Articular", ca: "Nutrició del Cartílag Articular", en: "Articular Cartilage Nutrition" },
+        desc: { es: "Simulador del bombeo mecánico que nutre el cartílago avascular (carga/descarga).",
+                ca: "Simulador del bombament mecànic que nodreix el cartílag avascular (càrrega/descàrrega).",
+                en: "Simulator of the mechanical pumping that nourishes avascular cartilage (load/unload)." } },
+      { id: "propiocepcion", file: "t3_actividad009.html",
+        title: { es: "Reto de Propriocepción y Planos", ca: "Repte de Propiocepció i Plans", en: "Proprioception and Planes Challenge" },
+        desc: { es: "5 escenarios clínicos para identificar receptores propioceptivos y planos de movimiento.",
+                ca: "5 escenaris clínics per identificar receptors propioceptius i plans de moviment.",
+                en: "5 clinical scenarios to identify proprioceptive receptors and movement planes." } },
+      { id: "planos", file: "planos_movimiento.html",
+        title: { es: "Planos de Movimiento", ca: "Plans de Moviment", en: "Planes of Movement" },
+        desc: { es: "En dehors, en dedans y los planos del cuerpo con ejemplos de danza.",
+                ca: "En dehors, en dedans i els plans del cos amb exemples de dansa.",
+                en: "En dehors, en dedans and the body's planes with dance examples." } }
+    ]
+  },
+  {
+    key: "anatomy",
+    activities: [
+      { id: "mano", file: "esqueleto_mano.html",
+        title: { es: "Anatomía y Fisiología de la Mano — Radiografía interactiva", ca: "Anatomia i Fisiologia de la Mà — Radiografia interactiva", en: "Anatomy and Physiology of the Hand — Interactive X-ray" },
+        desc: { es: "Exploración interactiva de una radiografía con 27 huesos y 5 estructuras identificables.",
+                ca: "Exploració interactiva d'una radiografia amb 27 ossos i 5 estructures identificables.",
+                en: "Interactive X-ray exploration with 27 bones and 5 identifiable structures." } },
+      { id: "musculos_estructuras", file: "trabajo_musculos.html",
+        title: { es: "Estructuras del Sistema Musculoesquelético en la Danza", ca: "Estructures del Sistema Musculoesquelètic en la Dansa", en: "Musculoskeletal System Structures in Dance" },
+        desc: { es: "Análisis completo de las 5 estructuras (músculo, tendón, hueso, articulación, ligamento) con diferencias entre sexos y aplicaciones en danza.",
+                ca: "Anàlisi completa de les 5 estructures (múscul, tendó, os, articulació, lligament) amb diferències entre sexes i aplicacions en dansa.",
+                en: "Complete analysis of the 5 structures (muscle, tendon, bone, joint, ligament) with sex differences and dance applications." } }
+    ]
+  },
+  {
+    key: "muscle",
+    activities: [
+      { id: "sarcomero", file: "actividades_sarcomero.html",
+        title: { es: "El Sarcómero — Tema 3: Músculo Esquelético", ca: "El Sarcòmer — Tema 3: Múscul Esquelètic", en: "The Sarcomere — Topic 3: Skeletal Muscle" },
+        desc: { es: "Teoría y actividades interactivas sobre jerarquía estructural, sarcómero y contracción.",
+                ca: "Teoria i activitats interactives sobre jerarquia estructural, sarcòmer i contracció.",
+                en: "Theory and interactive activities on structural hierarchy, sarcomere and contraction." } },
+      { id: "miosina_actina", file: "miosina_actina.html",
+        title: { es: "Miosina y Actina: El Dúo Dinámico", ca: "Miosina i Actina: El Duo Dinàmic", en: "Myosin and Actin: The Dynamic Duo" },
+        desc: { es: "Comparativa detallada entre actina y miosina con actividad interactiva \"¿Quién soy?\".",
+                ca: "Comparativa detallada entre actina i miosina amb activitat interactiva \"Qui sóc?\".",
+                en: "Detailed comparison between actin and myosin with interactive \"Who am I?\" activity." } },
+      { id: "calcio_atp", file: "calcio_atp.html",
+        title: { es: "El Papel del Calcio y el ATP — Presentación paso a paso", ca: "El Paper del Calci i l'ATP — Presentació pas a pas", en: "The Role of Calcium and ATP — Step-by-step presentation" },
+        desc: { es: "Presentación animada de los 9 pasos de la contracción muscular.",
+                ca: "Presentació animada dels 9 passos de la contracció muscular.",
+                en: "Animated presentation of the 9 steps of muscle contraction." } },
+      { id: "calcio_atp1", file: "calcio_atp1.html",
+        title: { es: "El Papel del Calcio y el ATP en la Contracción — versión B", ca: "El Paper del Calci i l'ATP en la Contracció — versió B", en: "The Role of Calcium and ATP in Contraction — version B" },
+        desc: { es: "Versión alternativa con animación interactiva de los 7 pasos.",
+                ca: "Versió alternativa amb animació interactiva dels 7 passos.",
+                en: "Alternative version with interactive animation of the 7 steps." } },
+      { id: "contraccion", file: "contraccion_muscular.html",
+        title: { es: "Fisiología de la Contracción Muscular aplicada a la Danza", ca: "Fisiologia de la Contracció Muscular aplicada a la Dansa", en: "Physiology of Muscle Contraction applied to Dance" },
+        desc: { es: "Análisis fisiológico comparado de contracciones isométrica, concéntrica y excéntrica.",
+                ca: "Anàlisi fisiològica comparada de contraccions isomètrica, concèntrica i excèntrica.",
+                en: "Comparative physiological analysis of isometric, concentric and eccentric contractions." } },
+      { id: "musculos_equipo", file: "musculos_tr_equipo.html",
+        title: { es: "Los Músculos Trabajan en Equipo", ca: "Els Músculs Treballen en Equip", en: "Muscles Work as a Team" },
+        desc: { es: "Roles musculares (agonista, antagonista, sinergista, estabilizador) e inhibición recíproca.",
+                ca: "Rols musculars (agonista, antagonista, sinergista, estabilitzador) i inhibició recíproca.",
+                en: "Muscle roles (agonist, antagonist, synergist, stabilizer) and reciprocal inhibition." } },
+      { id: "fibras", file: "t3_actividad003.html",
+        title: { es: "Clasificador de Fibras Musculares", ca: "Classificador de Fibres Musculars", en: "Muscle Fiber Classifier" },
+        desc: { es: "Clasifica deportistas según su fibra muscular dominante (Tipo I, IIa, IIx).",
+                ca: "Classifica esportistes segons la seva fibra muscular dominant (Tipus I, IIa, IIx).",
+                en: "Classify athletes according to their dominant muscle fiber (Type I, IIa, IIx)." } },
+      { id: "unidad_motora", file: "t3_actividad004.html",
+        title: { es: "Tauler de Control de la Unitat Motora", ca: "Tauler de Control de la Unitat Motora", en: "Motor Unit Control Panel" },
+        desc: { es: "Controla el reclutamiento y la frecuencia de impulsos nerviosos.",
+                ca: "Controla el reclutament i la freqüència d'impulsos nerviosos.",
+                en: "Control recruitment and nerve impulse frequency." } },
+      { id: "unidad_motora_teoria", file: "unidad_motora.html",
+        title: { es: "La Unidad Motora — Teoría y Actividades", ca: "La Unitat Motora — Teoria i Activitats", en: "The Motor Unit — Theory and Activities" },
+        desc: { es: "Explicación teórica de la unidad motora con analogías, comparativas y actividades reflexivas.",
+                ca: "Explicació teòrica de la unitat motora amb analogies, comparatives i activitats reflexives.",
+                en: "Theoretical explanation of the motor unit with analogies, comparisons and reflective activities." } },
+      { id: "sarcomero_sim", file: "t3_actividad001.html",
+        title: { es: "Simulador del Sarcómero", ca: "Simulador del Sarcòmer", en: "Sarcomere Simulator" },
+        desc: { es: "Sliders de calcio y ATP para ver cómo responde el sarcómero en tiempo real.",
+                ca: "Sliders de calci i ATP per veure com respon el sarcòmer en temps real.",
+                en: "Calcium and ATP sliders to see how the sarcomere responds in real time." } },
+      { id: "longitud_tension", file: "t3_actividad002.html",
+        title: { es: "Relación Longitud-Tensión", ca: "Relació Longitud-Tensió", en: "Length-Tension Relationship" },
+        desc: { es: "Curva interactiva que muestra cómo el solapamiento de miofilamentos afecta la fuerza.",
+                ca: "Corba interactiva que mostra com el solapament de miofilaments afecta la força.",
+                en: "Interactive curve showing how myofilament overlap affects force." } },
+      { id: "releve", file: "t3_actividad006.html",
+        title: { es: "Análisis Biomecánico del Relevé", ca: "Anàlisi Biomecànica del Relevé", en: "Biomechanical Analysis of Relevé" },
+        desc: { es: "5 puntos interactivos sobre el relevé: contracciones concéntrica, excéntrica e isométrica.",
+                ca: "5 punts interactius sobre el relevé: contraccions concèntrica, excèntrica i isomètrica.",
+                en: "5 interactive points on relevé: concentric, eccentric and isometric contractions." } },
+      { id: "mapa_conceptual", file: "t3_actividad007.html",
+        title: { es: "Mapa Conceptual del Tema 3", ca: "Mapa Conceptual del Tema 3", en: "Concept Map of Topic 3" },
+        desc: { es: "Herramienta para construir y validar un mapa conceptual del mecanismo contráctil.",
+                ca: "Eina per construir i validar un mapa conceptual del mecanisme contràctil.",
+                en: "Tool to build and validate a concept map of the contractile mechanism." } },
+      { id: "roles_musculares", file: "t3_actividad011.html",
+        title: { es: "Roles Musculares en el Movimiento", ca: "Rols Musculars en el Moviment", en: "Muscle Roles in Movement" },
+        desc: { es: "4 ejercicios para asignar rol (agonista, antagonista, sinergista, estabilizador) a cada músculo.",
+                ca: "4 exercicis per assignar rol (agonista, antagonista, sinergista, estabilitzador) a cada múscul.",
+                en: "4 exercises to assign a role (agonist, antagonist, synergist, stabilizer) to each muscle." } },
+      { id: "estabilidad", file: "estabilidad_control.html",
+        title: { es: "Estabilidad y Control: 10 Ejercicios de Coactivación", ca: "Estabilitat i Control: 10 Exercicis de Coactivació", en: "Stability and Control: 10 Coactivation Exercises" },
+        desc: { es: "10 ejercicios de danza (plancha, relevé, arabesque, etc.) con análisis de coactivación muscular.",
+                ca: "10 exercicis de dansa (planxa, relevé, arabesque, etc.) amb anàlisi de coactivació muscular.",
+                en: "10 dance exercises (plank, relevé, arabesque, etc.) with muscle coactivation analysis." } },
+      { id: "estabilidad_1", file: "estabilidad_control_1.html",
+        title: { es: "Coactivación Muscular en Danza — Estabilidad y Control (A)", ca: "Coactivació Muscular en Dansa — Estabilitat i Control (A)", en: "Muscle Coactivation in Dance — Stability and Control (A)" },
+        desc: { es: "Versión A: 10 ejercicios con escenarios y retroalimentación detallada.",
+                ca: "Versió A: 10 exercicis amb escenaris i retroalimentació detallada.",
+                en: "Version A: 10 exercises with scenarios and detailed feedback." } },
+      { id: "estabilidad_2", file: "estabilidad_control_2.html",
+        title: { es: "Fisiología de la Coactivación Muscular — Análisis Fisiológico", ca: "Fisiologia de la Coactivació Muscular — Anàlisi Fisiològica", en: "Physiology of Muscle Coactivation — Physiological Analysis" },
+        desc: { es: "Versión avanzada con mecanismos neurales, tipos de fibras, metabolismo y adaptaciones.",
+                ca: "Versió avançada amb mecanismes neurals, tipus de fibres, metabolisme i adaptacions.",
+                en: "Advanced version with neural mechanisms, fiber types, metabolism and adaptations." } }
+    ]
+  },
+  {
+    key: "cases",
+    activities: [
+      { id: "casos_A", file: "casos_practicos02_A.html",
+        title: { es: "Casos Prácticos — Sistema Musculoesquelético (A)", ca: "Casos Pràctics — Sistema Musculoesquelètic (A)", en: "Practical Cases — Musculoskeletal System (A)" },
+        desc: { es: "70 casos prácticos en 7 bloques temáticos con evaluación, envío por email y PDF.",
+                ca: "70 casos pràctics en 7 blocs temàtics amb avaluació, enviament per email i PDF.",
+                en: "70 practical cases in 7 thematic blocks with assessment, email submission and PDF." } },
+      { id: "casos_B", file: "casos_practicos02_B.html",
+        title: { es: "Casos Prácticos — Sistema Musculoesquelético (B)", ca: "Casos Pràctics — Sistema Musculoesquelètic (B)", en: "Practical Cases — Musculoskeletal System (B)" },
+        desc: { es: "80 casos prácticos en 8 bloques temáticos con validación y copia de resultados.",
+                ca: "80 casos pràctics en 8 blocs temàtics amb validació i còpia de resultats.",
+                en: "80 practical cases in 8 thematic blocks with validation and results copying." } },
+      { id: "test_final", file: "esqueleto_test_final.html",
+        title: { es: "Test Final de Fisiología Aplicada a la Danza", ca: "Test Final de Fisiologia Aplicada a la Dansa", en: "Final Dance Applied Physiology Test" },
+        desc: { es: "50 preguntas de evaluación completa con temporizador e informe imprimible.",
+                ca: "50 preguntes d'avaluació completa amb temporitzador i informe imprimible.",
+                en: "50 comprehensive assessment questions with timer and printable report." } },
+      { id: "redaccio", file: "redaccio_t1_3.html",
+        title: { es: "Taller de Fisiología: De la redacción a la presentación", ca: "Taller de Fisiologia: De la redacció a la presentació", en: "Physiology Workshop: From essay to presentation" },
+        desc: { es: "Herramienta para elegir tema, formato y preparar la entrega del trabajo escrito.",
+                ca: "Eina per triar tema, format i preparar l'entrega del treball escrit.",
+                en: "Tool to choose topic, format and prepare the written work submission." } },
+      { id: "detectiu", file: "t3_detectiu.html",
+        title: { es: "Detective Biomecánico — Casos Clínicos Gamificados", ca: "Detectiu Biomecànic — Casos Clínics Gamificats", en: "Biomechanical Detective — Gamified Clinical Cases" },
+        desc: { es: "Juego con 4 casos prácticos gamificados: el alumno es el fisioterapeuta de una compañía de danza. Sistema de puntos, insignias y test final con envío por email.",
+                ca: "Joc amb 4 casos pràctics gamificats: l'alumne és el fisioterapeuta d'una companyia de dansa. Sistema de punts, insígnies i test final amb enviament per email.",
+                en: "Game with 4 gamified practical cases: the student is the physiotherapist of a dance company. Points system, badges and final test with email submission." } }
+    ]
+  }
+];
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+let currentLang = 'es';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = I18N[lang];
+
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + lang).classList.add('active');
+
+  document.getElementById('t-title').textContent = t.title;
+  document.getElementById('t-sub').textContent = t.sub;
+  document.getElementById('t-sub2').textContent = t.sub2;
+  document.getElementById('t-intro-h').textContent = t.introH;
+  document.getElementById('t-intro-p').textContent = t.introP;
+  document.getElementById('t-stat-slides').textContent = t.statSlides;
+  document.getElementById('t-stat-activities').textContent = t.statActivities;
+  document.getElementById('t-stat-blocks').textContent = t.statBlocks;
+  document.getElementById('t-stat-linked').textContent = t.statLinked;
+  document.getElementById('t-slides-title').textContent = t.slidesTitle;
+  document.getElementById('t-slides-sub').textContent = t.slidesSub;
+  document.getElementById('t-activities-title').textContent = t.activitiesTitle;
+  document.getElementById('t-activities-sub').textContent = t.activitiesSub;
+  document.getElementById('t-footer').textContent = t.footer;
+
+  renderSlides();
+  renderActivities();
+}
+
+function renderSlides() {
+  const t = I18N[currentLang];
+  const grid = document.getElementById('slidesGrid');
+  grid.innerHTML = '';
+  SLIDES.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    let linksHtml = '';
+    if (s.links && s.links.length > 0) {
+      linksHtml = '<div class="links-wrap">' + s.links.map(l =>
+        `<a class="link-btn multi" href="${l.file}" target="_blank">🔗 ${l.label[currentLang]}</a>`
+      ).join('') + '</div>';
+    } else {
+      linksHtml = `<span class="no-link">${t.noLink}</span>`;
+    }
+    card.innerHTML = `
+      <span class="num">${t.slideLabel} ${s.num}</span>
+      <h3>${s.title}</h3>
+      <p class="desc">${s.desc}</p>
+      ${linksHtml}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderActivities() {
+  const t = I18N[currentLang];
+  const container = document.getElementById('activitiesContainer');
+  container.innerHTML = '';
+  ACTIVITY_BLOCKS.forEach(block => {
+    const blockTitle = t.blocks[block.key] || block.key;
+    const section = document.createElement('div');
+    section.innerHTML = `<h3 style="margin: 25px 30px 10px; color: #2a5298; font-size: 1.15em;">${blockTitle}</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    block.activities.forEach(a => {
+      const card = document.createElement('div');
+      card.className = 'card ' + block.key + '-card';
+      let linksHtml = '';
+      if (a.links && a.links.length > 0) {
+        linksHtml = '<div class="links-wrap">' + a.links.map(l =>
+          `<a class="link-btn multi" href="${l.file}" target="_blank">🔗 ${l.label[currentLang]}</a>`
+        ).join('') + '</div>';
+      }
+      card.innerHTML = `
+        <span class="num">${t.activityLabel}</span>
+        <h3>${a.title[currentLang]}</h3>
+        <p class="desc">${a.desc[currentLang]}</p>
+        <a class="link-btn" href="${a.file}" target="_blank">🔗 ${t.openBtn}</a>
+        ${linksHtml}
+      `;
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+}
+
+/* Init */
+setLang('es');
+</script>
+</body>
+</html>
