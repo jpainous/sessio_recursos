@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Índex de Diapositives i Activitats · TEMA 1 - Fisiologia de la Dansa</title>
+<title>Índex de Diapositives i Activitats -TEMA 1 · Fisiologia de la Dansa</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
   body {
@@ -193,8 +193,8 @@
   .card.guide-card { background: linear-gradient(135deg, #f0f4ff 0%, #e0e8ff 100%); border-color: #5c6bc0; }
   .card.guide-card .num { background: linear-gradient(135deg, #3949ab, #283593); }
 
-  .card.homeo-card { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #43a047; }
-  .card.homeo-card .num { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
+  .card.homeostasis-card { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-color: #43a047; }
+  .card.homeostasis-card .num { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
 
   .card.skeleton-card { background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%); border-color: #f39c12; }
   .card.skeleton-card .num { background: linear-gradient(135deg, #e67e22, #d35400); }
@@ -256,7 +256,7 @@
       <span class="stat-label" id="t-stat-slides">Diapositivas</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value" id="stat-activities">46</span>
+      <span class="stat-value" id="stat-activities">52</span>
       <span class="stat-label" id="t-stat-activities">Actividades HTML</span>
     </div>
     <div class="stat-item">
@@ -264,7 +264,7 @@
       <span class="stat-label" id="t-stat-blocks">Bloques temáticos</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value" id="stat-linked">16</span>
+      <span class="stat-value" id="stat-linked">18</span>
       <span class="stat-label" id="t-stat-linked">Diapositivas con HTML</span>
     </div>
   </div>
@@ -349,7 +349,7 @@ const I18N = {
     }
   },
   en: {
-    title: "📚 Slide and Activity Index - Unit 1",
+    title: "📚 Slide and Activity Index - UNIT 1",
     sub: "Physiology of Dance · Academic year 2026-2027",
     sub2: "Dr. Cèlia Painous, MD, PhD · Institut del Teatre de the Diputació de Barcelona",
     introH: "ℹ️ How to use this index",
@@ -386,7 +386,12 @@ const I18N = {
 const SLIDES = [
   { num: 1, title: "Portada de la asignatura — FISIOLOGÍA: Presentación", desc: "Contiene la información del curso académico (2026-2027), la docente responsable (Dra. Cèlia Painous, MD, PhD) e información institucional del Institut del Teatre de la Diputació de Barcelona." },
   { num: 2, title: "Concepto de fisiología — ¿Qué es la fisiología?", desc: "Define la disciplina como el estudio del funcionamiento del organismo y de sus procesos físicos y químicos." },
-  { num: 3, title: "Comparativa entre disciplinas — Anatomía vs Fisiología", desc: "Compara la Anatomía (\"El Escenario\") con la Fisiología (\"La Coreografía\"), remarcando que ambas son complementarias." },
+  { num: 3, title: "Comparativa entre disciplinas — Anatomía vs Fisiología",
+    desc: "Compara la Anatomía (\"El Escenario\") con la Fisiología (\"La Coreografía\"), remarcando que ambas son complementarias.",
+    links: [
+      { file: "metaforas_8.html", label: { es: "Metáforas de Danza (6)", ca: "Metàfores de Dansa (6)", en: "Dance Metaphors (6)" } },
+      { file: "metaforas_17.html", label: { es: "10 Partes del Cuerpo (con test)", ca: "10 Parts del Cos (amb test)", en: "10 Body Parts (with test)" } }
+    ] },
   { num: 4, title: "Preguntas reflexivas — ¿Anatomía o Fisiología?", desc: "Presenta preguntas de ejemplo para diferenciar ambas disciplinas." },
   { num: 5, title: "Aplicación a la danza (Fase 1) — ¿Por qué estudiar fisiología en la danza?", desc: "Expone el primer pilar: 1. RENDIMIENTO." },
   { num: 6, title: "Aplicación a la danza (Fase 2) — ¿Por qué estudiar fisiología en la danza?", desc: "Incorpora el segundo pilar: 2. RESILIENCIA." },
@@ -396,30 +401,52 @@ const SLIDES = [
   { num: 10, title: "Evaluación diagnóstica (Pregunta 1) — TEST 1", desc: "Pregunta sobre el objeto de estudio de la fisiología (opción B correcta)." },
   { num: 11, title: "Evaluación diagnóstica (Pregunta 2) — TEST 2", desc: "Pregunta sobre qué planteamiento corresponde a la fisiología (opción B correcta)." },
   { num: 12, title: "Portada de sección — FISIOLOGÍA: Fisiología básica", desc: "Carátula que da inicio al bloque de fisiología celular y de los tejidos." },
-  { num: 13, title: "Nivel celular — Célula: unidad básica del cuerpo humano", desc: "Describe las funciones de la célula, señala la cantidad total (100 billones) y de eritrocitos (25 billones), identificando partes clave.",
-    links: [{ file: "t3_actividad001.html", label: { es: "Simulador del Sarcómero", ca: "Simulador del Sarcòmer", en: "Sarcomere Simulator" } }] },
+  { num: 13, title: "Nivel celular — Célula: unidad básica del cuerpo humano",
+    desc: "Describe las funciones de la célula, señala la cantidad total (100 billones) y de eritrocitos (25 billones), identificando partes clave.",
+    links: [
+      { file: "t3_actividad001.html", label: { es: "Simulador del Sarcómero", ca: "Simulador del Sarcòmer", en: "Sarcomere Simulator" } },
+      { file: "test1_fisiologia_cellular.html", label: { es: "Test 1: Fisiología Celular", ca: "Test 1: Fisiologia Cel·lular", en: "Test 1: Cell Physiology" } },
+      { file: "test2_fisiologia_cellular.html", label: { es: "Test 2: Fisiología Celular", ca: "Test 2: Fisiologia Cel·lular", en: "Test 2: Cell Physiology" } }
+    ] },
   { num: 14, title: "Nivel tisular (Definición) — Tejido: sinergia celular", desc: "Define concepto, estructura y cohesión del tejido." },
   { num: 15, title: "Tipos de tejido (Progreso 1)", desc: "Introduce el Tejido Epitelial." },
   { num: 16, title: "Tipos de tejido (Progreso 2)", desc: "Añade el Tejido Conectivo." },
   { num: 17, title: "Tipos de tejido (Progreso 3)", desc: "Suma el Tejido Muscular." },
   { num: 18, title: "Tipos de tejido (Progreso 4 completo)", desc: "Completa los cuatro tipos con el Tejido Nervioso." },
-  { num: 19, title: "Nivel orgánico — Órgano: fusión de tejidos", desc: "Define el órgano como la asociación organizada de varios tejidos.",
-    links: [{ file: "trabajo_musculos.html", label: { es: "Estructuras del Sistema Musculoesquelético", ca: "Estructures del Sistema Musculoesquelètic", en: "Musculoskeletal System Structures" } }] },
+  { num: 19, title: "Nivel orgánico — Órgano: fusión de tejidos",
+    desc: "Define el órgano como la asociación organizada de varios tejidos.",
+    links: [
+      { file: "trabajo_musculos.html", label: { es: "Estructuras del Sistema Musculoesquelético", ca: "Estructures del Sistema Musculoesquelètic", en: "Musculoskeletal System Structures" } }
+    ] },
   { num: 20, title: "Organización por sistemas — Sistemas y aparatos", desc: "Define los sistemas como conjuntos de órganos homogéneos." },
   { num: 21, title: "Aparatos y organismo — Los Aparatos / El Organismo", desc: "Define los aparatos (órganos heterogéneos) y el organismo como la unidad suprema integrada para la homeostasis." },
   { num: 22, title: "Ejemplo jerárquico 1 — De la célula al sistema (1. Bíceps)", desc: "Progresión: Célula → Tejido → Órgano → Sistema." },
   { num: 23, title: "Ejemplo jerárquico 2 — De la célula al sistema (2. Corazón)", desc: "Progresión: Célula → Tejido → Órgano → Aparato." },
-  { num: 24, title: "Símil artístico — La Estructura de la Danza", desc: "Metáfora que equipara la célula con el paso básico, el tejido con la frase coreográfica, el órgano con la variación y los sistemas con la obra." },
-  { num: 25, title: "Medio interno — Líquido intra y extracelular", desc: "Explica que el 60% del cuerpo es líquido y distingue LIC (60-65%) y LEC (35-40% / Medio Interno).",
-    links: [{ file: "homeostasis_movimiento.html", label: { es: "Homeostasis y Movimiento", ca: "Homeòstasi i Moviment", en: "Homeostasis and Movement" } }] },
+  { num: 24, title: "Símil artístico — La Estructura de la Danza",
+    desc: "Metáfora que equipara la célula con el paso básico, el tejido con la frase coreográfica, el órgano con la variación y los sistemas con la obra.",
+    links: [
+      { file: "temes_fisiologia_ball15.html", label: { es: "Fisiología y Baile (15 diap.)", ca: "Fisiologia i Ball (15 diap.)", en: "Physiology and Dance (15 slides)" } },
+      { file: "temes_fisiologia81.html", label: { es: "Fisiología y Baile (81 diap.)", ca: "Fisiologia i Ball (81 diap.)", en: "Physiology and Dance (81 slides)" } }
+    ] },
+  { num: 25, title: "Medio interno — Líquido intra y extracelular",
+    desc: "Explica que el 60% del cuerpo es líquido y distingue LIC (60-65%) y LEC (35-40% / Medio Interno).",
+    links: [
+      { file: "homeostasis_movimiento.html", label: { es: "Homeostasis y Movimiento", ca: "Homeòstasi i Moviment", en: "Homeostasis and Movement" } }
+    ] },
   { num: 26, title: "Equilibrio biológico y rangos — Homeostasis", desc: "Define homeostasis e incluye los rangos de pH, glucosa, temperatura y presión arterial." },
   { num: 27, title: "Mecanismo de control — Homeostasis (Esquema)", desc: "Muestra los elementos del bucle de regulación: Sensor → Centro de integración → Efector." },
   { num: 28, title: "Efecto de la danza en la regulación", desc: "Explica que el ejercicio rompe el equilibrio del medio interno y resalta la premisa: \"El esfuerzo lo rompe; el reposo lo restaura\"." },
   { num: 29, title: "Regulación térmica", desc: "Circuito ante el calor: Termorreceptores → Hipotálamo → Vasodilatación y sudoración." },
-  { num: 30, title: "Regulación gaseosa y cardíaca", desc: "Respuesta: Quimiorreceptores → Bulbo raquídeo → Aumento de frecuencia respiratoria y gasto cardíaco.",
-    links: [{ file: "t3_bloque02.html", label: { es: "FAQ Reflexivo: Nutrición e Hidratación", ca: "FAQ Reflexiu: Nutrició i Hidratació", en: "Reflective FAQ: Nutrition and Hydration" } }] },
-  { num: 31, title: "Regulación metabólica (Ejemplo práctico)", desc: "Caso de una bailarina ensayando sin comer: células alfa del páncreas liberan glucagón.",
-    links: [{ file: "t3_bloque01.html", label: { es: "Bloques Fisiológicos y Biomecánicos (Tema 3)", ca: "Blocs Fisiològics i Biomecànics (Tema 3)", en: "Physiological and Biomechanical Blocks (Topic 3)" } }] },
+  { num: 30, title: "Regulación gaseosa y cardíaca",
+    desc: "Respuesta: Quimiorreceptores → Bulbo raquídeo → Aumento de frecuencia respiratoria y gasto cardíaco.",
+    links: [
+      { file: "t3_bloque02.html", label: { es: "FAQ Reflexivo: Nutrición e Hidratación", ca: "FAQ Reflexiu: Nutrició i Hidratació", en: "Reflective FAQ: Nutrition and Hydration" } }
+    ] },
+  { num: 31, title: "Regulación metabólica (Ejemplo práctico)",
+    desc: "Caso de una bailarina ensayando sin comer: células alfa del páncreas liberan glucagón.",
+    links: [
+      { file: "t3_bloque01.html", label: { es: "Bloques Fisiológicos y Biomecánicos (Tema 3)", ca: "Blocs Fisiològics i Biomecànics (Tema 3)", en: "Physiological and Biomechanical Blocks (Topic 3)" } }
+    ] },
   { num: 32, title: "Retroalimentación negativa", desc: "Bucle de corrección y control para contrarrestar el estímulo inicial." },
   { num: 33, title: "Retroalimentación positiva", desc: "Bucle de refuerzo de carácter explosivo que amplifica el cambio." },
   { num: 34, title: "Comprobación de conocimientos (Pregunta 3) — TEST 3", desc: "Pregunta sobre el orgánulo productor de energía (opción C: Mitocondria)." },
@@ -463,7 +490,27 @@ const ACTIVITY_BLOCKS = [
         title: { es: "FAQ Reflexivo · Nutrición, Hidratación y Prevención", ca: "FAQ Reflexiu · Nutrició, Hidratació i Prevenció", en: "Reflective FAQ · Nutrition, Hydration and Prevention" },
         desc: { es: "Presentación interactiva con 10 preguntas reflexivas: el alumno escribe su hipótesis antes de revelar la respuesta científica.",
                 ca: "Presentació interactiva amb 10 preguntes reflexives: l'alumne escriu la seva hipòtesi abans de revelar la resposta científica.",
-                en: "Interactive presentation with 10 reflective questions: the student writes their hypothesis before revealing the scientific answer." } }
+                en: "Interactive presentation with 10 reflective questions: the student writes their hypothesis before revealing the scientific answer." } },
+      { id: "metaforas_8", file: "metaforas_8.html",
+        title: { es: "Anatomía vs Fisiología — 6 Metáforas de Danza", ca: "Anatomia vs Fisiologia — 6 Metàfores de Dansa", en: "Anatomy vs Physiology — 6 Dance Metaphors" },
+        desc: { es: "Presentación de 8 diapositivas con 6 metáforas dancísticas para entender la diferencia entre anatomía y fisiología (instrumento/música, tarima/amortiguación, partitura/interpretación, etc.).",
+                ca: "Presentació de 8 diapositives amb 6 metàfores de dansa per entendre la diferència entre anatomia i fisiologia (instrument/música, tarima/amortiment, partitura/interpretació, etc.).",
+                en: "8-slide presentation with 6 dance metaphors to understand the difference between anatomy and physiology (instrument/music, floor/cushioning, score/interpretation, etc.)." } },
+      { id: "metaforas_17", file: "metaforas_17.html",
+        title: { es: "Anatomía vs Fisiología — 10 Partes del Cuerpo", ca: "Anatomia vs Fisiologia — 10 Parts del Cos", en: "Anatomy vs Physiology — 10 Body Parts" },
+        desc: { es: "Presentación interactiva de 17 diapositivas que compara 10 elementos del cuerpo humano (corazón, pulmones, huesos, músculos, neuronas, riñones, hígado, estómago, piel, ojos) desde la anatomía y la fisiología, con test final de 5 preguntas.",
+                ca: "Presentació interactiva de 17 diapositives que compara 10 elements del cos humà (cor, pulmons, ossos, músculs, neurones, ronyons, fetge, estómac, pell, ulls) des de l'anatomia i la fisiologia, amb test final de 5 preguntes.",
+                en: "Interactive 17-slide presentation comparing 10 human body elements (heart, lungs, bones, muscles, neurons, kidneys, liver, stomach, skin, eyes) from anatomy and physiology, with a final 5-question test." } },
+      { id: "temes_ball15", file: "temes_fisiologia_ball15.html",
+        title: { es: "Fisiología y Baile — Laboratorio Vivo (15 diapositivas)", ca: "Fisiologia i Ball — Laboratori Viu (15 diapositives)", en: "Physiology and Dance — Living Laboratory (15 slides)" },
+        desc: { es: "Presentación completa que muestra la danza como laboratorio vivo de fisiología: sistema musculoesquelético, nervioso, cardiovascular, respiratorio, energético, biomecánica, fatiga, nutrición y actividades didácticas.",
+                ca: "Presentació completa que mostra la dansa com a laboratori viu de fisiologia: sistema musculoesquelètic, nerviós, cardiovascular, respiratori, energètic, biomecànica, fatiga, nutrició i activitats didàctiques.",
+                en: "Complete presentation showing dance as a living physiology laboratory: musculoskeletal, nervous, cardiovascular, respiratory, energy systems, biomechanics, fatigue, nutrition and teaching activities." } },
+      { id: "temes_ball81", file: "temes_fisiologia81.html",
+        title: { es: "Fisiología y Baile — Laboratorio Vivo (81 diapositivas)", ca: "Fisiologia i Ball — Laboratori Viu (81 diapositives)", en: "Physiology and Dance — Living Laboratory (81 slides)" },
+        desc: { es: "Versión extendida con 81 diapositivas: 13 sistemas corporales, 15 actividades didácticas, dossier para el alumnado, ejemplo resuelto, estructura de curso de 75h y evaluación. Incluye modo oscuro, navegación por apartados y selector de diapositivas.",
+                ca: "Versió estesa amb 81 diapositives: 13 sistemes corporals, 15 activitats didàctiques, dossier per a l'alumnat, exemple resolt, estructura de curs de 75h i avaluació. Inclou mode fosc, navegació per apartats i selector de diapositives.",
+                en: "Extended version with 81 slides: 13 body systems, 15 teaching activities, student dossier, solved example, 75h course structure and assessment. Includes dark mode, section navigation and slide selector." } }
     ]
   },
   {
@@ -709,7 +756,17 @@ const ACTIVITY_BLOCKS = [
         title: { es: "Detective Biomecánico — Casos Clínicos Gamificados", ca: "Detectiu Biomecànic — Casos Clínics Gamificats", en: "Biomechanical Detective — Gamified Clinical Cases" },
         desc: { es: "Juego con 4 casos prácticos gamificados: el alumno es el fisioterapeuta de una compañía de danza. Sistema de puntos, insignias y test final con envío por email.",
                 ca: "Joc amb 4 casos pràctics gamificats: l'alumne és el fisioterapeuta d'una companyia de dansa. Sistema de punts, insígnies i test final amb enviament per email.",
-                en: "Game with 4 gamified practical cases: the student is the physiotherapist of a dance company. Points system, badges and final test with email submission." } }
+                en: "Game with 4 gamified practical cases: the student is the physiotherapist of a dance company. Points system, badges and final test with email submission." } },
+      { id: "test1_cellular", file: "test1_fisiologia_cellular.html",
+        title: { es: "Test 1 · Fisiología Celular y Organización del Cuerpo", ca: "Test 1 · Fisiologia Cel·lular i Organització del Cos", en: "Test 1 · Cell Physiology and Body Organization" },
+        desc: { es: "28 preguntas organizadas en 7 apartados: estructura celular, cantidad de células, tejidos, órganos, sistemas, aparatos y organismo. Con envío de resultados por email.",
+                ca: "28 preguntes organitzades en 7 apartats: estructura cel·lular, quantitat de cèl·lules, teixits, òrgans, sistemes, aparells i organisme. Amb enviament de resultats per email.",
+                en: "28 questions organized into 7 sections: cell structure, cell count, tissues, organs, systems, apparatuses and organism. With email results submission." } },
+      { id: "test2_cellular", file: "test2_fisiologia_cellular.html",
+        title: { es: "Test 2 · Fisiología Celular y Organización del Cuerpo", ca: "Test 2 · Fisiologia Cel·lular i Organització del Cos", en: "Test 2 · Cell Physiology and Body Organization" },
+        desc: { es: "Versión alternativa del Test de Fisiología Celular con 28 preguntas. Con configuración de alumno y envío de resultados por email.",
+                ca: "Versió alternativa del Test de Fisiologia Cel·lular amb 28 preguntes. Amb configuració d'alumne i enviament de resultats per email.",
+                en: "Alternative version of the Cell Physiology Test with 28 questions. With student configuration and email results submission." } }
     ]
   }
 ];
