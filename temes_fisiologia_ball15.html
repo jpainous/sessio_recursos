@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisiologia i Ball - Laboratori Viu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            padding: 40px;
+            overflow-y: auto;
+            animation: fadeEffect 0.8s;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0; transform: translateX(50px);}
+            to {opacity: 1; transform: translateX(0);}
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-content {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        h1 { color: #667eea; font-size: 3em; margin-bottom: 20px; text-align: center; }
+        h2 {
+            color: #764ba2; font-size: 2.2em; margin: 30px 0 20px 0;
+            border-bottom: 3px solid #667eea; padding-bottom: 10px;
+        }
+        h3 { color: #555; font-size: 1.5em; margin: 20px 0 10px 0; }
+        h4 { color: #667eea; font-size: 1.2em; margin: 15px 0 8px 0; }
+
+        p, li { font-size: 1.2em; line-height: 1.8; color: #333; margin: 10px 0; }
+        ul, ol { margin-left: 30px; margin-bottom: 20px; }
+        li { margin: 10px 0; }
+
+        .image-container { text-align: center; margin: 30px 0; }
+        .image-container img {
+            max-width: 100%; max-height: 400px;
+            border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .two-columns {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 30px; margin: 20px 0;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; }
+        th, td { padding: 15px; text-align: left; border-bottom: 2px solid #ddd; }
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; font-weight: bold;
+        }
+        tr:hover { background-color: #f5f5f5; }
+
+        .navigation {
+            position: absolute; bottom: 30px; width: 100%;
+            display: flex; justify-content: space-between; padding: 0 50px;
+            z-index: 100;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; padding: 15px 30px;
+            font-size: 1.2em; border-radius: 50px; cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .nav-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .nav-button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .slide-counter {
+            position: absolute; top: 30px; right: 50px;
+            background: rgba(255,255,255,0.9); padding: 10px 20px;
+            border-radius: 25px; font-weight: bold; color: #667eea; z-index: 100;
+        }
+
+        .language-selector {
+            position: absolute; top: 30px; left: 50px;
+            display: flex; gap: 8px; z-index: 100;
+        }
+        .language-selector button {
+            background: rgba(255,255,255,0.9); border: 2px solid #667eea;
+            color: #667eea; padding: 8px 16px; border-radius: 25px;
+            cursor: pointer; font-size: 0.9em; font-weight: 700;
+            transition: all 0.3s; box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        .language-selector button:hover { background: #667eea; color: white; }
+        .language-selector button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border-color: #764ba2;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #ffeaa7 100%);
+            padding: 20px; border-radius: 10px; margin: 20px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .activity-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white; padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .activity-box h3 { color: white; margin-top: 0; }
+        .activity-box p, .activity-box li { color: white; }
+
+        @media (max-width: 768px) {
+            .two-columns { grid-template-columns: 1fr; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            .slide-content { padding: 30px; }
+            .language-selector { position: static; justify-content: center; margin-bottom: 10px; }
+            .slide-counter { top: 15px; right: 15px; padding: 6px 12px; font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="language-selector">
+            <button onclick="setLanguage('es', this)">ES</button>
+            <button class="active" onclick="setLanguage('ca', this)">CA</button>
+            <button onclick="setLanguage('en', this)">EN</button>
+        </div>
+
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+        </div>
+
+        <!-- Slide 1: Portada -->
+        <div class="slide active">
+            <div class="slide-content" style="text-align: center;">
+                <h1 data-i18n="s1_h1">🩰 Fisiologia i Ball</h1>
+                <h2 style="border: none; color: #555;" data-i18n="s1_h2">La dansa com a laboratori viu de fisiologia humana</h2>
+                <div class="image-container">
+                    <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/6c5f4988e-cba6-4d40-865a-79667ab154d99329.png" alt="Ballarina en moviment">
+                </div>
+                <p style="font-size: 1.5em; margin-top: 30px;" data-i18n="s1_p"></p>
+                <div class="highlight">
+                    <p data-i18n="s1_hl"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Sistema Musculoesquelètic -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s2_h2"></h2>
+                <div class="two-columns">
+                    <div>
+                        <h3 data-i18n="s2_h3"></h3>
+                        <ul>
+                            <li data-i18n="s2_l1"></li>
+                            <li data-i18n="s2_l2"></li>
+                            <li data-i18n="s2_l3"></li>
+                            <li data-i18n="s2_l4"></li>
+                            <li data-i18n="s2_l5"></li>
+                        </ul>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/1c5f4988e-cba6-4d40-865a-79667ab154d97591.png" alt="Anatomia muscular">
+                    </div>
+                </div>
+                <div class="highlight">
+                    <h3 data-i18n="s2_ex_h"></h3>
+                    <ul>
+                        <li data-i18n="s2_ex1"></li>
+                        <li data-i18n="s2_ex2"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Equilibri i Sistema Nerviós -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s3_h2"></h2>
+                <div class="two-columns">
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/2c5f4988e-cba6-4d40-865a-79667ab154d98094.png" alt="Equilibri">
+                    </div>
+                    <div>
+                        <h3 data-i18n="s3_h3"></h3>
+                        <ul>
+                            <li data-i18n="s3_l1"></li>
+                            <li data-i18n="s3_l2"></li>
+                            <li data-i18n="s3_l3"></li>
+                            <li data-i18n="s3_l4"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-box">
+                    <h3 data-i18n="s3_box_h"></h3>
+                    <p data-i18n="s3_box_p"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Sistema Cardiovascular -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s4_h2"></h2>
+                <div class="two-columns">
+                    <div>
+                        <h3 data-i18n="s4_h3"></h3>
+                        <ul>
+                            <li data-i18n="s4_l1"></li>
+                            <li data-i18n="s4_l2"></li>
+                            <li data-i18n="s4_l3"></li>
+                            <li data-i18n="s4_l4"></li>
+                        </ul>
+                        <div class="highlight">
+                            <p data-i18n="s4_hl"></p>
+                        </div>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/5c5f4988e-cba6-4d40-865a-79667ab154d95793.png" alt="Dansa contemporània">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Sistema Respiratori -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s5_h2"></h2>
+                <div class="two-columns">
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/4c5f4988e-cba6-4d40-865a-79667ab154d94045.png" alt="Respiració i moviment">
+                    </div>
+                    <div>
+                        <h3 data-i18n="s5_h3"></h3>
+                        <ul>
+                            <li data-i18n="s5_l1"></li>
+                            <li data-i18n="s5_l2"></li>
+                            <li data-i18n="s5_l3"></li>
+                        </ul>
+                        <div class="activity-box">
+                            <h3 data-i18n="s5_box_h"></h3>
+                            <p data-i18n="s5_box_p"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Producció d'Energia -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s6_h2"></h2>
+                <h3 data-i18n="s6_h3"></h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-i18n="s6_th1"></th>
+                            <th data-i18n="s6_th2"></th>
+                            <th data-i18n="s6_th3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-i18n="s6_r1c1"></td>
+                            <td data-i18n="s6_r1c2"></td>
+                            <td data-i18n="s6_r1c3"></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="s6_r2c1"></td>
+                            <td data-i18n="s6_r2c2"></td>
+                            <td data-i18n="s6_r2c3"></td>
+                        </tr>
+                        <tr>
+                            <td data-i18n="s6_r3c1"></td>
+                            <td data-i18n="s6_r3c2"></td>
+                            <td data-i18n="s6_r3c3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight"><p data-i18n="s6_hl"></p></div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Biomecànica Articular -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s7_h2"></h2>
+                <div class="two-columns">
+                    <div>
+                        <h3 data-i18n="s7_h3a"></h3>
+                        <ul>
+                            <li data-i18n="s7_l1"></li>
+                            <li data-i18n="s7_l2"></li>
+                            <li data-i18n="s7_l3"></li>
+                            <li data-i18n="s7_l4"></li>
+                        </ul>
+                        <h3 data-i18n="s7_h3b"></h3>
+                        <ul>
+                            <li data-i18n="s7_l5"></li>
+                            <li data-i18n="s7_l6"></li>
+                            <li data-i18n="s7_l7"></li>
+                            <li data-i18n="s7_l8"></li>
+                        </ul>
+                    </div>
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/0c5f4988e-cba6-4d40-865a-79667ab154d93880.png" alt="Biomecànica del ballet">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Fatiga Muscular -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s8_h2"></h2>
+                <div class="two-columns">
+                    <div class="image-container">
+                        <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/7c5f4988e-cba6-4d40-865a-79667ab154d94059.png" alt="Fatiga en dansa">
+                    </div>
+                    <div>
+                        <h3 data-i18n="s8_h3"></h3>
+                        <ul>
+                            <li data-i18n="s8_l1"></li>
+                            <li data-i18n="s8_l2"></li>
+                            <li data-i18n="s8_l3"></li>
+                            <li data-i18n="s8_l4"></li>
+                        </ul>
+                        <div class="activity-box">
+                            <h3 data-i18n="s8_box_h"></h3>
+                            <p data-i18n="s8_box_p"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Nutrició del Ballarí -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s9_h2"></h2>
+                <h3 data-i18n="s9_h3"></h3>
+                <div class="two-columns">
+                    <div>
+                        <h4 data-i18n="s9_h4a"></h4>
+                        <ul>
+                            <li data-i18n="s9_l1"></li>
+                            <li data-i18n="s9_l2"></li>
+                        </ul>
+                        <h4 data-i18n="s9_h4b"></h4>
+                        <ul>
+                            <li data-i18n="s9_l3"></li>
+                            <li data-i18n="s9_l4"></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 data-i18n="s9_h4c"></h4>
+                        <ul>
+                            <li data-i18n="s9_l5"></li>
+                            <li data-i18n="s9_l6"></li>
+                        </ul>
+                        <h4 data-i18n="s9_h4d"></h4>
+                        <ul>
+                            <li data-i18n="s9_l7"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Alimentació Abans i Després -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s10_h2"></h2>
+                <div class="two-columns">
+                    <div class="highlight" style="background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%); border-left: 5px solid #00b894;">
+                        <h3 data-i18n="s10_h3a"></h3>
+                        <ul>
+                            <li data-i18n="s10_l1"></li>
+                            <li data-i18n="s10_l2"></li>
+                            <li data-i18n="s10_l3"></li>
+                        </ul>
+                        <p data-i18n="s10_p1"></p>
+                    </div>
+                    <div class="highlight" style="background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%); border-left: 5px solid #e17055;">
+                        <h3 data-i18n="s10_h3b"></h3>
+                        <ul>
+                            <li data-i18n="s10_l4"></li>
+                            <li data-i18n="s10_l5"></li>
+                            <li data-i18n="s10_l6"></li>
+                        </ul>
+                        <p data-i18n="s10_p2"></p>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/0c5f4988e-cba6-4d40-865a-79667ab154d93533.png" alt="Nutrició saludable">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Activitats Didàctiques -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s11_h2"></h2>
+                <div class="activity-box">
+                    <h3 data-i18n="s11_box_h"></h3>
+                    <p data-i18n="s11_box_p"></p>
+                    <ol>
+                        <li data-i18n="s11_l1"></li>
+                        <li data-i18n="s11_l2"></li>
+                        <li data-i18n="s11_l3"></li>
+                        <li data-i18n="s11_l4"></li>
+                        <li data-i18n="s11_l5"></li>
+                        <li data-i18n="s11_l6"></li>
+                    </ol>
+                </div>
+                <div class="highlight"><p data-i18n="s11_hl"></p></div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Més Activitats -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s12_h2"></h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b1h"></h3>
+                            <p data-i18n="s12_b1p"></p>
+                        </div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b2h"></h3>
+                            <p data-i18n="s12_b2p"></p>
+                        </div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b3h"></h3>
+                            <p data-i18n="s12_b3p"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b4h"></h3>
+                            <p data-i18n="s12_b4p"></p>
+                        </div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b5h"></h3>
+                            <p data-i18n="s12_b5p"></p>
+                        </div>
+                        <div class="activity-box">
+                            <h3 data-i18n="s12_b6h"></h3>
+                            <p data-i18n="s12_b6p"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Projecte Interdisciplinari -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s13_h2"></h2>
+                <h3 data-i18n="s13_h3"></h3>
+                <div class="two-columns">
+                    <div>
+                        <ul>
+                            <li data-i18n="s13_l1"></li>
+                            <li data-i18n="s13_l2"></li>
+                            <li data-i18n="s13_l3"></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li data-i18n="s13_l4"></li>
+                            <li data-i18n="s13_l5"></li>
+                            <li data-i18n="s13_l6"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/1c5f4988e-cba6-4d40-865a-79667ab154d99412.png" alt="Projecte en grup">
+                </div>
+                <div class="highlight"><p data-i18n="s13_hl"></p></div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Estructura del Curs -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 data-i18n="s14_h2"></h2>
+                <div class="two-columns">
+                    <div class="highlight" style="background: linear-gradient(120deg, #667eea 0%, #764ba2 100%); color: white;">
+                        <h3 style="color: white;" data-i18n="s14_h3a"></h3>
+                        <ul>
+                            <li data-i18n="s14_l1"></li>
+                            <li data-i18n="s14_l2"></li>
+                            <li data-i18n="s14_l3"></li>
+                            <li data-i18n="s14_l4"></li>
+                            <li data-i18n="s14_l5"></li>
+                        </ul>
+                    </div>
+                    <div class="highlight" style="background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); color: white;">
+                        <h3 style="color: white;" data-i18n="s14_h3b"></h3>
+                        <ul>
+                            <li data-i18n="s14_l6"></li>
+                            <li data-i18n="s14_l7"></li>
+                            <li data-i18n="s14_l8"></li>
+                            <li data-i18n="s14_l9"></li>
+                            <li data-i18n="s14_l10"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusions -->
+        <div class="slide">
+            <div class="slide-content" style="text-align: center;">
+                <h2 data-i18n="s15_h2"></h2>
+                <div class="image-container">
+                    <img src="https://image.qwenlm.ai/public_source/aa9528f0-5038-4f7a-9889-76b4038e8c3a/6c5f4988e-cba6-4d40-865a-79667ab154d93087.png" alt="Ballet clàssic">
+                </div>
+                <div class="highlight" style="font-size: 1.3em;">
+                    <p data-i18n="s15_p"></p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li data-i18n="s15_l1"></li>
+                        <li data-i18n="s15_l2"></li>
+                        <li data-i18n="s15_l3"></li>
+                        <li data-i18n="s15_l4"></li>
+                        <li data-i18n="s15_l5"></li>
+                    </ul>
+                </div>
+                <h3 style="margin-top: 30px; color: #667eea;" data-i18n="s15_concl"></h3>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" onclick="changeSlide(-1)" id="prevBtn" data-i18n="nav_prev">❮ Anterior</button>
+            <button class="nav-button" onclick="changeSlide(1)" id="nextBtn" data-i18n="nav_next">Següent ❯</button>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'ca';
+
+        const translations = {
+            ca: {
+                nav_prev: "❮ Anterior",
+                nav_next: "Següent ❯",
+                // Slide 1
+                s1_h1: "🩰 Fisiologia i Ball",
+                s1_h2: "La dansa com a laboratori viu de fisiologia humana",
+                s1_p: "Una representació de dansa és un excel·lent \"laboratori viu\" per a una classe de fisiologia",
+                s1_hl: "Permet observar moltes funcions del cos humà en moviment de manera pràctica i visualment atractiva",
+                // Slide 2
+                s2_h2: "💪 1. Sistema Musculoesquelètic",
+                s2_h3: "Tipus de contraccions:",
+                s2_l1: "Isomètriques: mantenir una postura",
+                s2_l2: "Concèntriques: saltar, aixecar-se",
+                s2_l3: "Excèntriques: aterrar després d'un salt",
+                s2_l4: "Coordinació entre músculs agonistes i antagonistes",
+                s2_l5: "Estabilització del tronc (\"core\") durant els girs",
+                s2_ex_h: "Exemples pràctics:",
+                s2_ex1: "Plié de ballet: treball intens de quàdriceps, glutis i bessons",
+                s2_ex2: "Elevació de cama: acció dels flexors del maluc i músculs estabilitzadors",
+                // Slide 3
+                s3_h2: "🧠 2. Equilibri i Sistema Nerviós",
+                s3_h3: "Elements a estudiar:",
+                s3_l1: "Control postural",
+                s3_l2: "Propiocepció",
+                s3_l3: "Reflexos d'ajust de l'equilibri",
+                s3_l4: "Integració de la informació visual, vestibular i sensitiva",
+                s3_box_h: "Exemple pràctic",
+                s3_box_p: "Un ballarí fent una pirueta mostra un gran control vestibular i propioceptiu. El cervell coordina simultàniament moviment, ritme, equilibri i expressió corporal.",
+                // Slide 4
+                s4_h2: "❤️ 3. Sistema Cardiovascular",
+                s4_h3: "Durant una actuació:",
+                s4_l1: "Augment de la freqüència cardíaca",
+                s4_l2: "Increment del cabal cardíac",
+                s4_l3: "Redistribució del flux sanguini cap als músculs actius",
+                s4_l4: "Adaptacions pròpies de l'entrenament aeròbic",
+                s4_hl: "Els ballarins professionals sovint presenten característiques similars a les dels esportistes d'endurança.",
+                // Slide 5
+                s5_h2: "🫁 4. Sistema Respiratori",
+                s5_h3: "És fàcil observar:",
+                s5_l1: "Increment de la freqüència respiratòria",
+                s5_l2: "Major profunditat de les inspiracions",
+                s5_l3: "Coordinació entre respiració i moviment",
+                s5_box_h: "💡 Nota",
+                s5_box_p: "En dansa contemporània, de vegades la respiració forma part de l'expressió artística i es pot observar directament.",
+                // Slide 6
+                s6_h2: "⚡ 5. Producció d'Energia",
+                s6_h3: "Sistemes energètics segons el tipus de moviment:",
+                s6_th1: "Moviment", s6_th2: "Sistema energètic predominant", s6_th3: "Exemple",
+                s6_r1c1: "Salt explosiu", s6_r1c2: "ATP-PC", s6_r1c3: "Salt vertical",
+                s6_r2c1: "Seqüència intensa de 30-60 s", s6_r2c2: "Anaeròbic làctic", s6_r2c3: "Combinació ràpida",
+                s6_r3c1: "Coreografia llarga", s6_r3c2: "Aeròbic", s6_r3c3: "Actuació completa",
+                s6_hl: "Això permet explicar la fisiologia de l'esforç de manera pràctica i visual.",
+                // Slide 7
+                s7_h2: "🦴 6. Biomecànica Articular",
+                s7_h3a: "Moviments observables:",
+                s7_l1: "Flexió i extensió", s7_l2: "Abducció i adducció",
+                s7_l3: "Rotació interna i externa", s7_l4: "Circumducció",
+                s7_h3b: "Articulacions clau:",
+                s7_l5: "Maluc", s7_l6: "Genoll", s7_l7: "Turmell", s7_l8: "Columna vertebral",
+                // Slide 8
+                s8_h2: "😓 7. Fatiga Muscular",
+                s8_h3: "En actuacions llargues es poden detectar:",
+                s8_l1: "Pèrdua de precisió",
+                s8_l2: "Disminució de l'alçada dels salts",
+                s8_l3: "Menor estabilitat",
+                s8_l4: "Augment dels moviments compensatoris",
+                s8_box_h: "🔬 Aplicació didàctica",
+                s8_box_p: "Això permet parlar de la fatiga neuromuscular de manera observable i pràctica.",
+                // Slide 9
+                s9_h2: "🍽️ 8. Nutrició: El Combustible del Ballarí",
+                s9_h3: "Necessitats nutricionals:",
+                s9_h4a: "Hidrats de carboni", s9_l1: "Principal combustible", s9_l2: "Exemples: arròs, pasta, patata, pa, civada, fruita",
+                s9_h4b: "Proteïnes", s9_l3: "Reparació de teixits", s9_l4: "Exemples: peix, ous, carn, llegums, lactis",
+                s9_h4c: "Greixos saludables", s9_l5: "Producció hormonal", s9_l6: "Exemples: oli d'oliva, fruits secs, alvocat, peix blau",
+                s9_h4d: "Aigua", s9_l7: "Una deshidratació del 1-2% ja provoca menor coordinació i fatiga",
+                // Slide 10
+                s10_h2: "🥗 Alimentació Abans i Després de l'Actuació",
+                s10_h3a: "Abans de l'actuació",
+                s10_l1: "Pasta amb tomàquet", s10_l2: "Arròs amb pollastre", s10_l3: "Fruita",
+                s10_p1: "Objectiu: energia estable",
+                s10_h3b: "Després de l'actuació",
+                s10_l4: "Iogurt amb fruita", s10_l5: "Entrepà de gall dindi", s10_l6: "Llet o beguda proteica",
+                s10_p2: "Objectiu: recuperar glucogen i reparar múscul",
+                // Slide 11
+                s11_h2: "🎓 Activitats Didàctiques",
+                s11_box_h: "📋 Observació guiada",
+                s11_box_p: "Demanar als alumnes que observin una peça de dansa i identifiquin:",
+                s11_l1: "Tres articulacions implicades",
+                s11_l2: "Cinc músculs principals",
+                s11_l3: "Un exemple de contracció concèntrica",
+                s11_l4: "Un exemple de contracció excèntrica",
+                s11_l5: "Situacions on intervé l'equilibri",
+                s11_l6: "Moments d'esforç aeròbic i anaeròbic",
+                s11_hl: "Això converteix l'espectacle en una aplicació pràctica de fisiologia, anatomia i biomecànica alhora.",
+                // Slide 12
+                s12_h2: "🔬 Més Activitats Proposades",
+                s12_b1h: "🗺️ Mapa muscular", s12_b1p: "Identificar músculs en salts, piruetes i postures",
+                s12_b2h: "🔍 Detectius de les articulacions", s12_b2p: "Cada grup observa una articulació concreta",
+                s12_b3h: "💓 Laboratori de freqüència cardíaca", s12_b3p: "Mesurar el pols abans i després d'imitar dansa",
+                s12_b4h: "🦵 Tipus de fibres musculars", s12_b4p: "Analitzar si predominen fibres lentes o ràpides",
+                s12_b5h: "🎬 Anàlisi amb vídeo a càmera lenta", s12_b5p: "Analitzar salts fotograma a fotograma",
+                s12_b6h: "⚠️ Prevenció de lesions", s12_b6p: "Identificar riscos i mesures preventives",
+                // Slide 13
+                s13_h2: "🎨 Projecte Interdisciplinari STEAM",
+                s13_h3: "Els alumnes poden elaborar una fitxa científica amb:",
+                s13_l1: "Anatomia implicada", s13_l2: "Fisiologia de l'esforç", s13_l3: "Física del moviment",
+                s13_l4: "Nutrició del ballarí", s13_l5: "Prevenció de lesions", s13_l6: "Biomecànica",
+                s13_hl: "Producte final: Presentar la dansa com si fos una competició esportiva analitzada per un equip de científics.",
+                // Slide 14
+                s14_h2: "📚 Estructura del Curs (75 hores)",
+                s14_h3a: "Classes Presencials (45h)",
+                s14_l1: "Explicacions teòriques", s14_l2: "Visionat de peces de dansa",
+                s14_l3: "Activitats guiades", s14_l4: "Discusió en grup", s14_l5: "Pràctiques de laboratori",
+                s14_h3b: "Treball Autònom (35h)",
+                s14_l6: "Projecte d'investigació", s14_l7: "Anàlisi d'una peça de dansa",
+                s14_l8: "Elaboració d'informe científic", s14_l9: "Presentació final", s14_l10: "Autoavaluació",
+                // Slide 15
+                s15_h2: "✨ Conclusions",
+                s15_p: "Aquest tipus d'activitats solen funcionar molt bé a ESO i Batxillerat perquè:",
+                s15_l1: "Connecten la teoria de la fisiologia amb una situació real",
+                s15_l2: "Són artístiques i visualment atractives",
+                s15_l3: "Integren anatomia, fisiologia, nutrició i biomecànica",
+                s15_l4: "Fomenten l'observació científica",
+                s15_l5: "Promouen l'aprenentatge significatiu",
+                s15_concl: "La dansa és un model integrador de fisiologia humana en moviment!"
+            },
+            es: {
+                nav_prev: "❮ Anterior",
+                nav_next: "Siguiente ❯",
+                s1_h1: "🩰 Fisiología y Baile",
+                s1_h2: "La danza como laboratorio vivo de fisiología humana",
+                s1_p: "Una representación de danza es un excelente \"laboratorio vivo\" para una clase de fisiología",
+                s1_hl: "Permite observar muchas funciones del cuerpo humano en movimiento de manera práctica y visualmente atractiva",
+                s2_h2: "💪 1. Sistema Musculoesquelético",
+                s2_h3: "Tipos de contracciones:",
+                s2_l1: "Isométricas: mantener una postura",
+                s2_l2: "Concéntricas: saltar, levantarse",
+                s2_l3: "Excéntricas: aterrizar después de un salto",
+                s2_l4: "Coordinación entre músculos agonistas y antagonistas",
+                s2_l5: "Estabilización del tronco (\"core\") durante los giros",
+                s2_ex_h: "Ejemplos prácticos:",
+                s2_ex1: "Plié de ballet: trabajo intenso de cuádriceps, glúteos y gemelos",
+                s2_ex2: "Elevación de pierna: acción de los flexores de cadera y músculos estabilizadores",
+                s3_h2: "🧠 2. Equilibrio y Sistema Nervioso",
+                s3_h3: "Elementos a estudiar:",
+                s3_l1: "Control postural",
+                s3_l2: "Propiocepción",
+                s3_l3: "Reflejos de ajuste del equilibrio",
+                s3_l4: "Integración de la información visual, vestibular y sensitiva",
+                s3_box_h: "Ejemplo práctico",
+                s3_box_p: "Un bailarín haciendo una pirueta muestra un gran control vestibular y propioceptivo. El cerebro coordina simultáneamente movimiento, ritmo, equilibrio y expresión corporal.",
+                s4_h2: "❤️ 3. Sistema Cardiovascular",
+                s4_h3: "Durante una actuación:",
+                s4_l1: "Aumento de la frecuencia cardíaca",
+                s4_l2: "Incremento del gasto cardíaco",
+                s4_l3: "Redistribución del flujo sanguíneo hacia los músculos activos",
+                s4_l4: "Adaptaciones propias del entrenamiento aeróbico",
+                s4_hl: "Los bailarines profesionales a menudo presentan características similares a las de los deportistas de resistencia.",
+                s5_h2: "🫁 4. Sistema Respiratorio",
+                s5_h3: "Es fácil observar:",
+                s5_l1: "Incremento de la frecuencia respiratoria",
+                s5_l2: "Mayor profundidad de las inspiraciones",
+                s5_l3: "Coordinación entre respiración y movimiento",
+                s5_box_h: "💡 Nota",
+                s5_box_p: "En danza contemporánea, a veces la respiración forma parte de la expresión artística y se puede observar directamente.",
+                s6_h2: "⚡ 5. Producción de Energía",
+                s6_h3: "Sistemas energéticos según el tipo de movimiento:",
+                s6_th1: "Movimiento", s6_th2: "Sistema energético predominante", s6_th3: "Ejemplo",
+                s6_r1c1: "Salto explosivo", s6_r1c2: "ATP-PC", s6_r1c3: "Salto vertical",
+                s6_r2c1: "Secuencia intensa de 30-60 s", s6_r2c2: "Anaeróbico láctico", s6_r2c3: "Combinación rápida",
+                s6_r3c1: "Coreografía larga", s6_r3c2: "Aeróbico", s6_r3c3: "Actuación completa",
+                s6_hl: "Esto permite explicar la fisiología del esfuerzo de manera práctica y visual.",
+                s7_h2: "🦴 6. Biomecánica Articular",
+                s7_h3a: "Movimientos observables:",
+                s7_l1: "Flexión y extensión", s7_l2: "Abducción y aducción",
+                s7_l3: "Rotación interna y externa", s7_l4: "Circunducción",
+                s7_h3b: "Articulaciones clave:",
+                s7_l5: "Cadera", s7_l6: "Rodilla", s7_l7: "Tobillo", s7_l8: "Columna vertebral",
+                s8_h2: "😓 7. Fatiga Muscular",
+                s8_h3: "En actuaciones largas se pueden detectar:",
+                s8_l1: "Pérdida de precisión",
+                s8_l2: "Disminución de la altura de los saltos",
+                s8_l3: "Menor estabilidad",
+                s8_l4: "Aumento de los movimientos compensatorios",
+                s8_box_h: "🔬 Aplicación didáctica",
+                s8_box_p: "Esto permite hablar de la fatiga neuromuscular de manera observable y práctica.",
+                s9_h2: "🍽️ 8. Nutrición: El Combustible del Bailarín",
+                s9_h3: "Necesidades nutricionales:",
+                s9_h4a: "Hidratos de carbono", s9_l1: "Principal combustible", s9_l2: "Ejemplos: arroz, pasta, patata, pan, avena, fruta",
+                s9_h4b: "Proteínas", s9_l3: "Reparación de tejidos", s9_l4: "Ejemplos: pescado, huevos, carne, legumbres, lácteos",
+                s9_h4c: "Grasas saludables", s9_l5: "Producción hormonal", s9_l6: "Ejemplos: aceite de oliva, frutos secos, aguacate, pescado azul",
+                s9_h4d: "Agua", s9_l7: "Una deshidratación del 1-2% ya provoca menor coordinación y fatiga",
+                s10_h2: "🥗 Alimentación Antes y Después de la Actuación",
+                s10_h3a: "Antes de la actuación",
+                s10_l1: "Pasta con tomate", s10_l2: "Arroz con pollo", s10_l3: "Fruta",
+                s10_p1: "Objetivo: energía estable",
+                s10_h3b: "Después de la actuación",
+                s10_l4: "Yogur con fruta", s10_l5: "Bocadillo de pavo", s10_l6: "Leche o bebida proteica",
+                s10_p2: "Objetivo: recuperar glucógeno y reparar músculo",
+                s11_h2: "🎓 Actividades Didácticas",
+                s11_box_h: "📋 Observación guiada",
+                s11_box_p: "Pedir a los alumnos que observen una pieza de danza e identifiquen:",
+                s11_l1: "Tres articulaciones implicadas",
+                s11_l2: "Cinco músculos principales",
+                s11_l3: "Un ejemplo de contracción concéntrica",
+                s11_l4: "Un ejemplo de contracción excéntrica",
+                s11_l5: "Situaciones donde interviene el equilibrio",
+                s11_l6: "Momentos de esfuerzo aeróbico y anaeróbico",
+                s11_hl: "Esto convierte el espectáculo en una aplicación práctica de fisiología, anatomía y biomecánica a la vez.",
+                s12_h2: "🔬 Más Actividades Propuestas",
+                s12_b1h: "🗺️ Mapa muscular", s12_b1p: "Identificar músculos en saltos, piruetas y posturas",
+                s12_b2h: "🔍 Detectives de las articulaciones", s12_b2p: "Cada grupo observa una articulación concreta",
+                s12_b3h: "💓 Laboratorio de frecuencia cardíaca", s12_b3p: "Medir el pulso antes y después de imitar danza",
+                s12_b4h: "🦵 Tipos de fibras musculares", s12_b4p: "Analizar si predominan fibras lentas o rápidas",
+                s12_b5h: "🎬 Análisis con vídeo a cámara lenta", s12_b5p: "Analizar saltos fotograma a fotograma",
+                s12_b6h: "⚠️ Prevención de lesiones", s12_b6p: "Identificar riesgos y medidas preventivas",
+                s13_h2: "🎨 Proyecto Interdisciplinario STEAM",
+                s13_h3: "Los alumnos pueden elaborar una ficha científica con:",
+                s13_l1: "Anatomía implicada", s13_l2: "Fisiología del esfuerzo", s13_l3: "Física del movimiento",
+                s13_l4: "Nutrición del bailarín", s13_l5: "Prevención de lesiones", s13_l6: "Biomecánica",
+                s13_hl: "Producto final: Presentar la danza como si fuera una competición deportiva analizada por un equipo de científicos.",
+                s14_h2: "📚 Estructura del Curso (75 horas)",
+                s14_h3a: "Clases Presenciales (45h)",
+                s14_l1: "Explicaciones teóricas", s14_l2: "Visionado de piezas de danza",
+                s14_l3: "Actividades guiadas", s14_l4: "Discusión en grupo", s14_l5: "Prácticas de laboratorio",
+                s14_h3b: "Trabajo Autónomo (35h)",
+                s14_l6: "Proyecto de investigación", s14_l7: "Análisis de una pieza de danza",
+                s14_l8: "Elaboración de informe científico", s14_l9: "Presentación final", s14_l10: "Autoevaluación",
+                s15_h2: "✨ Conclusiones",
+                s15_p: "Este tipo de actividades suelen funcionar muy bien en ESO y Bachillerato porque:",
+                s15_l1: "Conectan la teoría de la fisiología con una situación real",
+                s15_l2: "Son artísticas y visualmente atractivas",
+                s15_l3: "Integran anatomía, fisiología, nutrición y biomecánica",
+                s15_l4: "Fomentan la observación científica",
+                s15_l5: "Promueven el aprendizaje significativo",
+                s15_concl: "¡La danza es un modelo integrador de fisiología humana en movimiento!"
+            },
+            en: {
+                nav_prev: "❮ Previous",
+                nav_next: "Next ❯",
+                s1_h1: "🩰 Physiology and Dance",
+                s1_h2: "Dance as a living laboratory of human physiology",
+                s1_p: "A dance performance is an excellent \"living laboratory\" for a physiology class",
+                s1_hl: "It allows observing many functions of the human body in motion in a practical and visually attractive way",
+                s2_h2: "💪 1. Musculoskeletal System",
+                s2_h3: "Types of contractions:",
+                s2_l1: "Isometric: maintaining a posture",
+                s2_l2: "Concentric: jumping, standing up",
+                s2_l3: "Eccentric: landing after a jump",
+                s2_l4: "Coordination between agonist and antagonist muscles",
+                s2_l5: "Trunk (\"core\") stabilization during turns",
+                s2_ex_h: "Practical examples:",
+                s2_ex1: "Ballet plié: intense work of quadriceps, glutes and calves",
+                s2_ex2: "Leg raise: action of hip flexors and stabilizing muscles",
+                s3_h2: "🧠 2. Balance and Nervous System",
+                s3_h3: "Elements to study:",
+                s3_l1: "Postural control",
+                s3_l2: "Proprioception",
+                s3_l3: "Balance adjustment reflexes",
+                s3_l4: "Integration of visual, vestibular and sensory information",
+                s3_box_h: "Practical example",
+                s3_box_p: "A dancer performing a pirouette shows great vestibular and proprioceptive control. The brain simultaneously coordinates movement, rhythm, balance and body expression.",
+                s4_h2: "❤️ 3. Cardiovascular System",
+                s4_h3: "During a performance:",
+                s4_l1: "Increased heart rate",
+                s4_l2: "Increased cardiac output",
+                s4_l3: "Redistribution of blood flow to active muscles",
+                s4_l4: "Adaptations typical of aerobic training",
+                s4_hl: "Professional dancers often show characteristics similar to those of endurance athletes.",
+                s5_h2: "🫁 4. Respiratory System",
+                s5_h3: "It is easy to observe:",
+                s5_l1: "Increased respiratory rate",
+                s5_l2: "Greater depth of inspirations",
+                s5_l3: "Coordination between breathing and movement",
+                s5_box_h: "💡 Note",
+                s5_box_p: "In contemporary dance, breathing is sometimes part of the artistic expression and can be observed directly.",
+                s6_h2: "⚡ 5. Energy Production",
+                s6_h3: "Energy systems according to the type of movement:",
+                s6_th1: "Movement", s6_th2: "Predominant energy system", s6_th3: "Example",
+                s6_r1c1: "Explosive jump", s6_r1c2: "ATP-PC", s6_r1c3: "Vertical jump",
+                s6_r2c1: "Intense 30-60 s sequence", s6_r2c2: "Lactic anaerobic", s6_r2c3: "Fast combination",
+                s6_r3c1: "Long choreography", s6_r3c2: "Aerobic", s6_r3c3: "Full performance",
+                s6_hl: "This allows explaining the physiology of effort in a practical and visual way.",
+                s7_h2: "🦴 6. Joint Biomechanics",
+                s7_h3a: "Observable movements:",
+                s7_l1: "Flexion and extension", s7_l2: "Abduction and adduction",
+                s7_l3: "Internal and external rotation", s7_l4: "Circumduction",
+                s7_h3b: "Key joints:",
+                s7_l5: "Hip", s7_l6: "Knee", s7_l7: "Ankle", s7_l8: "Spine",
+                s8_h2: "😓 7. Muscle Fatigue",
+                s8_h3: "In long performances, one can detect:",
+                s8_l1: "Loss of precision",
+                s8_l2: "Decreased jump height",
+                s8_l3: "Less stability",
+                s8_l4: "Increased compensatory movements",
+                s8_box_h: "🔬 Teaching application",
+                s8_box_p: "This allows discussing neuromuscular fatigue in an observable and practical way.",
+                s9_h2: "🍽️ 8. Nutrition: The Dancer's Fuel",
+                s9_h3: "Nutritional needs:",
+                s9_h4a: "Carbohydrates", s9_l1: "Main fuel", s9_l2: "Examples: rice, pasta, potato, bread, oats, fruit",
+                s9_h4b: "Proteins", s9_l3: "Tissue repair", s9_l4: "Examples: fish, eggs, meat, legumes, dairy",
+                s9_h4c: "Healthy fats", s9_l5: "Hormonal production", s9_l6: "Examples: olive oil, nuts, avocado, oily fish",
+                s9_h4d: "Water", s9_l7: "1-2% dehydration already causes reduced coordination and fatigue",
+                s10_h2: "🥗 Nutrition Before and After the Performance",
+                s10_h3a: "Before the performance",
+                s10_l1: "Pasta with tomato", s10_l2: "Rice with chicken", s10_l3: "Fruit",
+                s10_p1: "Goal: stable energy",
+                s10_h3b: "After the performance",
+                s10_l4: "Yogurt with fruit", s10_l5: "Turkey sandwich", s10_l6: "Milk or protein drink",
+                s10_p2: "Goal: replenish glycogen and repair muscle",
+                s11_h2: "🎓 Teaching Activities",
+                s11_box_h: "📋 Guided observation",
+                s11_box_p: "Ask students to watch a dance piece and identify:",
+                s11_l1: "Three joints involved",
+                s11_l2: "Five main muscles",
+                s11_l3: "An example of concentric contraction",
+                s11_l4: "An example of eccentric contraction",
+                s11_l5: "Situations where balance is involved",
+                s11_l6: "Moments of aerobic and anaerobic effort",
+                s11_hl: "This turns the show into a practical application of physiology, anatomy and biomechanics at once.",
+                s12_h2: "🔬 More Proposed Activities",
+                s12_b1h: "🗺️ Muscle map", s12_b1p: "Identify muscles in jumps, pirouettes and postures",
+                s12_b2h: "🔍 Joint detectives", s12_b2p: "Each group observes a specific joint",
+                s12_b3h: "💓 Heart rate laboratory", s12_b3p: "Measure pulse before and after imitating dance",
+                s12_b4h: "🦵 Muscle fiber types", s12_b4p: "Analyze whether slow or fast fibers predominate",
+                s12_b5h: "🎬 Slow-motion video analysis", s12_b5p: "Analyze jumps frame by frame",
+                s12_b6h: "⚠️ Injury prevention", s12_b6p: "Identify risks and preventive measures",
+                s13_h2: "🎨 STEAM Interdisciplinary Project",
+                s13_h3: "Students can prepare a scientific sheet with:",
+                s13_l1: "Anatomy involved", s13_l2: "Physiology of effort", s13_l3: "Physics of movement",
+                s13_l4: "Dancer's nutrition", s13_l5: "Injury prevention", s13_l6: "Biomechanics",
+                s13_hl: "Final product: Present dance as if it were a sports competition analyzed by a team of scientists.",
+                s14_h2: "📚 Course Structure (75 hours)",
+                s14_h3a: "In-Person Classes (45h)",
+                s14_l1: "Theoretical explanations", s14_l2: "Viewing dance pieces",
+                s14_l3: "Guided activities", s14_l4: "Group discussion", s14_l5: "Laboratory practices",
+                s14_h3b: "Autonomous Work (35h)",
+                s14_l6: "Research project", s14_l7: "Analysis of a dance piece",
+                s14_l8: "Preparation of scientific report", s14_l9: "Final presentation", s14_l10: "Self-assessment",
+                s15_h2: "✨ Conclusions",
+                s15_p: "These kinds of activities usually work very well in secondary school and high school because:",
+                s15_l1: "They connect physiology theory with a real situation",
+                s15_l2: "They are artistic and visually attractive",
+                s15_l3: "They integrate anatomy, physiology, nutrition and biomechanics",
+                s15_l4: "They encourage scientific observation",
+                s15_l5: "They promote meaningful learning",
+                s15_concl: "Dance is an integrating model of human physiology in motion!"
+            }
+        };
+
+        let slideIndex = 1;
+        const slides = document.getElementsByClassName("slide");
+        const totalSlides = slides.length;
+
+        document.getElementById("totalSlides").textContent = totalSlides;
+
+        function setLanguage(lang, btn) {
+            currentLang = lang;
+            document.querySelectorAll('.language-selector button').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            document.documentElement.lang = lang;
+        }
+
+        function showSlide(n) {
+            if (n > totalSlides) {slideIndex = 1}
+            if (n < 1) {slideIndex = totalSlides}
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+            }
+
+            slides[slideIndex - 1].classList.add("active");
+            document.getElementById("currentSlide").textContent = slideIndex;
+
+            document.getElementById("prevBtn").disabled = slideIndex === 1;
+            document.getElementById("nextBtn").disabled = slideIndex === totalSlides;
+        }
+
+        function changeSlide(n) {
+            showSlide(slideIndex += n);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                changeSlide(-1);
+            } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                changeSlide(1);
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1);
+            if (touchEndX > touchStartX + 50) changeSlide(-1);
+        }
+
+        // Inicialització
+        setLanguage('ca', document.querySelector('.language-selector button.active'));
+        showSlide(slideIndex);
+    </script>
+</body>
+</html>
