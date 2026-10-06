@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Índex Sessió 1 · Fisiologia de la Dansa · 2026-2027</title>
+<style>
+  :root{
+    --navy:#0b1f3a;
+    --navy-2:#132f55;
+    --gold:#c9a227;
+    --gold-2:#e6c65c;
+    --white:#ffffff;
+    --cream:#f7f4ee;
+    --gray:#e8e4dc;
+    --text:#1a1a1a;
+    --muted:#6b6b6b;
+    --shadow:0 10px 30px rgba(11,31,58,.12);
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+      radial-gradient(circle at top left, rgba(201,162,39,.10), transparent 28%),
+      radial-gradient(circle at top right, rgba(11,31,58,.08), transparent 30%),
+      linear-gradient(180deg, #fbfaf7 0%, #f3efe7 100%);
+    color:var(--text);
+    line-height:1.55;
+  }
+
+  header{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 70%, #1b3b68 100%);
+    color:var(--white);
+    padding:2.2rem 1.2rem 1.6rem;
+    border-bottom:4px solid var(--gold);
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+
+  header::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,.02) 18px 20px);
+    pointer-events:none;
+  }
+
+  .header-inner{
+    max-width:1100px;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+
+  .eyebrow{
+    display:inline-block;
+    font-size:.78rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--gold-2);
+    border:1px solid rgba(230,198,92,.45);
+    padding:.25rem .65rem;
+    border-radius:999px;
+    margin-bottom:.8rem;
+  }
+
+  h1{
+    margin:0 0 .35rem;
+    font-size:clamp(1.6rem, 3vw, 2.4rem);
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+
+  .subtitle{
+    margin:0;
+    color:#dbe6f5;
+    font-size:1rem;
+  }
+
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem 1.2rem;
+    margin-top:1rem;
+    font-size:.92rem;
+    color:#e9eef7;
+  }
+
+  .meta span{
+    display:inline-flex;
+    align-items:center;
+    gap:.35rem;
+  }
+
+  .lang-switch{
+    display:flex;
+    gap:.4rem;
+    margin-top:1.2rem;
+    flex-wrap:wrap;
+  }
+
+  .lang-switch button{
+    background:rgba(255,255,255,.08);
+    color:var(--white);
+    border:1px solid rgba(230,198,92,.5);
+    padding:.45rem .9rem;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:.85rem;
+    letter-spacing:.06em;
+    transition:all .2s ease;
+  }
+
+  .lang-switch button:hover{
+    background:rgba(230,198,92,.18);
+  }
+
+  .lang-switch button.active{
+    background:var(--gold);
+    color:var(--navy);
+    border-color:var(--gold);
+    font-weight:700;
+  }
+
+  main{
+    max-width:1100px;
+    margin:0 auto;
+    padding:1.6rem 1.2rem 4rem;
+  }
+
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.8rem;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:1.4rem;
+  }
+
+  .search-box{
+    flex:1 1 280px;
+    position:relative;
+  }
+
+  .search-box input{
+    width:100%;
+    padding:.85rem 1rem .85rem 2.6rem;
+    border:1px solid var(--gray);
+    border-radius:999px;
+    font-family:inherit;
+    font-size:1rem;
+    background:var(--white);
+    box-shadow:0 4px 14px rgba(11,31,58,.06);
+    outline:none;
+    transition:border-color .2s, box-shadow .2s;
+  }
+
+  .search-box input:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 4px rgba(201,162,39,.15);
+  }
+
+  .search-box::before{
+    content:"⌕";
+    position:absolute;
+    left:1rem;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--gold);
+    font-size:1.2rem;
+  }
+
+  .stats{
+    font-size:.88rem;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  .session-note{
+    background:var(--white);
+    border-left:4px solid var(--gold);
+    border-radius:var(--radius);
+    padding:1rem 1.2rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1.6rem;
+    font-size:.95rem;
+  }
+
+  .session-note strong{color:var(--navy)}
+
+  .slide-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:1.1rem 1.2rem 1.2rem;
+    margin-bottom:1rem;
+    border:1px solid rgba(11,31,58,.06);
+    transition:transform .18s ease, box-shadow .18s ease;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .slide-card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:linear-gradient(180deg, var(--gold), var(--navy));
+    opacity:.85;
+  }
+
+  .slide-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 36px rgba(11,31,58,.16);
+  }
+
+  .slide-head{
+    display:flex;
+    align-items:flex-start;
+    gap:.9rem;
+    margin-bottom:.55rem;
+  }
+
+  .slide-num{
+    flex:0 0 auto;
+    background:var(--navy);
+    color:var(--gold-2);
+    font-weight:700;
+    font-size:.82rem;
+    letter-spacing:.08em;
+    padding:.35rem .6rem;
+    border-radius:8px;
+    border:1px solid rgba(230,198,92,.4);
+  }
+
+  .slide-title{
+    margin:0;
+    font-size:1.08rem;
+    color:var(--navy);
+    font-weight:700;
+    line-height:1.35;
+  }
+
+  .slide-desc{
+    margin:.35rem 0 .85rem;
+    color:#333;
+    font-size:.96rem;
+  }
+
+  .links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+
+  .link-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    background:linear-gradient(135deg, var(--navy), var(--navy-2));
+    color:var(--white);
+    text-decoration:none;
+    padding:.5rem .85rem;
+    border-radius:999px;
+    font-size:.86rem;
+    border:1px solid rgba(230,198,92,.35);
+    transition:all .2s ease;
+    box-shadow:0 4px 12px rgba(11,31,58,.18);
+  }
+
+  .link-chip:hover{
+    background:linear-gradient(135deg, var(--gold), var(--gold-2));
+    color:var(--navy);
+    transform:translateY(-1px);
+  }
+
+  .link-chip .icon{
+    font-size:.95rem;
+    opacity:.95;
+  }
+
+  .no-html{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    background:#f3f0e9;
+    color:var(--muted);
+    border:1px dashed #c9c2b4;
+    padding:.5rem .85rem;
+    border-radius:999px;
+    font-size:.86rem;
+    font-style:italic;
+  }
+
+  .no-results{
+    display:none;
+    text-align:center;
+    padding:2.5rem 1rem;
+    color:var(--muted);
+    background:var(--white);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  footer{
+    text-align:center;
+    padding:1.5rem 1rem 2.5rem;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+
+  footer .gold{
+    color:var(--gold);
+    font-weight:700;
+  }
+
+  @media (max-width:640px){
+    header{padding:1.6rem 1rem 1.2rem}
+    .slide-head{flex-direction:column; gap:.45rem}
+    .slide-num{align-self:flex-start}
+    .toolbar{align-items:stretch}
+    .stats{text-align:right}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="eyebrow">FISIOLOGIA DE LA DANSA · 2026-2027</span>
+    <h1 id="t-main-title">Índex de la Sessió 1</h1>
+    <p class="subtitle" id="t-subtitle">Presentació · Fisiologia bàsica · Homeòstasi</p>
+
+    <div class="meta">
+      <span>📅 <strong id="t-date">09-10-2026</strong></span>
+      <span>👩‍🏫 <strong>Dra. Cèlia Painous Martí</strong></span>
+      <span>📚 <strong id="t-block">BLOC 1</strong></span>
+      <span>🏛️ <strong>Institut del Teatre · Diputació de Barcelona</strong></span>
+    </div>
+
+    <div class="lang-switch" role="group" aria-label="Selector d'idioma">
+      <button data-lang="es" type="button">ES</button>
+      <button data-lang="ca" class="active" type="button">CA</button>
+      <button data-lang="en" type="button">EN</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="search-box">
+      <input type="search" id="searchInput" placeholder="Cercar diapositives, conceptes o arxius HTML…" aria-label="Cercar">
+    </div>
+    <div class="stats" id="stats">36 diapositives · 0 filtrades</div>
+  </div>
+
+  <div class="session-note" id="sessionNote">
+    <strong>Nota:</strong> Aquesta sessió combina la presentació de l'assignatura amb els fonaments de fisiologia bàsica i homeòstasi. Les diapositives sense HTML associat es mostren igualment perquè formen part del fil argumental de la classe.
+  </div>
+
+  <div id="slidesContainer"></div>
+
+  <div class="no-results" id="noResults">
+    No s'han trobat diapositives que coincideixin amb la cerca.
+  </div>
+</main>
+
+<footer>
+  <span class="gold">Fisiologia de la Dansa</span> · Curs 2026-2027 · Dra. Cèlia Painous · Índex generat per a la Sessió 1
+</footer>
+
+<script>
+/* ============================================================
+   BASE URL DELS ARXIUS HTML
+   ============================================================ */
+const BASE_URL = "https://jpainous.github.io/dansa_tema03/";
+
+/* ============================================================
+   DADES DE LA SESSIÓ
+   ============================================================ */
+const SESSION = {
+  num: 1,
+  title: {
+    ca: "Índex de la Sessió 1",
+    es: "Índice de la Sesión 1",
+    en: "Session 1 Index"
+  },
+  subtitle: {
+    ca: "Presentació · Fisiologia bàsica · Homeòstasi",
+    es: "Presentación · Fisiología básica · Homeostasis",
+    en: "Presentation · Basic Physiology · Homeostasis"
+  },
+  date: "09-10-2026",
+  block: {
+    ca: "BLOC 1",
+    es: "BLOQUE 1",
+    en: "BLOCK 1"
+  },
+  note: {
+    ca: "<strong>Nota:</strong> Aquesta sessió combina la presentació de l'assignatura amb els fonaments de fisiologia bàsica i homeòstasi. Les diapositives sense HTML associat es mostren igualment perquè formen part del fil argumental de la classe.",
+    es: "<strong>Nota:</strong> Esta sesión combina la presentación de la asignatura con los fundamentos de fisiología básica y homeostasis. Las diapositivas sin HTML asociado se muestran igualmente porque forman parte del hilo argumental de la clase.",
+    en: "<strong>Note:</strong> This session combines the course presentation with the foundations of basic physiology and homeostasis. Slides without an associated HTML are still shown because they are part of the class narrative."
+  }
+};
+
+/* ============================================================
+   DADES DE LES DIAPOSITIVES
+   Cada diapositiva: num, title{ca,es,en}, desc{ca,es,en}, links[]
+   ============================================================ */
+const SLIDES = [
+  {
+    num: 1,
+    title: {
+      ca: "Portada de l'assignatura — FISIOLOGIA: Presentació",
+      es: "Portada de la asignatura — FISIOLOGÍA: Presentación",
+      en: "Course cover — PHYSIOLOGY: Presentation"
+    },
+    desc: {
+      ca: "Informació del curs acadèmic 2026-2027, la docent responsable (Dra. Cèlia Painous, MD, PhD) i informació institucional de l'Institut del Teatre de la Diputació de Barcelona.",
+      es: "Información del curso académico 2026-2027, la docente responsable (Dra. Cèlia Painous, MD, PhD) e información institucional del Institut del Teatre de la Diputació de Barcelona.",
+      en: "Academic year 2026-2027 information, the responsible lecturer (Dr. Cèlia Painous, MD, PhD) and institutional information of the Institut del Teatre de la Diputació de Barcelona."
+    },
+    links: [
+      { file: "guia_maestra_recursos.html", label: { ca: "Guia mestra de recursos", es: "Guía maestra de recursos", en: "Master resource guide" } }
+    ]
+  },
+  {
+    num: 2,
+    title: {
+      ca: "Concepte de fisiologia — Què és la fisiologia?",
+      es: "Concepto de fisiología — ¿Qué es la fisiología?",
+      en: "Concept of physiology — What is physiology?"
+    },
+    desc: {
+      ca: "Defineix la disciplina com l'estudi del funcionament de l'organisme i dels seus processos físics i químics, centrant-se en com interactuen cèl·lules, òrgans i sistemes per mantenir la vida i l'equilibri intern.",
+      es: "Define la disciplina como el estudio del funcionamiento del organismo y de sus procesos físicos y químicos, enfocándose en cómo interactúan células, órganos y sistemas para mantener la vida y el equilibrio interno.",
+      en: "Defines the discipline as the study of how the organism works and its physical and chemical processes, focusing on how cells, organs and systems interact to maintain life and internal balance."
+    },
+    links: [
+      { file: "metaforas_8.html", label: { ca: "Anatomia vs Fisiologia: 6 metàfores de dansa", es: "Anatomía vs Fisiología: 6 metáforas de danza", en: "Anatomy vs Physiology: 6 dance metaphors" } },
+      { file: "temes_fisiologia_ball15.html", label: { ca: "Fisiologia i ball: laboratori viu (15 diap.)", es: "Fisiología y baile: laboratorio vivo (15 diap.)", en: "Physiology and dance: living lab (15 slides)" } }
+    ]
+  },
+  {
+    num: 3,
+    title: {
+      ca: "Comparativa entre disciplines — Anatomia vs Fisiologia",
+      es: "Comparativa entre disciplinas — Anatomía vs Fisiología",
+      en: "Comparison between disciplines — Anatomy vs Physiology"
+    },
+    desc: {
+      ca: "Compara l'Anatomia («L'escenari», quines estructures formen el cos) amb la Fisiologia («La coreografia», com funcionen aquestes estructures), remarcant que ambdues són complementàries.",
+      es: "Compara la Anatomía («El escenario», qué estructuras forman el cuerpo) con la Fisiología («La coreografía», cómo funcionan esas estructuras), remarcando que ambas son complementarias.",
+      en: "Compares Anatomy (“The stage”, which structures form the body) with Physiology (“The choreography”, how those structures work), stressing that both are complementary."
+    },
+    links: [
+      { file: "metaforas_8.html", label: { ca: "6 metàfores de dansa", es: "6 metáforas de danza", en: "6 dance metaphors" } },
+      { file: "metaforas_17.html", label: { ca: "10 parts del cos", es: "10 partes del cuerpo", en: "10 body parts" } }
+    ]
+  },
+  {
+    num: 4,
+    title: {
+      ca: "Preguntes reflexives — Anatomia o Fisiologia?",
+      es: "Preguntas reflexivas — ¿Anatomía o Fisiología?",
+      en: "Reflective questions — Anatomy or Physiology?"
+    },
+    desc: {
+      ca: "Presenta preguntes d'exemple per diferenciar ambdues disciplines (estructures del braç vs. mecanismes de contracció del bíceps, funció de bombament cardíac de 5 litres per minut).",
+      es: "Presenta preguntas de ejemplo para diferenciar ambas disciplinas (estructuras del brazo vs. mecanismos de contracción del bíceps, función de bombeo cardíaco de 5 litros por minuto).",
+      en: "Presents sample questions to differentiate both disciplines (arm structures vs. biceps contraction mechanisms, cardiac pumping function of 5 litres per minute)."
+    },
+    links: [
+      { file: "metaforas_17.html", label: { ca: "10 parts del cos", es: "10 partes del cuerpo", en: "10 body parts" } },
+      { file: "temes_fisiologia81.html", label: { ca: "Fisiologia i ball: laboratori viu (81 diap.)", es: "Fisiología y baile: laboratorio vivo (81 diap.)", en: "Physiology and dance: living lab (81 slides)" } }
+    ]
+  },
+  {
+    num: 5,
+    title: {
+      ca: "Aplicació a la dansa (Fase 1) — Per què estudiar fisiologia en la dansa?",
+      es: "Aplicación a la danza (Fase 1) — ¿Por qué estudiar fisiología en la danza?",
+      en: "Application to dance (Phase 1) — Why study physiology in dance?"
+    },
+    desc: {
+      ca: "Exposa el primer pilar: 1. RENDIMENT (comprendre les capacitats i adaptacions del cos durant l'exercici per millorar el rendiment).",
+      es: "Expone el primer pilar: 1. RENDIMIENTO (comprender las capacidades y adaptaciones del cuerpo durante el ejercicio para mejorar el rendimiento).",
+      en: "Presents the first pillar: 1. PERFORMANCE (understanding the body's capacities and adaptations during exercise to improve performance)."
+    },
+    links: [
+      { file: "temes_fisiologia_ball15.html", label: { ca: "Fisiologia i ball: laboratori viu", es: "Fisiología y baile: laboratorio vivo", en: "Physiology and dance: living lab" } }
+    ]
+  },
+  {
+    num: 6,
+    title: {
+      ca: "Aplicació a la dansa (Fase 2) — Per què estudiar fisiologia en la dansa?",
+      es: "Aplicación a la danza (Fase 2) — ¿Por qué estudiar fisiología en la danza?",
+      en: "Application to dance (Phase 2) — Why study physiology in dance?"
+    },
+    desc: {
+      ca: "Incorpora el segon pilar: 2. RESILIÈNCIA (comprendre la fatiga, optimitzar la recuperació i dissenyar entrenaments segurs).",
+      es: "Incorpora el segundo pilar: 2. RESILIENCIA (comprender la fatiga, optimizar la recuperación y diseñar entrenamientos seguros).",
+      en: "Adds the second pillar: 2. RESILIENCE (understanding fatigue, optimising recovery and designing safe training)."
+    },
+    links: [
+      { file: "temes_fisiologia_ball15.html", label: { ca: "Fisiologia i ball: laboratori viu", es: "Fisiología y baile: laboratorio vivo", en: "Physiology and dance: living lab" } }
+    ]
+  },
+  {
+    num: 7,
+    title: {
+      ca: "Aplicació a la dansa (Fase 3 completa) — Per què estudiar fisiologia en la dansa?",
+      es: "Aplicación a la danza (Fase 3 completa) — ¿Por qué estudiar fisiología en la danza?",
+      en: "Application to dance (Complete Phase 3) — Why study physiology in dance?"
+    },
+    desc: {
+      ca: "Completa els tres pilars en afegir 3. CRITERI (entrenar amb criteri científic, planificar de forma lògica i justificar decisions).",
+      es: "Completa los tres pilares al añadir 3. CRITERIO (entrenar con criterio científico, planificar de forma lógica y justificar decisiones).",
+      en: "Completes the three pillars by adding 3. CRITERION (training with scientific criteria, planning logically and justifying decisions)."
+    },
+    links: [
+      { file: "temes_fisiologia_ball15.html", label: { ca: "Fisiologia i ball: laboratori viu", es: "Fisiología y baile: laboratorio vivo", en: "Physiology and dance: living lab" } },
+      { file: "temes_fisiologia81.html", label: { ca: "Fisiologia i ball: laboratori viu (81 diap.)", es: "Fisiología y baile: laboratorio vivo (81 diap.)", en: "Physiology and dance: living lab (81 slides)" } }
+    ]
+  },
+  {
+    num: 8,
+    title: {
+      ca: "Cronograma de l'assignatura — TEMARI",
+      es: "Cronograma de la asignatura — TEMARIO",
+      en: "Course schedule — SYLLABUS"
+    },
+    desc: {
+      ca: "Presenta la taula amb les dates de les classes i els temes a tractar des del 9 d'octubre de 2026 fins al 22 de gener de 2027 (fisiologia cel·lular, sistemes musculoesquelètic, nerviós, hormonal, nutrició, cardiovascular, respiratori i dates d'examen).",
+      es: "Presenta la tabla con las fechas de las clases y los temas a tratar desde el 9 de octubre de 2026 hasta el 22 de enero de 2027 (fisiología celular, sistemas musculoesquelético, nervioso, hormonal, nutrición, cardiovascular, respiratorio y fechas de examen).",
+      en: "Presents the table with class dates and topics from 9 October 2026 to 22 January 2027 (cell physiology, musculoskeletal, nervous, hormonal, nutrition, cardiovascular, respiratory systems and exam dates)."
+    },
+    links: []
+  },
+  {
+    num: 9,
+    title: {
+      ca: "Estructura i avaluació — Estructura de l'assignatura",
+      es: "Estructura y evaluación — Estructura de la asignatura",
+      en: "Structure and assessment — Course structure"
+    },
+    desc: {
+      ca: "Especifica l'horari (divendres, 3 hores), la presencialitat (12 classes) i el sistema d'avaluació (assistència obligatòria, 50% avaluació continuada i 50% examen final tipus test i preguntes a desenvolupar).",
+      es: "Especifica el horario (viernes, 3 horas), la presencialidad (12 clases) y el sistema de evaluación (asistencia obligatoria, 50% evaluación continuada y 50% examen final tipo test y preguntas a desarrollar).",
+      en: "Specifies the schedule (Fridays, 3 hours), attendance (12 classes) and assessment system (compulsory attendance, 50% continuous assessment and 50% final exam with multiple-choice and essay questions)."
+    },
+    links: [
+      { file: "guia_maestra_recursos.html", label: { ca: "Guia mestra de recursos", es: "Guía maestra de recursos", en: "Master resource guide" } }
+    ]
+  },
+  {
+    num: 10,
+    title: {
+      ca: "Avaluació diagnòstica (Pregunta 1) — TEST 1",
+      es: "Evaluación diagnóstica (Pregunta 1) — TEST 1",
+      en: "Diagnostic assessment (Question 1) — TEST 1"
+    },
+    desc: {
+      ca: "Pregunta sobre l'objecte d'estudi de la fisiologia, marcant l'opció B com a correcta (El funcionament dels éssers vius).",
+      es: "Pregunta sobre el objeto de estudio de la fisiología, marcando la opción B como correcta (El funcionamiento de los seres vivos).",
+      en: "Question about the object of study of physiology, marking option B as correct (The functioning of living beings)."
+    },
+    links: [
+      { file: "test1_fisiologia_cellular.html", label: { ca: "Test 1 · Fisiologia cel·lular", es: "Test 1 · Fisiología celular", en: "Test 1 · Cell physiology" } }
+    ]
+  },
+  {
+    num: 11,
+    title: {
+      ca: "Avaluació diagnòstica (Pregunta 2) — TEST 2",
+      es: "Evaluación diagnóstica (Pregunta 2) — TEST 2",
+      en: "Diagnostic assessment (Question 2) — TEST 2"
+    },
+    desc: {
+      ca: "Pregunta sobre quin plantejament correspon a la fisiologia, marcant l'opció B com a correcta (Com transforma l'organisme els aliments en energia?).",
+      es: "Pregunta sobre qué planteamiento corresponde a la fisiología, marcando la opción B como correcta (¿Cómo transforma el organismo los alimentos en energía?).",
+      en: "Question about which approach corresponds to physiology, marking option B as correct (How does the organism transform food into energy?)."
+    },
+    links: [
+      { file: "test2_fisiologia_cellular.html", label: { ca: "Test 2 · Fisiologia cel·lular", es: "Test 2 · Fisiología celular", en: "Test 2 · Cell physiology" } }
+    ]
+  },
+  {
+    num: 12,
+    title: {
+      ca: "Portada de secció — FISIOLOGIA: Fisiologia bàsica",
+      es: "Portada de sección — FISIOLOGÍA: Fisiología básica",
+      en: "Section cover — PHYSIOLOGY: Basic physiology"
+    },
+    desc: {
+      ca: "Caràtula que dona inici al bloc de fisiologia cel·lular i dels teixits (Curs 2026-2027, Dra. Cèlia Painous).",
+      es: "Carátula que da inicio al bloque de fisiología celular y de los tejidos (Curso 2026-2027, Dra. Cèlia Painous).",
+      en: "Cover that opens the cell and tissue physiology block (Academic year 2026-2027, Dr. Cèlia Painous)."
+    },
+    links: [
+      { file: "test1_fisiologia_cellular.html", label: { ca: "Test 1 · Fisiologia cel·lular", es: "Test 1 · Fisiología celular", en: "Test 1 · Cell physiology" } },
+      { file: "test2_fisiologia_cellular.html", label: { ca: "Test 2 · Fisiologia cel·lular", es: "Test 2 · Fisiología celular", en: "Test 2 · Cell physiology" } }
+    ]
+  },
+  {
+    num: 13,
+    title: {
+      ca: "Nivell cel·lular — Cèl·lula: unitat bàsica del cos humà",
+      es: "Nivel celular — Célula: unidad básica del cuerpo humano",
+      en: "Cellular level — Cell: basic unit of the human body"
+    },
+    desc: {
+      ca: "Descriu les funcions de la cèl·lula, assenyala la quantitat total en el cos (100 bilions) i d'eritròcits (25 bilions), identificant parts clau com el nucli, membrana nuclear, citoplasma, membrana citoplasmàtica i mitocondria.",
+      es: "Describe las funciones de la célula, señala la cantidad total en el cuerpo (100 billones) y de eritrocitos (25 billones), identificando partes clave como el núcleo, membrana nuclear, citoplasma, membrana citoplasmática y mitocondria.",
+      en: "Describes cell functions, indicates the total number in the body (100 trillion) and red blood cells (25 trillion), identifying key parts such as the nucleus, nuclear membrane, cytoplasm, cytoplasmic membrane and mitochondria."
+    },
+    links: [
+      { file: "test1_fisiologia_cellular.html", label: { ca: "Test 1 · Fisiologia cel·lular", es: "Test 1 · Fisiología celular", en: "Test 1 · Cell physiology" } },
+      { file: "test2_fisiologia_cellular.html", label: { ca: "Test 2 · Fisiologia cel·lular", es: "Test 2 · Fisiología celular", en: "Test 2 · Cell physiology" } }
+    ]
+  },
+  {
+    num: 14,
+    title: {
+      ca: "Nivell tissular (Definició) — Teixit: sinergia cel·lular",
+      es: "Nivel tisular (Definición) — Tejido: sinergia celular",
+      en: "Tissue level (Definition) — Tissue: cellular synergy"
+    },
+    desc: {
+      ca: "Defineix concepte, estructura i cohesió del teixit com un conjunt de cèl·lules acoblades amb origen embrionari comú coordinades per a una funció metabòlica.",
+      es: "Define concepto, estructura y cohesión del tejido como un conjunto de células acopladas con origen embrionario común coordinadas para una función metabólica.",
+      en: "Defines the concept, structure and cohesion of tissue as a set of coupled cells with a common embryonic origin coordinated for a metabolic function."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } }
+    ]
+  },
+  {
+    num: 15,
+    title: {
+      ca: "Tipus de teixit (Progrés 1) — Els 4 teixits fonamentals",
+      es: "Tipos de tejido (Progreso 1) — Los 4 tejidos fundamentales",
+      en: "Tissue types (Progress 1) — The 4 fundamental tissues"
+    },
+    desc: {
+      ca: "Manté la definició i introdueix el Teixit Epitelial (protecció, revestiment i glàndules secretores).",
+      es: "Mantiene la definición e introduce el Tejido Epitelial (protección, revestimiento y glándulas secretoras).",
+      en: "Keeps the definition and introduces Epithelial Tissue (protection, lining and secretory glands)."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } }
+    ]
+  },
+  {
+    num: 16,
+    title: {
+      ca: "Tipus de teixit (Progrés 2) — Els 4 teixits fonamentals",
+      es: "Tipos de tejido (Progreso 2) — Los 4 tejidos fundamentales",
+      en: "Tissue types (Progress 2) — The 4 fundamental tissues"
+    },
+    desc: {
+      ca: "Afegeix el Teixit Connectiu (suport estructural, transmissió de forces mecàniques, tendons, cartílags, ossos i sang).",
+      es: "Añade el Tejido Conectivo (soporte estructural, transmisión de fuerzas mecánicas, tendones, cartílagos, huesos y sangre).",
+      en: "Adds Connective Tissue (structural support, transmission of mechanical forces, tendons, cartilage, bones and blood)."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } },
+      { file: "esqueleto_04_tendones.html", label: { ca: "Fisiologia dels tendons", es: "Fisiología de los tendones", en: "Tendon physiology" } }
+    ]
+  },
+  {
+    num: 17,
+    title: {
+      ca: "Tipus de teixit (Progrés 3) — Els 4 teixits fonamentals",
+      es: "Tipos de tejido (Progreso 3) — Los 4 tejidos fundamentales",
+      en: "Tissue types (Progress 3) — The 4 fundamental tissues"
+    },
+    desc: {
+      ca: "Suma el Teixit Muscular (cèl·lules contràctils: cardíac, llis i esquelètic).",
+      es: "Suma el Tejido Muscular (células contráctiles: cardíaco, liso y esquelético).",
+      en: "Adds Muscle Tissue (contractile cells: cardiac, smooth and skeletal)."
+    },
+    links: [
+      { file: "contraccion_muscular.html", label: { ca: "Fisiologia de la contracció muscular", es: "Fisiología de la contracción muscular", en: "Muscle contraction physiology" } },
+      { file: "actividades_sarcomero.html", label: { ca: "El sarcòmer: teoria i activitats", es: "El sarcómero: teoría y actividades", en: "The sarcomere: theory and activities" } }
+    ]
+  },
+  {
+    num: 18,
+    title: {
+      ca: "Tipus de teixit (Progrés 4 complet) — Els 4 teixits fonamentals",
+      es: "Tipos de tejido (Progreso 4 completo) — Los 4 tejidos fundamentales",
+      en: "Tissue types (Complete Progress 4) — The 4 fundamental tissues"
+    },
+    desc: {
+      ca: "Completa els quatre tipus amb el Teixit Nerviós (generació i transmissió d'impulsos bioelèctrics per coordinar el moviment).",
+      es: "Completa los cuatro tipos con el Tejido Nervioso (generación y transmisión de impulsos bioeléctricos para coordinar el movimiento).",
+      en: "Completes the four types with Nervous Tissue (generation and transmission of bioelectrical impulses to coordinate movement)."
+    },
+    links: [
+      { file: "unidad_motora.html", label: { ca: "La unitat motora", es: "La unidad motora", en: "The motor unit" } },
+      { file: "estabilidad_control.html", label: { ca: "Estabilitat i control", es: "Estabilidad y control", en: "Stability and control" } }
+    ]
+  },
+  {
+    num: 19,
+    title: {
+      ca: "Nivell orgànic — Òrgan: fusió de teixits",
+      es: "Nivel orgánico — Órgano: fusión de tejidos",
+      en: "Organ level — Organ: fusion of tissues"
+    },
+    desc: {
+      ca: "Defineix l'òrgan com l'associació organitzada de diversos teixits i utilitza com a exemples el cor i el múscul esquelètic.",
+      es: "Define el órgano como la asociación organizada de varios tejidos y utiliza como ejemplos el corazón y el músculo esquelético.",
+      en: "Defines an organ as the organised association of several tissues and uses the heart and skeletal muscle as examples."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } },
+      { file: "esqueleto_mano.html", label: { ca: "Anatomia i fisiologia de la mà", es: "Anatomía y fisiología de la mano", en: "Anatomy and physiology of the hand" } }
+    ]
+  },
+  {
+    num: 20,
+    title: {
+      ca: "Organització per sistemes — Sistemes i aparells (Els Sistemes)",
+      es: "Organización por sistemas — Sistemas y aparatos (Los Sistemas)",
+      en: "Organisation by systems — Systems and apparatus (The Systems)"
+    },
+    desc: {
+      ca: "Defineix els sistemes com a conjunts d'òrgans homogenis formats pel mateix tipus de teixit bàsic (sistema nerviós, muscular i esquelètic).",
+      es: "Define los sistemas como conjuntos de órganos homogéneos formados por el mismo tipo de tejido básico (sistema nervioso, muscular y esquelético).",
+      en: "Defines systems as sets of homogeneous organs formed by the same type of basic tissue (nervous, muscular and skeletal systems)."
+    },
+    links: [
+      { file: "guia_maestra_recursos.html", label: { ca: "Guia mestra de recursos", es: "Guía maestra de recursos", en: "Master resource guide" } }
+    ]
+  },
+  {
+    num: 21,
+    title: {
+      ca: "Aparells i organisme — Els Aparells / L'Organisme",
+      es: "Aparatos y organismo — Los Aparatos / El Organismo",
+      en: "Apparatuses and organism — The Apparatuses / The Organism"
+    },
+    desc: {
+      ca: "Defineix els aparells (òrgans heterogenis) i l'organisme com la unitat suprema integrada per a l'homeòstasi.",
+      es: "Define los aparatos (órganos heterogéneos) y el organismo como la unidad suprema integrada para la homeostasis.",
+      en: "Defines apparatuses (heterogeneous organs) and the organism as the supreme unit integrated for homeostasis."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  },
+  {
+    num: 22,
+    title: {
+      ca: "Exemple jeràrquic 1 — De la cèl·lula al sistema (1. Bíceps)",
+      es: "Ejemplo jerárquico 1 — De la célula al sistema (1. Bíceps)",
+      en: "Hierarchical example 1 — From cell to system (1. Biceps)"
+    },
+    desc: {
+      ca: "Mostra la progressió biològica: Cèl·lula (fibra muscular) → Teixit (muscular esquelètic) → Òrgan (bíceps braquial) → Sistema (sistema muscular).",
+      es: "Muestra la progresión biológica: Célula (fibra muscular) → Tejido (muscular esquelético) → Órgano (bíceps braquial) → Sistema (sistema muscular).",
+      en: "Shows the biological progression: Cell (muscle fibre) → Tissue (skeletal muscle) → Organ (biceps brachii) → System (muscular system)."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } },
+      { file: "musculos_tr_equipo.html", label: { ca: "Els músculs treballen en equip", es: "Los músculos trabajan en equipo", en: "Muscles work as a team" } }
+    ]
+  },
+  {
+    num: 23,
+    title: {
+      ca: "Exemple jeràrquic 2 — De la cèl·lula al sistema (2. Cor)",
+      es: "Ejemplo jerárquico 2 — De la célula al sistema (2. Corazón)",
+      en: "Hierarchical example 2 — From cell to system (2. Heart)"
+    },
+    desc: {
+      ca: "Mostra la progressió biològica: Cèl·lula (cardiomiòcit) → Teixit (muscular cardíac) → Òrgan (cor) → Aparell (cardiovascular).",
+      es: "Muestra la progresión biológica: Célula (cardiomiocito) → Tejido (muscular cardíaco) → Órgano (corazón) → Aparato (cardiovascular).",
+      en: "Shows the biological progression: Cell (cardiomyocyte) → Tissue (cardiac muscle) → Organ (heart) → Apparatus (cardiovascular)."
+    },
+    links: []
+  },
+  {
+    num: 24,
+    title: {
+      ca: "Símil artístic — L'Estructura de la Dansa",
+      es: "Símil artístico — La Estructura de la Danza",
+      en: "Artistic simile — The Structure of Dance"
+    },
+    desc: {
+      ca: "Presenta una metàfora que equipara la cèl·lula amb el pas bàsic, el teixit amb la frase coreogràfica, l'òrgan amb la variació del ballarí i els sistemes amb l'obra de ballet en harmonia.",
+      es: "Presenta una metáfora que equipara la célula con el paso básico, el tejido con la frase coreográfica, el órgano con la variación del bailarín y los sistemas con la obra de ballet en armonía.",
+      en: "Presents a metaphor comparing the cell with the basic step, tissue with the choreographic phrase, organ with the dancer's variation and systems with the ballet work in harmony."
+    },
+    links: [
+      { file: "metaforas_8.html", label: { ca: "6 metàfores de dansa", es: "6 metáforas de danza", en: "6 dance metaphors" } },
+      { file: "metaforas_17.html", label: { ca: "10 parts del cos", es: "10 partes del cuerpo", en: "10 body parts" } }
+    ]
+  },
+  {
+    num: 25,
+    title: {
+      ca: "Medi intern — Líquid intra i extracel·lular",
+      es: "Medio interno — Líquido intra y extracelular",
+      en: "Internal environment — Intracellular and extracellular fluid"
+    },
+    desc: {
+      ca: "Explica que el 60% del cos és líquid i distingeix entre el Líquid Intracel·lular (LIC, 60-65%) i el Líquid Extracel·lular (LEC, 35-40% / Medi Intern).",
+      es: "Explica que el 60% del cuerpo es líquido y distingue entre el Líquido Intracelular (LIC, 60-65%) y el Líquido Extracelular (LEC, 35-40% / Medio Interno).",
+      en: "Explains that 60% of the body is fluid and distinguishes between Intracellular Fluid (ICF, 60-65%) and Extracellular Fluid (ECF, 35-40% / Internal Environment)."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment: LIC/LEC", es: "Homeostasis y movimiento: LIC/LEC", en: "Homeostasis and movement: ICF/ECF" } }
+    ]
+  },
+  {
+    num: 26,
+    title: {
+      ca: "Equilibri biològic i rangs — Homeòstasi",
+      es: "Equilibrio biológico y rangos — Homeostasis",
+      en: "Biological balance and ranges — Homeostasis"
+    },
+    desc: {
+      ca: "Defineix homeòstasi com el manteniment dinàmic constant del medi intern i inclou els rangs de pH (7,35-7,45), glucosa (75-110 mg/dL), temperatura (36-37,5 °C) i pressió arterial (120/80 mmHg).",
+      es: "Define homeostasis como el mantenimiento dinámico constante del medio interno e incluye los rangos de pH (7,35-7,45), glucosa (75-110 mg/dL), temperatura (36-37,5 °C) y presión arterial (120/80 mmHg).",
+      en: "Defines homeostasis as the dynamic constant maintenance of the internal environment and includes pH (7.35-7.45), glucose (75-110 mg/dL), temperature (36-37.5 °C) and blood pressure (120/80 mmHg) ranges."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  },
+  {
+    num: 27,
+    title: {
+      ca: "Mecanisme de control — Homeòstasi (Esquema)",
+      es: "Mecanismo de control — Homeostasis (Esquema)",
+      en: "Control mechanism — Homeostasis (Diagram)"
+    },
+    desc: {
+      ca: "Mostra els elements del bucle de regulació: Sensor → Centre d'integració (Sistema Nerviós / Endocrí) → Efector.",
+      es: "Muestra los elementos del bucle de regulación: Sensor → Centro de integración (Sistema Nervioso / Endocrino) → Efector.",
+      en: "Shows the elements of the regulation loop: Sensor → Integration centre (Nervous / Endocrine System) → Effector."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } },
+      { file: "estabilidad_control.html", label: { ca: "Estabilitat i control", es: "Estabilidad y control", en: "Stability and control" } }
+    ]
+  },
+  {
+    num: 28,
+    title: {
+      ca: "Efecte de la dansa en la regulació — Homeòstasi en el moviment",
+      es: "Efecto de la danza en la regulación — Homeostasis en el movimiento",
+      en: "Effect of dance on regulation — Homeostasis in movement"
+    },
+    desc: {
+      ca: "Explica que l'exercici trenca l'equilibri del medi intern i ressalta la premissa: «L'esforç el trenca; el repòs el restaura».",
+      es: "Explica que el ejercicio rompe el equilibrio del medio interno y resalta la premisa: «El esfuerzo lo rompe; el reposo lo restaura».",
+      en: "Explains that exercise breaks the internal environment balance and highlights the premise: “Effort breaks it; rest restores it”."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } },
+      { file: "t3_actividad006.html", label: { ca: "Anàlisi biomecànica del relevé", es: "Análisis biomecánico del relevé", en: "Biomechanical analysis of relevé" } }
+    ]
+  },
+  {
+    num: 29,
+    title: {
+      ca: "Regulació tèrmica — Homeòstasi en el moviment: Augment de temperatura",
+      es: "Regulación térmica — Homeostasis en el movimiento: Aumento de temperatura",
+      en: "Thermal regulation — Homeostasis in movement: Temperature increase"
+    },
+    desc: {
+      ca: "Detalla el circuit davant la calor: Termoreceptors → Hipotàlem → Vasodilatació i sudoració.",
+      es: "Detalla el circuito ante el calor: Termorreceptores → Hipotálamo → Vasodilatación y sudoración.",
+      en: "Details the heat circuit: Thermoreceptors → Hypothalamus → Vasodilation and sweating."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  },
+  {
+    num: 30,
+    title: {
+      ca: "Regulació gasosa i cardíaca — Homeòstasi en el moviment: Disminució d'O2 i augment de CO2",
+      es: "Regulación gaseosa y cardíaca — Homeostasis en el movimiento: Disminución de O2 y aumento de CO2",
+      en: "Gas and cardiac regulation — Homeostasis in movement: Decreased O2 and increased CO2"
+    },
+    desc: {
+      ca: "Mostra la resposta: Quimioreceptors → Bulb raquidi → Augment de freqüència respiratòria i gasto cardíac.",
+      es: "Muestra la respuesta: Quimiorreceptores → Bulbo raquídeo → Aumento de frecuencia respiratoria y gasto cardíaco.",
+      en: "Shows the response: Chemoreceptors → Medulla oblongata → Increased respiratory rate and cardiac output."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  },
+  {
+    num: 31,
+    title: {
+      ca: "Regulació metabòlica (Exemple pràctic) — Homeòstasi en el moviment: Disminució de glucosa en sang",
+      es: "Regulación metabólica (Ejemplo práctico) — Homeostasis en el movimiento: Disminución de glucosa en sangre",
+      en: "Metabolic regulation (Practical example) — Homeostasis in movement: Decreased blood glucose"
+    },
+    desc: {
+      ca: "Exposa el cas d'una ballarina assajant sense menjar: les cèl·lules alfa del pàncrees alliberen glucagó perquè el fetge alliberi glucosa a la sang.",
+      es: "Expone el caso de una bailarina ensayando sin comer: las células alfa del páncreas liberan glucagón para que el hígado libere glucosa a la sangre.",
+      en: "Presents the case of a dancer rehearsing without eating: pancreatic alpha cells release glucagon so that the liver releases glucose into the blood."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } },
+      { file: "t3_bloque02.html", label: { ca: "Nutrició, hidratació i prevenció", es: "Nutrición, hidratación y prevención", en: "Nutrition, hydration and prevention" } }
+    ]
+  },
+  {
+    num: 32,
+    title: {
+      ca: "Retroalimentació negativa — Retroalimentació Negativa: Estabilitat",
+      es: "Retroalimentación negativa — Retroalimentación Negativa: Estabilidad",
+      en: "Negative feedback — Negative Feedback: Stability"
+    },
+    desc: {
+      ca: "Explica el bucle de correcció i control com el mecanisme més habitual per contrarestar l'estímul inicial i tornar al punt d'ajust.",
+      es: "Explica el bucle de corrección y control como el mecanismo más habitual para contrarrestar el estímulo inicial y volver al punto de ajuste.",
+      en: "Explains the correction and control loop as the most common mechanism to counteract the initial stimulus and return to the set point."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } },
+      { file: "estabilidad_control.html", label: { ca: "Estabilitat i control", es: "Estabilidad y control", en: "Stability and control" } }
+    ]
+  },
+  {
+    num: 33,
+    title: {
+      ca: "Retroalimentació positiva — Retroalimentació Positiva: Amplificació",
+      es: "Retroalimentación positiva — Retroalimentación Positiva: Amplificación",
+      en: "Positive feedback — Positive Feedback: Amplification"
+    },
+    desc: {
+      ca: "Defineix el bucle de reforç de caràcter explosiu que amplifica el canvi allunyant la variable per completar un procés ràpid.",
+      es: "Define el bucle de refuerzo de carácter explosivo que amplifica el cambio alejando la variable para completar un proceso rápido.",
+      en: "Defines the reinforcement loop of explosive character that amplifies the change by moving the variable away to complete a rapid process."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  },
+  {
+    num: 34,
+    title: {
+      ca: "Comprovació de coneixements (Pregunta 3) — TEST 3",
+      es: "Comprobación de conocimientos (Pregunta 3) — TEST 3",
+      en: "Knowledge check (Question 3) — TEST 3"
+    },
+    desc: {
+      ca: "Pregunta sobre l'orgànul productor d'energia (ATP), marcant l'opció C com a correcta (Mitocondria).",
+      es: "Pregunta sobre el orgánulo productor de energía (ATP), marcando la opción C como correcta (Mitocondria).",
+      en: "Question about the energy-producing organelle (ATP), marking option C as correct (Mitochondria)."
+    },
+    links: [
+      { file: "calcio_atp.html", label: { ca: "El paper del calci i l'ATP", es: "El papel del calcio y el ATP", en: "The role of calcium and ATP" } },
+      { file: "calcio_atp1.html", label: { ca: "El paper del calci i l'ATP — versió B", es: "El papel del calcio y el ATP — versión B", en: "The role of calcium and ATP — version B" } }
+    ]
+  },
+  {
+    num: 35,
+    title: {
+      ca: "Comprovació de coneixements (Pregunta 4) — TEST 4",
+      es: "Comprobación de conocimientos (Pregunta 4) — TEST 4",
+      en: "Knowledge check (Question 4) — TEST 4"
+    },
+    desc: {
+      ca: "Pregunta per l'ordre correcte de nivells d'organització, marcant la B com a correcta (Cèl·lula → Teixit → Òrgan → Sistema → Organisme).",
+      es: "Pregunta por el orden correcto de niveles de organización, marcando la B como correcta (Célula → Tejido → Órgano → Sistema → Organismo).",
+      en: "Question about the correct order of organisation levels, marking B as correct (Cell → Tissue → Organ → System → Organism)."
+    },
+    links: [
+      { file: "trabajo_musculos.html", label: { ca: "Estructures del sistema musculoesquelètic", es: "Estructuras del sistema musculoesquelético", en: "Musculoskeletal system structures" } }
+    ]
+  },
+  {
+    num: 36,
+    title: {
+      ca: "Comprovació de coneixements (Pregunta 5) — TEST 5",
+      es: "Comprobación de conocimientos (Pregunta 5) — TEST 5",
+      en: "Knowledge check (Question 5) — TEST 5"
+    },
+    desc: {
+      ca: "Pregunta pel tipus de retroalimentació en la regulació de temperatura i CO2, marcant la D com a correcta (Negativa).",
+      es: "Pregunta por el tipo de retroalimentación en la regulación de temperatura y CO2, marcando la D como correcta (Negativa).",
+      en: "Question about the type of feedback in temperature and CO2 regulation, marking D as correct (Negative)."
+    },
+    links: [
+      { file: "homeostasis_movimiento.html", label: { ca: "Homeòstasi i moviment", es: "Homeostasis y movimiento", en: "Homeostasis and movement" } }
+    ]
+  }
+];
+
+/* ============================================================
+   TRADUCCIONS DE LA INTERFÍCIE
+   ============================================================ */
+const I18N = {
+  ca: {
+    searchPlaceholder: "Cercar diapositives, conceptes o arxius HTML…",
+    stats: (total, visible) => `${total} diapositives · ${visible} filtrades`,
+    noResults: "No s'han trobat diapositives que coincideixin amb la cerca.",
+    openLink: "Obrir en pestanya nova",
+    noHtml: "Sense HTML associat",
+    sessionNote: SESSION.note.ca,
+    mainTitle: SESSION.title.ca,
+    subtitle: SESSION.subtitle.ca,
+    block: SESSION.block.ca,
+    footer: "Índex generat per a la Sessió 1"
+  },
+  es: {
+    searchPlaceholder: "Buscar diapositivas, conceptos o archivos HTML…",
+    stats: (total, visible) => `${total} diapositivas · ${visible} filtradas`,
+    noResults: "No se han encontrado diapositivas que coincidan con la búsqueda.",
+    openLink: "Abrir en pestaña nueva",
+    noHtml: "Sin HTML asociado",
+    sessionNote: SESSION.note.es,
+    mainTitle: SESSION.title.es,
+    subtitle: SESSION.subtitle.es,
+    block: SESSION.block.es,
+    footer: "Índice generado para la Sesión 1"
+  },
+  en: {
+    searchPlaceholder: "Search slides, concepts or HTML files…",
+    stats: (total, visible) => `${total} slides · ${visible} filtered`,
+    noResults: "No slides matching your search were found.",
+    openLink: "Open in new tab",
+    noHtml: "No associated HTML",
+    sessionNote: SESSION.note.en,
+    mainTitle: SESSION.title.en,
+    subtitle: SESSION.subtitle.en,
+    block: SESSION.block.en,
+    footer: "Index generated for Session 1"
+  }
+};
+
+/* ============================================================
+   ESTAT
+   ============================================================ */
+let currentLang = "ca";
+let currentQuery = "";
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderSlides() {
+  const container = document.getElementById("slidesContainer");
+  const noResults = document.getElementById("noResults");
+  const stats = document.getElementById("stats");
+  const t = I18N[currentLang];
+
+  const query = currentQuery.trim().toLowerCase();
+  const filtered = SLIDES.filter(slide => {
+    if (!query) return true;
+    const haystack = [
+      slide.num,
+      slide.title.ca, slide.title.es, slide.title.en,
+      slide.desc.ca, slide.desc.es, slide.desc.en,
+      ...slide.links.map(l => l.file + " " + l.label.ca + " " + l.label.es + " " + l.label.en)
+    ].join(" ").toLowerCase();
+    return haystack.includes(query);
+  });
+
+  container.innerHTML = "";
+
+  if (filtered.length === 0) {
+    noResults.style.display = "block";
+    stats.textContent = t.stats(SLIDES.length, 0);
+    return;
+  }
+  noResults.style.display = "none";
+  stats.textContent = t.stats(SLIDES.length, filtered.length);
+
+  filtered.forEach(slide => {
+    const card = document.createElement("article");
+    card.className = "slide-card";
+
+const linksHtml = slide.links.length > 0
+  ? slide.links.map(link => {
+      const url = BASE_URL + link.file;
+      return `
+        <a class="link-chip" href="${url}" target="_blank" rel="noopener noreferrer" title="${t.openLink}: ${url}">
+          <span class="icon">📄</span>
+          <span>${link.label[currentLang] || link.label.ca}</span>
+        </a>
+      `;
+    }).join("")
+  : `<span class="no-html">⊘ ${t.noHtml}</span>`;
+
+    card.innerHTML = `
+      <div class="slide-head">
+        <span class="slide-num">D${slide.num}</span>
+        <h2 class="slide-title">${slide.title[currentLang] || slide.title.ca}</h2>
+      </div>
+      <p class="slide-desc">${slide.desc[currentLang] || slide.desc.ca}</p>
+      <div class="links">${linksHtml}</div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+/* ============================================================
+   CANVI D'IDIOMA
+   ============================================================ */
+function setLanguage(lang) {
+  currentLang = lang;
+  const t = I18N[lang];
+
+  document.documentElement.lang = lang;
+  document.getElementById("t-main-title").textContent = t.mainTitle;
+  document.getElementById("t-subtitle").textContent = t.subtitle;
+  document.getElementById("t-block").textContent = t.block;
+  document.getElementById("sessionNote").innerHTML = t.sessionNote;
+  document.getElementById("searchInput").placeholder = t.searchPlaceholder;
+  document.getElementById("noResults").textContent = t.noResults;
+
+  document.querySelectorAll(".lang-switch button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.lang === lang);
+  });
+
+  renderSlides();
+}
+
+/* ============================================================
+   ESDEVENIMENTS
+   ============================================================ */
+document.querySelectorAll(".lang-switch button").forEach(btn => {
+  btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+});
+
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  currentQuery = e.target.value;
+  renderSlides();
+});
+
+/* Inicial */
+setLanguage("ca");
+</script>
+
+</body>
+</html>
