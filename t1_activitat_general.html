@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<!-- ============================================================
+     BLOK 01 · CAPÇALERA DEL DOCUMENT
+     ------------------------------------------------------------
+     Què fa:  metadades del document i títol de la pestanya.
+     Com editar: canvia el <title> per al nom de la pestanya.
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 1 · Introducció a la fisiologia i homeòstasi</title>
+
+<!-- ============================================================
+     BLOK 02 · CSS (estils)
+     ------------------------------------------------------------
+     Què fa:  tots els estils visuals de la pàgina.
+     Com editar: si vols canviar colors, tipografia o espaiats,
+                 toca només aquest bloc.
+     ============================================================ -->
+<style>
+  :root{
+    --navy:#0b1f3a; --navy-2:#132f55;
+    --gold:#c9a227; --gold-2:#e6c65c;
+    --bg:#f7f4ee; --white:#ffffff;
+    --text:#1a1a1a; --muted:#6b6b6b;
+    --ok:#2e7d32; --ok-bg:#e8f3ec;
+    --err:#c62828; --err-bg:#fdecea;
+    --pi:#1b8a3a; --pi-bg:#e6f6ea; --pi-border:#8fd3a3;
+    --bloc-a:#1565c0; --bloc-a-bg:#e3f0fb;
+    --bloc-b:#2e7d32; --bloc-b-bg:#e8f3ec;
+    --bloc-c:#6a1b9a; --bloc-c-bg:#f3e5f5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family: Georgia, "Times New Roman", serif;
+    background:var(--bg); color:var(--text);
+    font-size:22px; line-height:1.65; padding:1.2rem;
+  }
+  .wrap{max-width:960px;margin:0 auto}
+
+  /* --- CAPÇALERA --- */
+  .menu{
+    background:linear-gradient(135deg,var(--navy),var(--navy-2));
+    color:#fff;border-radius:16px;padding:1rem 1.2rem;
+    box-shadow:0 8px 22px rgba(11,31,58,.18);margin-bottom:1rem;
+  }
+  .menu h1{margin:0 0 .25rem;font-size:1.7rem;color:#fff}
+  .menu .sub{margin:0 0 .8rem;color:#dbe6f5;font-size:1.05rem}
+  .menu-row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between}
+  .menu-row .progres{font-size:1.05rem;color:var(--gold-2);font-weight:700}
+  .menu-row .controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+  .menu-row button{
+    background:var(--gold);color:var(--navy);border:0;
+    padding:.6rem 1.15rem;border-radius:999px;
+    font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;
+  }
+  .menu-row button:hover{background:var(--gold-2)}
+  .menu-row button.ghost{background:transparent;color:#fff;border:1px solid rgba(230,198,92,.6)}
+  .menu-row button.ghost:hover{background:rgba(230,198,92,.15)}
+  #btn-adaptat{
+    font-size:1.15rem;padding:.5rem .75rem;line-height:1;
+    display:inline-flex;
+    background:rgba(255,255,255,.06);
+    color:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.15);
+  }
+  #btn-adaptat:hover{background:rgba(27,138,58,.2);color:#fff}
+  #btn-adaptat.actiu{
+    background:var(--pi);color:#fff;border-color:var(--pi);
+    box-shadow:0 0 0 3px rgba(27,138,58,.25);
+  }
+  /* --- Indicador del botó Reprendre --- */
+.continuar-info{
+  font-size:.82rem;
+  color:var(--gold-2);
+  background:rgba(230,198,92,.12);
+  border:1px solid rgba(230,198,92,.35);
+  border-radius:999px;
+  padding:.15rem .55rem;
+  margin-left:.35rem;
+  font-weight:700;
+  display:none;
+  white-space:nowrap;
+}
+.continuar-info.visible{display:inline-block}
+#btn-continuar.ocult{display:none}
+  .lang-switch{display:flex;gap:.35rem;margin-top:.7rem}
+  .lang-switch button{
+    background:rgba(255,255,255,.08);color:#fff;
+    border:1px solid rgba(230,198,92,.5);
+    padding:.35rem .85rem;border-radius:999px;
+    font-family:inherit;font-size:.9rem;cursor:pointer;
+  }
+  .lang-switch button.active{background:var(--gold);color:var(--navy);font-weight:700}
+
+  /* --- ÍNDEX PLEGABLE --- */
+  .index{
+    background:#fff;border-radius:16px;
+    box-shadow:0 6px 18px rgba(11,31,58,.08);
+    margin-bottom:1rem;overflow:hidden;
+  }
+  .index-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1rem 1.2rem;cursor:pointer;background:#fbf8f1;
+    border:0;width:100%;font-family:inherit;font-size:1.1rem;
+    font-weight:700;color:var(--navy);text-align:left;
+  }
+  .index-header:hover{background:#f5efdf}
+  .index-header .arrow{transition:transform .25s;font-size:1.1rem;color:var(--gold)}
+  .index-header.open .arrow{transform:rotate(90deg)}
+  .index-body{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 1.2rem}
+  .index-body.open{max-height:3000px;padding:.4rem 1.2rem 1.2rem}
+  .index-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem}
+  @media (max-width:640px){.index-grid{grid-template-columns:1fr}}
+  .bloc-wrap{display:flex;flex-direction:column}
+
+  .bloc-btn{
+    text-align:left;background:#fff;border:2px solid #e0dccf;
+    border-radius:12px;padding:.8rem .9rem;cursor:pointer;
+    font-family:inherit;font-size:1rem;color:var(--navy);
+    transition:all .15s;display:flex;flex-direction:column;gap:.25rem;
+  }
+  .bloc-btn:hover{transform:translateY(-1px)}
+  .bloc-btn.active{box-shadow:0 0 0 3px rgba(201,162,39,.35)}
+  .bloc-btn .bloc-titol{font-weight:700;font-size:1.05rem}
+  .bloc-btn .bloc-meta{font-size:.85rem;color:#666}
+  .bloc-btn .bloc-meta .pi{color:var(--pi);font-weight:700}
+  .bloc-btn .barra{height:8px;background:#eee;border-radius:999px;overflow:hidden;margin-top:.3rem}
+  .bloc-btn .barra span{display:block;height:100%;width:0%;transition:width .3s}
+  .bloc-btn[data-bloc="A"]{border-left:7px solid var(--bloc-a);background:linear-gradient(90deg,#fff,var(--bloc-a-bg))}
+  .bloc-btn[data-bloc="B"]{border-left:7px solid var(--bloc-b);background:linear-gradient(90deg,#fff,var(--bloc-b-bg))}
+  .bloc-btn[data-bloc="C"]{border-left:7px solid var(--bloc-c);background:linear-gradient(90deg,#fff,var(--bloc-c-bg))}
+  .bloc-btn[data-bloc="A"] .barra span{background:var(--bloc-a)}
+  .bloc-btn[data-bloc="B"] .barra span{background:var(--bloc-b)}
+  .bloc-btn[data-bloc="C"] .barra span{background:var(--bloc-c)}
+
+  /* --- OBJECTIUS --- */
+  .objectiu-toggle{
+    display:block;width:100%;margin-top:.7rem;background:#fff;
+    border:1px dashed var(--gold);color:var(--navy);
+    padding:.6rem 1rem;border-radius:10px;font-family:inherit;
+    font-size:.98rem;font-weight:700;cursor:pointer;text-align:left;
+  }
+  .objectiu-toggle:hover{background:#fff8e1}
+  .objectiu-panel{
+    display:none;margin-top:.7rem;background:#fffdf5;
+    border-left:5px solid var(--gold);border-radius:10px;
+    padding:1rem 1.1rem;font-size:.98rem;color:#333;
+  }
+  .objectiu-panel.open{display:block}
+  .objectiu-panel h4{
+    margin:.9rem 0 .35rem;color:var(--navy);font-size:.95rem;
+    text-transform:uppercase;letter-spacing:.05em;
+  }
+  .objectiu-panel h4:first-child{margin-top:0}
+  .objectiu-panel p{margin:.2rem 0 .6rem}
+  .objectiu-panel ul{margin:.2rem 0 .6rem;padding-left:1.3rem}
+  .objectiu-panel li{margin:.2rem 0}
+  .objectiu-panel .vocab{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+  .objectiu-panel .vocab span{
+    background:var(--navy);color:#fff;border-radius:999px;
+    padding:.25rem .75rem;font-size:.88rem;
+  }
+  .objectiu-panel .objectiu-pi{
+    background:var(--pi-bg);border-left:5px solid var(--pi);
+    border-radius:8px;padding:.7rem .9rem;margin-top:.7rem;
+  }
+  .objectiu-panel .objectiu-pi h4{color:var(--pi);margin-top:0}
+  .objectiu-toggle-card{margin-top:1rem;background:#fbf8f1;font-size:1rem;padding:.7rem 1.1rem}
+
+  /* --- TARGETA --- */
+  .card{
+    background:#fff;border-radius:18px;
+    padding:1.6rem 1.5rem 1.8rem;
+    box-shadow:0 10px 26px rgba(11,31,58,.10);
+    border-top:8px solid var(--gold);
+    transition:border-color .25s;position:relative;
+  }
+  .card[data-bloc="A"]{border-top-color:var(--bloc-a)}
+  .card[data-bloc="B"]{border-top-color:var(--bloc-b)}
+  .card[data-bloc="C"]{border-top-color:var(--bloc-c)}
+  .card.pi{box-shadow:0 0 0 3px var(--pi-border), 0 10px 26px rgba(11,31,58,.10)}
+
+  .bloc-tag{
+    display:inline-block;font-size:.85rem;font-weight:700;
+    padding:.25rem .7rem;border-radius:999px;margin-bottom:.6rem;
+    color:#fff;letter-spacing:.04em;
+  }
+  .bloc-tag[data-bloc="A"]{background:var(--bloc-a)}
+  .bloc-tag[data-bloc="B"]{background:var(--bloc-b)}
+  .bloc-tag[data-bloc="C"]{background:var(--bloc-c)}
+
+  .pi-badge{
+    display:none;float:right;align-items:center;justify-content:center;
+    background:var(--pi-bg);color:var(--pi);border:1px solid var(--pi-border);
+    border-radius:999px;padding:.25rem .65rem;font-size:1rem;font-weight:700;
+    min-width:36px;
+  }
+  .card.pi-obligatoria .pi-badge{display:inline-flex}
+
+  .icon{font-size:3.4rem;text-align:center;margin-bottom:.3rem}
+  .situacio{font-size:1.35rem;color:var(--navy);font-weight:700;text-align:center;margin:.2rem 0 .7rem}
+  .pregunta{font-size:1.2rem;color:#333;text-align:center;margin:0 0 1.3rem}
+  .pregunta strong{color:var(--navy)}
+
+  .opcions{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+  .opcions button{
+    flex:1 1 280px;padding:1.15rem 1rem;border-radius:14px;
+    border:2px solid var(--navy);background:#fff;font-family:inherit;
+    font-size:1.1rem;font-weight:700;color:var(--navy);cursor:pointer;
+    transition:all .15s;line-height:1.35;
+  }
+  .opcions button span{display:block;font-size:.95rem;font-weight:400;color:#555;margin-top:.3rem}
+  .opcions button:hover:not(:disabled){background:var(--navy);color:#fff}
+  .opcions button:hover:not(:disabled) span{color:#dbe6f5}
+  .opcions button:disabled{cursor:default;opacity:.9}
+
+  .feedback{margin-top:1.3rem;padding:1.1rem 1.2rem;border-radius:12px;font-size:1.1rem;display:none}
+  .feedback.ok{background:var(--ok-bg);color:#1b5e20;border-left:6px solid var(--ok);display:block}
+  .feedback.err{background:var(--err-bg);color:#8a1c1c;border-left:6px solid var(--err);display:block}
+  .feedback strong{display:block;margin-bottom:.25rem}
+
+  .info-toggle{
+    display:block;margin:1.3rem auto 0;background:#fff;
+    border:1px solid var(--gold);color:var(--navy);
+    padding:.6rem 1.2rem;border-radius:999px;font-family:inherit;
+    font-size:1rem;font-weight:700;cursor:pointer;
+  }
+  .info-toggle:hover{background:#fff8e1}
+  .info-panel{
+    display:none;margin-top:.9rem;background:#fffdf5;
+    border-left:5px solid var(--gold);border-radius:10px;
+    padding:1rem 1.2rem;font-size:1.05rem;color:#333;
+  }
+  .info-panel.open{display:block}
+  .info-panel h3{margin:0 0 .4rem;color:var(--navy);font-size:1.1rem}
+  .info-panel p{margin:.2rem 0 .6rem}
+  .info-panel .exemple{
+    background:#fff;border-radius:8px;padding:.7rem .9rem;
+    font-size:1rem;border:1px dashed var(--gold);
+  }
+  .info-panel a{color:var(--navy);font-weight:700;text-decoration:none;border-bottom:1px solid var(--gold)}
+  .info-panel a:hover{color:var(--gold)}
+
+  .nav-next{text-align:center;margin-top:1.3rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+  .nav-next button{
+    background:var(--gold);color:var(--navy);border:0;
+    padding:.8rem 1.5rem;border-radius:999px;
+    font-family:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;
+  }
+  .nav-next button:hover{background:var(--gold-2)}
+  .nav-next button.ghost{background:#fff;color:var(--navy);border:1px solid var(--gold)}
+
+  .resum{text-align:center;padding:1rem 0}
+  .resum .icon{font-size:3.8rem}
+  .resum .missatge{font-size:1.4rem;color:var(--navy);font-weight:700;margin:.5rem 0 .7rem}
+  .resum p{color:#555;font-size:1.05rem;margin:.2rem 0 1rem}
+
+  @media (max-width:640px){
+    body{font-size:19px;padding:.9rem}
+    .menu h1{font-size:1.35rem}
+    .opcions button{flex:1 1 100%}
+    .situacio{font-size:1.2rem}
+  }
+
+  @media print{
+    body{background:#fff;font-size:12pt}
+    .menu{background:#fff;color:#0b1f3a;border:0;box-shadow:none;border-bottom:3px solid var(--gold);border-radius:0}
+    .menu h1,.menu .sub,.menu .progres{color:#0b1f3a}
+    .menu-row button,.lang-switch{display:none}
+    .index{display:none}
+    .card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<!-- ============================================================
+     BLOK 03 · HTML DEL COS
+     ------------------------------------------------------------
+     Què fa:  estructura de la pàgina (capçalera, índex, targeta).
+     Com editar: si vols afegir o treure botons de la capçalera o
+                 canviar l'ordre dels elements, toca aquest bloc.
+     ============================================================ -->
+<div class="wrap">
+
+  <div class="menu">
+    <h1 id="ui-titol">Tema 1 · Introducció a la fisiologia i homeòstasi</h1>
+    <p class="sub" id="ui-sub">Seixanta preguntes per comprendre el bucle homeostàtic, els nivells d'organització i la retroalimentació.</p>
+    <div class="menu-row">
+      <span class="progres" id="ui-progres">Progrés: 0 / 60</span>
+      <div class="controls">
+     <button id="btn-adaptat" aria-label="Verd">🌿</button>
+     <button id="btn-continuar" class="ghost" data-i18n="continuar">Reprendre</button>
+     <span id="continuar-info" class="continuar-info" aria-live="polite"></span>
+        <button id="btn-repas" class="ghost" data-i18n="repas">🔁 Mode repàs</button>
+        <button id="btn-imprimir" class="ghost" data-i18n="imprimir">🖨 Imprimir</button>
+        <button id="btn-exportar" class="ghost" data-i18n="exportar">Exportar progrés</button>
+        <button id="btn-reset" data-i18n="reset">Començar de nou</button>
+      </div>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma">
+      <button data-lang="ca" class="active" type="button">CA</button>
+      <button data-lang="es" type="button">ES</button>
+      <button data-lang="en" type="button">EN</button>
+    </div>
+  </div>
+
+  <div class="index">
+    <button class="index-header" id="index-header" type="button">
+      <span id="ui-index-titol">Índex de blocs d'estudi</span>
+      <span class="arrow">▶</span>
+    </button>
+    <div class="index-body" id="index-body">
+      <div class="index-grid" id="index-grid"></div>
+    </div>
+  </div>
+
+  <div class="card" id="card" data-bloc="A">
+    <span class="pi-badge" id="pi-badge">🌿</span>
+    <div class="bloc-tag" id="bloc-tag" data-bloc="A">Bloc A</div>
+    <div class="icon" id="icon">🌡️</div>
+    <div class="situacio" id="situacio">…</div>
+    <p class="pregunta" id="pregunta">…</p>
+
+    <div class="opcions" id="opcions">
+      <button data-resp="correcte">
+        <span data-i18n="op-correcte-titol">Correcte</span>
+        <span data-i18n="op-correcte-desc">Aquesta és la resposta adequada.</span>
+      </button>
+      <button data-resp="incorrecte">
+        <span data-i18n="op-incorrecte-titol">Incorrecte</span>
+        <span data-i18n="op-incorrecte-desc">Aquesta no és la resposta adequada.</span>
+      </button>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <button class="info-toggle" id="btn-info" data-i18n="mes-info">＋ Més informació</button>
+    <div class="info-panel" id="info-panel">
+      <h3 id="info-titol">…</h3>
+      <p id="info-text">…</p>
+      <div class="exemple" id="info-exemple">…</div>
+      <p style="margin-top:.7rem">
+        <a id="info-link" href="#" target="_blank" rel="noopener noreferrer" data-i18n="recurs">→ Veure el recurs del tema</a>
+      </p>
+    </div>
+
+    <button class="objectiu-toggle objectiu-toggle-card" id="btn-objectiu-card" type="button">🎯 Objectiu del bloc</button>
+    <div class="objectiu-panel" id="objectiu-card"></div>
+
+    <div class="nav-next">
+      <button id="prev" class="ghost" data-i18n="anterior">← Anterior</button>
+      <button id="next" data-i18n="seguent">Següent →</button>
+    </div>
+  </div>
+
+</div>
+<script>
+/* ============================================================
+   BLOK 04 · BASE I STORAGE_KEY
+   ------------------------------------------------------------
+   Què fa:  defineix la URL base dels recursos HTML i la clau
+            de desament al navegador.
+   Com editar: canvia BASE_URL si algun dia es mou la carpeta.
+               Canvia STORAGE_KEY si vols reiniciar l'estat.
+   ============================================================ */
+const BASE_URL = "https://jpainous.github.io/dansa_tema03/";
+const STORAGE_KEY = "t1_activitat_general_v1";
+
+/* ============================================================
+   BLOK 05 · UI · Traduccions de la interfície
+   ------------------------------------------------------------
+   Què fa:  textos de la interfície en CA/ES/EN.
+   Com editar: afegeix o canvia textos dins de cada idioma.
+               No cal tocar la resta del codi.
+   ============================================================ */
+const UI = {
+  ca: {
+    titol:"Tema 1 · Introducció a la fisiologia i homeòstasi",
+    sub:"Seixanta preguntes per comprendre el bucle homeostàtic, els nivells d'organització i la retroalimentació.",
+    progresGlobal:(f,t)=>`Progrés: ${f} / ${t}`,
+    progresAdaptat:(f,t)=>`🌿 ${f} / ${t}`,
+    reset:"Començar de nou",
+    continuar:"Reprendre",
+continuarA:(n)=>`a la P${n}`,
+continuarInfo:"Reprendre a la pregunta on eres",
+    repas:"🔁 Mode repàs",
+    repasActiu:"🔁 Repàs actiu",
+    repasBuit:"No hi ha preguntes fallades. Bona feina!",
+    repasInfo:(n)=>`Mode repàs: ${n} preguntes per repassar`,
+    exportar:"Exportar progrés",
+    imprimir:"🖨 Imprimir",
+    "index-titol":"Índex de blocs d'estudi",
+    "op-correcte-titol":"Correcte",
+    "op-correcte-desc":"Aquesta és la resposta adequada.",
+    "op-incorrecte-titol":"Incorrecte",
+    "op-incorrecte-desc":"Aquesta no és la resposta adequada.",
+    "mes-info":"＋ Més informació",
+    "menys-info":"－ Tancar informació",
+    recurs:"→ Veure el recurs del tema",
+    seguent:"Següent →",
+    anterior:"← Anterior",
+    correcte:"✔ Correcte",
+    incorrecte:"✘ No exactament",
+    resumGlobal:(e,t)=>`Has encertat ${e} de ${t} en total.`,
+    resumSub:"El teu progrés s'ha desat automàticament.",
+    tornar:"Tornar a començar",
+    confirmReset:"Segur que vols esborrar tot el progrés?",
+    exportat:"Progrés exportat correctament.",
+    objectiu:"🎯 Objectiu del bloc",
+    tancarObjectiu:"✕ Tancar objectiu",
+    queAprens:"Què aprendràs",
+    preguntesClau:"Preguntes clau",
+    perQue:"Per què és important per a la dansa",
+    vocabulari:"Vocabulari clau",
+    objectiuGeneral:"Objectiu general",
+    objectiuAdaptat:"Objectiu adaptat",
+    imprimirTitol:"Full de resultats · Tema 1",
+    imprimirAlumne:"Alumne/a:",
+    imprimirData:"Data:",
+    imprimirResum:"Resum",
+    imprimirTotal:"Total preguntes",
+    imprimirFetes:"Respostes fetes",
+    imprimirEncerts:"Encerts",
+    imprimirPct:"Percentatge",
+    imprimirPerBloc:"Resultats per bloc",
+    imprimirBloc:"Bloc",
+    imprimirDetall:"Detall de preguntes",
+    imprimirNum:"Núm.",
+    imprimirSituacio:"Situació",
+    imprimirResposta:"Resposta",
+    imprimirCorrecta:"Correcta",
+    imprimirEncert:"Encert",
+    imprimirSi:"Sí",
+    imprimirNo:"No",
+    imprimirPendent:"Pendent"
+  },
+  es: {
+    titol:"Tema 1 · Introducción a la fisiología y homeostasis",
+    sub:"Sesenta preguntas para comprender el bucle homeostático, los niveles de organización y la retroalimentación.",
+    progresGlobal:(f,t)=>`Progreso: ${f} / ${t}`,
+    progresAdaptat:(f,t)=>`🌿 ${f} / ${t}`,
+    reset:"Empezar de nuevo",
+   continuar:"Reanudar",
+continuarA:(n)=>`en la P${n}`,
+continuarInfo:"Reanudar en la pregunta donde estabas",
+    repas:"🔁 Modo repaso",
+    repasActiu:"🔁 Repaso activo",
+    repasBuit:"No hay preguntas falladas. ¡Buen trabajo!",
+    repasInfo:(n)=>`Modo repaso: ${n} preguntas por repasar`,
+    exportar:"Exportar progreso",
+    imprimir:"🖨 Imprimir",
+    "index-titol":"Índice de bloques de estudio",
+    "op-correcte-titol":"Correcto",
+    "op-correcte-desc":"Esta es la respuesta adecuada.",
+    "op-incorrecte-titol":"Incorrecto",
+    "op-incorrecte-desc":"Esta no es la respuesta adecuada.",
+    "mes-info":"＋ Más información",
+    "menys-info":"－ Cerrar información",
+    recurs:"→ Ver el recurso del tema",
+    seguent:"Siguiente →",
+    anterior:"← Anterior",
+    correcte:"✔ Correcto",
+    incorrecte:"✘ No exactamente",
+    resumGlobal:(e,t)=>`Has acertado ${e} de ${t} en total.`,
+    resumSub:"Tu progreso se ha guardado automáticamente.",
+    tornar:"Volver a empezar",
+    confirmReset:"¿Seguro que quieres borrar todo el progreso?",
+    exportat:"Progreso exportado correctamente.",
+    objectiu:"🎯 Objetivo del bloque",
+    tancarObjectiu:"✕ Cerrar objetivo",
+    queAprens:"Qué aprenderás",
+    preguntesClau:"Preguntas clave",
+    perQue:"Por qué es importante para la danza",
+    vocabulari:"Vocabulario clave",
+    objectiuGeneral:"Objetivo general",
+    objectiuAdaptat:"Objetivo adaptado",
+    imprimirTitol:"Hoja de resultados · Tema 1",
+    imprimirAlumne:"Alumno/a:",
+    imprimirData:"Fecha:",
+    imprimirResum:"Resumen",
+    imprimirTotal:"Total preguntas",
+    imprimirFetes:"Respuestas hechas",
+    imprimirEncerts:"Aciertos",
+    imprimirPct:"Porcentaje",
+    imprimirPerBloc:"Resultados por bloque",
+    imprimirBloc:"Bloque",
+    imprimirDetall:"Detalle de preguntas",
+    imprimirNum:"N.º",
+    imprimirSituacio:"Situación",
+    imprimirResposta:"Respuesta",
+    imprimirCorrecta:"Correcta",
+    imprimirEncert:"Acierto",
+    imprimirSi:"Sí",
+    imprimirNo:"No",
+    imprimirPendent:"Pendiente"
+  },
+  en: {
+    titol:"Topic 1 · Introduction to physiology and homeostasis",
+    sub:"Sixty questions to understand the homeostatic loop, levels of organisation and feedback.",
+    progresGlobal:(f,t)=>`Progress: ${f} / ${t}`,
+    progresAdaptat:(f,t)=>`🌿 ${f} / ${t}`,
+    reset:"Start over",
+    continuar:"Resume",
+continuarA:(n)=>`at Q${n}`,
+continuarInfo:"Resume at the question you left off",
+    repas:"🔁 Review mode",
+    repasActiu:"🔁 Review active",
+    repasBuit:"No failed questions. Good job!",
+    repasInfo:(n)=>`Review mode: ${n} questions to review`,
+    exportar:"Export progress",
+    imprimir:"🖨 Print",
+    "index-titol":"Study block index",
+    "op-correcte-titol":"Correct",
+    "op-correcte-desc":"This is the right answer.",
+    "op-incorrecte-titol":"Incorrect",
+    "op-incorrecte-desc":"This is not the right answer.",
+    "mes-info":"＋ More information",
+    "menys-info":"－ Close information",
+    recurs:"→ View the topic resource",
+    seguent:"Next →",
+    anterior:"← Previous",
+    correcte:"✔ Correct",
+    incorrecte:"✘ Not exactly",
+    resumGlobal:(e,t)=>`You got ${e} out of ${t} overall.`,
+    resumSub:"Your progress has been saved automatically.",
+    tornar:"Start over",
+    confirmReset:"Are you sure you want to erase all progress?",
+    exportat:"Progress exported successfully.",
+    objectiu:"🎯 Block objective",
+    tancarObjectiu:"✕ Close objective",
+    queAprens:"What you will learn",
+    preguntesClau:"Key questions",
+    perQue:"Why it matters for dance",
+    vocabulari:"Key vocabulary",
+    objectiuGeneral:"General objective",
+    objectiuAdaptat:"Adapted objective",
+    imprimirTitol:"Results sheet · Topic 1",
+    imprimirAlumne:"Student:",
+    imprimirData:"Date:",
+    imprimirResum:"Summary",
+    imprimirTotal:"Total questions",
+    imprimirFetes:"Questions answered",
+    imprimirEncerts:"Correct",
+    imprimirPct:"Percentage",
+    imprimirPerBloc:"Results by block",
+    imprimirBloc:"Block",
+    imprimirDetall:"Question detail",
+    imprimirNum:"No.",
+    imprimirSituacio:"Situation",
+    imprimirResposta:"Answer",
+    imprimirCorrecta:"Correct",
+    imprimirEncert:"Correct?",
+    imprimirSi:"Yes",
+    imprimirNo:"No",
+    imprimirPendent:"Pending"
+  }
+};
+
+/* ============================================================
+   BLOK 06 · BLOCS D'ESTUDI
+   ------------------------------------------------------------
+   Què fa:  defineix els 3 blocs d'estudi del tema 1.
+   Com editar: canvia els títols dels blocs si cal.
+               Per afegir un bloc nou, afegeix una entrada aquí
+               i les preguntes al BLOK 08 amb el mateix id.
+   ============================================================ */
+const BLOCS = {
+  ca:[
+    { id:"A", titol:"El bucle homeostàtic" },
+    { id:"B", titol:"Nivells i teixits" },
+    { id:"C", titol:"Retroalimentació" }
+  ],
+  es:[
+    { id:"A", titol:"El bucle homeostático" },
+    { id:"B", titol:"Niveles y tejidos" },
+    { id:"C", titol:"Retroalimentación" }
+  ],
+  en:[
+    { id:"A", titol:"The homeostatic loop" },
+    { id:"B", titol:"Levels and tissues" },
+    { id:"C", titol:"Feedback" }
+  ]
+};
+
+/* ============================================================
+   BLOK 07 · OBJECTIUS DELS BLOCS
+   ------------------------------------------------------------
+   Què fa:  objectiu general i adaptat de cada bloc + vocabulari.
+   Com editar: canvia els textos dins de cada bloc. Els camps
+               son que / clau / importancia / vocabulari.
+   ============================================================ */
+const OBJECTIUS = {
+  A: {
+    general: {
+      que:{ ca:"Entendre què és l'homeòstasi i com funciona el bucle que manté el cos en equilibri.", es:"Entender qué es la homeostasis y cómo funciona el bucle que mantiene el cuerpo en equilibrio.", en:"Understand what homeostasis is and how the loop that keeps the body in balance works." },
+      clau:{
+        ca:["Què és l'homeòstasi.","Els tres elements del bucle: sensor → centre d'integració → efector.","Per què el cos ha de corregir contínuament les desviacions."],
+        es:["Qué es la homeostasis.","Los tres elementos del bucle: sensor → centro de integración → efector.","Por qué el cuerpo debe corregir continuamente las desviaciones."],
+        en:["What homeostasis is.","The three elements of the loop: sensor → integration centre → effector.","Why the body must continuously correct deviations."]
+      },
+      importancia:{
+        ca:"El bucle homeostàtic és la base de tota la fisiologia: sense entendre'l no es pot entendre per què el cos reacciona davant l'esforç ni per què el repòs és tan important.",
+        es:"El bucle homeostático es la base de toda la fisiología: sin entenderlo no se puede entender por qué el cuerpo reacciona ante el esfuerzo ni por qué el reposo es tan importante.",
+        en:"The homeostatic loop is the basis of all physiology: without understanding it you cannot understand why the body reacts to effort or why rest is so important."
+      }
+    },
+    adaptat: {
+      que:{ ca:"Reconèixer els elements del bucle en situacions quotidianes i de dansa.", es:"Reconocer los elementos del bucle en situaciones cotidianas y de danza.", en:"Recognise the elements of the loop in everyday and dance situations." },
+      clau:{
+        ca:["Identificar el sensor, el centre i l'efector.","Relacionar cada element amb la seva funció.","Aplicar-ho a un cas de la dansa."],
+        es:["Identificar el sensor, el centro y el efector.","Relacionar cada elemento con su función.","Aplicarlo a un caso de la danza."],
+        en:["Identify the sensor, the centre and the effector.","Relate each element to its function.","Apply it to a dance case."]
+      },
+      importancia:{
+        ca:"Amb aquestes preguntes aprens a reconèixer el bucle en situacions reals, que és el que et caldrà per entendre la resta del curs.",
+        es:"Con estas preguntas aprendes a reconocer el bucle en situaciones reales, que es lo que necesitarás para entender el resto del curso.",
+        en:"With these questions you learn to recognise the loop in real situations, which is what you will need to understand the rest of the course."
+      }
+    },
+    vocabulari:{
+      ca:["Homeòstasi","Medi intern","Variable","Punt d'ajust","Sensor","Centre d'integració","Efector"],
+      es:["Homeostasis","Medio interno","Variable","Punto de ajuste","Sensor","Centro de integración","Efector"],
+      en:["Homeostasis","Internal environment","Variable","Set point","Sensor","Integration centre","Effector"]
+    }
+  },
+  B: {
+    general: {
+      que:{ ca:"Conèixer els 5 nivells d'organització i els 4 teixits fonamentals del cos humà.", es:"Conocer los 5 niveles de organización y los 4 tejidos fundamentales del cuerpo humano.", en:"Know the 5 levels of organisation and the 4 fundamental tissues of the human body." },
+      clau:{
+        ca:["L'ordre: cèl·lula → teixit → òrgan → sistema → organisme.","Els 4 teixits: epitelial, connectiu, muscular i nerviós.","Exemples aplicats a la dansa (bíceps, cor)."],
+        es:["El orden: célula → tejido → órgano → sistema → organismo.","Los 4 tejidos: epitelial, conectivo, muscular y nervioso.","Ejemplos aplicados a la danza (bíceps, corazón)."],
+        en:["The order: cell → tissue → organ → system → organism.","The 4 tissues: epithelial, connective, muscular and nervous.","Examples applied to dance (biceps, heart)."]
+      },
+      importancia:{
+        ca:"Aquest ordre és el mapa de tot el curs: sempre podràs situar qualsevol concepte en un dels 5 nivells. Els teixits són els maons del cos.",
+        es:"Este orden es el mapa de todo el curso: siempre podrás situar cualquier concepto en uno de los 5 niveles. Los tejidos son los ladrillos del cuerpo.",
+        en:"This order is the map of the whole course: you will always be able to place any concept in one of the 5 levels. Tissues are the body's bricks."
+      }
+    },
+    adaptat: {
+      que:{ ca:"Reconèixer exemples de cada nivell i associar cada teixit amb un exemple del cos.", es:"Reconocer ejemplos de cada nivel y asociar cada tejido con un ejemplo del cuerpo.", en:"Recognise examples of each level and match each tissue with a body example." },
+      clau:{
+        ca:["Cèl·lula ↔ fibra muscular.","Teixit ↔ muscular esquelètic.","Òrgan ↔ bíceps.","Sistema ↔ muscular."],
+        es:["Célula ↔ fibra muscular.","Tejido ↔ muscular esquelético.","Órgano ↔ bíceps.","Sistema ↔ muscular."],
+        en:["Cell ↔ muscle fibre.","Tissue ↔ skeletal muscle.","Organ ↔ biceps.","System ↔ muscular."]
+      },
+      importancia:{
+        ca:"Amb exemples concrets et quedarà molt més clar i podràs ubicar qualsevol concepte del curs.",
+        es:"Con ejemplos concretos te quedará mucho más claro y podrás ubicar cualquier concepto del curso.",
+        en:"With concrete examples it will be much clearer and you will be able to place any concept in the course."
+      }
+    },
+    vocabulari:{
+      ca:["Cèl·lula","Teixit","Òrgan","Sistema","Organisme","Epitelial","Connectiu","Muscular","Nerviós"],
+      es:["Célula","Tejido","Órgano","Sistema","Organismo","Epitelial","Conectivo","Muscular","Nervioso"],
+      en:["Cell","Tissue","Organ","System","Organism","Epithelial","Connective","Muscular","Nervous"]
+    }
+  },
+  C: {
+    general: {
+      que:{ ca:"Distingir la retroalimentació negativa de la positiva i aplicar-les a casos reals.", es:"Distinguir la retroalimentación negativa de la positiva y aplicarlas a casos reales.", en:"Distinguish negative from positive feedback and apply them to real cases." },
+      clau:{
+        ca:["«Negativa» = corregeix el canvi.","«Positiva» = amplifica el canvi.","La negativa és la més habitual; la positiva s'usa en processos concrets."],
+        es:["«Negativa» = corrige el cambio.","«Positiva» = amplifica el cambio.","La negativa es la más habitual; la positiva se usa en procesos concretos."],
+        en:["“Negative” = corrects the change.","“Positive” = amplifies the change.","Negative is the most common; positive is used in specific processes."]
+      },
+      importancia:{
+        ca:"La retroalimentació explica per què el cos reacciona com reacciona en cada assaig. Entendre-la t'ajuda a escoltar el cos i planificar el repòs.",
+        es:"La retroalimentación explica por qué el cuerpo reacciona como reacciona en cada ensayo. Entenderla te ayuda a escuchar el cuerpo y planificar el reposo.",
+        en:"Feedback explains why the body reacts as it does in each rehearsal. Understanding it helps you listen to your body and plan rest."
+      }
+    },
+    adaptat: {
+      que:{ ca:"Reconèixer si un cas és de retroalimentació negativa o positiva.", es:"Reconocer si un caso es de retroalimentación negativa o positiva.", en:"Recognise whether a case is negative or positive feedback." },
+      clau:{
+        ca:["Si torna al rang → negativa.","Si amplifica → positiva.","Reconèixer-ho en casos quotidians."],
+        es:["Si vuelve al rango → negativa.","Si amplifica → positiva.","Reconocerlo en casos cotidianos."],
+        en:["If it returns to range → negative.","If it amplifies → positive.","Recognise it in everyday cases."]
+      },
+      importancia:{
+        ca:"Amb aquestes preguntes aprens a classificar casos reals i a no confondre «negativa» amb «dolenta».",
+        es:"Con estas preguntas aprendes a clasificar casos reales y a no confundir «negativa» con «mala».",
+        en:"With these questions you learn to classify real cases and not to confuse “negative” with “bad”."
+      }
+    },
+    vocabulari:{
+      ca:["Retroalimentació negativa","Retroalimentació positiva","Punt d'ajust","Amplificació","Correcció"],
+      es:["Retroalimentación negativa","Retroalimentación positiva","Punto de ajuste","Amplificación","Corrección"],
+      en:["Negative feedback","Positive feedback","Set point","Amplification","Correction"]
+    }
+  }
+};
+
+/* ============================================================
+   BLOK 08 · PREGUNTES (60)
+   ------------------------------------------------------------
+   Què fa:  conté les 60 preguntes repartides en 3 blocs (A, B, C)
+            amb text en CA/ES/EN i 18 marcades 🌿 (pi:true).
+   Com editar:
+     - Per afegir/treure preguntes, toca NOMÉS aquest bloc.
+     - Camp "pi:true"  → pregunta marcada amb 🌿.
+     - Camp "pi:false" → pregunta sense marcar.
+     - Per canviar un text, edita el camp corresponent dins
+       de { ca:..., es:..., en:... }.
+   ============================================================ */
+const PREGUNTES = [
+  /* ============ BLOC A · EL BUCLE HOMEOSTÀTIC (20) ============ */
+  {
+    bloc:"A", pi:true, icon:"⚖️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El cos manté la temperatura entre 36 i 37,5 °C encara que faci fred o calor.", es:"El cuerpo mantiene la temperatura entre 36 y 37,5 °C aunque haga frío o calor.", en:"The body keeps temperature between 36 and 37.5 °C even when it is cold or hot." },
+    pregunta:{ ca:"Això és un exemple d'<strong>homeòstasi</strong>?", es:"¿Esto es un ejemplo de <strong>homeostasis</strong>?", en:"Is this an example of <strong>homeostasis</strong>?" },
+    explica:{ ca:"Sí. L'homeòstasi és el manteniment dinàmic del medi intern dins d'un rang estable.", es:"Sí. La homeostasis es el mantenimiento dinámico del medio interno dentro de un rango estable.", en:"Yes. Homeostasis is the dynamic maintenance of the internal environment within a stable range." },
+    info:{
+      titol:{ ca:"Què és l'homeòstasi", es:"Qué es la homeostasis", en:"What homeostasis is" },
+      text:{ ca:"L'homeòstasi és el conjunt de mecanismes que mantenen el medi intern dins d'un rang estable.", es:"La homeostasis es el conjunto de mecanismos que mantienen el medio interno dentro de un rango estable.", en:"Homeostasis is the set of mechanisms that keep the internal environment within a stable range." },
+      exemple:{ ca:"Encara que faci fred al vestidor, la temperatura corporal es manté entre 36 i 37,5 °C.", es:"Aunque haga frío en el vestuario, la temperatura corporal se mantiene entre 36 y 37,5 °C.", en:"Even if it is cold in the changing room, body temperature stays between 36 and 37.5 °C." }
+    }
+  },
+  {
+    bloc:"A", pi:true, icon:"🌡️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"La temperatura del cos puja durant un assaig.", es:"La temperatura del cuerpo sube durante un ensayo.", en:"Body temperature rises during a rehearsal." },
+    pregunta:{ ca:"Quin element del bucle <strong>detecta</strong> aquest canvi?", es:"¿Qué elemento del bucle <strong>detecta</strong> este cambio?", en:"Which loop element <strong>detects</strong> this change?" },
+    explica:{ ca:"El <strong>sensor</strong>. En aquest cas, els termoreceptors.", es:"El <strong>sensor</strong>. En este caso, los termorreceptores.", en:"The <strong>sensor</strong>. In this case, thermoreceptors." },
+    info:{
+      titol:{ ca:"El sensor", es:"El sensor", en:"The sensor" },
+      text:{ ca:"El sensor mesura la variable i detecta si està fora del rang.", es:"El sensor mide la variable y detecta si está fuera del rango.", en:"The sensor measures the variable and detects if it is outside the range." },
+      exemple:{ ca:"Els termoreceptors de la pell noten la calor i envien senyals al sistema nerviós.", es:"Los termorreceptores de la piel notan el calor y envían señales al sistema nervioso.", en:"Skin thermoreceptors feel the heat and send signals to the nervous system." }
+    }
+  },
+  {
+    bloc:"A", pi:true, icon:"🧠", correcte:"correcte", recurs:"estabilidad_control.html",
+    situacio:{ ca:"Els sensors envien senyals al sistema nerviós.", es:"Los sensores envían señales al sistema nervioso.", en:"Sensors send signals to the nervous system." },
+    pregunta:{ ca:"Quin element <strong>decideix</strong> què cal fer?", es:"¿Qué elemento <strong>decide</strong> qué hay que hacer?", en:"Which element <strong>decides</strong> what to do?" },
+    explica:{ ca:"El <strong>centre d'integració</strong>. En la temperatura, l'hipotàlem.", es:"El <strong>centro de integración</strong>. En la temperatura, el hipotálamo.", en:"The <strong>integration centre</strong>. For temperature, the hypothalamus." },
+    info:{
+      titol:{ ca:"El centre d'integració", es:"El centro de integración", en:"The integration centre" },
+      text:{ ca:"Rep la informació dels sensors i decideix la resposta.", es:"Recibe la información de los sensores y decide la respuesta.", en:"It receives sensor information and decides the response." },
+      exemple:{ ca:"L'hipotàlem decideix activar la sudoració per refredar el cos.", es:"El hipotálamo decide activar la sudoración para enfriar el cuerpo.", en:"The hypothalamus decides to activate sweating to cool the body." }
+    }
+  },
+  {
+    bloc:"A", pi:true, icon:"⚙️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El centre d'integració envia una ordre per corregir el canvi.", es:"El centro de integración envía una orden para corregir el cambio.", en:"The integration centre sends an order to correct the change." },
+    pregunta:{ ca:"Quin element <strong>executa</strong> la resposta?", es:"¿Qué elemento <strong>ejecuta</strong> la respuesta?", en:"Which element <strong>executes</strong> the response?" },
+    explica:{ ca:"L'<strong>efector</strong>. Pot ser un múscul, una glàndula o un vas sanguini.", es:"El <strong>efector</strong>. Puede ser un músculo, una glándula o un vaso sanguíneo.", en:"The <strong>effector</strong>. It can be a muscle, a gland or a blood vessel." },
+    info:{
+      titol:{ ca:"L'efector", es:"El efector", en:"The effector" },
+      text:{ ca:"L'efector executa la correcció.", es:"El efector ejecuta la corrección.", en:"The effector executes the correction." },
+      exemple:{ ca:"Les glàndules sudorípares produeixen suor; els vasos es dilaten per perdre calor.", es:"Las glándulas sudoríparas producen sudor; los vasos se dilatan para perder calor.", en:"Sweat glands produce sweat; vessels dilate to lose heat." }
+    }
+  },
+  {
+    bloc:"A", pi:true, icon:"🔁", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un cop la temperatura ha tornat al rang, la resposta s'atura.", es:"Una vez la temperatura ha vuelto al rango, la respuesta se detiene.", en:"Once temperature has returned to range, the response stops." },
+    pregunta:{ ca:"Aquest tipus de retroalimentació és <strong>negativa</strong> o <strong>positiva</strong>?", es:"¿Este tipo de retroalimentación es <strong>negativa</strong> o <strong>positiva</strong>?", en:"Is this type of feedback <strong>negative</strong> or <strong>positive</strong>?" },
+    explica:{ ca:"És <strong>negativa</strong>: corregeix el canvi i torna la variable al punt d'ajust.", es:"Es <strong>negativa</strong>: corrige el cambio y devuelve la variable al punto de ajuste.", en:"It is <strong>negative</strong>: it corrects the change and returns the variable to the set point." },
+    info:{
+      titol:{ ca:"Retroalimentació negativa", es:"Retroalimentación negativa", en:"Negative feedback" },
+      text:{ ca:"Corregeix el canvi i torna la variable al rang.", es:"Corrige el cambio y devuelve la variable al rango.", en:"It corrects the change and returns the variable to range." },
+      exemple:{ ca:"Quan la temperatura torna a 36,8 °C, la sudoració s'atura.", es:"Cuando la temperatura vuelve a 36,8 °C, la sudoración se detiene.", en:"When temperature returns to 36.8 °C, sweating stops." }
+    }
+  },
+  {
+    bloc:"A", pi:true, icon:"⚖️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"En repòs, totes les variables del cos estan dins dels seus rangs.", es:"En reposo, todas las variables del cuerpo están dentro de sus rangos.", en:"At rest, all body variables are within their ranges." },
+    pregunta:{ ca:"L'homeòstasi és un estat <strong>estàtic</strong> o un <strong>equilibri dinàmic</strong>?", es:"¿La homeostasis es un estado <strong>estático</strong> o un <strong>equilibrio dinámico</strong>?", en:"Is homeostasis a <strong>static</strong> state or a <strong>dynamic balance</strong>?" },
+    explica:{ ca:"És un <strong>equilibri dinàmic</strong>: el cos fa micro-ajustos constantment.", es:"Es un <strong>equilibrio dinámico</strong>: el cuerpo hace micro-ajustes constantemente.", en:"It is a <strong>dynamic balance</strong>: the body makes constant micro-adjustments." },
+    info:{
+      titol:{ ca:"Equilibri dinàmic", es:"Equilibrio dinámico", en:"Dynamic balance" },
+      text:{ ca:"L'homeòstasi no és un estat fix, sinó un equilibri amb ajustos continus.", es:"La homeostasis no es un estado fijo, sino un equilibrio con ajustes continuos.", en:"Homeostasis is not a fixed state, but a balance with continuous adjustments." },
+      exemple:{ ca:"És com un equilibrista: sembla quiet, però fa micro-ajustos.", es:"Es como un equilibrista: parece quieto, pero hace micro-ajustes.", en:"It is like a tightrope walker: seemingly still, but making micro-adjustments." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🔎", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El punt d'ajust és el valor que el cos considera «normal» per a una variable.", es:"El punto de ajuste es el valor que el cuerpo considera «normal» para una variable.", en:"The set point is the value the body considers “normal” for a variable." },
+    pregunta:{ ca:"El punt d'ajust de la temperatura és al voltant de 36,8 °C?", es:"¿El punto de ajuste de la temperatura está alrededor de 36,8 °C?", en:"Is the temperature set point around 36.8 °C?" },
+    explica:{ ca:"Sí. El punt d'ajust de la temperatura és ~36,8 °C, dins del rang 36–37,5 °C.", es:"Sí. El punto de ajuste de la temperatura es ~36,8 °C, dentro del rango 36–37,5 °C.", en:"Yes. The temperature set point is ~36.8 °C, within the 36–37.5 °C range." },
+    info:{
+      titol:{ ca:"Punt d'ajust", es:"Punto de ajuste", en:"Set point" },
+      text:{ ca:"És el valor objectiu que el cos intenta mantenir.", es:"Es el valor objetivo que el cuerpo intenta mantener.", en:"It is the target value the body tries to keep." },
+      exemple:{ ca:"Si puja per sobre, el cos corregeix.", es:"Si sube por encima, el cuerpo corrige.", en:"If it rises above, the body corrects." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🧭", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Una desviació és quan una variable surt del seu rang.", es:"Una desviación es cuando una variable sale de su rango.", en:"A deviation is when a variable leaves its range." },
+    pregunta:{ ca:"Qualsevol desviació activa una correcció del cos?", es:"¿Cualquier desviación activa una corrección del cuerpo?", en:"Does any deviation trigger a body correction?" },
+    explica:{ ca:"Sí, si és prou gran. Canvis molt petits no sempre activen el bucle.", es:"Sí, si es lo bastante grande. Cambios muy pequeños no siempre activan el bucle.", en:"Yes, if it is big enough. Very small changes do not always trigger the loop." },
+    info:{
+      titol:{ ca:"Desviació", es:"Desviación", en:"Deviation" },
+      text:{ ca:"El cos detecta desviacions significatives i activa correccions.", es:"El cuerpo detecta desviaciones significativas y activa correcciones.", en:"The body detects significant deviations and activates corrections." },
+      exemple:{ ca:"Un canvi d'1 dècim de grau no activa res; una febre sí.", es:"Un cambio de 1 décima de grado no activa nada; una fiebre sí.", en:"A 0.1 °C change does nothing; a fever does." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🔄", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"La retroalimentació negativa és el mecanisme més habitual del cos.", es:"La retroalimentación negativa es el mecanismo más habitual del cuerpo.", en:"Negative feedback is the body's most common mechanism." },
+    pregunta:{ ca:"La majoria de bucles homeostàtics són de retroalimentació negativa?", es:"¿La mayoría de bucles homeostáticos son de retroalimentación negativa?", en:"Are most homeostatic loops negative feedback?" },
+    explica:{ ca:"Sí. La negativa manté l'equilibri; la positiva és més rara i s'usa per completar processos.", es:"Sí. La negativa mantiene el equilibrio; la positiva es más rara y se usa para completar procesos.", en:"Yes. Negative maintains balance; positive is rarer and used to complete processes." },
+    info:{
+      titol:{ ca:"Negativa vs positiva", es:"Negativa vs positiva", en:"Negative vs positive" },
+      text:{ ca:"Negativa: corregeix. Positiva: amplifica.", es:"Negativa: corrige. Positiva: amplifica.", en:"Negative: corrects. Positive: amplifies." },
+      exemple:{ ca:"Temperatura: negativa. Part: positiva.", es:"Temperatura: negativa. Parto: positiva.", en:"Temperature: negative. Childbirth: positive." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🌡️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Durant un assaig llarg, la temperatura corporal puja.", es:"Durante un ensayo largo, la temperatura corporal sube.", en:"During a long rehearsal, body temperature rises." },
+    pregunta:{ ca:"Quin sistema fa de centre d'integració principal en la temperatura?", es:"¿Qué sistema actúa como centro de integración principal en la temperatura?", en:"Which system acts as the main integration centre for temperature?" },
+    explica:{ ca:"El <strong>sistema nerviós</strong>, concretament l'hipotàlem.", es:"El <strong>sistema nervioso</strong>, concretamente el hipotálamo.", en:"The <strong>nervous system</strong>, specifically the hypothalamus." },
+    info:{
+      titol:{ ca:"Hipotàlem", es:"Hipotálamo", en:"Hypothalamus" },
+      text:{ ca:"L'hipotàlem regula la temperatura, la set, la fam i el son.", es:"El hipotálamo regula la temperatura, la sed, el hambre y el sueño.", en:"The hypothalamus regulates temperature, thirst, hunger and sleep." },
+      exemple:{ ca:"Si tens calor, l'hipotàlem activa la sudoració.", es:"Si tienes calor, el hipotálamo activa la sudoración.", en:"If you are hot, the hypothalamus activates sweating." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"💧", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El 60 % del cos humà és líquid.", es:"El 60 % del cuerpo humano es líquido.", en:"60 % of the human body is fluid." },
+    pregunta:{ ca:"El medi intern és el líquid <strong>dins</strong> de les cèl·lules o <strong>fora</strong>?", es:"¿El medio interno es el líquido <strong>dentro</strong> de las células o <strong>fuera</strong>?", en:"Is the internal environment the fluid <strong>inside</strong> cells or <strong>outside</strong>?" },
+    explica:{ ca:"És el líquid <strong>fora</strong> de les cèl·lules: el LEC.", es:"Es el líquido <strong>fuera</strong> de las células: el LEC.", en:"It is the fluid <strong>outside</strong> cells: the ECF." },
+    info:{
+      titol:{ ca:"Medi intern", es:"Medio interno", en:"Internal environment" },
+      text:{ ca:"El medi intern és el LEC (35–40 % del líquid corporal).", es:"El medio interno es el LEC (35–40 % del líquido corporal).", en:"The internal environment is the ECF (35–40 % of body fluid)." },
+      exemple:{ ca:"Quan sues, perds líquid del medi intern.", es:"Cuando sudas, pierdes líquido del medio interno.", en:"When you sweat, you lose fluid from the internal environment." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"⏱️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El cos corregeix les desviacions contínuament, fins i tot en repòs.", es:"El cuerpo corrige las desviaciones continuamente, incluso en reposo.", en:"The body corrects deviations continuously, even at rest." },
+    pregunta:{ ca:"En repòs, el cos deixa de regular?", es:"¿En reposo, el cuerpo deja de regular?", en:"At rest, does the body stop regulating?" },
+    explica:{ ca:"No. El cos segueix fent micro-ajustos contínuament.", es:"No. El cuerpo sigue haciendo micro-ajustes continuamente.", en:"No. The body keeps making micro-adjustments continuously." },
+    info:{
+      titol:{ ca:"Sempre actiu", es:"Siempre activo", en:"Always active" },
+      text:{ ca:"L'homeòstasi no descansa mai.", es:"La homeostasis nunca descansa.", en:"Homeostasis never rests." },
+      exemple:{ ca:"Fins i tot dormint, el cos regula temperatura, glucosa i pH.", es:"Incluso durmiendo, el cuerpo regula temperatura, glucosa y pH.", en:"Even while sleeping, the body regulates temperature, glucose and pH." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🩹", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"La pell és un òrgan format per teixit epitelial, connectiu, nerviós i muscular.", es:"La piel es un órgano formado por tejido epitelial, conectivo, nervioso y muscular.", en:"Skin is an organ made of epithelial, connective, nervous and muscular tissue." },
+    pregunta:{ ca:"La pell és un òrgan?", es:"¿La piel es un órgano?", en:"Is skin an organ?" },
+    explica:{ ca:"Sí. És l'òrgan més gran del cos.", es:"Sí. Es el órgano más grande del cuerpo.", en:"Yes. It is the body's largest organ." },
+    info:{
+      titol:{ ca:"La pell", es:"La piel", en:"Skin" },
+      text:{ ca:"La pell és un òrgan format per diversos teixits.", es:"La piel es un órgano formado por varios tejidos.", en:"Skin is an organ made of several tissues." },
+      exemple:{ ca:"Protegeix el cos i regula la temperatura.", es:"Protegeix el cos i regula la temperatura.", en:"It protects the body and regulates temperature." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🛡️", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El teixit que revesteix les superfícies i forma glàndules.", es:"El tejido que reviste las superficies y forma glándulas.", en:"The tissue that lines surfaces and forms glands." },
+    pregunta:{ ca:"Quin teixit és?", es:"¿Qué tejido es?", en:"Which tissue is it?" },
+    explica:{ ca:"El <strong>teixit epitelial</strong>.", es:"El <strong>tejido epitelial</strong>.", en:"<strong>Epithelial tissue</strong>." },
+    info:{
+      titol:{ ca:"Teixit epitelial", es:"Tejido epitelial", en:"Epithelial tissue" },
+      text:{ ca:"Cobreix superfícies i forma glàndules.", es:"Cubre superficies y forma glándulas.", en:"It covers surfaces and forms glands." },
+      exemple:{ ca:"La pell i les glàndules sudorípares són teixit epitelial.", es:"La piel y las glándulas sudoríparas son tejido epitelial.", en:"Skin and sweat glands are epithelial tissue." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🧱", correcte:"correcte", recurs:"esqueleto_04_tendones.html",
+    situacio:{ ca:"El teixit que dona suport i uneix estructures.", es:"El tejido que da soporte y une estructuras.", en:"The tissue that supports and joins structures." },
+    pregunta:{ ca:"Quin teixit és?", es:"¿Qué tejido es?", en:"Which tissue is it?" },
+    explica:{ ca:"El <strong>teixit connectiu</strong>.", es:"El <strong>tejido conectivo</strong>.", en:"<strong>Connective tissue</strong>." },
+    info:{
+      titol:{ ca:"Teixit connectiu", es:"Tejido conectivo", en:"Connective tissue" },
+      text:{ ca:"Inclou tendons, lligaments, cartílags, ossos i sang.", es:"Incluye tendones, ligamentos, cartílagos, huesos y sangre.", en:"It includes tendons, ligaments, cartilage, bones and blood." },
+      exemple:{ ca:"El tendó d'Aquil·les és teixit connectiu.", es:"El tendón de Aquiles es tejido conectivo.", en:"The Achilles tendon is connective tissue." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🧠", correcte:"correcte", recurs:"unidad_motora.html",
+    situacio:{ ca:"El teixit que genera i transmet impulsos bioelèctrics.", es:"El tejido que genera y transmite impulsos bioeléctricos.", en:"The tissue that generates and transmits bioelectrical impulses." },
+    pregunta:{ ca:"Quin teixit és?", es:"¿Qué tejido es?", en:"Which tissue is it?" },
+    explica:{ ca:"El <strong>teixit nerviós</strong>.", es:"El <strong>tejido nervioso</strong>.", en:"<strong>Nervous tissue</strong>." },
+    info:{
+      titol:{ ca:"Teixit nerviós", es:"Tejido nervioso", en:"Nervous tissue" },
+      text:{ ca:"Format per neurones i cèl·lules glials.", es:"Formado por neuronas y células gliales.", en:"Made of neurons and glial cells." },
+      exemple:{ ca:"La motoneurona és teixit nerviós.", es:"La motoneurona es tejido nervioso.", en:"The motor neuron is nervous tissue." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🧩", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El cos humà té quatre tipus bàsics de teixit.", es:"El cuerpo humano tiene cuatro tipos básicos de tejido.", en:"The human body has four basic tissue types." },
+    pregunta:{ ca:"Quants en són fonamentals?", es:"¿Cuántos son fundamentales?", en:"How many are fundamental?" },
+    explica:{ ca:"<strong>Quatre</strong>: epitelial, connectiu, muscular i nerviós.", es:"<strong>Cuatro</strong>: epitelial, conectivo, muscular y nervioso.", en:"<strong>Four</strong>: epithelial, connective, muscular and nervous." },
+    info:{
+      titol:{ ca:"Els 4 teixits", es:"Los 4 tejidos", en:"The 4 tissues" },
+      text:{ ca:"Tots els òrgans estan formats per combinacions d'aquests 4.", es:"Todos los órganos están formados por combinaciones de estos 4.", en:"All organs are made of combinations of these 4." },
+      exemple:{ ca:"El cor combina muscular, connectiu, nerviós i epitelial.", es:"El corazón combina muscular, conectivo, nervioso y epitelial.", en:"The heart combines muscular, connective, nervous and epithelial tissue." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🔁", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El cos regula la temperatura per tornar al rang.", es:"El cuerpo regula la temperatura para volver al rango.", en:"The body regulates temperature to return to range." },
+    pregunta:{ ca:"Això és retroalimentació?", es:"¿Esto es retroalimentación?", en:"Is this feedback?" },
+    explica:{ ca:"Sí. És el mecanisme que corregeix les desviacions.", es:"Sí. Es el mecanismo que corrige las desviaciones.", en:"Yes. It is the mechanism that corrects deviations." },
+    info:{
+      titol:{ ca:"Què és la retroalimentació", es:"Qué es la retroalimentación", en:"What feedback is" },
+      text:{ ca:"És el mecanisme de control del cos.", es:"Es el mecanismo de control del cuerpo.", en:"It is the body's control mechanism." },
+      exemple:{ ca:"Quan tens calor, sues.", es:"Cuando tienes calor, sudas.", en:"When you are hot, you sweat." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"⚖️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Hi ha dos tipus principals de retroalimentació.", es:"Hay dos tipos principales de retroalimentación.", en:"There are two main types of feedback." },
+    pregunta:{ ca:"Quins són?", es:"¿Cuáles son?", en:"Which are they?" },
+    explica:{ ca:"<strong>Negativa i positiva</strong>.", es:"<strong>Negativa y positiva</strong>.", en:"<strong>Negative and positive</strong>." },
+    info:{
+      titol:{ ca:"Tipus de retroalimentació", es:"Tipos de retroalimentación", en:"Feedback types" },
+      text:{ ca:"Negativa: corregeix. Positiva: amplifica.", es:"Negativa: corrige. Positiva: amplifica.", en:"Negative: corrects. Positive: amplifies." },
+      exemple:{ ca:"Temperatura: negativa. Part: positiva.", es:"Temperatura: negativa. Parto: positiva.", en:"Temperature: negative. Childbirth: positive." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"🧠", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El cos detecta, decideix i executa.", es:"El cuerpo detecta, decide y ejecuta.", en:"The body detects, decides and executes." },
+    pregunta:{ ca:"Aquestes són les 3 fases del bucle?", es:"¿Estas son las 3 fases del bucle?", en:"Are these the 3 phases of the loop?" },
+    explica:{ ca:"Sí: sensor, centre d'integració i efector.", es:"Sí: sensor, centro de integración y efector.", en:"Yes: sensor, integration centre and effector." },
+    info:{
+      titol:{ ca:"Les 3 fases", es:"Las 3 fases", en:"The 3 phases" },
+      text:{ ca:"Detectar, decidir i executar.", es:"Detectar, decidir y ejecutar.", en:"Detect, decide and execute." },
+      exemple:{ ca:"Termoreceptors → hipotàlem → suor.", es:"Termorreceptores → hipotálamo → sudor.", en:"Thermoreceptors → hypothalamus → sweat." }
+    }
+  },
+  {
+    bloc:"A", pi:false, icon:"⚙️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"La retroalimentació negativa torna al punt d'ajust.", es:"La retroalimentación negativa vuelve al punto de ajuste.", en:"Negative feedback returns to the set point." },
+    pregunta:{ ca:"Quan la variable torna al rang, què passa?", es:"¿Cuando la variable vuelve al rango, qué pasa?", en:"When the variable returns to range, what happens?" },
+    explica:{ ca:"La resposta s'atura.", es:"La respuesta se detiene.", en:"The response stops." },
+    info:{
+      titol:{ ca:"Fi de la resposta", es:"Fin de la respuesta", en:"End of response" },
+      text:{ ca:"Quan la variable està al rang, no cal corregir.", es:"Cuando la variable está en el rango, no hay que corregir.", en:"When the variable is in range, no correction is needed." },
+      exemple:{ ca:"Quan baixa la temperatura, s'atura la suor.", es:"Cuando baja la temperatura, se detiene el sudor.", en:"When temperature drops, sweating stops." }
+    }
+  },
+
+  /* ============ BLOC B · NIVELLS I TEIXITS (20) ============ */
+  {
+    bloc:"B", pi:true, icon:"🧬", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"L'ordre és: cèl·lula → teixit → òrgan → sistema → organisme.", es:"El orden es: célula → tejido → órgano → sistema → organismo.", en:"The order is: cell → tissue → organ → system → organism." },
+    pregunta:{ ca:"És correcte aquest ordre?", es:"¿Es correcto este orden?", en:"Is this order correct?" },
+    explica:{ ca:"Sí. Cada nivell afegeix complexitat.", es:"Sí. Cada nivel añade complejidad.", en:"Yes. Each level adds complexity." },
+    info:{
+      titol:{ ca:"Els 5 nivells", es:"Los 5 niveles", en:"The 5 levels" },
+      text:{ ca:"Cèl·lula és la unitat; teixit, conjunt de cèl·lules; òrgan, conjunt de teixits; sistema, conjunt d'òrgans; organisme, el tot.", es:"Célula es la unidad; tejido, conjunto de células; órgano, conjunto de tejidos; sistema, conjunto de órganos; organismo, el todo.", en:"Cell is the unit; tissue, a set of cells; organ, a set of tissues; system, a set of organs; organism, the whole." },
+      exemple:{ ca:"Aquesta jerarquia és la columna vertebral de tota la fisiologia.", es:"Esta jerarquía es la columna vertebral de toda la fisiología.", en:"This hierarchy is the backbone of all physiology." }
+    }
+  },
+  {
+    bloc:"B", pi:true, icon:"🔬", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"La fibra muscular és la cèl·lula del múscul.", es:"La fibra muscular es la célula del músculo.", en:"The muscle fibre is the muscle cell." },
+    pregunta:{ ca:"A quin nivell pertany la fibra muscular?", es:"¿A qué nivel pertenece la fibra muscular?", en:"Which level does the muscle fibre belong to?" },
+    explica:{ ca:"Al <strong>nivell cel·lular</strong>.", es:"Al <strong>nivel celular</strong>.", en:"To the <strong>cellular level</strong>." },
+    info:{
+      titol:{ ca:"Nivell cel·lular", es:"Nivel celular", en:"Cellular level" },
+      text:{ ca:"El cos humà té uns 100 bilions de cèl·lules.", es:"El cuerpo humano tiene unos 100 billones de células.", en:"The human body has about 100 trillion cells." },
+      exemple:{ ca:"La fibra muscular és la cèl·lula especialitzada en la contracció.", es:"La fibra muscular es la célula especializada en la contracción.", en:"The muscle fibre is the cell specialised for contraction." }
+    }
+  },
+  {
+    bloc:"B", pi:true, icon:"🧩", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El teixit muscular esquelètic està format per fibres.", es:"El tejido muscular esquelético está formado por fibras.", en:"Skeletal muscle tissue is made of fibres." },
+    pregunta:{ ca:"A quin nivell pertany el teixit muscular?", es:"¿A qué nivel pertenece el tejido muscular?", en:"Which level does muscle tissue belong to?" },
+    explica:{ ca:"Al <strong>nivell tissular</strong>.", es:"Al <strong>nivel tisular</strong>.", en:"To the <strong>tissue level</strong>." },
+    info:{
+      titol:{ ca:"Nivell tissular", es:"Nivel tisular", en:"Tissue level" },
+      text:{ ca:"Un teixit és un conjunt de cèl·lules amb origen comú.", es:"Un tejido es un conjunto de células con origen común.", en:"A tissue is a set of cells with a common origin." },
+      exemple:{ ca:"El teixit muscular esquelètic és el conjunt de fibres que formen el múscul.", es:"El tejido muscular esquelético es el conjunto de fibras que forman el músculo.", en:"Skeletal muscle tissue is the set of fibres that form the muscle." }
+    }
+  },
+  {
+    bloc:"B", pi:true, icon:"🫀", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El cor està format per diversos teixits.", es:"El corazón está formado por varios tejidos.", en:"The heart is made of several tissues." },
+    pregunta:{ ca:"A quin nivell pertany el cor?", es:"¿A qué nivel pertenece el corazón?", en:"Which level does the heart belong to?" },
+    explica:{ ca:"Al <strong>nivell orgànic</strong>.", es:"Al <strong>nivel orgánico</strong>.", en:"To the <strong>organ level</strong>." },
+    info:{
+      titol:{ ca:"Nivell orgànic", es:"Nivel orgánico", en:"Organ level" },
+      text:{ ca:"Un òrgan és l'associació de diversos teixits que fan una funció.", es:"Un órgano es la asociación de varios tejidos que realizan una función.", en:"An organ is the association of several tissues performing a function." },
+      exemple:{ ca:"El cor és l'òrgan que bombeja la sang.", es:"El corazón es el órgano que bombea la sangre.", en:"The heart is the organ that pumps blood." }
+    }
+  },
+  {
+    bloc:"B", pi:true, icon:"🦴", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El sistema muscular està format per músculs, ossos i articulacions.", es:"El sistema muscular está formado por músculos, huesos y articulaciones.", en:"The muscular system is made of muscles, bones and joints." },
+    pregunta:{ ca:"A quin nivell pertany el sistema muscular?", es:"¿A qué nivel pertenece el sistema muscular?", en:"Which level does the muscular system belong to?" },
+    explica:{ ca:"Al <strong>nivell de sistema</strong>.", es:"Al <strong>nivel de sistema</strong>.", en:"To the <strong>system level</strong>." },
+    info:{
+      titol:{ ca:"Nivell de sistema", es:"Nivel de sistema", en:"System level" },
+      text:{ ca:"Un sistema és un conjunt d'òrgans homogenis.", es:"Un sistema es un conjunto de órganos homogéneos.", en:"A system is a set of homogeneous organs." },
+      exemple:{ ca:"El sistema muscular inclou bíceps, quàdriceps, abdomen…", es:"El sistema muscular incluye bíceps, cuádriceps, abdomen…", en:"The muscular system includes biceps, quadriceps, abdomen…" }
+    }
+  },
+  {
+    bloc:"B", pi:true, icon:"🧍", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El cos humà integra tots els sistemes i aparells.", es:"El cuerpo humano integra todos los sistemas y aparatos.", en:"The human body integrates all systems and apparatuses." },
+    pregunta:{ ca:"A quin nivell pertany el cos humà?", es:"¿A qué nivel pertenece el cuerpo humano?", en:"Which level does the human body belong to?" },
+    explica:{ ca:"Al <strong>nivell d'organisme</strong>.", es:"Al <strong>nivel de organismo</strong>.", en:"To the <strong>organism level</strong>." },
+    info:{
+      titol:{ ca:"Nivell d'organisme", es:"Nivel de organismo", en:"Organism level" },
+      text:{ ca:"L'organisme és la unitat suprema integrada per a l'homeòstasi.", es:"El organismo es la unidad suprema integrada para la homeostasis.", en:"The organism is the supreme unit integrated for homeostasis." },
+      exemple:{ ca:"La ballarina en moviment és un organisme en acció.", es:"La bailarina en movimiento es un organismo en acción.", en:"The dancer in movement is an organism in action." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🔗", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"L'ordre jeràrquic del cos és cèl·lula → teixit → òrgan → sistema → organisme.", es:"El orden jerárquico del cuerpo es célula → tejido → órgano → sistema → organismo.", en:"The hierarchical order of the body is cell → tissue → organ → system → organism." },
+    pregunta:{ ca:"Cada nivell conté l'anterior?", es:"¿Cada nivel contiene al anterior?", en:"Does each level contain the previous one?" },
+    explica:{ ca:"Sí. El teixit conté cèl·lules; l'òrgan, teixits; el sistema, òrgans; l'organisme, sistemes.", es:"Sí. El tejido contiene células; el órgano, tejidos; el sistema, órganos; el organismo, sistemas.", en:"Yes. Tissue contains cells; organ, tissues; system, organs; organism, systems." },
+    info:{
+      titol:{ ca:"Contenció", es:"Contención", en:"Containment" },
+      text:{ ca:"Cada nivell és un conjunt del nivell anterior.", es:"Cada nivel es un conjunto del nivel anterior.", en:"Each level is a set of the previous one." },
+      exemple:{ ca:"El bíceps (òrgan) conté fibres (cèl·lules).", es:"El bíceps (órgano) contiene fibras (células).", en:"The biceps (organ) contains fibres (cells)." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🩸", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"La sang és líquida però es considera un teixit.", es:"La sangre es líquida pero se considera un tejido.", en:"Blood is liquid but is considered a tissue." },
+    pregunta:{ ca:"A quin nivell pertany la sang?", es:"¿A qué nivel pertenece la sangre?", en:"Which level does blood belong to?" },
+    explica:{ ca:"Al <strong>tissular</strong>: és teixit connectiu líquid.", es:"Al <strong>tisular</strong>: es tejido conectivo líquido.", en:"To the <strong>tissue</strong> level: it is liquid connective tissue." },
+    info:{
+      titol:{ ca:"Sang", es:"Sangre", en:"Blood" },
+      text:{ ca:"La sang és teixit connectiu líquid.", es:"La sangre es tejido conectivo líquido.", en:"Blood is liquid connective tissue." },
+      exemple:{ ca:"Transporta nutrients i oxigen a tot el cos.", es:"Transporta nutrientes y oxígeno a todo el cuerpo.", en:"It carries nutrients and oxygen throughout the body." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"💪", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El bíceps és un múscul.", es:"El bíceps es un músculo.", en:"The biceps is a muscle." },
+    pregunta:{ ca:"A quin nivell pertany el bíceps?", es:"¿A qué nivel pertenece el bíceps?", en:"Which level does the biceps belong to?" },
+    explica:{ ca:"Al <strong>nivell orgànic</strong>.", es:"Al <strong>nivel orgánico</strong>.", en:"To the <strong>organ</strong> level." },
+    info:{
+      titol:{ ca:"Bíceps", es:"Bíceps", en:"Biceps" },
+      text:{ ca:"És un òrgan format per teixit muscular, connectiu, nerviós i epitelial.", es:"Es un órgano formado por tejido muscular, conectivo, nervioso y epitelial.", en:"It is an organ made of muscular, connective, nervous and epithelial tissue." },
+      exemple:{ ca:"El bíceps fa la flexió del braç.", es:"El bíceps hace la flexión del brazo.", en:"The biceps flexes the arm." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🫁", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"L'aparell respiratori està format per òrgans heterogenis.", es:"El aparato respiratorio está formado por órganos heterogéneos.", en:"The respiratory apparatus is made of heterogeneous organs." },
+    pregunta:{ ca:"L'aparell respiratori és un sistema o un aparell?", es:"¿El aparato respiratorio es un sistema o un aparato?", en:"Is the respiratory apparatus a system or an apparatus?" },
+    explica:{ ca:"És un <strong>aparell</strong>, perquè combina òrgans heterogenis.", es:"Es un <strong>aparato</strong>, porque combina órganos heterogéneos.", en:"It is an <strong>apparatus</strong>, because it combines heterogeneous organs." },
+    info:{
+      titol:{ ca:"Sistema vs aparell", es:"Sistema vs aparato", en:"System vs apparatus" },
+      text:{ ca:"Sistema: òrgans homogenis. Aparell: òrgans heterogenis.", es:"Sistema: órganos homogéneos. Aparato: órganos heterogéneos.", en:"System: homogeneous organs. Apparatus: heterogeneous organs." },
+      exemple:{ ca:"El sistema muscular és homogeni; l'aparell digestiu, heterogeni.", es:"El sistema muscular es homogéneo; el aparato digestivo, heterogéneo.", en:"The muscular system is homogeneous; the digestive apparatus is heterogeneous." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🔬", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"Els cardiomiòcits són cèl·lules del cor.", es:"Los cardiomiocitos son células del corazón.", en:"Cardiomyocytes are heart cells." },
+    pregunta:{ ca:"A quin nivell pertanyen?", es:"¿A qué nivel pertenecen?", en:"Which level do they belong to?" },
+    explica:{ ca:"Al <strong>cel·lular</strong>.", es:"Al <strong>celular</strong>.", en:"To the <strong>cellular</strong> level." },
+    info:{
+      titol:{ ca:"Cardiomiòcit", es:"Cardiomiocito", en:"Cardiomyocyte" },
+      text:{ ca:"És la cèl·lula del múscul cardíac.", es:"Es la célula del músculo cardíaco.", en:"It is the cardiac muscle cell." },
+      exemple:{ ca:"És la cèl·lula que fa bategar el cor.", es:"Es la célula que hace latir el corazón.", en:"It is the cell that makes the heart beat." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🎭", correcte:"correcte", recurs:"metaforas_8.html",
+    situacio:{ ca:"Metàfora: «La cèl·lula és el pas bàsic; el teixit, la frase coreogràfica».", es:"Metáfora: «La célula es el paso básico; el tejido, la frase coreográfica».", en:"Metaphor: “The cell is the basic step; tissue, the choreographic phrase.”" },
+    pregunta:{ ca:"Què representaria l'òrgan?", es:"¿Qué representaría el órgano?", en:"What would the organ represent?" },
+    explica:{ ca:"La <strong>variació del ballarí</strong>.", es:"La <strong>variación del bailarín</strong>.", en:"The <strong>dancer's variation</strong>." },
+    info:{
+      titol:{ ca:"Metàfora", es:"Metáfora", en:"Metaphor" },
+      text:{ ca:"Cèl·lula = pas. Teixit = frase. Òrgan = variació. Sistema = obra.", es:"Célula = paso. Tejido = frase. Órgano = variación. Sistema = obra.", en:"Cell = step. Tissue = phrase. Organ = variation. System = work." },
+      exemple:{ ca:"Cada nivell té el seu equivalent a la dansa.", es:"Cada nivel tiene su equivalente en la danza.", en:"Each level has its equivalent in dance." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🧩", correcte:"correcte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"El cos humà té quatre tipus bàsics de teixit.", es:"El cuerpo humano tiene cuatro tipos básicos de tejido.", en:"The human body has four basic tissue types." },
+    pregunta:{ ca:"Quin teixit revesteix les superfícies?", es:"¿Qué tejido reviste las superficies?", en:"Which tissue lines surfaces?" },
+    explica:{ ca:"El <strong>epitelial</strong>.", es:"El <strong>epitelial</strong>.", en:"<strong>Epithelial</strong>." },
+    info:{
+      titol:{ ca:"Teixit epitelial", es:"Tejido epitelial", en:"Epithelial tissue" },
+      text:{ ca:"Protegeix, revesteix i forma glàndules.", es:"Protege, reviste y forma glándulas.", en:"It protects, lines and forms glands." },
+      exemple:{ ca:"La pell és teixit epitelial.", es:"La piel es tejido epitelial.", en:"Skin is epithelial tissue." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🦴", correcte:"correcte", recurs:"esqueleto_00_A.html",
+    situacio:{ ca:"Els ossos són teixit connectiu especialitzat.", es:"Los huesos son tejido conectivo especializado.", en:"Bones are specialised connective tissue." },
+    pregunta:{ ca:"Els ossos són teixit connectiu?", es:"¿Los huesos son tejido conectivo?", en:"Are bones connective tissue?" },
+    explica:{ ca:"Sí. És connectiu mineralitzat.", es:"Sí. Es conectivo mineralizado.", en:"Yes. It is mineralised connective tissue." },
+    info:{
+      titol:{ ca:"Os", es:"Hueso", en:"Bone" },
+      text:{ ca:"Conté col·lagen, minerals i cèl·lules òssies.", es:"Contiene colágeno, minerales y células óseas.", en:"It contains collagen, minerals and bone cells." },
+      exemple:{ ca:"El fèmur és un os llarg.", es:"El fémur es un hueso largo.", en:"The femur is a long bone." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🩹", correcte:"correcte", recurs:"esqueleto_04_tendones.html",
+    situacio:{ ca:"Els tendons uneixen múscul i os.", es:"Los tendones unen músculo y hueso.", en:"Tendons join muscle to bone." },
+    pregunta:{ ca:"Els tendons són teixit connectiu?", es:"¿Los tendones son tejido conectivo?", en:"Are tendons connective tissue?" },
+    explica:{ ca:"Sí. Són teixit connectiu resistent.", es:"Sí. Son tejido conectivo resistente.", en:"Yes. They are strong connective tissue." },
+    info:{
+      titol:{ ca:"Tendons", es:"Tendones", en:"Tendons" },
+      text:{ ca:"Uneixen múscul i os i emmagatzemen energia elàstica.", es:"Unen músculo y hueso y almacenan energía elástica.", en:"They join muscle to bone and store elastic energy." },
+      exemple:{ ca:"El tendó d'Aquil·les és al turmell.", es:"El tendó de Aquiles está en el tobillo.", en:"The Achilles tendon is at the ankle." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🦵", correcte:"correcte", recurs:"esqueleto_05_articulaciones_A.html",
+    situacio:{ ca:"El cartílag cobreix les superfícies articulars.", es:"El cartílago cubre las superficies articulares.", en:"Cartilage covers joint surfaces." },
+    pregunta:{ ca:"El cartílag és teixit connectiu?", es:"¿El cartílago es tejido conectivo?", en:"Is cartilage connective tissue?" },
+    explica:{ ca:"Sí. És teixit connectiu especialitzat.", es:"Sí. Es tejido conectivo especializado.", en:"Yes. It is specialised connective tissue." },
+    info:{
+      titol:{ ca:"Cartílag", es:"Cartílago", en:"Cartilage" },
+      text:{ ca:"Cobreix les articulacions i les protegeix.", es:"Cubre las articulaciones y las protege.", en:"It covers joints and protects them." },
+      exemple:{ ca:"Sense cartílag, els ossos es fregarien.", es:"Sin cartílago, los huesos se frotarían.", en:"Without cartilage, bones would rub together." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🎭", correcte:"correcte", recurs:"metaforas_8.html",
+    situacio:{ ca:"«Cèl·lula = pas; teixit = frase; òrgan = variació; sistema = obra».", es:"«Célula = paso; tejido = frase; órgano = variación; sistema = obra».", en:"“Cell = step; tissue = phrase; organ = variation; system = work.”" },
+    pregunta:{ ca:"Quin nivell correspon a l'obra de ballet?", es:"¿Qué nivel corresponde a la obra de ballet?", en:"Which level corresponds to the ballet work?" },
+    explica:{ ca:"El <strong>sistema</strong>.", es:"El <strong>sistema</strong>.", en:"The <strong>system</strong>." },
+    info:{
+      titol:{ ca:"Metàfora", es:"Metáfora", en:"Metaphor" },
+      text:{ ca:"Cada nivell equival a una part de l'obra de dansa.", es:"Cada nivel equivale a una parte de la obra de danza.", en:"Each level equals a part of the dance work." },
+      exemple:{ ca:"El sistema muscular = l'obra sencera.", es:"El sistema muscular = la obra entera.", en:"The muscular system = the whole work." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🩹", correcte:"incorrecte", recurs:"trabajo_musculos.html",
+    situacio:{ ca:"La pell conté teixit epitelial i connectiu.", es:"La piel contiene tejido epitelial y conectivo.", en:"Skin contains epithelial and connective tissue." },
+    pregunta:{ ca:"La pell és un teixit?", es:"¿La piel es un tejido?", en:"Is skin a tissue?" },
+    explica:{ ca:"No: la pell és un <strong>òrgan</strong>, format per diversos teixits.", es:"No: la piel es un <strong>órgano</strong>, formado por varios tejidos.", en:"No: skin is an <strong>organ</strong>, made of several tissues." },
+    info:{
+      titol:{ ca:"Pell", es:"Piel", en:"Skin" },
+      text:{ ca:"La pell és un òrgan, no un teixit.", es:"La piel es un órgano, no un tejido.", en:"Skin is an organ, not a tissue." },
+      exemple:{ ca:"Conté epitelial, connectiu i nerviós.", es:"Contiene epitelial, conectivo y nervioso.", en:"It contains epithelial, connective and nervous." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🩸", correcte:"incorrecte", recurs:"esqueleto_00_A.html",
+    situacio:{ ca:"La sang arriba a tots els teixits del cos.", es:"La sangre llega a todos los tejidos del cuerpo.", en:"Blood reaches all body tissues." },
+    pregunta:{ ca:"La sang és un òrgan?", es:"¿La sangre es un órgano?", en:"Is blood an organ?" },
+    explica:{ ca:"No. És un <strong>teixit</strong> connectiu líquid.", es:"No. Es un <strong>tejido</strong> conectivo líquido.", en:"No. It is a liquid <strong>connective tissue</strong>." },
+    info:{
+      titol:{ ca:"Sang", es:"Sangre", en:"Blood" },
+      text:{ ca:"La sang és teixit, no òrgan.", es:"La sangre es tejido, no órgano.", en:"Blood is tissue, not an organ." },
+      exemple:{ ca:"Circula per tot el cos a través dels vasos.", es:"Circula por todo el cuerpo a través de los vasos.", en:"It circulates throughout the body via vessels." }
+    }
+  },
+  {
+    bloc:"B", pi:false, icon:"🦵", correcte:"incorrecte", recurs:"esqueleto_04_tendones.html",
+    situacio:{ ca:"El tendó d'Aquil·les uneix el bessó amb el taló.", es:"El tendón de Aquiles une el gemelo con el talón.", en:"The Achilles tendon joins the calf to the heel." },
+    pregunta:{ ca:"El tendó és un òrgan?", es:"¿El tendón es un órgano?", en:"Is the tendon an organ?" },
+    explica:{ ca:"No. És teixit connectiu.", es:"No. Es tejido conectivo.", en:"No. It is connective tissue." },
+    info:{
+      titol:{ ca:"Tendó", es:"Tendón", en:"Tendon" },
+      text:{ ca:"El tendó és teixit connectiu.", es:"El tendón es tejido conectivo.", en:"The tendon is connective tissue." },
+      exemple:{ ca:"Uneix el múscul amb l'os.", es:"Une el músculo con el hueso.", en:"It joins muscle to bone." }
+    }
+  },
+
+  /* ============ BLOC C · RETROALIMENTACIÓ (20) ============ */
+  {
+    bloc:"C", pi:true, icon:"🌡️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Durant un assaig, la temperatura del cos puja per sobre de 37,5 °C.", es:"Durante un ensayo, la temperatura del cuerpo sube por encima de 37,5 °C.", en:"During a rehearsal, body temperature rises above 37.5 °C." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: el cos sua per tornar al rang.", es:"<strong>Negativa</strong>: el cuerpo suda para volver al rango.", en:"<strong>Negative</strong>: the body sweats to return to range." },
+    info:{
+      titol:{ ca:"Temperatura", es:"Temperatura", en:"Temperature" },
+      text:{ ca:"La negativa corregeix el canvi.", es:"La negativa corrige el cambio.", en:"Negative corrects the change." },
+      exemple:{ ca:"Sues i et refredes.", es:"Sudas y te enfrías.", en:"You sweat and cool down." }
+    }
+  },
+  {
+    bloc:"C", pi:true, icon:"🩸", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Una ballarina no ha menjat i la glucosa baixa.", es:"Una bailarina no ha comido y la glucosa baja.", en:"A dancer has not eaten and glucose drops." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: el glucagó allibera glucosa.", es:"<strong>Negativa</strong>: el glucagón libera glucosa.", en:"<strong>Negative</strong>: glucagon releases glucose." },
+    info:{
+      titol:{ ca:"Glucosa", es:"Glucosa", en:"Glucose" },
+      text:{ ca:"Torna al rang 75–110 mg/dL.", es:"Vuelve al rango 75–110 mg/dL.", en:"It returns to 75–110 mg/dL." },
+      exemple:{ ca:"El fetge allibera glucosa.", es:"El hígado libera glucosa.", en:"The liver releases glucose." }
+    }
+  },
+  {
+    bloc:"C", pi:true, icon:"🫁", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Durant un exercici, el CO₂ augmenta.", es:"Durante un ejercicio, el CO₂ aumenta.", en:"During exercise, CO₂ rises." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: augmenta la respiració per eliminar CO₂.", es:"<strong>Negativa</strong>: aumenta la respiración para eliminar CO₂.", en:"<strong>Negative</strong>: breathing increases to remove CO₂." },
+    info:{
+      titol:{ ca:"CO₂", es:"CO₂", en:"CO₂" },
+      text:{ ca:"El bulb raquidi activa la respiració.", es:"El bulbo raquídeo activa la respiración.", en:"The medulla oblongata activates breathing." },
+      exemple:{ ca:"Respires més ràpid.", es:"Respiras más rápido.", en:"You breathe faster." }
+    }
+  },
+  {
+    bloc:"C", pi:true, icon:"💧", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Una ballarina sua molt i perd líquid.", es:"Una bailarina suda mucho y pierde líquido.", en:"A dancer sweats a lot and loses fluid." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: activa la set i reté líquid.", es:"<strong>Negativa</strong>: activa la sed y retiene líquido.", en:"<strong>Negative</strong>: it activates thirst and retains fluid." },
+    info:{
+      titol:{ ca:"Líquid", es:"Líquido", en:"Fluid" },
+      text:{ ca:"Torna al volum habitual.", es:"Vuelve al volumen habitual.", en:"It returns to normal volume." },
+      exemple:{ ca:"Tens set i beus.", es:"Tienes sed y bebes.", en:"You are thirsty and drink." }
+    }
+  },
+  {
+    bloc:"C", pi:true, icon:"👶", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Durant el part, les contraccions augmenten.", es:"Durante el parto, las contracciones aumentan.", en:"During childbirth, contractions increase." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Positiva</strong>: l'oxitocina amplifica les contraccions.", es:"<strong>Positiva</strong>: la oxitocina amplifica las contracciones.", en:"<strong>Positive</strong>: oxytocin amplifies contractions." },
+    info:{
+      titol:{ ca:"Part", es:"Parto", en:"Childbirth" },
+      text:{ ca:"Amplifica fins al naixement.", es:"Amplifica hasta el nacimiento.", en:"Amplifies until birth." },
+      exemple:{ ca:"Com una bola de neu.", es:"Como una bola de nieve.", en:"Like a snowball." }
+    }
+  },
+  {
+    bloc:"C", pi:true, icon:"🩹", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Després d'una ferida, es forma un coàgul.", es:"Después de una herida, se forma un coágulo.", en:"After a wound, a clot forms." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Positiva</strong>: les plaquetes atrauen més plaquetes.", es:"<strong>Positiva</strong>: las plaquetas atraen más plaquetas.", en:"<strong>Positive</strong>: platelets attract more platelets." },
+    info:{
+      titol:{ ca:"Coagulació", es:"Coagulación", en:"Coagulation" },
+      text:{ ca:"El coàgul creix fins a tancar la ferida.", es:"El coágulo crece hasta cerrar la herida.", en:"The clot grows until the wound closes." },
+      exemple:{ ca:"Amplificació controlada.", es:"Amplificación controlada.", en:"Controlled amplification." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🔥", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Una persona té febre de 39 °C per una infecció.", es:"Una persona tiene fiebre de 39 °C por una infección.", en:"A person has a fever of 39 °C due to an infection." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: la febre és temporal.", es:"<strong>Negativa</strong>: la fiebre es temporal.", en:"<strong>Negative</strong>: fever is temporary." },
+    info:{
+      titol:{ ca:"Febre", es:"Fiebre", en:"Fever" },
+      text:{ ca:"Torna a 36–37,5 °C després.", es:"Vuelve a 36–37,5 °C después.", en:"It returns to 36–37.5 °C afterwards." },
+      exemple:{ ca:"Quan la infecció passa, baixa.", es:"Cuando la infección pasa, baja.", en:"When the infection passes, it drops." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"😰", correcte:"correcte", recurs:"estabilidad_control.html",
+    situacio:{ ca:"Abans d'una actuació, la ballarina nota el cor accelerat.", es:"Antes de una actuación, la bailarina nota el corazón acelerado.", en:"Before a performance, the dancer notices a fast heartbeat." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: en acabar, el cor torna al repòs.", es:"<strong>Negativa</strong>: al acabar, el corazón vuelve al reposo.", en:"<strong>Negative</strong>: afterwards the heart returns to rest." },
+    info:{
+      titol:{ ca:"Adrenalina", es:"Adrenalina", en:"Adrenaline" },
+      text:{ ca:"Accelera el cor; després torna al repòs.", es:"Acelera el corazón; después vuelve al reposo.", en:"It speeds the heart; then it returns to rest." },
+      exemple:{ ca:"En sortir d'escena, el cor es calma.", es:"Al salir de escena, el corazón se calma.", en:"After the performance, the heart calms down." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🥶", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"En un vestidor fred, la temperatura baixa per sota de 36 °C.", es:"En un vestuario frío, la temperatura baja por debajo de 36 °C.", en:"In a cold changing room, temperature drops below 36 °C." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: vasoconstricció i tremolor per generar calor.", es:"<strong>Negativa</strong>: vasoconstricción y temblor para generar calor.", en:"<strong>Negative</strong>: vasoconstriction and shivering to generate heat." },
+    info:{
+      titol:{ ca:"Regulació del fred", es:"Regulación del frío", en:"Cold regulation" },
+      text:{ ca:"L'hipotàlem activa la vasoconstricció i el tremolor.", es:"El hipotálamo activa la vasoconstricción y el temblor.", en:"The hypothalamus activates vasoconstriction and shivering." },
+      exemple:{ ca:"Abans d'entrar a classe, la ballarina tremola.", es:"Antes de entrar a clase, la bailarina tiembla.", en:"Before class, the dancer shivers." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🍎", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Una ballarina menja un plat de pasta abans d'assaig.", es:"Una bailarina come un plato de pasta antes del ensayo.", en:"A dancer eats a plate of pasta before rehearsal." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és la resposta del cos?", es:"¿Qué tipo de retroalimentación es la respuesta del cuerpo?", en:"What type of feedback is the body's response?" },
+    explica:{ ca:"<strong>Negativa</strong>: la insulina baixa la glucosa al rang.", es:"<strong>Negativa</strong>: la insulina baja la glucosa al rango.", en:"<strong>Negative</strong>: insulin lowers glucose into range." },
+    info:{
+      titol:{ ca:"Insulina", es:"Insulina", en:"Insulin" },
+      text:{ ca:"Les cèl·lules beta del pàncrees alliberen insulina.", es:"Las células beta del páncreas liberan insulina.", en:"Pancreatic beta cells release insulin." },
+      exemple:{ ca:"Després de dinar, la ballarina se sent amb energia.", es:"Después de comer, la bailarina se siente con energía.", en:"After lunch, the dancer feels energetic." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"☕", correcte:"correcte", recurs:"estabilidad_control.html",
+    situacio:{ ca:"Una ballarina pren un cafè i nota el cor més accelerat.", es:"Una bailarina toma un café y nota el corazón más acelerado.", en:"A dancer drinks coffee and notices a faster heartbeat." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: en passar l'efecte, el cor torna al rang.", es:"<strong>Negativa</strong>: al pasar el efecto, el corazón vuelve al rango.", en:"<strong>Negative</strong>: when the effect passes, the heart returns to range." },
+    info:{
+      titol:{ ca:"Cafeïna", es:"Cafeína", en:"Caffeine" },
+      text:{ ca:"Activa el simpàtic i accelera el cor.", es:"Activa el simpático y acelera el corazón.", en:"It activates the sympathetic system and speeds up the heart." },
+      exemple:{ ca:"Després del cafè, el cor torna a la normalitat.", es:"Después del café, el corazón vuelve a la normalidad.", en:"After coffee, the heart returns to normal." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🌙", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Després d'un dia intens, la ballarina dorm 8 hores.", es:"Después de un día intenso, la bailarina duerme 8 horas.", en:"After an intense day, the dancer sleeps 8 hours." },
+    pregunta:{ ca:"Quin efecte té el son sobre el bucle?", es:"¿Qué efecto tiene el sueño sobre el bucle?", en:"What effect does sleep have on the loop?" },
+    explica:{ ca:"El son <strong>restaura</strong> l'equilibri perdut durant l'exercici.", es:"El sueño <strong>restaura</strong> el equilibrio perdido durante el ejercicio.", en:"Sleep <strong>restores</strong> the balance lost during exercise." },
+    info:{
+      titol:{ ca:"El repòs restaura", es:"El reposo restaura", en:"Rest restores" },
+      text:{ ca:"Durant el son, el cos regula hormones i torna el medi intern al rang.", es:"Durante el sueño, el cuerpo regula hormonas y devuelve el medio interno al rango.", en:"During sleep, the body regulates hormones and returns the internal environment to range." },
+      exemple:{ ca:"Després d'un dia intens, la bailarina dorm 8 horas.", es:"Después de un día intenso, la bailarina duerme 8 horas.", en:"After an intense day, the dancer sleeps 8 hours." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🫀", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Durant un exercici, el cor accelera per aportar més O₂.", es:"Durante un ejercicio, el corazón se acelera para aportar más O₂.", en:"During exercise, the heart speeds up to supply more O₂." },
+    pregunta:{ ca:"Això és homeòstasi?", es:"¿Esto es homeostasis?", en:"Is this homeostasis?" },
+    explica:{ ca:"Sí. És la resposta del cos per mantenir l'aportació d'O₂ als músculs.", es:"Sí. Es la respuesta del cuerpo para mantener el aporte de O₂ a los músculos.", en:"Yes. It is the body's response to keep O₂ supply to the muscles." },
+    info:{
+      titol:{ ca:"Resposta cardiovascular", es:"Respuesta cardiovascular", en:"Cardiovascular response" },
+      text:{ ca:"El cor accelera per mantenir O₂ als músculs.", es:"El corazón se acelera para mantener O₂ en los músculos.", en:"The heart speeds up to maintain O₂ in the muscles." },
+      exemple:{ ca:"En un solo intens, el cor accelera i després torna al repòs.", es:"En un solo intenso, el corazón se acelera y después vuelve al reposo.", en:"In an intense solo, the heart speeds up and then returns to rest." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🌡️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un esportista corre amb 40 °C a l'ombra.", es:"Un deportista corre con 40 °C a la sombra.", en:"An athlete runs at 40 °C in the shade." },
+    pregunta:{ ca:"Quin tipus de retroalimentació és?", es:"¿Qué tipo de retroalimentación es?", en:"Which type of feedback is it?" },
+    explica:{ ca:"<strong>Negativa</strong>: sua i vasodilata per refredar-se.", es:"<strong>Negativa</strong>: suda y vasodilata para enfriarse.", en:"<strong>Negative</strong>: he sweats and vasodilates to cool down." },
+    info:{
+      titol:{ ca:"Calor extrema", es:"Calor extrema", en:"Extreme heat" },
+      text:{ ca:"Perill de cop de calor si falla.", es:"Peligro de golpe de calor si falla.", en:"Heat stroke risk if it fails." },
+      exemple:{ ca:"Cal beure aigua sovint.", es:"Hay que beber agua a menudo.", en:"Water must be drunk often." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"🥵", correcte:"incorrecte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"En un assaig amb molta calor i sense aigua, la temperatura puja sense control.", es:"En un ensayo con mucho calor y sin agua, la temperatura sube sin control.", en:"In a very hot rehearsal without water, temperature rises uncontrollably." },
+    pregunta:{ ca:"Ha funcionat correctament la retroalimentació negativa?", es:"¿Ha funcionado correctamente la retroalimentación negativa?", en:"Has negative feedback worked correctly?" },
+    explica:{ ca:"No. Ha <strong>fallat</strong>: sense poder suar ni vasodilatar, la temperatura no es corregeix.", es:"No. Ha <strong>fallado</strong>: sin poder sudar ni vasodilatar, la temperatura no se corrige.", en:"No. It has <strong>failed</strong>: without being able to sweat or vasodilate, temperature is not corrected." },
+    info:{
+      titol:{ ca:"Quan la regulació falla", es:"Cuando la regulación falla", en:"When regulation fails" },
+      text:{ ca:"Si el cos no pot respondre, la variable s'allunya del rang.", es:"Si el cuerpo no puede responder, la variable se aleja del rango.", en:"If the body cannot respond, the variable moves out of range." },
+      exemple:{ ca:"Cal beure aigua durant els assajos llargs.", es:"Hay que beber agua durante los ensayos largos.", en:"You must drink water during long rehearsals." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"⚠️", correcte:"incorrecte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un company diu: «Negativa vol dir dolenta».", es:"Un compañero dice: «Negativa significa mala».", en:"A classmate says: “Negative means bad.”" },
+    pregunta:{ ca:"És correcte?", es:"¿Es correcto?", en:"Is it correct?" },
+    explica:{ ca:"No. «Negativa» vol dir «corregeix el canvi».", es:"No. «Negativa» significa «corrige el cambio».", en:"No. “Negative” means “corrects the change”." },
+    info:{
+      titol:{ ca:"Error típic", es:"Error típico", en:"Common mistake" },
+      text:{ ca:"No és una valoració ètica.", es:"No es una valoración ética.", en:"It is not an ethical judgement." },
+      exemple:{ ca:"La febre és negativa, però no dolenta.", es:"La fiebre es negativa, pero no mala.", en:"Fever is negative, but not bad." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"⚠️", correcte:"incorrecte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un company diu: «Positiva vol dir bona».", es:"Un compañero dice: «Positiva significa buena».", en:"A classmate says: “Positive means good.”" },
+    pregunta:{ ca:"És correcte?", es:"¿Es correcto?", en:"Is it correct?" },
+    explica:{ ca:"No. «Positiva» vol dir «amplifica el canvi».", es:"No. «Positiva» significa «amplifica el cambio».", en:"No. “Positive” means “amplifies the change”." },
+    info:{
+      titol:{ ca:"Error típic", es:"Error típico", en:"Common mistake" },
+      text:{ ca:"No és una valoració ètica.", es:"No es una valoración ética.", en:"It is not an ethical judgement." },
+      exemple:{ ca:"El part és positiu, no per això «bo».", es:"El parto es positivo, no por eso «bueno».", en:"Childbirth is positive, not “good” for that reason." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"⚠️", correcte:"incorrecte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un company diu: «Tots els bucles positius són perillosos».", es:"Un compañero dice: «Todos los bucles positivos son peligrosos».", en:"A classmate says: “All positive loops are dangerous.”" },
+    pregunta:{ ca:"És correcte?", es:"¿Es correcto?", en:"Is it correct?" },
+    explica:{ ca:"No. Són útils per completar processos ràpids.", es:"No. Son útiles para completar procesos rápidos.", en:"No. They are useful to complete fast processes." },
+    info:{
+      titol:{ ca:"No són dolents", es:"No son malos", en:"They are not bad" },
+      text:{ ca:"Serveixen per al part i la coagulació.", es:"Sirven para el parto y la coagulación.", en:"They are used for childbirth and coagulation." },
+      exemple:{ ca:"Sense ells, no podríem néixer ni curar-nos.", es:"Sin ellos, no podríamos nacer ni curarnos.", en:"Without them, we could not be born or heal." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"⚖️", correcte:"correcte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"El cos té una temperatura objectiu.", es:"El cuerpo tiene una temperatura objetivo.", en:"The body has a target temperature." },
+    pregunta:{ ca:"Si puja, el cos la corregeix?", es:"¿Si sube, el cuerpo la corrige?", en:"If it rises, does the body correct it?" },
+    explica:{ ca:"Sí, per retroalimentació negativa.", es:"Sí, por retroalimentación negativa.", en:"Yes, by negative feedback." },
+    info:{
+      titol:{ ca:"Correcció", es:"Corrección", en:"Correction" },
+      text:{ ca:"El cos sempre intenta tornar al rang.", es:"El cuerpo siempre intenta volver al rango.", en:"The body always tries to return to range." },
+      exemple:{ ca:"Suda o tremola segons calgui.", es:"Suda o tiembla según haga falta.", en:"It sweats or shivers as needed." }
+    }
+  },
+  {
+    bloc:"C", pi:false, icon:"⚠️", correcte:"incorrecte", recurs:"homeostasis_movimiento.html",
+    situacio:{ ca:"Un company diu: «La retroalimentació negativa no és bona perquè impedeix canvis».", es:"Un compañero dice: «La retroalimentación negativa no es buena porque impide cambios».", en:"A classmate says: “Negative feedback is not good because it prevents change.”" },
+    pregunta:{ ca:"És correcte?", es:"¿Es correcto?", en:"Is it correct?" },
+    explica:{ ca:"No. La negativa manté el cos estable, i això és imprescindible.", es:"No. La negativa mantiene el cuerpo estable, y eso es imprescindible.", en:"No. Negative feedback keeps the body stable, which is essential." },
+    info:{
+      titol:{ ca:"Estabilitat", es:"Estabilidad", en:"Stability" },
+      text:{ ca:"Sense negativa, el cos no funcionaria.", es:"Sin negativa, el cuerpo no funcionaría.", en:"Without negative feedback, the body would not work." },
+      exemple:{ ca:"Temperatura, glucosa i pH depenen d'ella.", es:"Temperatura, glucosa y pH dependen de ella.", en:"Temperature, glucose and pH depend on it." }
+    }
+  }
+];
+/* ============================================================
+   BLOK 09 · ESTAT I REFERÈNCIES
+   ------------------------------------------------------------
+   Què fa:  variables d'estat i referències als elements HTML.
+   Com editar: normalment no cal tocar aquest bloc.
+   ============================================================ */
+let currentLang = "ca";
+let idx = 0;
+let respost = false;
+let modeAdaptat = false;
+let modeRepas = false;
+let estat = carregarEstat();
+
+const elProgres    = document.getElementById("ui-progres");
+const elIcon       = document.getElementById("icon");
+const elSituacio   = document.getElementById("situacio");
+const elPregunta   = document.getElementById("pregunta");
+const elOpcions    = document.getElementById("opcions");
+const elFeedback   = document.getElementById("feedback");
+const elNext       = document.getElementById("next");
+const elPrev       = document.getElementById("prev");
+const elInfoPanel  = document.getElementById("info-panel");
+const elInfoTitol  = document.getElementById("info-titol");
+const elInfoText   = document.getElementById("info-text");
+const elInfoEx     = document.getElementById("info-exemple");
+const elInfoLink   = document.getElementById("info-link");
+const elBtnInfo    = document.getElementById("btn-info");
+const elIndexGrid  = document.getElementById("index-grid");
+const elCard       = document.getElementById("card");
+const elBlocTag    = document.getElementById("bloc-tag");
+const elIndexBody  = document.getElementById("index-body");
+const elIndexHead  = document.getElementById("index-header");
+const elObjCard    = document.getElementById("objectiu-card");
+const elBtnObjCard = document.getElementById("btn-objectiu-card");
+const elBtnRepas   = document.getElementById("btn-repas");
+const elBtnAdaptat = document.getElementById("btn-adaptat");
+const elContinuarInfo = document.getElementById("continuar-info");
+
+/* ============================================================
+   BLOK 10 · FUNCIONS
+   ------------------------------------------------------------
+   Què fa:  desament, filtres, objectius, render, resposta, resum.
+   Com editar: normalment no cal tocar.
+   ============================================================ */
+function carregarEstat(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false };
+    const p = JSON.parse(raw);
+    return {
+      idxActual: p.idxActual || 0,
+      respostes: p.respostes || {},
+      blocActual: p.blocActual || null,
+      modeAdaptat: !!p.modeAdaptat
+    };
+  }catch(e){
+    return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false };
+  }
+}
+function desarEstat(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(estat)); }catch(e){}
+}
+function getIndexosVisibles(){
+  let visibles = PREGUNTES.map((_,i)=>i);
+  if(modeRepas){
+    visibles = visibles.filter(i => {
+      const resp = estat.respostes[i];
+      return resp === undefined || resp !== PREGUNTES[i].correcte;
+    });
+  }
+  return visibles;
+}
+function totalMarcades(){ return PREGUNTES.filter(p => p.pi).length; }
+
+function actualitzarBotoRepas(){
+  const t = UI[currentLang];
+  elBtnRepas.textContent = modeRepas ? t.repasActiu : t.repas;
+  elBtnRepas.classList.toggle("actiu", modeRepas);
+  elBtnRepas.classList.toggle("ghost", !modeRepas);
+}
+function actualitzarBotoAdaptat(){
+  elBtnAdaptat.classList.toggle("actiu", modeAdaptat);
+}
+function actualitzarBotoContinuar(){
+  const t = UI[currentLang];
+  const idxDesat = estat.idxActual || 0;
+  const jaHiEts = (idx === idxDesat);
+  const teRespostes = Object.keys(estat.respostes).length > 0;
+
+  // Amagar el botó si ja estàs a la pregunta desada o si no hi ha res a reprendre
+  if(jaHiEts || !teRespostes){
+    document.getElementById("btn-continuar").classList.add("ocult");
+    elContinuarInfo.classList.remove("visible");
+    return;
+  }
+
+  document.getElementById("btn-continuar").classList.remove("ocult");
+  elContinuarInfo.textContent = t.continuarA(idxDesat + 1);
+  elContinuarInfo.classList.add("visible");
+  elContinuarInfo.title = t.continuarInfo;
+}
+function htmlObjectiu(blocId){
+  const obj = OBJECTIUS[blocId];
+  const lang = currentLang;
+  const t = UI[lang];
+  const g = obj.general;
+  const a = obj.adaptat;
+  return `
+    <h4>${t.objectiuGeneral}</h4>
+    <p>${g.que[lang]}</p>
+    <ul>${g.clau[lang].map(c => `<li>${c}</li>`).join("")}</ul>
+    <p>${g.importancia[lang]}</p>
+    <div class="objectiu-pi">
+      <h4>${t.objectiuAdaptat}</h4>
+      <p>${a.que[lang]}</p>
+      <ul>${a.clau[lang].map(c => `<li>${c}</li>`).join("")}</ul>
+      <p>${a.importancia[lang]}</p>
+    </div>
+    <h4>${t.vocabulari}</h4>
+    <div class="vocab">${obj.vocabulari[lang].map(v => `<span>${v}</span>`).join("")}</div>
+  `;
+}
+function toggleObjectiu(blocId, contenidor){
+  const existent = contenidor.querySelector(".objectiu-panel");
+  if(existent){ existent.classList.toggle("open"); return; }
+  const panel = document.createElement("div");
+  panel.className = "objectiu-panel open";
+  panel.innerHTML = htmlObjectiu(blocId);
+  contenidor.appendChild(panel);
+}
+
+function renderIndex(){
+  elIndexGrid.innerHTML = "";
+  const blocs = BLOCS[currentLang];
+  blocs.forEach(b => {
+    const items = PREGUNTES.map((p,i)=>({...p, idxGlobal:i})).filter(p => p.bloc === b.id);
+    const marcades = items.filter(p => p.pi);
+    const fetes = items.filter(p => estat.respostes[p.idxGlobal] !== undefined).length;
+    const fetesMarc = marcades.filter(p => estat.respostes[p.idxGlobal] !== undefined).length;
+    const total = items.length;
+    const totalMarc = marcades.length;
+    const pct = total ? (fetes/total)*100 : 0;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "bloc-btn" + (estat.blocActual === b.id ? " active" : "");
+    btn.dataset.bloc = b.id;
+    btn.innerHTML = `
+      <span class="bloc-titol">Bloc ${b.id} · ${b.titol}</span>
+      <span class="bloc-meta">${fetes} / ${total} · <span class="pi">${fetesMarc} / ${totalMarc} 🌿</span></span>
+      <span class="barra"><span style="width:${pct}%"></span></span>
+    `;
+    btn.addEventListener("click", () => {
+      const primeraNoFeta = items.find(p => estat.respostes[p.idxGlobal] === undefined) || items[0];
+      estat.blocActual = b.id;
+      idx = primeraNoFeta.idxGlobal;
+      desarEstat();
+      render();
+      renderIndex();
+      elIndexBody.classList.remove("open");
+      elIndexHead.classList.remove("open");
+    });
+
+    const wrap = document.createElement("div");
+    wrap.className = "bloc-wrap";
+    wrap.appendChild(btn);
+
+    const btnObj = document.createElement("button");
+    btnObj.type = "button";
+    btnObj.className = "objectiu-toggle";
+    btnObj.textContent = UI[currentLang].objectiu;
+    btnObj.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleObjectiu(b.id, wrap);
+    });
+    wrap.appendChild(btnObj);
+
+    elIndexGrid.appendChild(wrap);
+  });
+}
+
+function aplicarUI(){
+  const t = UI[currentLang];
+  document.documentElement.lang = currentLang;
+  document.getElementById("ui-titol").textContent = t.titol;
+  document.getElementById("ui-sub").textContent = t.sub;
+  document.getElementById("btn-reset").textContent = t.reset;
+  document.getElementById("btn-continuar").textContent = t.continuar;
+  document.getElementById("btn-exportar").textContent = t.exportar;
+  document.getElementById("btn-imprimir").textContent = t.imprimir;
+  document.getElementById("ui-index-titol").textContent = t["index-titol"];
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if(t[key]) el.textContent = t[key];
+  });
+  elNext.textContent = t.seguent;
+  elPrev.textContent = t.anterior;
+  elBtnObjCard.textContent = elObjCard.classList.contains("open") ? t.tancarObjectiu : t.objectiu;
+  document.querySelectorAll(".lang-switch button").forEach(b => {
+    b.classList.toggle("active", b.dataset.lang === currentLang);
+  });
+  actualitzarBotoRepas();
+  actualitzarBotoAdaptat();
+  actualitzarBotoContinuar();
+}
+
+function actualitzarProgresGlobal(){
+  const t = UI[currentLang];
+  if(modeRepas){
+    const visibles = getIndexosVisibles();
+    elProgres.textContent = t.repasInfo(visibles.length);
+    return;
+  }
+  if(modeAdaptat){
+    const fetes = PREGUNTES.filter((p,i) => p.pi && estat.respostes[i] !== undefined).length;
+    elProgres.textContent = t.progresAdaptat(fetes, totalMarcades());
+  } else {
+    const fetes = Object.keys(estat.respostes).length;
+    elProgres.textContent = t.progresGlobal(fetes, PREGUNTES.length);
+  }
+}
+
+function render(){
+  const visibles = getIndexosVisibles();
+  const t = UI[currentLang];
+  const lang = currentLang;
+
+  if(visibles.length === 0){
+    elCard.dataset.bloc = "A";
+    elCard.classList.remove("pi-obligatoria","pi");
+    elCard.innerHTML = `
+      <div class="resum">
+        <div class="icon">✅</div>
+        <div class="missatge">${t.repasBuit}</div>
+        <div class="nav-next">
+          <button id="sortir-repas">${t.repas}</button>
+        </div>
+      </div>
+    `;
+    document.getElementById("sortir-repas").addEventListener("click", () => {
+      modeRepas = false;
+      actualitzarBotoRepas();
+      render();
+      renderIndex();
+    });
+    actualitzarProgresGlobal();
+    actualitzarBotoContinuar();
+    return;
+  }
+
+  if(!visibles.includes(idx)) idx = visibles[0];
+
+  respost = false;
+  const p = PREGUNTES[idx];
+  const pi = !!p.pi;
+
+  estat.idxActual = idx;
+  estat.blocActual = p.bloc;
+  desarEstat();
+
+  elCard.dataset.bloc = p.bloc;
+  elCard.classList.toggle("pi-obligatoria", pi);
+  elCard.classList.toggle("pi", pi && modeAdaptat);
+  elBlocTag.dataset.bloc = p.bloc;
+  const blocInfo = BLOCS[lang].find(b => b.id === p.bloc);
+  elBlocTag.textContent = `Bloc ${p.bloc} · ${blocInfo.titol}`;
+
+  elIcon.textContent = p.icon;
+  elSituacio.textContent = p.situacio[lang];
+  elPregunta.innerHTML = p.pregunta[lang];
+
+  elFeedback.className = "feedback";
+  elFeedback.innerHTML = "";
+  elNext.style.display = "inline-block";
+  elPrev.style.display = "inline-block";
+
+  elInfoPanel.classList.remove("open");
+  elBtnInfo.textContent = t["mes-info"];
+  elInfoTitol.textContent = p.info.titol[lang];
+  elInfoText.textContent = p.info.text[lang];
+  elInfoEx.textContent = p.info.exemple[lang];
+  elInfoLink.href = BASE_URL + p.recurs;
+
+  elObjCard.innerHTML = htmlObjectiu(p.bloc);
+  elObjCard.classList.remove("open");
+  elBtnObjCard.textContent = t.objectiu;
+
+  elOpcions.style.display = "flex";
+  elOpcions.querySelectorAll("button").forEach(b => {
+    b.disabled = false;
+    b.style.background = "#fff";
+    b.style.color = "#0b1f3a";
+    b.style.borderColor = "#0b1f3a";
+  });
+
+  if(estat.respostes[idx] !== undefined) mostrarResposta(estat.respostes[idx]);
+  actualitzarProgresGlobal();
+}
+
+function mostrarResposta(resp){
+  respost = true;
+  const p = PREGUNTES[idx];
+  const t = UI[currentLang];
+  const correcte = resp === p.correcte;
+  if(correcte){
+    elFeedback.className = "feedback ok";
+    elFeedback.innerHTML = `<strong>${t.correcte}</strong>${p.explica[currentLang]}`;
+  } else {
+    elFeedback.className = "feedback err";
+    elFeedback.innerHTML = `<strong>${t.incorrecte}</strong>${p.explica[currentLang]}`;
+  }
+  elOpcions.querySelectorAll("button").forEach(x => {
+    x.disabled = true;
+    if(x.dataset.resp === p.correcte){ x.style.background = "#e8f3ec"; x.style.borderColor = "#2e7d32"; }
+    else if(x.dataset.resp === resp){ x.style.background = "#fdecea"; x.style.borderColor = "#c62828"; }
+  });
+}
+
+function mostrarResum(){
+  const t = UI[currentLang];
+  let encerts = 0, encertsMarc = 0;
+  PREGUNTES.forEach((p,i) => {
+    if(estat.respostes[i] === p.correcte){
+      encerts++;
+      if(p.pi) encertsMarc++;
+    }
+  });
+  elCard.classList.remove("pi-obligatoria","pi");
+  elCard.innerHTML = `
+    <div class="resum">
+      <div class="icon">🎯</div>
+      <div class="missatge">${t.resumGlobal(encerts, PREGUNTES.length)}</div>
+      <p>${t.resumSub}</p>
+      <p><strong>🌿 Objectiu:</strong> ${encertsMarc} / ${totalMarcades()}</p>
+      <div class="nav-next">
+        <button id="tornar">${t.tornar}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("tornar").addEventListener("click", () => {
+    if(confirm(t.confirmReset)){
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  });
+}
+
+/* ============================================================
+   BLOK 11 · ESDEVENIMENTS
+   ------------------------------------------------------------
+   Què fa:  associa els botons i opcions amb les seves accions.
+   Com editar: normalment no cal tocar.
+   ============================================================ */
+elOpcions.querySelectorAll("button").forEach(b => {
+  b.addEventListener("click", () => {
+    if(respost) return;
+    estat.respostes[idx] = b.dataset.resp;
+    desarEstat();
+    mostrarResposta(b.dataset.resp);
+    renderIndex();
+    actualitzarProgresGlobal();
+  });
+});
+
+elBtnInfo.addEventListener("click", () => {
+  const t = UI[currentLang];
+  const obert = elInfoPanel.classList.toggle("open");
+  elBtnInfo.textContent = obert ? t["menys-info"] : t["mes-info"];
+});
+elBtnObjCard.addEventListener("click", () => {
+  const t = UI[currentLang];
+  const obert = elObjCard.classList.toggle("open");
+  elBtnObjCard.textContent = obert ? t.tancarObjectiu : t.objectiu;
+});
+
+elNext.addEventListener("click", () => {
+  const visibles = getIndexosVisibles();
+  const pos = visibles.indexOf(idx);
+  if(pos < visibles.length - 1){ idx = visibles[pos+1]; render(); renderIndex(); }
+  else mostrarResum();
+});
+elPrev.addEventListener("click", () => {
+  const visibles = getIndexosVisibles();
+  const pos = visibles.indexOf(idx);
+  if(pos > 0){ idx = visibles[pos-1]; render(); renderIndex(); }
+});
+
+document.getElementById("btn-reset").addEventListener("click", () => {
+  if(confirm(UI[currentLang].confirmReset)){
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+});
+document.getElementById("btn-continuar").addEventListener("click", () => {
+  idx = estat.idxActual || 0;
+  render();
+  renderIndex();
+  actualitzarBotoContinuar();
+});
+
+elBtnRepas.addEventListener("click", () => {
+  const t = UI[currentLang];
+  if(!modeRepas){
+    const pendents = getIndexosVisibles();
+    if(pendents.length === 0){ alert(t.repasBuit); return; }
+    modeRepas = true;
+    idx = pendents[0];
+  } else {
+    modeRepas = false;
+  }
+  actualitzarBotoRepas();
+  render();
+  renderIndex();
+});
+
+elBtnAdaptat.addEventListener("click", () => {
+  modeAdaptat = !modeAdaptat;
+  estat.modeAdaptat = modeAdaptat;
+  desarEstat();
+  actualitzarBotoAdaptat();
+  render();
+  renderIndex();
+});
+
+document.getElementById("btn-exportar").addEventListener("click", () => {
+  const t = UI[currentLang];
+  let encerts=0, encertsMarc=0, fetes=0, fetesMarc=0;
+  const detall = PREGUNTES.map((p,i) => {
+    const resp = estat.respostes[i];
+    const ok = resp === p.correcte;
+    if(resp !== undefined){ fetes++; if(p.pi) fetesMarc++; }
+    if(ok){ encerts++; if(p.pi) encertsMarc++; }
+    return {
+      num:i+1, bloc:p.bloc, pi:p.pi,
+      situacio:p.situacio.ca, correcte:p.correcte,
+      resposta: resp||null,
+      encert: resp===undefined ? null : ok
+    };
+  });
+  const data = {
+    activitat:"Tema 1 · Introducció a la fisiologia i homeòstasi",
+    data_exportacio:new Date().toISOString(),
+    idioma_actual:currentLang,
+    mode_adaptat:modeAdaptat,
+    total_preguntes:PREGUNTES.length,
+    total_marcades_objectiu:totalMarcades(),
+    respostes_fetes:fetes,
+    respostes_marcades_fetes:fetesMarc,
+    encerts:encerts,
+    encerts_marcades:encertsMarc,
+    detall
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `t1_general_progres_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  alert(t.exportat);
+});
+
+document.getElementById("btn-imprimir").addEventListener("click", () => {
+  const t = UI[currentLang], lang = currentLang;
+  let encerts=0, fetes=0, encertsMarc=0, fetesMarc=0;
+  const perBloc = {};
+  BLOCS[lang].forEach(b => perBloc[b.id] = { encerts:0, total:0, fetes:0, piTotal:0, piEncerts:0 });
+
+  PREGUNTES.forEach((p,i) => {
+    perBloc[p.bloc].total++;
+    if(p.pi) perBloc[p.bloc].piTotal++;
+    const resp = estat.respostes[i];
+    if(resp !== undefined){
+      fetes++;
+      if(p.pi) fetesMarc++;
+      perBloc[p.bloc].fetes++;
+      if(resp === p.correcte){
+        encerts++;
+        if(p.pi){ encertsMarc++; perBloc[p.bloc].piEncerts++; }
+        perBloc[p.bloc].encerts++;
+      }
+    }
+  });
+  const pct = PREGUNTES.length ? Math.round((encerts/PREGUNTES.length)*100) : 0;
+  const pctMarc = totalMarcades() ? Math.round((encertsMarc/totalMarcades())*100) : 0;
+
+  const filesBloc = BLOCS[lang].map(b => {
+    const d = perBloc[b.id];
+    return `<tr><td>${b.id} · ${b.titol}</td><td>${d.encerts} / ${d.total}</td><td>${d.piEncerts} / ${d.piTotal}</td></tr>`;
+  }).join("");
+
+  const filesDetall = PREGUNTES.map((p,i) => {
+    const resp = estat.respostes[i];
+    const correcte = resp === p.correcte;
+    const est = resp===undefined ? t.imprimirPendent : (correcte ? t.imprimirSi : t.imprimirNo);
+    const color = resp===undefined ? "#999" : (correcte ? "#2e7d32" : "#c62828");
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${p.bloc}</td>
+      <td>${p.pi ? "🌿" : "—"}</td>
+      <td>${p.situacio[lang]}</td>
+      <td>${resp||"—"}</td>
+      <td>${p.correcte}</td>
+      <td style="color:${color};font-weight:700">${est}</td>
+    </tr>`;
+  }).join("");
+
+  const html = `<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8">
+    <title>${t.imprimirTitol}</title>
+    <style>
+      body{font-family:Georgia,serif;color:#1a1a1a;padding:1.5rem;font-size:12pt}
+      h1{color:#0b1f3a;font-size:18pt;margin:0 0 .3rem}
+      h2{color:#0b1f3a;font-size:14pt;margin:1.2rem 0 .4rem;border-bottom:2px solid #c9a227;padding-bottom:.2rem}
+      .meta{display:flex;gap:2rem;margin-bottom:1rem;font-size:11pt}
+      .meta span{display:inline-block;border-bottom:1px solid #999;min-width:180px}
+      table{width:100%;border-collapse:collapse;margin:.6rem 0;font-size:10.5pt}
+      th,td{border:1px solid #ccc;padding:.35rem .5rem;text-align:left;vertical-align:top}
+      th{background:#f0f4fa;color:#0b1f3a}
+      .resum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.5rem;font-size:11pt}
+      .resum-grid div{padding:.3rem 0}
+      @media print{body{padding:0}}
+    </style></head><body>
+    <h1>${t.imprimirTitol}</h1>
+    <div class="meta">
+      <div>${t.imprimirAlumne} <span></span></div>
+      <div>${t.imprimirData} <span>${new Date().toLocaleDateString()}</span></div>
+    </div>
+    <h2>${t.imprimirResum}</h2>
+    <div class="resum-grid">
+      <div><strong>${t.imprimirTotal}:</strong> ${PREGUNTES.length}</div>
+      <div><strong>${t.imprimirFetes}:</strong> ${fetes}</div>
+      <div><strong>${t.imprimirEncerts}:</strong> ${encerts}</div>
+      <div><strong>${t.imprimirPct}:</strong> ${pct} %</div>
+      <div><strong>🌿 fetes:</strong> ${fetesMarc} / ${totalMarcades()}</div>
+      <div><strong>🌿 encerts:</strong> ${encertsMarc} / ${totalMarcades()} (${pctMarc} %)</div>
+    </div>
+    <h2>${t.imprimirPerBloc}</h2>
+    <table><thead><tr><th>${t.imprimirBloc}</th><th>${t.imprimirEncerts}</th><th>🌿</th></tr></thead><tbody>${filesBloc}</tbody></table>
+    <h2>${t.imprimirDetall}</h2>
+    <table><thead><tr>
+      <th>${t.imprimirNum}</th><th>${t.imprimirBloc}</th><th>🌿</th>
+      <th>${t.imprimirSituacio}</th><th>${t.imprimirResposta}</th>
+      <th>${t.imprimirCorrecta}</th><th>${t.imprimirEncert}</th>
+    </tr></thead><tbody>${filesDetall}</tbody></table>
+    </body></html>`;
+
+  const win = window.open("", "_blank");
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 300);
+});
+
+elIndexHead.addEventListener("click", () => {
+  const obert = elIndexBody.classList.toggle("open");
+  elIndexHead.classList.toggle("open", obert);
+});
+
+document.querySelectorAll(".lang-switch button").forEach(b => {
+  b.addEventListener("click", () => {
+    currentLang = b.dataset.lang;
+    aplicarUI();
+    render();
+    renderIndex();
+  });
+});
+
+/* ============================================================
+   BLOK 12 · INICI
+   ------------------------------------------------------------
+   Què fa:  arrenca l'aplicació.
+   Com editar: normalment no cal tocar.
+   ============================================================ */
+aplicarUI();
+modeAdaptat = !!estat.modeAdaptat;
+actualitzarBotoAdaptat();
+actualitzarBotoRepas();
+idx = estat.idxActual || 0;
+render();
+renderIndex();
+</script>
+</body>
+</html>
