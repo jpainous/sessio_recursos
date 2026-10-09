@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Musculoesquelètic I - 30 Exercicis Combinats</title>
+<style>
+  :root{
+    --primary:#0f4c5c;
+    --secondary:#1b7f8c;
+    --accent:#e36414;
+    --bg:#f4f7f8;
+    --card:#ffffff;
+    --text:#1f2933;
+    --muted:#5c6b73;
+    --ok:#2a9d8f;
+    --err:#c1121f;
+    --review:#8a5a00;
+    --essay:#6a4c93;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    margin:0;
+    padding:20px;
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    padding:28px 22px;
+    border-radius:14px;
+    margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(15,76,92,.25);
+  }
+  header h1{margin:0 0 8px;font-size:1.7rem;}
+  header p{margin:0;opacity:.92;font-size:.98rem;}
+  .howto{
+    background:#fff;
+    border-radius:12px;
+    padding:18px 22px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-left:5px solid var(--accent);
+  }
+  .howto summary{
+    cursor:pointer;
+    font-weight:700;
+    color:var(--primary);
+    font-size:1.05rem;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .howto summary::-webkit-details-marker{display:none;}
+  .howto summary::before{
+    content:"▶";
+    font-size:.8rem;
+    transition:.2s;
+    color:var(--accent);
+  }
+  .howto[open] summary::before{transform:rotate(90deg);}
+  .howto .howto-body{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+  }
+  .howto .step{
+    background:#f4f9fa;
+    border-radius:10px;
+    padding:12px 14px;
+    border:1px solid #e0ecee;
+  }
+  .howto .step h4{
+    margin:0 0 6px;
+    font-size:.9rem;
+    color:var(--secondary);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .howto .step p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--muted);
+  }
+  .howto .legend{
+    margin-top:14px;
+    font-size:.85rem;
+    color:var(--muted);
+    background:#fbfdfd;
+    padding:10px 14px;
+    border-radius:8px;
+    border:1px dashed #cbd5d9;
+  }
+  .howto .legend b{color:var(--primary);}
+  .howto .legend code{
+    background:#eef4f5;
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:.82rem;
+  }
+  .lang-switch{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .lang-switch button{
+    background:#fff;
+    border:2px solid var(--secondary);
+    color:var(--secondary);
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    font-size:.9rem;
+  }
+  .lang-switch button.active,
+  .lang-switch button:hover{
+    background:var(--secondary);
+    color:#fff;
+  }
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+    background:#fff;
+    padding:14px 16px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    align-items:center;
+  }
+  .toolbar button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:.88rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .toolbar button:hover{background:var(--secondary);}
+  .toolbar button.alt{background:var(--accent);}
+  .toolbar button.alt:hover{background:#c0520e;}
+  .toolbar button.ghost{background:#eef4f5;color:var(--primary);border:2px solid var(--secondary);}
+  .toolbar button.ghost:hover{background:var(--secondary);color:#fff;}
+  .toolbar button.review{background:var(--review);}
+  .toolbar button.review:hover{background:#6b4600;}
+  .status{
+    margin-left:auto;
+    font-size:.85rem;
+    color:var(--muted);
+    font-weight:600;
+  }
+  .exercise{
+    background:var(--card);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-left:5px solid var(--secondary);
+    transition:.3s;
+  }
+  .exercise.failed{border-left-color:var(--err);}
+  .exercise.corrected{border-left-color:var(--ok);}
+  .exercise.essay{border-left-color:var(--essay);}
+  .exercise.essay.failed{border-left-color:var(--err);}
+  .exercise.essay.corrected{border-left-color:var(--ok);}
+  .exercise h3{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    color:var(--primary);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .badge{
+    font-size:.72rem;
+    background:var(--accent);
+    color:#fff;
+    padding:3px 10px;
+    border-radius:20px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+  }
+  .badge.essay{background:var(--essay);}
+  .q{font-weight:600;margin-bottom:10px;}
+  .scenario{
+    background:#f4f0fa;
+    border-left:4px solid var(--essay);
+    padding:10px 14px;
+    border-radius:8px;
+    margin-bottom:12px;
+    font-size:.93rem;
+    color:#3d2c5c;
+  }
+  .options label{
+    display:block;
+    background:#eef4f5;
+    padding:9px 13px;
+    border-radius:8px;
+    margin-bottom:7px;
+    cursor:pointer;
+    transition:.15s;
+    border:1px solid transparent;
+  }
+  .options label:hover{background:#d9e8ea;}
+  .options input{margin-right:8px;}
+  input[type="text"], select{
+    width:100%;
+    padding:10px 12px;
+    border:2px solid #cbd5d9;
+    border-radius:8px;
+    font-size:.95rem;
+    font-family:inherit;
+    background:#fbfdfd;
+  }
+  input[type="text"]:focus, select:focus{
+    outline:none;
+    border-color:var(--secondary);
+    background:#fff;
+  }
+  textarea{
+    width:100%;
+    min-height:110px;
+    padding:10px 12px;
+    border:2px solid #cbd5d9;
+    border-radius:8px;
+    font-size:.95rem;
+    font-family:inherit;
+    background:#fbfdfd;
+    resize:vertical;
+  }
+  textarea:focus{
+    outline:none;
+    border-color:var(--essay);
+    background:#fff;
+  }
+  .match-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .match-row span{
+    background:#eef4f5;
+    padding:8px 12px;
+    border-radius:8px;
+    font-size:.9rem;
+  }
+  .match-row select{padding:8px;}
+  .order-list{
+    list-style:none;
+    padding:0;
+    margin:0 0 10px;
+  }
+  .order-list li{
+    background:#eef4f5;
+    padding:9px 13px;
+    border-radius:8px;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .order-list input{width:60px;text-align:center;}
+  .btn-check{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:11px 26px;
+    border-radius:8px;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:8px;
+    transition:.2s;
+  }
+  .btn-check:hover{background:var(--secondary);}
+  .btn-check.essay-btn{background:var(--essay);}
+  .btn-check.essay-btn:hover{background:#543b78;}
+  .btn-model{
+    background:#fff;
+    color:var(--essay);
+    border:2px solid var(--essay);
+    padding:9px 18px;
+    border-radius:8px;
+    font-size:.88rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:8px;
+    margin-left:8px;
+    transition:.2s;
+  }
+  .btn-model:hover{background:var(--essay);color:#fff;}
+  .feedback{
+    margin-top:10px;
+    font-weight:600;
+    font-size:.9rem;
+    display:none;
+    padding:9px 13px;
+    border-radius:8px;
+  }
+  .feedback.ok{background:#d8f3ef;color:#1b6b5e;display:block;}
+  .feedback.err{background:#fde2e4;color:#a4131d;display:block;}
+  .feedback.model{
+    background:#f4f0fa;
+    color:#3d2c5c;
+    display:block;
+    font-weight:500;
+    border-left:4px solid var(--essay);
+  }
+  .feedback.model b{color:var(--essay);}
+  .hidden{display:none;}
+  .banner{
+    background:#fff3cd;
+    border:1px solid #ffe08a;
+    color:#7a5b00;
+    padding:12px 16px;
+    border-radius:10px;
+    margin-bottom:18px;
+    font-size:.9rem;
+    display:none;
+  }
+  .banner.show{display:block;}
+  .banner button{
+    margin-left:10px;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:6px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:.85rem;
+    font-weight:600;
+  }
+  .banner button.ghost{background:#fff;color:var(--primary);border:1px solid var(--primary);}
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.85rem;
+    margin-top:30px;
+    padding:18px;
+  }
+  .review-mode .exercise:not(.failed){display:none;}
+  .review-mode .exercise.failed{display:block;}
+  @media(max-width:600px){
+    .match-row{grid-template-columns:1fr;}
+    header h1{font-size:1.35rem;}
+    .status{margin-left:0;width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦴 Sistema Musculoesquelètic I — 30 Exercicis Combinats</h1>
+  <p>Fisiología · Curs 2026-2027 · Dra. Cèlia Painous</p>
+</header>
+
+<details class="howto" open>
+  <summary>ℹ️ Funcionament resumit — com utilitzar aquesta activitat</summary>
+  <div class="howto-body">
+    <div class="step">
+      <h4>1. Idioma</h4>
+      <p>Canvia entre <b>català</b>, <b>castellà</b> i <b>anglès</b> amb els botons de sota la capçalera.</p>
+    </div>
+    <div class="step">
+      <h4>2. Tipus d'exercici</h4>
+      <p>N'hi ha de 5 tipus: <b>omplir buits</b>, <b>elecció múltiple</b>, <b>relacionar</b>, <b>ordenar</b> i <b>resposta curta</b>. Els 5 exercicis marcats com a <b>essay</b> (blau) són de raonament i redacció.</p>
+    </div>
+    <div class="step">
+      <h4>3. Comprovar</h4>
+      <p>El botó <b>Comprova</b> corregeix l'exercici. En els de redacció es validen <b>paraules clau</b> i es pot veure una <b>resposta model</b>.</p>
+    </div>
+    <div class="step">
+      <h4>4. Feedback</h4>
+      <p>Verd = correcte, vermell = incorrecte amb la resposta correcta o model. La targeta canvia de color segons el resultat.</p>
+    </div>
+    <div class="step">
+      <h4>5. Repàs d'errors</h4>
+      <p>El botó <b>🔁 Repàs d'errors</b> amaga els exercicis correctes i mostra només els fallats.</p>
+    </div>
+    <div class="step">
+      <h4>6. Guardar / Recuperar</h4>
+      <p><b>💾 Guardar sessió</b> desa l'estat al navegador. <b>📂 Recuperar sessió</b> el restaura. <b>🗑️ Esborrar</b> l'elimina.</p>
+    </div>
+    <div class="step">
+      <h4>7. Barra d'estat</h4>
+      <p>A la dreta de la barra d'eines es mostra el progrés: respostes fetes / total, encerts (✅) i errors (❌).</p>
+    </div>
+    <div class="step">
+      <h4>8. Bloc avançat</h4>
+      <p>Els 5 exercicis de redacció (5, 14, 19, 24 i 30) requereixen raonar un cas pràctic. Es poden respondre amb text lliure i validar per paraules clau.</p>
+    </div>
+  </div>
+  <div class="legend">
+    <b>Consell:</b> fes servir el <b>Repàs d'errors</b> després de respondre tot per reforçar els punts febles. Guarda la sessió si vols continuar més tard. Les dades es guarden localment al teu dispositiu (<code>localStorage</code>).
+  </div>
+</details>
+
+<div class="lang-switch">
+  <button class="active" onclick="setLang('ca')">Català</button>
+  <button onclick="setLang('es')">Castellano</button>
+  <button onclick="setLang('en')">English</button>
+</div>
+
+<div class="toolbar">
+  <button class="ghost" onclick="saveSession()">💾 Guardar sessió</button>
+  <button class="ghost" onclick="loadSession()">📂 Recuperar sessió</button>
+  <button class="ghost" onclick="resetSession()">🗑️ Esborrar sessió</button>
+  <button class="review" onclick="toggleReview()" id="reviewBtn">🔁 Repàs d'errors</button>
+  <span class="status" id="status">Sessió no guardada</span>
+</div>
+
+<div class="banner" id="banner"></div>
+
+<main id="quiz"></main>
+
+<footer>Fet per a pràctica de fisiología · Nivells d'organització, homeòstasi, múscul esquelètic i contracció</footer>
+
+<script>
+/* ============================================================
+   TRADUCCIONS
+   ============================================================ */
+const T = {
+  ca: {
+    check: "Comprova",
+    correct: "✅ Correcte!",
+    incorrect: "❌ Incorrecte. Resposta correcta: ",
+    select: "— Selecciona —",
+    ex: "Exercici",
+    saved: "Sessió guardada correctament.",
+    loaded: "Sessió recuperada.",
+    noSession: "No hi ha cap sessió guardada.",
+    reset: "Sessió esborrada.",
+    reviewOn: "Mode repàs activat: només es mostren els exercicis fallats.",
+    reviewOff: "Mode repàs desactivat: es mostren tots els exercicis.",
+    reviewEmpty: "Encara no hi ha exercicis fallats per repassar.",
+    restorePrompt: "S'ha trobat una sessió guardada. Vols recuperar-la?",
+    yes: "Sí, recupera",
+    no: "No, comença de nou",
+    essayOk: "✅ Bona resposta! Has inclòs les idees clau.",
+    essayPartial: "⚠️ Resposta incompleta. Et falten idees clau. Mira la resposta model.",
+    essayEmpty: "⚠️ Escriu una resposta abans de comprovar.",
+    model: "Resposta model:",
+    showModel: "Veure resposta model",
+    hideModel: "Amagar resposta model",
+    types: {
+      fill: "Omple el buit",
+      mc: "Elecció múltiple",
+      match: "Relaciona",
+      order: "Ordena",
+      short: "Resposta curta",
+      essay: "Redacció / Cas pràctic"
+    }
+  },
+  es: {
+    check: "Comprobar",
+    correct: "✅ ¡Correcto!",
+    incorrect: "❌ Incorrecto. Respuesta correcta: ",
+    select: "— Selecciona —",
+    ex: "Ejercicio",
+    saved: "Sesión guardada correctamente.",
+    loaded: "Sesión recuperada.",
+    noSession: "No hay ninguna sesión guardada.",
+    reset: "Sesión borrada.",
+    reviewOn: "Modo repaso activado: solo se muestran los ejercicios fallados.",
+    reviewOff: "Modo repaso desactivado: se muestran todos los ejercicios.",
+    reviewEmpty: "Todavía no hay ejercicios fallados para repasar.",
+    restorePrompt: "Se ha encontrado una sesión guardada. ¿Quieres recuperarla?",
+    yes: "Sí, recuperar",
+    no: "No, empezar de nuevo",
+    essayOk: "✅ ¡Buena respuesta! Has incluido las ideas clave.",
+    essayPartial: "⚠️ Respuesta incompleta. Te faltan ideas clave. Mira la respuesta modelo.",
+    essayEmpty: "⚠️ Escribe una respuesta antes de comprobar.",
+    model: "Respuesta modelo:",
+    showModel: "Ver respuesta modelo",
+    hideModel: "Ocultar respuesta modelo",
+    types: {
+      fill: "Rellenar hueco",
+      mc: "Elección múltiple",
+      match: "Relacionar",
+      order: "Ordenar",
+      short: "Respuesta corta",
+      essay: "Redacción / Caso práctico"
+    }
+  },
+  en: {
+    check: "Check",
+    correct: "✅ Correct!",
+    incorrect: "❌ Incorrect. Correct answer: ",
+    select: "— Select —",
+    ex: "Exercise",
+    saved: "Session saved successfully.",
+    loaded: "Session restored.",
+    noSession: "No saved session found.",
+    reset: "Session deleted.",
+    reviewOn: "Review mode on: only failed exercises are shown.",
+    reviewOff: "Review mode off: all exercises are shown.",
+    reviewEmpty: "No failed exercises to review yet.",
+    restorePrompt: "A saved session was found. Do you want to restore it?",
+    yes: "Yes, restore",
+    no: "No, start fresh",
+    essayOk: "✅ Good answer! You included the key ideas.",
+    essayPartial: "⚠️ Incomplete answer. You're missing key ideas. See the model answer.",
+    essayEmpty: "⚠️ Write an answer before checking.",
+    model: "Model answer:",
+    showModel: "Show model answer",
+    hideModel: "Hide model answer",
+    types: {
+      fill: "Fill in the blank",
+      mc: "Multiple choice",
+      match: "Match",
+      order: "Order",
+      short: "Short answer",
+      essay: "Essay / Case study"
+    }
+  }
+};
+
+/* ============================================================
+   DADES DELS EXERCICIS (30)
+   ============================================================ */
+const EX = [
+  {
+    type:"fill",
+    ca:{q:"La ________ és la unitat estructural i funcional bàsica dels éssers vius.", a:"cèl·lula"},
+    es:{q:"La ________ es la unidad estructural y funcional básica de los seres vivos.", a:"célula"},
+    en:{q:"The ________ is the basic structural and functional unit of living beings.", a:"cell"}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin nivell d'organització està format per cèl·lules i matriu extracel·lular especialitzada en una o més funcions?", o:["Cèl·lula","Teixit","Òrgan","Sistema"], a:1},
+    es:{q:"¿Qué nivel de organización está formado por células y matriz extracelular especializada en una o más funciones?", o:["Célula","Tejido","Órgano","Sistema"], a:1},
+    en:{q:"Which level of organization is made up of cells and extracellular matrix specialized in one or more functions?", o:["Cell","Tissue","Organ","System"], a:1}
+  },
+  {
+    type:"match",
+    ca:{q:"Relaciona cada nivell amb la seva definició:", pairs:[["Cèl·lula","Unitat bàsica dels éssers vius"],["Teixit","Conjunt de cèl·lules i matriu especialitzada"],["Òrgan","Estructura formada per diversos teixits"],["Sistema","Conjunt d'òrgans coordinats"]]},
+    es:{q:"Relaciona cada nivel con su definición:", pairs:[["Célula","Unidad básica de los seres vivos"],["Tejido","Conjunto de células y matriz especializada"],["Órgano","Estructura formada por varios tejidos"],["Sistema","Conjunto de órganos coordinados"]]},
+    en:{q:"Match each level with its definition:", pairs:[["Cell","Basic unit of living beings"],["Tissue","Set of cells and specialized matrix"],["Organ","Structure made of several tissues"],["System","Set of coordinated organs"]]}
+  },
+  {
+    type:"order",
+    ca:{q:"Ordena els nivells d'organització de més simple a més complex (1-5):", items:["Cèl·lula","Teixit","Òrgan","Sistema","Organisme"], a:[1,2,3,4,5]},
+    es:{q:"Ordena los niveles de organización de más simple a más complejo (1-5):", items:["Célula","Tejido","Órgano","Sistema","Organismo"], a:[1,2,3,4,5]},
+    en:{q:"Order the levels of organization from simplest to most complex (1-5):", items:["Cell","Tissue","Organ","System","Organism"], a:[1,2,3,4,5]}
+  },
+  // ===== 5. SUBSTITUÏT: CAS PRÀCTIC DANSa =====
+  {
+    type:"essay",
+    ca:{
+      scenario:"Una ballarina fa un grand jeté: s'impulsa amb la cama de suport (s'estira), manté la cama estirada a l'aire en una posició fixa i, en aterrar, flexiona els genolls per amortir.",
+      q:"Identifica els tres tipus de contracció que apareixen en aquesta seqüència i explica en quin moment es produeix cadascun i quina funció té.",
+      keywords:["concentrica","isometrica","excentrica","impuls","posicio","aterratge","força","amortiguar","frenar","estabilitzar"],
+      model:"Concèntrica: en l'impuls, el múscul s'acurta generant força per saltar. Isomètrica: a l'aire, manté la posició sense canvi de longitud (estabilització). Excèntrica: en aterrar, el múscul s'allarga mentre frena i amortigua l'impacte."
+    },
+    es:{
+      scenario:"Una bailarina hace un grand jeté: se impulsa con la pierna de apoyo (se estira), mantiene la pierna estirada en el aire en una posición fija y, al aterrizar, flexiona las rodillas para amortiguar.",
+      q:"Identifica los tres tipos de contracción que aparecen en esta secuencia y explica en qué momento se produce cada uno y qué función tiene.",
+      keywords:["concentrica","isometrica","excentrica","impulso","posicion","aterrizaje","fuerza","amortiguar","frenar","estabilizar"],
+      model:"Concéntrica: en el impulso, el músculo se acorta generando fuerza para saltar. Isométrica: en el aire, mantiene la posición sin cambio de longitud (estabilización). Excéntrica: al aterrizar, el músculo se alarga mientras frena y amortigua el impacto."
+    },
+    en:{
+      scenario:"A dancer performs a grand jeté: she pushes off with the support leg (extends), holds the extended leg in the air in a fixed position, and on landing flexes the knees to absorb the impact.",
+      q:"Identify the three types of contraction in this sequence and explain when each occurs and what function it has.",
+      keywords:["concentric","isometric","eccentric","push","position","landing","force","absorb","brake","stabilize"],
+      model:"Concentric: during the push-off, the muscle shortens generating force to jump. Isometric: in the air, it holds the position without changing length (stabilization). Eccentric: on landing, the muscle lengthens while braking and absorbing the impact."
+    }
+  },
+  {
+    type:"fill",
+    ca:{q:"El ________ és el manteniment dinàmic de condicions gairebé constants en el medi intern.", a:"homeòstasi"},
+    es:{q:"La ________ es el mantenimiento dinámico de condiciones casi constantes en el medio interno.", a:"homeostasis"},
+    en:{q:"________ is the dynamic maintenance of nearly constant conditions in the internal environment.", a:"homeostasis"}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin és el rang normal de pH sanguini segons el document?", o:["7,00-7,20","7,35-7,45","7,50-7,60","6,80-7,00"], a:1},
+    es:{q:"¿Cuál es el rango normal de pH sanguíneo según el documento?", o:["7,00-7,20","7,35-7,45","7,50-7,60","6,80-7,00"], a:1},
+    en:{q:"According to the document, what is the normal blood pH range?", o:["7.00-7.20","7.35-7.45","7.50-7.60","6.80-7.00"], a:1}
+  },
+  {
+    type:"fill",
+    ca:{q:"El líquid ________ (LIC) representa el 60-65% del líquid corporal.", a:"intracel·lular"},
+    es:{q:"El líquido ________ (LIC) representa el 60-65% del líquido corporal.", a:"intracelular"},
+    en:{q:"________ fluid (ICF) accounts for 60-65% of body fluid.", a:"intracellular"}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin mecanisme d'homeòstasi és el més habitual?", o:["Retroalimentació positiva","Retroalimentació negativa","Feed-forward","Cap dels anteriors"], a:1},
+    es:{q:"¿Qué mecanismo de homeostasis es el más habitual?", o:["Retroalimentación positiva","Retroalimentación negativa","Feed-forward","Ninguno de los anteriores"], a:1},
+    en:{q:"Which homeostasis mechanism is the most common?", o:["Positive feedback","Negative feedback","Feed-forward","None of the above"], a:1}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin tipus de múscul és voluntari i està unit als ossos mitjançant tendons?", o:["Múscul cardíac","Múscul llis","Múscul esquelètic","Múscul visceral"], a:2},
+    es:{q:"¿Qué tipo de músculo es voluntario y está unido a los huesos mediante tendones?", o:["Músculo cardíaco","Músculo liso","Músculo esquelético","Músculo visceral"], a:2},
+    en:{q:"Which muscle type is voluntary and attached to bones via tendons?", o:["Cardiac muscle","Smooth muscle","Skeletal muscle","Visceral muscle"], a:2}
+  },
+  {
+    type:"match",
+    ca:{q:"Relaciona cada estructura amb la seva descripció:", pairs:[["Fibra muscular","Cèl·lula muscular llarga i multinucleada"],["Miofibril·la","Estructura cilíndrica contràctil dins la fibra"],["Sarcòmer","Unitat funcional entre dues línies Z"],["Miofilament","Actina o miosina"]]},
+    es:{q:"Relaciona cada estructura con su descripción:", pairs:[["Fibra muscular","Célula muscular larga y multinucleada"],["Miofibrilla","Estructura cilíndrica contráctil dentro de la fibra"],["Sarcómero","Unidad funcional entre dos líneas Z"],["Miofilamento","Actina o miosina"]]},
+    en:{q:"Match each structure with its description:", pairs:[["Muscle fiber","Long, multinucleated muscle cell"],["Myofibril","Contractile cylindrical structure inside the fiber"],["Sarcomere","Functional unit between two Z lines"],["Myofilament","Actin or myosin"]]}
+  },
+  {
+    type:"fill",
+    ca:{q:"La ________ és la proteïna motora que forma els filaments gruixuts.", a:"miosina"},
+    es:{q:"La ________ es la proteína motora que forma los filamentos gruesos.", a:"miosina"},
+    en:{q:"________ is the motor protein that forms the thick filaments.", a:"myosin"}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quina banda del sarcòmer manté la seva longitud constant durant la contracció?", o:["Banda I","Banda A","Línia Z","Zona H"], a:1},
+    es:{q:"¿Qué banda del sarcómero mantiene su longitud constante durante la contracción?", o:["Banda I","Banda A","Línea Z","Zona H"], a:1},
+    en:{q:"Which sarcomere band keeps its length constant during contraction?", o:["I band","A band","Z line","H zone"], a:1}
+  },
+  // ===== 14. SUBSTITUÏT: REDACCIÓ DEL SARCÒMER A LA FORÇA =====
+  {
+    type:"essay",
+    ca:{
+      scenario:"El sarcòmer és la unitat funcional i contràctil del múscul esquelètic.",
+      q:"Redacta un text breu (5-8 línies) explicant com es genera la força muscular partint de l'estructura del sarcòmer. Ha d'incloure: actina, miosina, calci, ATP, línies Z i el concepte de lliscament de filaments.",
+      keywords:["actina","miosina","calci","atp","linies z","lliscament","sarcòmer","troponina","tropomiosina","força"],
+      model:"El calci s'uneix a la troponina i desplaça la tropomiosina, deixant lliures els llocs d'unió de l'actina. La miosina s'uneix a l'actina i, amb l'ATP, fa el cop de força. Els filaments llisquen uns sobre els altres i les línies Z s'acosten, de manera que el sarcòmer s'acurta i es genera força."
+    },
+    es:{
+      scenario:"El sarcómero es la unidad funcional y contráctil del músculo esquelético.",
+      q:"Redacta un texto breve (5-8 líneas) explicando cómo se genera la fuerza muscular partiendo de la estructura del sarcómero. Debe incluir: actina, miosina, calcio, ATP, líneas Z y el concepto de deslizamiento de filamentos.",
+      keywords:["actina","miosina","calcio","atp","lineas z","deslizamiento","sarcomero","troponina","tropomiosina","fuerza"],
+      model:"El calcio se une a la troponina y desplaza la tropomiosina, dejando libres los sitios de unión de la actina. La miosina se une a la actina y, con el ATP, realiza el golpe de fuerza. Los filamentos se deslizan unos sobre otros y las líneas Z se acercan, de modo que el sarcómero se acorta y se genera fuerza."
+    },
+    en:{
+      scenario:"The sarcomere is the functional and contractile unit of skeletal muscle.",
+      q:"Write a short text (5-8 lines) explaining how muscle force is generated from the structure of the sarcomere. It must include: actin, myosin, calcium, ATP, Z lines and the concept of filament sliding.",
+      keywords:["actin","myosin","calcium","atp","z lines","sliding","sarcomere","troponin","tropomyosin","force"],
+      model:"Calcium binds to troponin and displaces tropomyosin, exposing the actin binding sites. Myosin binds to actin and, with ATP, performs the power stroke. The filaments slide over each other and the Z lines move closer, so the sarcomere shortens and force is generated."
+    }
+  },
+  {
+    type:"fill",
+    ca:{q:"Les ________ són les neurones que porten l'ordre nerviosa al múscul esquelètic.", a:"motoneurones"},
+    es:{q:"Las ________ son las neuronas que llevan la orden nerviosa al músculo esquelético.", a:"motoneuronas"},
+    en:{q:"________ are the neurons that carry the nerve command to skeletal muscle.", a:"motor neurons"}
+  },
+  {
+    type:"mc",
+    ca:{q:"On es troben els cossos cel·lulars de les motoneurones?", o:["Al cerebel","A l'asta anterior de la medul·la espinal","Al bulb raquidi","A l'escorça motora"], a:1},
+    es:{q:"¿Dónde se encuentran los cuerpos celulares de las motoneuronas?", o:["En el cerebelo","En el asta anterior de la médula espinal","En el bulbo raquídeo","En la corteza motora"], a:1},
+    en:{q:"Where are the cell bodies of motor neurons located?", o:["In the cerebellum","In the anterior horn of the spinal cord","In the medulla oblongata","In the motor cortex"], a:1}
+  },
+  {
+    type:"order",
+    ca:{q:"Ordena els esdeveniments de la unió neuromuscular (1-5):", items:["Arriba el potencial d'acció a la terminal","Les vesícules s'uneixen i alliberen ACh","L'ACh s'uneix als receptors","Es despolaritza la fibra muscular","Es genera el potencial d'acció muscular"], a:[1,2,3,4,5]},
+    es:{q:"Ordena los eventos de la unión neuromuscular (1-5):", items:["Llega el potencial de acción a la terminal","Las vesículas se fusionan y liberan ACh","La ACh se une a los receptores","Se despolariza la fibra muscular","Se genera el potencial de acción muscular"], a:[1,2,3,4,5]},
+    en:{q:"Order the events of the neuromuscular junction (1-5):", items:["Action potential arrives at the terminal","Vesicles fuse and release ACh","ACh binds to receptors","Muscle fiber depolarizes","Muscle action potential is generated"], a:[1,2,3,4,5]}
+  },
+  {
+    type:"fill",
+    ca:{q:"El neurotransmissor alliberat a la unió neuromuscular és l'________.", a:"acetilcolina"},
+    es:{q:"El neurotransmisor liberado en la unión neuromuscular es la ________.", a:"acetilcolina"},
+    en:{q:"The neurotransmitter released at the neuromuscular junction is ________.", a:"acetylcholine"}
+  },
+  // ===== 19. SUBSTITUÏT: CAS PRÀCTIC VERÍ I UNIÓ NEUROMUSCULAR =====
+  {
+    type:"essay",
+    ca:{
+      scenario:"Una toxina bloqueja els receptors d'acetilcolina de la placa motora.",
+      q:"Explica què passarà amb la contracció muscular i per què, seguint la cadena: potencial d'acció → alliberament d'ACh → unió al receptor → despolarització → contracció.",
+      keywords:["acetilcolina","receptor","despolaritzacio","potencial d'accio","contraccio","bloqueig","paralisi","no es contrau"],
+      model:"La toxina impedeix que l'ACh s'uneixi als receptors. Sense unió, no hi ha despolarització de la fibra muscular, no es genera potencial d'acció muscular i el múscul no es pot contraure. El resultat és una paràlisi flàccida."
+    },
+    es:{
+      scenario:"Una toxina bloquea los receptores de acetilcolina de la placa motora.",
+      q:"Explica qué ocurrirá con la contracción muscular y por qué, siguiendo la cadena: potencial de acción → liberación de ACh → unión al receptor → despolarización → contracción.",
+      keywords:["acetilcolina","receptor","despolarizacion","potencial de accion","contraccion","bloqueo","paralisis","no se contrae"],
+      model:"La toxina impide que la ACh se una a los receptores. Sin unión, no hay despolarización de la fibra muscular, no se genera potencial de acción muscular y el músculo no puede contraerse. El resultado es una parálisis flácida."
+    },
+    en:{
+      scenario:"A toxin blocks the acetylcholine receptors at the motor end plate.",
+      q:"Explain what will happen to muscle contraction and why, following the chain: action potential → ACh release → receptor binding → depolarization → contraction.",
+      keywords:["acetylcholine","receptor","depolarization","action potential","contraction","block","paralysis","does not contract"],
+      model:"The toxin prevents ACh from binding to the receptors. Without binding, there is no depolarization of the muscle fiber, no muscle action potential is generated, and the muscle cannot contract. The result is flaccid paralysis."
+    }
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin ió és imprescindible perquè la miosina s'uneixi a l'actina?", o:["Sodi (Na+)","Potassi (K+)","Calci (Ca²⁺)","Magnesi (Mg²⁺)"], a:2},
+    es:{q:"¿Qué ion es imprescindible para que la miosina se una a la actina?", o:["Sodio (Na+)","Potasio (K+)","Calcio (Ca²⁺)","Magnesio (Mg²⁺)"], a:2},
+    en:{q:"Which ion is essential for myosin to bind to actin?", o:["Sodium (Na+)","Potassium (K+)","Calcium (Ca²⁺)","Magnesium (Mg²⁺)"], a:2}
+  },
+  {
+    type:"fill",
+    ca:{q:"En repòs, la ________ cobreix els llocs d'unió de la miosina a l'actina.", a:"tropomiosina"},
+    es:{q:"En reposo, la ________ cubre los sitios de unión de la miosina a la actina.", a:"tropomiosina"},
+    en:{q:"At rest, ________ covers the myosin-binding sites on actin.", a:"tropomyosin"}
+  },
+  {
+    type:"mc",
+    ca:{q:"Què passa quan el calci s'uneix a la troponina?", o:["La miosina es trenca","La tropomiosina es desplaça i exposa els llocs d'unió","L'actina desapareix","El sarcòmer s'allarga"], a:1},
+    es:{q:"¿Qué ocurre cuando el calcio se une a la troponina?", o:["La miosina se rompe","La tropomiosina se desplaza y expone los sitios de unión","La actina desaparece","El sarcómero se alarga"], a:1},
+    en:{q:"What happens when calcium binds to troponin?", o:["Myosin breaks","Tropomyosin shifts and exposes binding sites","Actin disappears","The sarcomere lengthens"], a:1}
+  },
+  {
+    type:"order",
+    ca:{q:"Ordena el cicle de la miosina (1-4):", items:["Unió de la miosina a l'actina","Arrastre de l'actina","Acostament de les línies Z","Despreniment amb ATP"], a:[1,2,3,4]},
+    es:{q:"Ordena el ciclo de la miosina (1-4):", items:["Unión de la miosina a la actina","Arrastre de la actina","Acercamiento de las líneas Z","Desprendimiento con ATP"], a:[1,2,3,4]},
+    en:{q:"Order the myosin cycle (1-4):", items:["Myosin binds to actin","Power stroke pulls actin","Z lines move closer","Detachment with ATP"], a:[1,2,3,4]}
+  },
+  // ===== 24. SUBSTITUÏT: CAS PRÀCTIC RIGOR MORTIS =====
+  {
+    type:"essay",
+    ca:{
+      scenario:"Un estudiant observa que, després de la mort, els músculs es tornen rígids (rigor mortis) i que aquesta rigidesa desapareix al cap d'unes hores.",
+      q:"Explica per què es produeix la rigidesa inicial i per què desapareix després, relacionant-ho amb l'ATP i el cicle de la miosina.",
+      keywords:["atp","miosina","actina","despreniment","calci","rigidesa","descomposicio","proteines"],
+      model:"Sense ATP, la miosina queda unida a l'actina i no es pot desprendre, de manera que el múscul es manté contret i rígid. Amb el temps, la degradació de les proteïnes i la descomposició del teixit fan que la rigidesa desaparegui."
+    },
+    es:{
+      scenario:"Un estudiante observa que, tras la muerte, los músculos se vuelven rígidos (rigor mortis) y que esta rigidez desaparece al cabo de unas horas.",
+      q:"Explica por qué se produce la rigidez inicial y por qué desaparece después, relacionándolo con el ATP y el ciclo de la miosina.",
+      keywords:["atp","miosina","actina","desprendimiento","calcio","rigidez","descomposicion","proteinas"],
+      model:"Sin ATP, la miosina queda unida a la actina y no puede desprenderse, de modo que el músculo permanece contraído y rígido. Con el tiempo, la degradación de las proteínas y la descomposición del tejido hacen que la rigidez desaparezca."
+    },
+    en:{
+      scenario:"A student observes that after death, muscles become rigid (rigor mortis) and that this rigidity disappears after a few hours.",
+      q:"Explain why the initial rigidity occurs and why it disappears later, relating it to ATP and the myosin cycle.",
+      keywords:["atp","myosin","actin","detachment","calcium","rigidity","decomposition","proteins"],
+      model:"Without ATP, myosin remains bound to actin and cannot detach, so the muscle stays contracted and rigid. Over time, protein degradation and tissue decomposition make the rigidity disappear."
+    }
+  },
+  {
+    type:"mc",
+    ca:{q:"En una contracció ________, el múscul s'acurta mentre genera força.", o:["excèntrica","isomètrica","concèntrica","passiva"], a:2},
+    es:{q:"En una contracción ________, el músculo se acorta mientras genera fuerza.", o:["excéntrica","isométrica","concéntrica","pasiva"], a:2},
+    en:{q:"In a ________ contraction, the muscle shortens while generating force.", o:["eccentric","isometric","concentric","passive"], a:2}
+  },
+  {
+    type:"mc",
+    ca:{q:"Quin tipus de contracció té funció d'amortiment i frena el moviment?", o:["Concèntrica","Isomètrica","Excèntrica","Totes per igual"], a:2},
+    es:{q:"¿Qué tipo de contracción tiene función de amortiguación y frena el movimiento?", o:["Concéntrica","Isométrica","Excéntrica","Todas por igual"], a:2},
+    en:{q:"Which contraction type has a shock-absorbing function and brakes movement?", o:["Concentric","Isometric","Eccentric","All equally"], a:2}
+  },
+  {
+    type:"fill",
+    ca:{q:"En una contracció isomètrica, la tensió és ________ a la resistència.", a:"igual"},
+    es:{q:"En una contracción isométrica, la tensión es ________ a la resistencia.", a:"igual"},
+    en:{q:"In an isometric contraction, tension is ________ to resistance.", a:"equal"}
+  },
+  {
+    type:"match",
+    ca:{q:"Relaciona cada tipus de contracció amb la seva característica principal:", pairs:[["Concèntrica","El múscul s'acurta"],["Excèntrica","El múscul s'allarga"],["Isomètrica","No canvia la longitud"]]},
+    es:{q:"Relaciona cada tipo de contracción con su característica principal:", pairs:[["Concéntrica","El músculo se acorta"],["Excéntrica","El músculo se alarga"],["Isométrica","No cambia la longitud"]]},
+    en:{q:"Match each contraction type with its main feature:", pairs:[["Concentric","Muscle shortens"],["Eccentric","Muscle lengthens"],["Isometric","Length does not change"]]}
+  },
+  // ===== 30. SUBSTITUÏT: CAS PRÀCTIC RAMPA MUSCULAR =====
+  {
+    type:"essay",
+    ca:{
+      scenario:"Un corredor fa una cursa de 10 km en un dia de molta calor. A la meta té una rampa molt dolorosa al bessó.",
+      q:"Explica quins factors hi han contribuït (mínim 3) i quin mecanisme fisiològic explica la contracció involuntària i mantinguda.",
+      keywords:["deshidratacio","electrolits","calor","exercici","fatiga","motoneurona","excitabilitat","descàrregues","contraccio involuntaria"],
+      model:"Factors: deshidratació, pèrdua d'electròlits (Na⁺, K⁺, Mg²⁺), calor i exercici intens. Mecanisme: augment de l'excitabilitat de la motoneurona α i descàrregues repetitives que mantenen la contracció involuntària i dolorosa."
+    },
+    es:{
+      scenario:"Un corredor hace una carrera de 10 km en un día de mucho calor. En la meta tiene un calambre muy doloroso en el gemelo.",
+      q:"Explica qué factores han contribuido (mínimo 3) y qué mecanismo fisiológico explica la contracción involuntaria y mantenida.",
+      keywords:["deshidratacion","electrolitos","calor","ejercicio","fatiga","motoneurona","excitabilidad","descargas","contraccion involuntaria"],
+      model:"Factores: deshidratación, pérdida de electrolitos (Na⁺, K⁺, Mg²⁺), calor y ejercicio intenso. Mecanismo: aumento de la excitabilidad de la motoneurona α y descargas repetitivas que mantienen la contracción involuntaria y dolorosa."
+    },
+    en:{
+      scenario:"A runner does a 10 km race on a very hot day. At the finish line, he has a very painful cramp in his calf.",
+      q:"Explain which factors contributed (at least 3) and which physiological mechanism explains the involuntary, sustained contraction.",
+      keywords:["dehydration","electrolytes","heat","exercise","fatigue","motor neuron","excitability","discharges","involuntary contraction"],
+      model:"Factors: dehydration, electrolyte loss (Na⁺, K⁺, Mg²⁺), heat and intense exercise. Mechanism: increased excitability of the α motor neuron and repetitive discharges that maintain the involuntary, painful contraction."
+    }
+  }
+];
+
+/* ============================================================
+   ESTAT
+   ============================================================ */
+let currentLang = "ca";
+let results = {};
+let reviewMode = false;
+
+const STORAGE_KEY = "musculoesqueletico_sessions_v2";
+
+/* ============================================================
+   RENDERITZACIÓ
+   ============================================================ */
+function setLang(lang){
+  currentLang = lang;
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  document.querySelector(`.lang-switch button[onclick="setLang('${lang}')"]`).classList.add("active");
+  render();
+  applyReviewFilter();
+}
+
+function render(){
+  const quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+  EX.forEach((ex, i)=>{
+    const d = ex[currentLang];
+    const div = document.createElement("div");
+    div.className = "exercise" + (ex.type === "essay" ? " essay" : "");
+    div.id = "ex" + i;
+
+    let html = `<h3>${T[currentLang].ex} ${i+1} <span class="badge ${ex.type === "essay" ? "essay" : ""}">${T[currentLang].types[ex.type]}</span></h3>`;
+
+    if(ex.type === "essay"){
+      html += `<div class="scenario">📋 ${d.scenario}</div>`;
+      html += `<p class="q">${d.q}</p>`;
+      html += `<textarea id="in${i}" placeholder="${currentLang==='ca'?'Escriu la teva resposta raonada...':currentLang==='es'?'Escribe tu respuesta razonada...':'Write your reasoned answer...'}"></textarea>`;
+      html += `<button class="btn-check essay-btn" onclick="check(${i})">${T[currentLang].check}</button>`;
+      html += `<button class="btn-model" onclick="toggleModel(${i})" id="modelBtn${i}">${T[currentLang].showModel}</button>`;
+      html += `<div class="feedback" id="fb${i}"></div>`;
+      html += `<div class="feedback" id="md${i}" style="display:none;"></div>`;
+    } else {
+      html += `<p class="q">${d.q}</p>`;
+
+      if(ex.type === "mc"){
+        html += `<div class="options">`;
+        d.o.forEach((opt, j)=>{
+          html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`;
+        });
+        html += `</div>`;
+      }
+      else if(ex.type === "fill" || ex.type === "short"){
+        html += `<input type="text" id="in${i}" placeholder="${T[currentLang].select.replace('— ','').replace(' —','')}...">`;
+      }
+      else if(ex.type === "match"){
+        d.pairs.forEach((p, j)=>{
+          html += `<div class="match-row">
+            <span>${p[0]}</span>
+            <select id="m${i}_${j}">
+              <option value="">${T[currentLang].select}</option>
+              ${d.pairs.map((_, k)=>`<option value="${k}">${d.pairs[k][1]}</option>`).join("")}
+            </select>
+          </div>`;
+        });
+      }
+      else if(ex.type === "order"){
+        html += `<ul class="order-list">`;
+        d.items.forEach((it, j)=>{
+          html += `<li><input type="number" min="1" max="${d.items.length}" id="o${i}_${j}"> ${it}</li>`;
+        });
+        html += `</ul>`;
+      }
+
+      html += `<button class="btn-check" onclick="check(${i})">${T[currentLang].check}</button>`;
+      html += `<div class="feedback" id="fb${i}"></div>`;
+    }
+
+    div.innerHTML = html;
+    quiz.appendChild(div);
+  });
+  updateStatus();
+}
+
+/* ============================================================
+   CORRECCIÓ
+   ============================================================ */
+function normalize(s){
+  return s.toString().toLowerCase().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[.,;:!?]/g,"");
+}
+
+function check(i, silent){
+  const ex = EX[i];
+  const d = ex[currentLang];
+  const fb = document.getElementById("fb" + i);
+  const card = document.getElementById("ex" + i);
+  let ok = false;
+  let correctText = "";
+
+  if(ex.type === "mc"){
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel && parseInt(sel.value) === d.a){ ok = true; }
+    correctText = d.o[d.a];
+  }
+  else if(ex.type === "fill" || ex.type === "short"){
+    const val = document.getElementById("in" + i).value;
+    if(normalize(val) === normalize(d.a)){ ok = true; }
+    correctText = d.a;
+  }
+  else if(ex.type === "match"){
+    ok = true;
+    d.pairs.forEach((p, j)=>{
+      const sel = document.getElementById("m" + i + "_" + j).value;
+      if(parseInt(sel) !== j) ok = false;
+    });
+    correctText = d.pairs.map((p,j)=>`${p[0]} → ${p[1]}`).join("; ");
+  }
+  else if(ex.type === "order"){
+    ok = true;
+    d.a.forEach((val, j)=>{
+      const inp = document.getElementById("o" + i + "_" + j).value;
+      if(parseInt(inp) !== val) ok = false;
+    });
+    correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+  }
+  else if(ex.type === "essay"){
+    const val = document.getElementById("in" + i).value;
+    if(!val || val.trim().length < 15){
+      fb.className = "feedback err";
+      fb.textContent = T[currentLang].essayEmpty;
+      return;
+    }
+    const norm = normalize(val);
+    const found = d.keywords.filter(k => norm.includes(normalize(k)));
+    const total = d.keywords.length;
+    if(found.length >= Math.ceil(total * 0.5)){
+      ok = true;
+      fb.className = "feedback ok";
+      fb.textContent = T[currentLang].essayOk + ` (${found.length}/${total})`;
+    } else {
+      ok = false;
+      fb.className = "feedback err";
+      fb.textContent = T[currentLang].essayPartial + ` (${found.length}/${total})`;
+    }
+  }
+
+  if(ex.type !== "essay"){
+    fb.className = "feedback " + (ok ? "ok" : "err");
+    fb.textContent = ok ? T[currentLang].correct : T[currentLang].incorrect + correctText;
+  }
+
+  results[i] = ok;
+  card.classList.remove("corrected","failed");
+  card.classList.add(ok ? "corrected" : "failed");
+
+  if(!silent){
+    updateStatus();
+    if(reviewMode) applyReviewFilter();
+  }
+}
+
+function toggleModel(i){
+  const md = document.getElementById("md" + i);
+  const btn = document.getElementById("modelBtn" + i);
+  const d = EX[i][currentLang];
+  if(md.style.display === "none"){
+    md.className = "feedback model";
+    md.innerHTML = `<b>${T[currentLang].model}</b><br>${d.model}`;
+    md.style.display = "block";
+    btn.textContent = T[currentLang].hideModel;
+  } else {
+    md.style.display = "none";
+    btn.textContent = T[currentLang].showModel;
+  }
+}
+
+/* ============================================================
+   REPÀS D'ERRORS
+   ============================================================ */
+function toggleReview(){
+  if(!reviewMode){
+    const failed = Object.keys(results).filter(k=>results[k] === false);
+    if(failed.length === 0){
+      showBanner(T[currentLang].reviewEmpty);
+      return;
+    }
+    reviewMode = true;
+    document.body.classList.add("review-mode");
+    document.getElementById("reviewBtn").textContent = "🔁 " + (currentLang==="ca"?"Sortir del repàs":currentLang==="es"?"Salir del repaso":"Exit review");
+    showBanner(T[currentLang].reviewOn);
+  } else {
+    reviewMode = false;
+    document.body.classList.remove("review-mode");
+    document.getElementById("reviewBtn").textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+    showBanner(T[currentLang].reviewOff);
+  }
+  applyReviewFilter();
+  updateStatus();
+}
+
+function applyReviewFilter(){
+  document.querySelectorAll(".exercise").forEach(card=>{
+    card.classList.remove("failed","corrected");
+    const idx = parseInt(card.id.replace("ex",""));
+    if(results[idx] === true) card.classList.add("corrected");
+    if(results[idx] === false) card.classList.add("failed");
+  });
+}
+
+/* ============================================================
+   SESSIÓ
+   ============================================================ */
+function collectState(){
+  const state = {
+    lang: currentLang,
+    results: results,
+    reviewMode: reviewMode,
+    answers: {},
+    timestamp: Date.now()
+  };
+  EX.forEach((ex, i)=>{
+    const d = ex[currentLang];
+    if(ex.type === "mc"){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      state.answers[i] = sel ? parseInt(sel.value) : null;
+    }
+    else if(ex.type === "fill" || ex.type === "short" || ex.type === "essay"){
+      state.answers[i] = document.getElementById("in" + i).value;
+    }
+    else if(ex.type === "match"){
+      state.answers[i] = d.pairs.map((_, j)=>document.getElementById("m"+i+"_"+j).value);
+    }
+    else if(ex.type === "order"){
+      state.answers[i] = d.items.map((_, j)=>document.getElementById("o"+i+"_"+j).value);
+    }
+  });
+  return state;
+}
+
+function saveSession(){
+  const state = collectState();
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    showBanner(T[currentLang].saved);
+  }catch(e){
+    showBanner("⚠️ No s'ha pogut guardar: " + e.message);
+  }
+}
+
+function loadSession(silent){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){
+    if(!silent) showBanner(T[currentLang].noSession);
+    return false;
+  }
+  try{
+    const state = JSON.parse(raw);
+    applyState(state);
+    if(!silent) showBanner(T[currentLang].loaded);
+    return true;
+  }catch(e){
+    if(!silent) showBanner("⚠️ Error en recuperar: " + e.message);
+    return false;
+  }
+}
+
+function applyState(state){
+  currentLang = state.lang || "ca";
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  const btn = document.querySelector(`.lang-switch button[onclick="setLang('${currentLang}')"]`);
+  if(btn) btn.classList.add("active");
+
+  results = state.results || {};
+  reviewMode = false;
+  document.body.classList.remove("review-mode");
+  const revBtn = document.getElementById("reviewBtn");
+  revBtn.textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+
+  render();
+
+  EX.forEach((ex, i)=>{
+    const val = state.answers ? state.answers[i] : null;
+    if(val === undefined || val === null) return;
+    if(ex.type === "mc"){
+      const radio = document.querySelector(`input[name="q${i}"][value="${val}"]`);
+      if(radio) radio.checked = true;
+    }
+    else if(ex.type === "fill" || ex.type === "short" || ex.type === "essay"){
+      const inp = document.getElementById("in" + i);
+      if(inp) inp.value = val;
+    }
+    else if(ex.type === "match"){
+      val.forEach((v, j)=>{
+        const sel = document.getElementById("m"+i+"_"+j);
+        if(sel) sel.value = v;
+      });
+    }
+    else if(ex.type === "order"){
+      val.forEach((v, j)=>{
+        const inp = document.getElementById("o"+i+"_"+j);
+        if(inp) inp.value = v;
+      });
+    }
+  });
+
+  Object.keys(results).forEach(k=>{
+    const i = parseInt(k);
+    if(!isNaN(i)) check(i, true);
+  });
+  applyReviewFilter();
+  updateStatus();
+}
+
+function resetSession(){
+  localStorage.removeItem(STORAGE_KEY);
+  results = {};
+  reviewMode = false;
+  document.body.classList.remove("review-mode");
+  const revBtn = document.getElementById("reviewBtn");
+  revBtn.textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+  render();
+  showBanner(T[currentLang].reset);
+  updateStatus();
+}
+
+/* ============================================================
+   UTILITATS
+   ============================================================ */
+function showBanner(msg, withPrompt){
+  const b = document.getElementById("banner");
+  b.innerHTML = msg;
+  if(withPrompt){
+    const yes = document.createElement("button");
+    yes.textContent = T[currentLang].yes;
+    yes.onclick = ()=>{ loadSession(); b.classList.remove("show"); };
+    const no = document.createElement("button");
+    no.className = "ghost";
+    no.textContent = T[currentLang].no;
+    no.onclick = ()=>{ resetSession(); b.classList.remove("show"); };
+    b.appendChild(yes);
+    b.appendChild(no);
+  }
+  b.classList.add("show");
+  if(!withPrompt){
+    clearTimeout(b._t);
+    b._t = setTimeout(()=>b.classList.remove("show"), 3500);
+  }
+}
+
+function updateStatus(){
+  const total = EX.length;
+  const done = Object.keys(results).length;
+  const ok = Object.values(results).filter(v=>v===true).length;
+  const ko = Object.values(results).filter(v=>v===false).length;
+  const el = document.getElementById("status");
+  const labels = {
+    ca: `Respostes: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`,
+    es: `Respuestas: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`,
+    en: `Answers: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`
+  };
+  el.textContent = labels[currentLang];
+}
+
+/* ============================================================
+   INICIALITZACIÓ
+   ============================================================ */
+function init(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  render();
+  if(raw){
+    setTimeout(()=>{
+      showBanner(T[currentLang].restorePrompt, true);
+    }, 400);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
