@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia d'ús · Tema 1 · Fisiologia i homeòstasi</title>
+<style>
+  :root{
+    --navy:#0b1f3a; --navy-2:#132f55;
+    --gold:#c9a227; --gold-2:#e6c65c;
+    --bg:#f7f4ee; --white:#ffffff;
+    --text:#1a1a1a; --muted:#6b6b6b;
+    --pi:#1b8a3a; --pi-bg:#e6f6ea; --pi-border:#8fd3a3;
+    --bloc-a:#1565c0; --bloc-a-bg:#e3f0fb;
+    --bloc-b:#2e7d32; --bloc-b-bg:#e8f3ec;
+    --bloc-c:#6a1b9a; --bloc-c-bg:#f3e5f5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family: Georgia, "Times New Roman", serif;
+    background:var(--bg); color:var(--text);
+    font-size:19px; line-height:1.65; padding:1.2rem;
+  }
+  .wrap{max-width:900px;margin:0 auto}
+
+  /* CAPÇALERA */
+  .menu{
+    background:linear-gradient(135deg,var(--navy),var(--navy-2));
+    color:#fff;border-radius:16px;padding:1.4rem 1.4rem;
+    box-shadow:0 8px 22px rgba(11,31,58,.18);margin-bottom:1.2rem;
+  }
+  .menu h1{margin:0 0 .35rem;font-size:1.6rem;color:#fff}
+  .menu .sub{margin:0;color:#dbe6f5;font-size:1.02rem}
+  .menu .tag{
+    display:inline-block;background:var(--gold);color:var(--navy);
+    font-size:.8rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;
+    margin-bottom:.6rem;letter-spacing:.05em;
+  }
+
+  /* TARGETES */
+  .card{
+    background:#fff;border-radius:16px;
+    padding:1.4rem 1.5rem 1.5rem;
+    box-shadow:0 8px 22px rgba(11,31,58,.08);
+    border-top:6px solid var(--gold);
+    margin-bottom:1.1rem;
+  }
+  .card h2{
+    color:var(--navy);font-size:1.25rem;margin:0 0 .7rem;
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .card h2 .num{
+    background:var(--navy);color:var(--gold-2);
+    width:32px;height:32px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:.95rem;font-weight:700;flex-shrink:0;
+  }
+  .card p{margin:.4rem 0}
+  .card ul{margin:.4rem 0 .4rem;padding-left:1.3rem}
+  .card li{margin:.3rem 0}
+
+  /* BLOCS DE COLOR */
+  .bloc{
+    border-left:7px solid;border-radius:10px;
+    padding:.9rem 1.1rem;margin:.7rem 0;
+  }
+  .bloc-a{border-color:var(--bloc-a);background:var(--bloc-a-bg)}
+  .bloc-b{border-color:var(--bloc-b);background:var(--bloc-b-bg)}
+  .bloc-c{border-color:var(--bloc-c);background:var(--bloc-c-bg)}
+  .bloc strong{color:var(--navy)}
+
+  /* TAULA */
+  table{
+    width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.98rem;
+  }
+  th,td{
+    border:1px solid #e0dccf;padding:.55rem .7rem;text-align:left;vertical-align:top;
+  }
+  th{background:#fbf8f1;color:var(--navy);font-weight:700}
+  td code{
+    background:#f0ede4;padding:.1rem .4rem;border-radius:5px;
+    font-family:Consolas,monospace;font-size:.9rem;color:var(--navy);
+  }
+
+  /* DESTACAT 🌿 */
+  .pi-box{
+    background:var(--pi-bg);border-left:6px solid var(--pi);
+    border-radius:10px;padding:.9rem 1.1rem;margin:.8rem 0;
+  }
+  .pi-box strong{color:var(--pi)}
+
+  /* CONSELLS */
+  .consell{
+    background:#fffdf5;border-left:5px solid var(--gold);
+    border-radius:10px;padding:.9rem 1.1rem;margin:.7rem 0;
+  }
+  .consell strong{color:var(--navy)}
+
+  /* PEU */
+  .peu{
+    text-align:center;color:var(--muted);font-size:.9rem;
+    padding:1rem 0 .5rem;
+  }
+
+  @media (max-width:640px){
+    body{font-size:17px;padding:.9rem}
+    .menu h1{font-size:1.3rem}
+    .card{padding:1.1rem 1.1rem}
+  }
+
+  @media print{
+    body{background:#fff;font-size:11pt}
+    .menu{background:#fff;color:var(--navy);box-shadow:none;border-bottom:3px solid var(--gold);border-radius:0}
+    .menu h1,.menu .sub{color:var(--navy)}
+    .card{box-shadow:none;border:1px solid #ddd;page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- CAPÇALERA -->
+  <header class="menu">
+    <span class="tag">GUIA D'ÚS</span>
+    <h1>Tema 1 · Introducció a la fisiologia i homeòstasi</h1>
+    <p class="sub">Com fer servir l'activitat interactiva de 60 preguntes.</p>
+  </header>
+
+  <!-- 1. QUÈ ÉS -->
+  <section class="card">
+    <h2><span class="num">1</span> Què és</h2>
+    <p>És una <strong>pàgina HTML autònoma</strong> (un sol fitxer) amb <strong>60 preguntes de vertader/fals</strong> sobre fisiologia i homeòstasi, organitzades en <strong>3 blocs d'estudi</strong>. No cal instal·lar res: s'obre al navegador i funciona.</p>
+  </section>
+
+  <!-- 2. ELS BLOCS -->
+  <section class="card">
+    <h2><span class="num">2</span> Els 3 blocs d'estudi</h2>
+    <div class="bloc bloc-a"><strong>Bloc A · El bucle homeostàtic</strong> — 20 preguntes</div>
+    <div class="bloc bloc-b"><strong>Bloc B · Nivells i teixits</strong> — 20 preguntes</div>
+    <div class="bloc bloc-c"><strong>Bloc C · Retroalimentació</strong> — 20 preguntes</div>
+    <div class="pi-box">
+      <strong>🌿 18 preguntes estan marcades amb la fulla verda</strong> → són les <em>preguntes objectiu</em>, les més importants del tema.
+    </div>
+  </section>
+
+  <!-- 3. COM ES FA SERVIR -->
+  <section class="card">
+    <h2><span class="num">3</span> Com es fa servir</h2>
+
+    <p><strong>a) Respon cada pregunta</strong></p>
+    <ul>
+      <li>Llegeixes la situació i tries <strong>«Correcte»</strong> o <strong>«Incorrecte»</strong>.</li>
+      <li>El sistema et dona feedback immediat (verd = bé, vermell = cal repassar).</li>
+      <li>Pots prémer <strong>«＋ Més informació»</strong> per veure l'explicació teòrica i un exemple, amb un enllaç al recurs del tema.</li>
+    </ul>
+
+    <p><strong>b) Navega</strong></p>
+    <ul>
+      <li><strong>Següent →</strong> / <strong>← Anterior</strong> per moure't.</li>
+      <li>El botó <strong>«Reprendre»</strong> apareix quan tornes a la pàgina i et porta on ho vas deixar.</li>
+    </ul>
+
+    <p><strong>c) Índex de blocs (desplegable)</strong></p>
+    <ul>
+      <li>Mostra el teu progrés per bloc (<code>fetes / total</code> i <code>🌿 fetes / total</code>).</li>
+      <li>Pots clicar un bloc per saltar-hi directament.</li>
+      <li>Cada bloc té un botó <strong>«🎯 Objectiu del bloc»</strong> amb què aprendràs, preguntes clau, vocabulari i per què importa per a la dansa.</li>
+    </ul>
+  </section>
+
+  <!-- 4. BOTONS -->
+  <section class="card">
+    <h2><span class="num">4</span> Funcions de la capçalera</h2>
+    <table>
+      <thead>
+        <tr><th>Botó</th><th>Què fa</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>🌿</td><td><strong>Mode adaptat</strong>: només treballa les 18 preguntes objectiu.</td></tr>
+        <tr><td>🔁 <strong>Mode repàs</strong></td><td>Només mostra les preguntes que has fallat o no has fet.</td></tr>
+        <tr><td>🖨 <strong>Imprimir</strong></td><td>Genera un full de resultats amb resum, notes per bloc i detall de totes les preguntes.</td></tr>
+        <tr><td><strong>Exportar progrés</strong></td><td>Descarrega un fitxer <code>.json</code> amb totes les teves respostes.</td></tr>
+        <tr><td><strong>Començar de nou</strong></td><td>Esborra tot el progrés (demana confirmació).</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. IDIOMES -->
+  <section class="card">
+    <h2><span class="num">5</span> Idiomes</h2>
+    <p>Pots canviar entre <strong>CA / ES / EN</strong> amb els botons de sota la capçalera. Canvia tota la interfície i els textos de les preguntes.</p>
+  </section>
+
+  <!-- 6. DESAMENT -->
+  <section class="card">
+    <h2><span class="num">6</span> El progrés es guarda sol</h2>
+    <ul>
+      <li>Les respostes es desen <strong>automàticament al navegador</strong> (localStorage).</li>
+      <li>Si tanques i tornes a obrir la pàgina, continues on eres.</li>
+      <li>El progrés <strong>només viu en aquell navegador i dispositiu</strong> (si esborres dades o canvies d'ordinador, es perd).</li>
+    </ul>
+  </section>
+
+  <!-- 7. CONSELLS -->
+  <section class="card">
+    <h2><span class="num">7</span> Consells d'ús</h2>
+    <div class="consell"><strong>1.</strong> Fes primer <strong>tot el bloc A</strong>, després B i C (l'ordre té sentit).</div>
+    <div class="consell"><strong>2.</strong> Marca't com a objectiu arribar a <strong>18/18 🌿</strong>.</div>
+    <div class="consell"><strong>3.</strong> Si falles una pregunta, fes servir el <strong>Mode repàs</strong> per reforçar-la.</div>
+    <div class="consell"><strong>4.</strong> Abans d'una prova, fes servir <strong>Imprimir</strong> per tenir un full de resultats.</div>
+  </section>
+
+  <!-- RESUM -->
+  <section class="card" style="border-top-color:var(--navy)">
+    <h2><span class="num">✓</span> En resum</h2>
+    <p><strong>Obre el fitxer HTML → respon → rep feedback → repassa el que fallis → imprimeix o exporta els resultats.</strong></p>
+    <p style="margin-bottom:0">Tot des del navegador, sense instal·lar res.</p>
+  </section>
+
+  <div class="peu">Guia d'ús · Tema 1 · Introducció a la fisiologia i homeòstasi</div>
+
+</div>
+</body>
+</html>
