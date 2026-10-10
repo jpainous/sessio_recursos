@@ -43,7 +43,7 @@
   .grid2{display:grid;grid-template-columns:170px 1fr;gap:.8rem;margin:.8rem 0}
   @media(max-width:640px){.grid2{grid-template-columns:1fr}}
   .fld span{display:block;font-size:.75rem;font-weight:700;color:var(--pri2);margin-bottom:.2rem}
-  input[type=text],input[type=email],input[type=date],textarea,select.st,select.msel{width:100%;border:1px solid var(--bord);border-radius:8px;padding:.45rem .55rem;font:inherit;font-size:.88rem;background:#fffdf7}
+  input[type=text],input[type=email],input[type=date],input[type=url],textarea,select.st,select.msel{width:100%;border:1px solid var(--bord);border-radius:8px;padding:.45rem .55rem;font:inherit;font-size:.88rem;background:#fffdf7}
   textarea{resize:vertical}
   input:focus,textarea:focus,select:focus{outline:2px solid var(--pri2)}
   .sect{margin:.9rem 0;border:1px solid var(--bord);border-left:4px solid #ccc;border-radius:10px;padding:.7rem .8rem;background:#fdfbf8}
@@ -66,15 +66,14 @@
   .row textarea{min-height:48px}
   .row.act input[type=text].time{font-variant-numeric:tabular-nums}
   .lks{grid-column:1/-1;display:none;flex-wrap:wrap;gap:.3rem;margin-top:-.1rem}
-  .lks a{display:inline-block;background:#eaf3fb;color:var(--blau);border:1px solid #bcd7ea;border-radius:14px;padding:.08rem .55rem;font-size:.74rem;text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .lks a:hover{background:#d8eaf8;text-decoration:underline}
+  .lks a{display:inline-block;background:#1f5f8b;color:#fff !important;border:none;border-radius:14px;padding:.12rem .6rem;font-size:.74rem;text-decoration:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .lks a:hover{background:#15456b;text-decoration:none}
   select.st{font-size:.78rem;padding:.35rem}
   .hint{font-size:.75rem;color:var(--gris);margin:.3rem 0}
   .st-plan{border-left:3px solid var(--blau)}
   .st-done{border-left:3px solid var(--verd)}
   .st-pause{border-left:3px solid var(--taronja)}
   .st-drop{border-left:3px solid var(--grisc);opacity:.55}
-  /* modal */
   .mwrap{display:none;position:fixed;inset:0;background:rgba(30,20,40,.55);z-index:98;align-items:center;justify-content:center;padding:1rem}
   .mwrap.on{display:flex}
   .mbox{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:1.1rem 1.2rem;box-shadow:0 10px 40px rgba(0,0,0,.35);max-height:85vh;overflow:auto}
@@ -135,6 +134,7 @@ var ST=(function(){
     <button type="button" id="bExp"></button>
     <button type="button" id="bImp"></button>
     <button type="button" id="bData"></button>
+    <button type="button" id="bBase"></button>
     <button type="button" id="bPrint"></button>
     <select id="flt"></select>
     <span id="savestate"></span>
@@ -144,7 +144,6 @@ var ST=(function(){
 <div id="toast"></div>
 <input type="file" id="fImp" accept=".json" style="display:none">
 
-<!-- modal gen&egrave;ric -->
 <div id="mWrap" class="mwrap">
   <div class="mbox">
     <div id="mTitle" class="mtitle"></div>
@@ -159,19 +158,20 @@ var KEY='planificador_celia_v5';
 
 var I18N={
 ca:{t1:"Planificador de sessions - Fisiologia",t2:"C&egrave;lia Painous Mart&iacute; - Fisiologia aplicada a la dansa - 2026-27",
-openStu:"&#127891; Fitxa de l'alumne",bNew:"+ Afegeix sessi&oacute;",bExpStu:"Exporta per a l'alumnat",bExp:"Exporta c&ograve;pia",bImp:"Importa c&ograve;pia",bPrint:"Imprimeix",bData:"&#9432; Dades",
+openStu:"&#127891; Fitxa de l'alumne",bNew:"+ Afegeix sessi&oacute;",bExpStu:"Exporta per a l'alumnat",bExp:"Exporta c&ograve;pia",bImp:"Importa c&ograve;pia",bPrint:"Imprimeix",bData:"&#9432; Dades",bBase:"&#9881; Base",
 saved:"Desat",fltAll:"Totes les activitats",stPlan:"Prevista",stDone:"Feta",stPause:"En pausa",stDrop:"Descartada",
 fDate:"Data",fTopic:"Tema de la sessi&oacute;",objTitle:"&#127919; Objectius de la sessi&oacute;",actTitle:"&#9654; Activitats a desenvolupar",resTitle:"&#128279; Recursos online",avTitle:"&#127916; Mitjans audiovisuals",compTitle:"&#127968; Treball complementari",evTitle:"&#9989; Evid&egrave;ncies de la sessi&oacute;",
 visStudent:"Visible per l'alumnat",addAct:"Afegeix activitat",addLine:"Afegeix l&iacute;nia",del:"Esborra",delSes:"Esborra la sessi&oacute; (2 clics)",
 mvUp:"Mou la sessi&oacute; amunt",mvDown:"Mou la sessi&oacute; avall",dupT:"Duplica la sessi&oacute; com a plantilla",
 noLectiva:"No lectiu",noTopic:"(sense t&iacute;tol)",noActs:"Encara no hi ha activitats.",noItems:"Encara no hi ha elements.",
-phAct:"Descripci&oacute; de l'activitat (pots fer diverses l&iacute;nies)",phTime:"Horari (ex. 10:00-11:30)",phObj:"Un objectiu per l&iacute;nia o text lliure...",phComp:"Qu&egrave; ha de treballar l'alumnat fora de l'aula...",phEv:"Quadern, registre, producte...",phRes:"T&iacute;tol + enlla&ccedil; (https://...) &middot; diverses l&iacute;nies permeses",phAv:"V&iacute;deo, presentaci&oacute;, &agrave;udio... (+ enlla&ccedil; si n'hi ha) &middot; diverses l&iacute;nies permeses",
+phAct:"Descripci&oacute; de l'activitat (pots fer diverses l&iacute;nies)",phTime:"Horari (ex. 10:00-11:30)",phObj:"Un objectiu per l&iacute;nia o text lliure...",phComp:"Qu&egrave; ha de treballar l'alumnat fora de l'aula...",phEv:"Quadern, registre, producte...",phRes:"T&iacute;tol + enlla&ccedil; (https://... o /carpeta/fitxer.html) &middot; diverses l&iacute;nies permeses",phAv:"V&iacute;deo, presentaci&oacute;, &agrave;udio... (+ enlla&ccedil; si n'hi ha) &middot; diverses l&iacute;nies permeses",
 cActs:"Act.",cVis:"vis.",cRes:"Rec.",cLinks:"Enll.",cAv:"A/V",cComp:"Compl.",cEv:"Evid.",
 impOk:"Pla importat i substitu&iuml;t.",dlFail:"La desc&agrave;rrega s'ha bloquejat en aquest entorn.",
 studentNote:"Fitxer per a l'alumnat generat. Envia'l perqu&egrave; l'importin a la seva Fitxa de l'alumne.",
 filterHint:"Estat: prevista / feta / en pausa / descartada. El filtre superior amaga o mostra les activitats segons l'estat.",
 diTitle:"Dades en &uacute;s",diSes:"Sessions carregades:",diKey:"Clau interna:",diImp:"Fitxer per importar:",diLast:"Darrera edici&oacute;:",diBack:"Darrera c&ograve;pia de seguretat:",diNone:"mai",
 diNote:"Les dades viuen nom&eacute;s en aquest navegador, en aquest ordinador. Per portar-les a un altre: <b>Exporta c&ograve;pia</b> aqu&iacute; i <b>Importa c&ograve;pia</b> all&agrave;, triant planificador-dades.json.",
+diBase:"Base actual per a rutes /... :",
 emTitle:"Enviar la c&ograve;pia per correu",emAsk:"Vols enviar la c&ograve;pia de seguretat per email?",emMail:"Correu de destinaci&oacute;:",
 cliLbl:"Obrir el correu amb:",cliDef:"Programa per defecte (mailto)",cliGmail:"Gmail (al navegador)",cliOut:"Outlook (al navegador)",
 emHint:"Haur&agrave;s d'adjuntar manualment el fitxer descarregat. Amb Gmail o Outlook web, el text del missatge tamb&eacute; queda copiat al porta-retalls per si cal enganxar-lo.",
@@ -185,26 +185,34 @@ emBody5:"Per restaurar: obre el planificador &rarr; Importa c&ograve;pia &rarr; 
 cpyT:"&#10697; Copia aquest bloc a una altra sessi&oacute;",copTitle:"Copia el bloc",copDst:"Sessió de destí:",copMode:"Què vull fer:",
 copAdd:"Afegir al contingut existent",copRepl:"Substituir el contingut existent",copGo:"Copia",copBlkOk:"Bloc copiat.",copSelf:"(aquesta sessió)",
 copSameTxt:"Copiar un bloc de texte a la mateixa sessió no té efecte: tria una altra sessió de destí.",
-/* NOU */
 bigOpen:"Mostra la sessió en una pestanya nova",bigTitle:"Sessió",bigClose:"Tanca la pestanya",
 bigAct:"Activitats",bigRes:"Recursos online",bigAv:"Mitjans audiovisuals",bigComp:"Treball complementari",bigEv:"Evidències",bigObj:"Objectius",
 bigNoTopic:"(sense títol)",bigTime:"Horari",bigHint:"Aquesta és una vista de només lectura. Tanca la pestanya per tornar al planificador.",
 bigEmpty:"(buit)",
-bigBlocked:"El navegador ha bloquejat l'obertura de la pestanya. Permet les finestres emergents per a aquesta pàgina."},
+bigBlocked:"El navegador ha bloquejat l'obertura de la pestanya. Permet les finestres emergents per a aquesta pàgina.",
+baseTitle:"Base dels recursos",
+baseLbl:"URL base per a rutes relatives (començades per /):",
+baseHint:"Si escrius /t1_activitat.html al planificador, l'enllaç es generarà com BASE + ruta. Deixa-ho buit per detectar-ho automàticament. Es guarda en aquest navegador.",
+baseAuto:"Detecció automàtica",
+baseReset:"Restaura la detecció automàtica",
+baseSaved:"Base desada.",
+baseBad:"URL no vàlida.",
+baseNow:"Base actual"},
 es:{t1:"Planificador de sesiones - Fisiologia",t2:"C&egrave;lia Painous Mart&iacute; - Fisiolog&iacute;a aplicada a la danza - 2026-27",
-openStu:"&#127891; Ficha del alumnado",bNew:"+ A&ntilde;adir sesi&oacute;n",bExpStu:"Exportar para el alumnado",bExp:"Exportar copia",bImp:"Importar copia",bPrint:"Imprimir",bData:"&#9432; Datos",
+openStu:"&#127891; Ficha del alumnado",bNew:"+ A&ntilde;adir sesi&oacute;n",bExpStu:"Exportar para el alumnado",bExp:"Exportar copia",bImp:"Importar copia",bPrint:"Imprimir",bData:"&#9432; Datos",bBase:"&#9881; Base",
 saved:"Guardado",fltAll:"Todas las actividades",stPlan:"Prevista",stDone:"Hecha",stPause:"En pausa",stDrop:"Descartada",
 fDate:"Fecha",fTopic:"Tema de la sesi&oacute;n",objTitle:"&#127919; Objetivos de la sesi&oacute;n",actTitle:"&#9654; Actividades a desarrollar",resTitle:"&#128279; Recursos online",avTitle:"&#127916; Medios audiovisuales",compTitle:"&#127968; Trabajo complementario",evTitle:"&#9989; Evidencias de la sesi&oacute;n",
 visStudent:"Visible para el alumnado",addAct:"A&ntilde;adir actividad",addLine:"A&ntilde;adir l&iacute;nea",del:"Borrar",delSes:"Borrar la sesi&oacute;n (2 clics)",
 mvUp:"Mover la sesi&oacute;n arriba",mvDown:"Mover la sesi&oacute;n abajo",dupT:"Duplicar la sesi&oacute;n como plantilla",
 noLectiva:"No lectivo",noTopic:"(sin t&iacute;tulo)",noActs:"Todav&iacute;a no hay actividades.",noItems:"Todav&iacute;a no hay elementos.",
-phAct:"Descripci&oacute;n de la actividad (puedes usar varias l&iacute;neas)",phTime:"Horario (ej. 10:00-11:30)",phObj:"Un objetivo por l&iacute;nea o texto libre...",phComp:"Qu&eacute; debe trabajar el alumnado fuera del aula...",phEv:"Cuaderno, registro, producto...",phRes:"T&iacute;tulo + enlace (https://...) &middot; varias l&iacute;neas permitidas",phAv:"V&iacute;deo, presentaci&oacute;n, audio... (+ enlace si lo hay) &middot; varias l&iacute;neas permitidas",
+phAct:"Descripci&oacute;n de la actividad (puedes usar varias l&iacute;neas)",phTime:"Horario (ej. 10:00-11:30)",phObj:"Un objetivo por l&iacute;nea o texto libre...",phComp:"Qu&eacute; debe trabajar el alumnado fuera del aula...",phEv:"Cuaderno, registro, producto...",phRes:"T&iacute;tulo + enlace (https://... o /carpeta/fitxer.html) &middot; varias l&iacute;neas permitidas",phAv:"V&iacute;deo, presentaci&oacute;n, audio... (+ enlace si lo hay) &middot; varias l&iacute;neas permitidas",
 cActs:"Act.",cVis:"vis.",cRes:"Rec.",cLinks:"Enl.",cAv:"A/V",cComp:"Compl.",cEv:"Evid.",
 impOk:"Plan importado y sustituido.",dlFail:"La descarga se ha bloqueado en este entorno.",
 studentNote:"Archivo para el alumnado generado. Env&iacute;alo para que lo importen en su Ficha.",
 filterHint:"Estado: prevista / hecha / en pausa / descartada. El filtro superior oculta o muestra las actividades seg&uacute;n el estado.",
 diTitle:"Datos en uso",diSes:"Sesiones cargadas:",diKey:"Clave interna:",diImp:"Archivo para importar:",diLast:"&Uacute;ltima edici&oacute;n:",diBack:"&Uacute;ltima copia de seguridad:",diNone:"nunca",
 diNote:"Los datos viven solo en este navegador, en este ordenador. Para llevarlos a otro: <b>Exportar copia</b> aqu&iacute; y <b>Importar copia</b> all&iacute;, eligiendo planificador-dades.json.",
+diBase:"Base actual para rutas /... :",
 emTitle:"Enviar la copia por correo",emAsk:"&iquest;Quieres enviar la copia de seguridad por email?",emMail:"Correo de destino:",
 cliLbl:"Abrir el correo con:",cliDef:"Programa por defecto (mailto)",cliGmail:"Gmail (en el navegador)",cliOut:"Outlook (en el navegador)",
 emHint:"Tendr&aacute;s que adjuntar manualmente el archivo descargado. Con Gmail u Outlook web, el texto del mensaje tambi&eacute;n queda copiado al portapapeles por si hay que pegarlo.",
@@ -218,26 +226,34 @@ emBody5:"Para restaurar: abre el planificador &rarr; Importar copia &rarr; elige
 cpyT:"&#10697; Copia este bloque a otra sesi&oacute;n",copTitle:"Copiar el bloque",copDst:"Sesión de destino:",copMode:"Qu&eacute; quiero hacer:",
 copAdd:"A&ntilde;adir al contenido existente",copRepl:"Sustituir el contenido existente",copGo:"Copiar",copBlkOk:"Bloque copiado.",copSelf:"(esta sesi&oacute;n)",
 copSameTxt:"Copiar un bloque de texto a la misma sesión no tiene efecto: elige otra sesión de destino.",
-/* NOU */
 bigOpen:"Mostrar la sesión en una pestaña nueva",bigTitle:"Sesión",bigClose:"Cerrar la pestaña",
 bigAct:"Actividades",bigRes:"Recursos online",bigAv:"Medios audiovisuales",bigComp:"Trabajo complementario",bigEv:"Evidencias",bigObj:"Objetivos",
 bigNoTopic:"(sin título)",bigTime:"Horario",bigHint:"Esta es una vista de solo lectura. Cierra la pestaña para volver al planificador.",
-bigBlocked:"El navegador ha bloqueado la apertura de la pestaña. Permite las ventanas emergentes para esta página."},
 bigEmpty:"(vacío)",
+bigBlocked:"El navegador ha bloqueado la apertura de la pestaña. Permite las ventanas emergentes para esta página.",
+baseTitle:"Base de los recursos",
+baseLbl:"URL base para rutas relativas (empezadas por /):",
+baseHint:"Si escribes /t1_activitat.html en el planificador, el enlace se generará como BASE + ruta. Déjalo vacío para detectarlo automáticamente. Se guarda en este navegador.",
+baseAuto:"Detección automática",
+baseReset:"Restaurar la detección automática",
+baseSaved:"Base guardada.",
+baseBad:"URL no válida.",
+baseNow:"Base actual"},
 en:{t1:"Session planner - Physiology",t2:"Celia Painous Marti - Physiology Applied to Dance - 2026-27",
-openStu:"&#127891; Student sheet",bNew:"+ Add session",bExpStu:"Export for students",bExp:"Export backup",bImp:"Import backup",bPrint:"Print",bData:"&#9432; Data",
+openStu:"&#127891; Student sheet",bNew:"+ Add session",bExpStu:"Export for students",bExp:"Export backup",bImp:"Import backup",bPrint:"Print",bData:"&#9432; Data",bBase:"&#9881; Base",
 saved:"Saved",fltAll:"All activities",stPlan:"Planned",stDone:"Done",stPause:"On hold",stDrop:"Discarded",
 fDate:"Date",fTopic:"Session topic",objTitle:"&#127919; Session objectives",actTitle:"&#9654; Activities to carry out",resTitle:"&#128279; Online resources",avTitle:"&#127916; Audiovisual media",compTitle:"&#127968; Complementary work",evTitle:"&#9989; Session evidence",
 visStudent:"Visible to students",addAct:"Add activity",addLine:"Add line",del:"Delete",delSes:"Delete session (2 clicks)",
 mvUp:"Move session up",mvDown:"Move session down",dupT:"Duplicate session as template",
 noLectiva:"Non-teaching",noTopic:"(untitled)",noActs:"No activities yet.",noItems:"No items yet.",
-phAct:"Activity description (multiple lines allowed)",phTime:"Time slot (e.g. 10:00-11:30)",phObj:"One objective per line or free text...",phComp:"What students must work on outside class...",phEv:"Notebook, record, product...",phRes:"Title + link (https://...) &middot; multiple lines allowed",phAv:"Video, slides, audio... (+ link if any) &middot; multiple lines allowed",
+phAct:"Activity description (multiple lines allowed)",phTime:"Time slot (e.g. 10:00-11:30)",phObj:"One objective per line or free text...",phComp:"What students must work on outside class...",phEv:"Notebook, record, product...",phRes:"Title + link (https://... or /folder/file.html) &middot; multiple lines allowed",phAv:"Video, slides, audio... (+ link if any) &middot; multiple lines allowed",
 cActs:"Act.",cVis:"vis.",cRes:"Res.",cLinks:"Links",cAv:"A/V",cComp:"Compl.",cEv:"Evid.",
 impOk:"Plan imported and replaced.",dlFail:"Download blocked in this environment.",
 studentNote:"Student file generated. Send it so they can import it into their Student Sheet.",
 filterHint:"Status: planned / done / on hold / discarded. The top filter shows or hides activities by status.",
 diTitle:"Data in use",diSes:"Loaded sessions:",diKey:"Internal key:",diImp:"File to import:",diLast:"Last edit:",diBack:"Last backup:",diNone:"never",
 diNote:"The data lives only in this browser, on this computer. To move it elsewhere: <b>Export backup</b> here and <b>Import backup</b> there, choosing planificador-dades.json.",
+diBase:"Current base for /... paths:",
 emTitle:"Email the backup",emAsk:"Do you want to email the backup?",emMail:"Destination email:",
 cliLbl:"Open mail with:",cliDef:"Default program (mailto)",cliGmail:"Gmail (in the browser)",cliOut:"Outlook (in the browser)",
 emHint:"You must attach the downloaded file manually. With Gmail or Outlook web, the message text is also copied to the clipboard in case you need to paste it.",
@@ -251,12 +267,19 @@ emBody5:"To restore: open the planner &rarr; Import backup &rarr; choose planifi
 cpyT:"&#10697; Copy this block to another session",copTitle:"Copy the block",copDst:"Destination session:",copMode:"What do I want to do:",
 copAdd:"Add to existing content",copRepl:"Replace existing content",copGo:"Copy",copBlkOk:"Block copied.",copSelf:"(this session)",
 copSameTxt:"Copying a text block to the same session has no effect: choose another destination session.",
-/* NOU */
 bigOpen:"Show session in a new tab",bigTitle:"Session",bigClose:"Close tab",
 bigAct:"Activities",bigRes:"Online resources",bigAv:"Audiovisual media",bigComp:"Complementary work",bigEv:"Evidence",bigObj:"Objectives",
 bigNoTopic:"(untitled)",bigTime:"Time",bigHint:"This is a read-only view. Close the tab to return to the planner.",
 bigEmpty:"(empty)",
-bigBlocked:"The browser blocked opening the tab. Allow pop-ups for this page."}};
+bigBlocked:"The browser blocked opening the tab. Allow pop-ups for this page.",
+baseTitle:"Resources base",
+baseLbl:"Base URL for relative paths (starting with /):",
+baseHint:"If you write /t1_activitat.html in the planner, the link will be built as BASE + path. Leave empty to auto-detect. Saved in this browser.",
+baseAuto:"Auto-detect",
+baseReset:"Restore auto-detection",
+baseSaved:"Base saved.",
+baseBad:"Invalid URL.",
+baseNow:"Current base"}};
 
 /* ================== ESTAT ================== */
 var lang=ST.getItem(KEY+'L')||'ca';
@@ -264,6 +287,30 @@ var filter='all';
 var EXP={};
 var plan=null;
 var saveTimer=null;
+
+/* ================== BASE DELS RECURSOS ================== */
+/* Es pot configurar manualment des del botó "Base". Si no, es detecta
+   automàticament segons on s'està executant el planificador. */
+function detectBase(){
+  try{
+    var href=String(window.location.href||'');
+    href=href.split('#')[0].split('?')[0];
+    var i=href.lastIndexOf('/');
+    if(i>=0)href=href.slice(0,i);
+    if(!href)return '';
+    return href;
+  }catch(e){return '';}
+}
+var BASE_DETECTADA=detectBase();
+function getBase(){
+  var manual=ST.getItem(KEY+'BASE');
+  if(manual&&/^https?:\/\//i.test(manual))return manual.replace(/\/+$/,'');
+  return BASE_DETECTADA.replace(/\/+$/,'');
+}
+function setBase(u){
+  if(u)ST.setItem(KEY+'BASE',u.replace(/\/+$/,''));
+  else ST.removeItem(KEY+'BASE');
+}
 
 /* ================== UTILITATS ================== */
 function $(id){return document.getElementById(id);}
@@ -459,6 +506,10 @@ function linkLabelSmart_(u){
   var segs=(gen||(last.length<5&&p.parts.length>1))?2:1;
   return linkLabel_(u,segs);
 }
+function nomCurt_(ruta){
+  var n=String(ruta).split('/').filter(Boolean).pop()||ruta;
+  return n.split('?')[0].split('#')[0];
+}
 function hiHaDuplicades(arr){
   var i,j,a,b;
   for(i=0;i<arr.length;i++)for(j=i+1;j<arr.length;j++){
@@ -467,35 +518,79 @@ function hiHaDuplicades(arr){
   }
   return false;
 }
+
+/* ---- updateLinks: xips dins el planificador ---- */
 function updateLinks(row,txt){
   if(!row)return;
   var box=row.querySelector('.lks');
   if(!box)return;
-  var urls=String(txt||'').match(/https?:\/\/[^\s]+/g)||[];
-  if(!urls.length){box.style.display='none';box.innerHTML='';return;}
-  urls=urls.map(function(u){return u.replace(/[.,;:!?"']+$/,'');});
-  var labels=urls.map(linkLabelSmart_);
-  if(hiHaDuplicades(labels))labels=urls.map(function(u){return linkLabel_(u,2);});
-  if(hiHaDuplicades(labels))labels=urls.map(function(u){
-    var p=pathParts_(u);
-    return p?p.dom+linkLabel_(u,2):String(u);
-  });
+
+  var text=String(txt||'');
+  var items=[];
+
+  /* ---- 1) URL absolutes ---- */
+  /* Capturem els rangs exactes de cada URL per no tornar-los a detectar com a ruta */
+  var absoluteRanges=[];
+  var absRe=/https?:\/\/[^\s]+/g, am;
+  while((am=absRe.exec(text))!==null){
+    var raw=am[0];
+    var clean=raw.replace(/[.,;:!?"']+$/,'');
+    absoluteRanges.push({start:am.index, end:am.index+raw.length});
+    items.push({href:clean, label:linkLabelSmart_(clean), title:clean});
+  }
+
+  /* ---- 2) Rutes /carpeta/fitxer.html ---- */
+  /* Només acceptem coincidències que NO caiguin dins d'una URL absoluta. */
+  var re=/\/[\w\-.\/]+\.html?\b/g, m;
+  while((m=re.exec(text))!==null){
+    var dins=false;
+    for(var r=0;r<absoluteRanges.length;r++){
+      if(m.index>=absoluteRanges[r].start && m.index<absoluteRanges[r].end){dins=true;break;}
+    }
+    if(dins)continue;
+
+    var ruta=m[0];
+    var base=getBase();
+    var href=base?base+'/'+ruta.replace(/^\/+/,''):ruta;
+    var dup=false;
+    for(var k=0;k<items.length;k++)if(items[k].href===href){dup=true;break;}
+    if(dup)continue;
+    items.push({href:href, label:nomCurt_(ruta), title:href});
+  }
+
+  if(!items.length){box.style.display='none';box.innerHTML='';return;}
+
+  var labels=items.map(function(it){return it.label;});
+  if(hiHaDuplicades(labels)){
+    labels=items.map(function(it){
+      try{return '/'+new URL(it.href).pathname.split('/').filter(Boolean).slice(-2).join('/');}
+      catch(e){return it.label;}
+    });
+  }
+  if(hiHaDuplicades(labels)){
+    labels=items.map(function(it){
+      try{
+        var u=new URL(it.href);
+        return u.hostname+'/'+u.pathname.split('/').filter(Boolean).slice(-2).join('/');
+      }catch(e){return it.label;}
+    });
+  }
+
   box.style.display='flex';
-  box.innerHTML=urls.map(function(u,i){
+  box.innerHTML=items.map(function(it,i){
     var v=labels[i];
     if(v.length>44)v='…'+v.slice(-44);
-    return '<a href="'+esc(u)+'" target="_blank" rel="noopener" title="'+esc(u)+'">&#128279; '+esc(v)+'</a>';
+    return '<a href="'+esc(it.href)+'" target="_blank" rel="noopener" title="'+esc(it.title)+'">&#128279; '+esc(v)+'</a>';
   }).join('');
 }
+
 function refreshAllLinks(root){
  if(!root)return;
- // Files (.row): activitats, recursos, audiovisuals
  var rows=root.querySelectorAll('.row'),i;
  for(i=0;i<rows.length;i++){
   var ta=rows[i].querySelector('textarea');
   updateLinks(rows[i],ta?ta.value:'');
  }
- // Blocs (.sect amb data-linkblock): objectius, comp, ev
  var secs=root.querySelectorAll('.sect[data-linkblock]'),j;
  for(j=0;j<secs.length;j++){
   var s=secs[j];
@@ -551,7 +646,6 @@ function cardHTML(x,num){
  +'<button type="button" class="tw" tabindex="-1">'+(open?'&#9660;':'&#9656;')+'</button>'
  +'<div class="cmeta">'+metaHTML(x,num)+'</div>'
  +'<div class="ccounts" id="k-'+x.id+'">'+countsHTML(c)+'</div>'
- /* NOU: botó per obrir en pestanya nova */
  +'<button type="button" class="mini" data-big="'+x.id+'" title="'+esc(t('bigOpen'))+'" aria-label="'+esc(t('bigOpen'))+'">&#128438;</button>'
  +'<button type="button" class="mini" data-up="'+x.id+'" title="'+esc(t('mvUp'))+'">&#9650;</button>'
  +'<button type="button" class="mini" data-down="'+x.id+'" title="'+esc(t('mvDown'))+'">&#9660;</button>'
@@ -613,7 +707,7 @@ function applyStatic(){
  var d=I18N[lang];
  $('t1').textContent=t('t1');$('t2').textContent=t('t2');
  $('lnkStu').innerHTML=t('openStu');$('bNew').textContent=t('bNew');
- $('bExpStu').textContent=t('bExpStu');$('bExp').textContent=t('bExp');$('bImp').textContent=t('bImp');$('bPrint').textContent=t('bPrint');$('bData').textContent=t('bData');
+ $('bExpStu').textContent=t('bExpStu');$('bExp').textContent=t('bExp');$('bImp').textContent=t('bImp');$('bPrint').textContent=t('bPrint');$('bData').textContent=t('bData');$('bBase').textContent=t('bBase');
  $('flt').innerHTML='<option value="all">'+esc(t('fltAll'))+'</option><option value="plan">'+esc(t('stPlan'))+'</option><option value="done">'+esc(t('stDone'))+'</option><option value="pause">'+esc(t('stPause'))+'</option><option value="drop">'+esc(t('stDrop'))+'</option>';
  $('flt').value=filter;
  var bs=document.querySelectorAll('#langBox button');
@@ -676,10 +770,10 @@ function onEdit(e){
  var i,f=el.getAttribute('data-f');
  if(f!==null&&f!==undefined&&f!==''){
   if(f==='date'||f==='topic'||f==='obj'||f==='comp'||f==='ev')x[f]=el.value;
-if(f==='obj'||f==='comp'||f==='ev'){
-  var sec=el.closest('.sect');
-  if(sec)updateLinks(sec,el.value);
-}
+  if(f==='obj'||f==='comp'||f==='ev'){
+   var sec=el.closest('.sect');
+   if(sec)updateLinks(sec,el.value);
+  }
   if(f==='objVis'||f==='compVis'||f==='evVis')x[f]=el.checked;
   if(f==='date'||f==='topic'){var m=cardEl.querySelector('.cmeta');if(m)m.innerHTML=metaHTML(x,idxOf(x.id)+1);}
  }else{
@@ -761,10 +855,11 @@ function openCopyModal(fromSid,clau){
    [t('emClose'),'',function(){closeModal();}]]);
 }
 
-/* ================== NOU: OBRE LA SESSIÓ EN UNA PESTANYA NOVA ================== */
+/* ================== OBRE LA SESSIÓ EN UNA PESTANYA NOVA ================== */
 function buildSessionPage(x){
  try{
   var title=(x.topic||t('bigNoTopic'));
+  var base=getBase();
   var css=
    'body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#faf8fc;color:#2a2530;line-height:1.6;padding:1.5rem}'+
    '.wrap{max-width:900px;margin:0 auto;background:#fff;border-radius:18px;box-shadow:0 6px 30px rgba(75,46,111,.12);padding:2rem 2.2rem 2.5rem}'+
@@ -796,9 +891,10 @@ function buildSessionPage(x){
    '.list li:last-child{border-bottom:none}'+
    '.list a{color:#1f5f8b;text-decoration:none}'+
    '.list a:hover{text-decoration:underline}'+
-   /* NOU: Estil explícit perquè els enllaços en aquests blocs també es vegin clarament */
    '.pre a, .btxt a{color:#1f5f8b;text-decoration:underline}'+
    '.pre a:hover, .btxt a:hover{color:#15456b}'+
+   '.pre a.btn-link, .btxt a.btn-link, .list a.btn-link{display:inline-block;padding:.28rem .7rem;border-radius:8px;background:#1f5f8b;color:#fff !important;text-decoration:none !important;font-weight:600;font-size:.9em;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;margin:.12rem 0}'+
+   '.pre a.btn-link:hover, .btxt a.btn-link:hover, .list a.btn-link:hover{background:#15456b;color:#fff !important}'+
    '.hint{margin-top:2rem;text-align:center;color:#6b6570;font-size:.85rem}'+
    '@media(max-width:640px){body{padding:.5rem}.wrap{padding:1.2rem}h1{font-size:1.4rem}.act{grid-template-columns:1fr}.act .btime{text-align:left}}';
 
@@ -811,16 +907,14 @@ function buildSessionPage(x){
   h+='</h1>';
   h+='<div class="sub">'+fmt(x.date)+'</div>';
 
-  /* ---------- OBJECTIUS: sempre visible ---------- */
   h+='<div class="sect se-obj"><h2>'+t('bigObj')+'</h2>';
   if(x.obj&&String(x.obj).replace(/\s/g,'')){
-   h+='<pre class="pre">'+linkify(x.obj)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.obj,base)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
   h+='</div>';
 
-  /* ---------- ACTIVITATS: totes, amb estat ---------- */
   h+='<div class="sect se-act"><h2>'+t('bigAct')+'</h2>';
   var acts=(x.acts&&x.acts.length)?x.acts:null;
   if(acts&&acts.length){
@@ -836,7 +930,7 @@ function buildSessionPage(x){
     var cls=(st==='drop')?'act drop':'act';
     h+='<div class="'+cls+'"><div class="btxt">';
     h+='<span class="bst st-'+st+'">'+esc(stLbl)+'</span>';
-    h+=(hasTxt?linkify(a.txt):'<span class="empty">'+t('bigEmpty')+'</span>');
+    h+=(hasTxt?linkify(a.txt,base):'<span class="empty">'+t('bigEmpty')+'</span>');
     h+='</div>';
     if(a.time)h+='<div class="btime">'+esc(a.time)+'</div>';
     h+='</div>';
@@ -846,7 +940,6 @@ function buildSessionPage(x){
   }
   h+='</div>';
 
-  /* ---------- RECURSOS ---------- */
   h+='<div class="sect se-res"><h2>'+t('bigRes')+'</h2>';
   var res=(x.res&&x.res.length)?x.res:null;
   if(res&&res.length){
@@ -854,7 +947,7 @@ function buildSessionPage(x){
    for(var j=0;j<res.length;j++){
     var r=res[j];
     if(!r)continue;
-    var rt=(r.txt&&String(r.txt).replace(/\s/g,''))?linkify(r.txt):'<span class="empty">'+t('bigEmpty')+'</span>';
+    var rt=(r.txt&&String(r.txt).replace(/\s/g,''))?linkify(r.txt,base):'<span class="empty">'+t('bigEmpty')+'</span>';
     h+='<li>'+rt+'</li>';
    }
    h+='</ul>';
@@ -863,7 +956,6 @@ function buildSessionPage(x){
   }
   h+='</div>';
 
-  /* ---------- AUDIOVISUALS ---------- */
   h+='<div class="sect se-av"><h2>'+t('bigAv')+'</h2>';
   var av=(x.av&&x.av.length)?x.av:null;
   if(av&&av.length){
@@ -871,7 +963,7 @@ function buildSessionPage(x){
    for(var k=0;k<av.length;k++){
     var v=av[k];
     if(!v)continue;
-    var vt=(v.txt&&String(v.txt).replace(/\s/g,''))?linkify(v.txt):'<span class="empty">'+t('bigEmpty')+'</span>';
+    var vt=(v.txt&&String(v.txt).replace(/\s/g,''))?linkify(v.txt,base):'<span class="empty">'+t('bigEmpty')+'</span>';
     h+='<li>'+vt+'</li>';
    }
    h+='</ul>';
@@ -880,19 +972,17 @@ function buildSessionPage(x){
   }
   h+='</div>';
 
-  /* ---------- TREBALL COMPLEMENTARI ---------- */
   h+='<div class="sect se-comp"><h2>'+t('bigComp')+'</h2>';
   if(x.comp&&String(x.comp).replace(/\s/g,'')){
-   h+='<pre class="pre">'+linkify(x.comp)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.comp,base)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
   h+='</div>';
 
-  /* ---------- EVIDÈNCIES ---------- */
   h+='<div class="sect se-ev"><h2>'+t('bigEv')+'</h2>';
   if(x.ev&&String(x.ev).replace(/\s/g,'')){
-   h+='<pre class="pre">'+linkify(x.ev)+'</pre>';
+   h+='<pre class="pre">'+linkify(x.ev,base)+'</pre>';
   }else{
    h+='<p class="empty">'+t('bigEmpty')+'</p>';
   }
@@ -910,15 +1000,49 @@ function buildSessionPage(x){
  }
 }
 
-/* Converteix els enllaços del text en <a>, conservant la resta de text */
-function linkify(txt){
+/* ---- linkify: converteix enllaços del text en <a> ---- */
+/* Detecta:
+     1) URL absolutes https://...
+     2) Rutes absolutes /carpeta/fitxer.html  -> BASE + ruta
+     3) 🔗 seguit d'una URL o ruta (la icona s'elimina del text visible)
+   Per evitar dobles prefixos, les URL absolutes es guarden en placeholders
+   i es restauren al final, quan la resta de regex ja s'han executat. */
+function linkify(txt,base){
  try{
   var s=esc(txt);
-  return s.replace(/(https?:\/\/[^\s<]+)/g,function(u){
+  if(base==null)base=getBase();
+
+  /* ---- 1) URL absolutes ---- */
+  var absolutes=[];
+  s=s.replace(/(https?:\/\/[^\s<]+)/g,function(u){
     var clean=String(u).replace(/[.,;:!?"']+$/,'');
     var trail=u.slice(clean.length);
-    return '<a href="'+clean+'" target="_blank" rel="noopener">'+clean+'</a>'+trail;
+    var etq;
+    try{
+      var parts=new URL(clean).pathname.split('/').filter(Boolean);
+      etq=parts.length?parts[parts.length-1]:new URL(clean).hostname;
+    }catch(e){etq=clean;}
+    etq=etq.split('?')[0].split('#')[0];
+    var html='<a href="'+clean+'" target="_blank" rel="noopener" class="btn-link" title="'+clean+'">&#9654; '+esc(etq)+'</a>'+trail;
+    var ph='\u0000ABS'+(absolutes.length)+'\u0000';
+    absolutes.push(html);
+    return ph;
   });
+
+  /* ---- 2) Rutes absolutes /carpeta/fitxer.html ---- */
+  s=s.replace(/(^|[\s(])\/([\w\-.\/]+\.html?)\b/g,function(m,pre,ruta){
+    var href=base?base+'/'+ruta.replace(/^\/+/,''):ruta;
+    var etq=nomCurt_(ruta);
+    return pre+'<a href="'+href+'" target="_blank" rel="noopener" class="btn-link" title="'+href+'">&#9654; '+esc(etq)+'</a>';
+  });
+
+  /* ---- 3) Treure la icona 🔗 que quedés davant d'un enllaç ---- */
+  s=s.replace(/🔗\s*(<a )/g,'$1');
+
+  /* ---- 4) Restaurar les URL absolutes ---- */
+  s=s.replace(/\u0000ABS(\d+)\u0000/g,function(_,i){return absolutes[+i]||'';});
+
+  return s;
  }catch(e){
   return esc(txt);
  }
@@ -929,24 +1053,23 @@ function openBig(sid){
  var x=plan.sessions[idxOf(sid)];
  if(!x){toast('Sessió no trobada');return;}
  var html=buildSessionPage(x);
- 
+
  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
  var url=URL.createObjectURL(blob);
  var w=window.open(url,'_blank');
- 
+
  if(!w){
   URL.revokeObjectURL(url);
   toast(t('bigBlocked'));
   return;
  }
- 
+
  setTimeout(function(){try{URL.revokeObjectURL(url);}catch(e){}},60000);
 }
-/* fi NOU */
 
 function onClick(e){
  var el=e.target,node=el;
- var toggleEl=null,addEl=null,upEl=null,downEl=null,dupEl=null,delAct=null,delRes=null,delAv=null,delSes=null,copybEl=null,bigEl=null; /* NOU: bigEl */
+ var toggleEl=null,addEl=null,upEl=null,downEl=null,dupEl=null,delAct=null,delRes=null,delAv=null,delSes=null,copybEl=null,bigEl=null;
  while(node&&node!==document.body){
   if(node.getAttribute){
    if(!delSes&&node.getAttribute('data-del-ses'))delSes=node;
@@ -958,12 +1081,12 @@ function onClick(e){
    if(!downEl&&node.getAttribute('data-down'))downEl=node;
    if(!dupEl&&node.getAttribute('data-dup'))dupEl=node;
    if(!copybEl&&node.getAttribute('data-copyb'))copybEl=node;
-   if(!bigEl&&node.getAttribute('data-big'))bigEl=node; /* NOU */
+   if(!bigEl&&node.getAttribute('data-big'))bigEl=node;
    if(!toggleEl&&node.getAttribute('data-toggle'))toggleEl=node;
   }
   node=node.parentNode;
  }
- if(bigEl){openBig(bigEl.getAttribute('data-big'));return;} /* NOU */
+ if(bigEl){openBig(bigEl.getAttribute('data-big'));return;}
  if(delSes){
   if(delSes.className.indexOf('confirm')<0){
    delSes.className='del ses confirm';
@@ -1101,8 +1224,37 @@ function showData(){
  +'<tr><td><b>'+t('diImp')+'</b></td><td><code>planificador-dades.json</code></td></tr>'
  +'<tr><td><b>'+t('diLast')+'</b></td><td>'+f(m.lastSaved)+'</td></tr>'
  +'<tr><td><b>'+t('diBack')+'</b></td><td>'+f(m.lastBackup)+'</td></tr>'
+ +'<tr><td><b>'+t('diBase')+'</b></td><td><code>'+esc(getBase()||'(cap)')+'</code></td></tr>'
  +'</table><p class="hint">'+t('diNote')+'</p>',
   [[t('emClose'),'',function(){closeModal();}]]);
+}
+
+/* --- configuracio de la base --- */
+function showBase(){
+ var actual=ST.getItem(KEY+'BASE')||'';
+ openModal(t('baseTitle'),
+  '<p class="hint">'+t('baseHint')+'</p>'
+ +'<label class="mflbl">'+t('baseLbl')+'</label>'
+ +'<input type="url" id="bsUrl" value="'+esc(actual)+'" placeholder="'+esc(BASE_DETECTADA||'https://...')+'">'
+ +'<p class="hint" style="margin-top:.5rem">'+t('baseNow')+': <code>'+esc(getBase()||'(cap)')+'</code></p>',
+  [[t('baseAuto'),'',function(){
+     $('bsUrl').value=BASE_DETECTADA;
+   }],
+   [t('baseReset'),'',function(){
+     setBase('');
+     closeModal();
+     render();
+     toast(t('baseSaved'));
+   }],
+   [t('emSend'),'pri',function(){
+     var u=($('bsUrl').value||'').trim();
+     if(u&&!/^https?:\/\//i.test(u)){toast(t('baseBad'));return;}
+     setBase(u);
+     closeModal();
+     render();
+     toast(t('baseSaved'));
+   }],
+   [t('emClose'),'',function(){closeModal();}]]);
 }
 
 /* ================== IMPRESSIO: expandir textareas ================== */
@@ -1151,6 +1303,7 @@ main.addEventListener('click',onClick);
 };
 
  $('bData').onclick=showData;
+ $('bBase').onclick=showBase;
 
  $('bNew').onclick=function(){
  var s=S('','','');
