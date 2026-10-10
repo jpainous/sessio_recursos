@@ -946,22 +946,27 @@ function render(){
           </div>`;
         });
       }
-      else if(ex.type === "order"){
-        let items = d.items.slice();
-        if(ex.shuffle){
-          const idxs = items.map((_,k)=>k);
-          const barrejats = shuffleArray(idxs);
-          items = barrejats.map(k => d.items[k]);
-          ex._ordreItems = barrejats;
-        } else {
-          ex._ordreItems = items.map((_,k)=>k);
-        }
-        html += `<ul class="order-list">`;
-        items.forEach((it, j)=>{
-          html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`;
-        });
-        html += `</ul>`;
-      }
+else if(ex.type === "order"){
+  let items = d.items.slice();
+  let ordreItems;
+  if(ex.shuffle){
+    const idxs = items.map((_,k)=>k);
+    const barrejats = shuffleArray(idxs);
+    items = barrejats.map(k => d.items[k]);
+    // Per a cada posició visual (j), quin número li pertoca (1..N)
+    // "barrejats[j]" és l'índex original de l'ítem visual j
+    // El número correcte per aquest ítem és: barrejats[j] + 1
+    ordreItems = barrejats.map(orig => orig + 1);
+  } else {
+    ordreItems = items.map((_,k)=>k+1);
+  }
+  ex._ordreCorrecte = ordreItems; // array: número que ha d'anar a cada input visual
+  html += `<ul class="order-list">`;
+  items.forEach((it, j)=>{
+    html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`;
+  });
+  html += `</ul>`;
+}
 
       html += `<button class="btn-check" onclick="check(${i})">${T[currentLang].check}</button>`;
       html += `<div class="feedback" id="fb${i}"></div>`;
@@ -1023,14 +1028,15 @@ function check(i, silent){
     });
     correctText = d.pairs.map((p,j)=>`${p[0]} → ${p[1]}`).join("; ");
   }
-  else if(ex.type === "order"){
-    ok = true;
-    d.a.forEach((val, j)=>{
-      const inp = document.getElementById("o" + i + "_" + j).value;
-      if(parseInt(inp) !== val) ok = false;
-    });
-    correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
-  }
+else if(ex.type === "order"){
+  ok = true;
+  const ordreCorrecte = ex._ordreCorrecte || d.a;
+  ordreCorrecte.forEach((val, j)=>{
+    const inp = document.getElementById("o" + i + "_" + j).value;
+    if(parseInt(inp) !== val) ok = false;
+  });
+  correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+}
   else if(ex.type === "essay"){
     const val = document.getElementById("in" + i).value;
     if(!val || val.trim().length < 15){
