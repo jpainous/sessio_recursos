@@ -387,6 +387,8 @@
   <button class="ghost" onclick="loadSession()">📂 Recuperar sessió</button>
   <button class="ghost" onclick="resetSession()">🗑️ Esborrar sessió</button>
   <button class="review" onclick="toggleReview()" id="reviewBtn">🔁 Repàs d'errors</button>
+  <button class="ghost" onclick="imprimir()">🖨 Imprimir</button>
+  <button class="ghost" onclick="exportar()">📤 Exportar progrés</button>
   <span class="status" id="status">Sessió no guardada</span>
 </div>
 
@@ -432,6 +434,27 @@ const T = {
       short: "Resposta curta",
       essay: "Redacció / Cas pràctic"
     },
+    demanarNom:"Escriu el teu nom i cognoms:",
+    missatgeLliurament:"L'arxiu en PDF s'ha de fer arribar a la professora per email. També penjar una còpia d'ell a la intranet, dins l'espai habilitat per la professora per a cadascú de vosaltres. També cal fer una còpia de l'arxiu JSON que guarda la feina feta del teu navegador de la pàgina que et trobes treballant.",
+    imprimirTitol:"Full de resultats · Sistema Musculoesquelètic I",
+    imprimirAlumne:"Alumne/a:",
+    imprimirData:"Data:",
+    imprimirResum:"Resum",
+    imprimirTotal:"Total preguntes",
+    imprimirFetes:"Respostes fetes",
+    imprimirEncerts:"Encerts",
+    imprimirPct:"Percentatge",
+    imprimirPerBloc:"Resultats per bloc",
+    imprimirBloc:"Bloc",
+    imprimirDetall:"Detall de preguntes",
+    imprimirNum:"Núm.",
+    imprimirPregunta:"Pregunta",
+    imprimirResposta:"Resposta",
+    imprimirCorrecta:"Correcta",
+    imprimirEncert:"Encert",
+    imprimirSi:"Sí",
+    imprimirNo:"No",
+    imprimirPendent:"Pendent",
     "howto-titol":"ℹ️ Funcionament resumit — com utilitzar aquesta activitat",
     "howto-pas1-titol":"1. Idioma",
     "howto-pas1-text":"Canvia entre <b>català</b>, <b>castellà</b> i <b>anglès</b> amb els botons de sota la capçalera.",
@@ -447,6 +470,8 @@ const T = {
     "howto-pas6-text":"<b>💾 Guardar sessió</b> desa l'estat al navegador. <b>📂 Recuperar sessió</b> el restaura. <b>🗑️ Esborrar</b> l'elimina.",
     "howto-pas7-titol":"7. Barra d'estat",
     "howto-pas7-text":"A la dreta de la barra d'eines es mostra el progrés: respostes fetes / total, encerts (✅) i errors (❌).",
+    "howto-pas8-titol":"8. Imprimir / Exportar",
+    "howto-pas8-text":"Pots <b>imprimir</b> un full de resultats amb la teva resposta i la correcta, o <b>exportar</b> el progrés en JSON.",
     "howto-legend":"<b>Consell:</b> fes servir el <b>Repàs d'errors</b> després de respondre tot per reforçar els punts febles. Guarda la sessió si vols continuar més tard. Les dades es guarden localment al teu dispositiu (<code>localStorage</code>)."
   },
   es: {
@@ -480,6 +505,27 @@ const T = {
       short: "Respuesta corta",
       essay: "Redacción / Caso práctico"
     },
+    demanarNom:"Escribe tu nombre y apellidos:",
+    missatgeLliurament:"El archivo en PDF debe hacerse llegar a la profesora por email. También hay que colgar una copia de él en la intranet, dentro del espacio habilitado por la profesora para cada uno de vosotros. También hay que hacer una copia del archivo JSON que guarda el trabajo hecho en tu navegador de la página en la que estás trabajando.",
+    imprimirTitol:"Hoja de resultados · Sistema Musculoesquelético I",
+    imprimirAlumne:"Alumno/a:",
+    imprimirData:"Fecha:",
+    imprimirResum:"Resumen",
+    imprimirTotal:"Total preguntas",
+    imprimirFetes:"Respuestas hechas",
+    imprimirEncerts:"Aciertos",
+    imprimirPct:"Porcentaje",
+    imprimirPerBloc:"Resultados por bloque",
+    imprimirBloc:"Bloque",
+    imprimirDetall:"Detalle de preguntas",
+    imprimirNum:"N.º",
+    imprimirPregunta:"Pregunta",
+    imprimirResposta:"Respuesta",
+    imprimirCorrecta:"Correcta",
+    imprimirEncert:"Acierto",
+    imprimirSi:"Sí",
+    imprimirNo:"No",
+    imprimirPendent:"Pendiente",
     "howto-titol":"ℹ️ Funcionamiento resumido — cómo utilizar esta actividad",
     "howto-pas1-titol":"1. Idioma",
     "howto-pas1-text":"Cambia entre <b>catalán</b>, <b>castellano</b> e <b>inglés</b> con los botones de debajo de la cabecera.",
@@ -495,6 +541,8 @@ const T = {
     "howto-pas6-text":"<b>💾 Guardar sesión</b> guarda el estado en el navegador. <b>📂 Recuperar sesión</b> lo restaura. <b>🗑️ Borrar</b> lo elimina.",
     "howto-pas7-titol":"7. Barra de estado",
     "howto-pas7-text":"A la derecha de la barra de herramientas se muestra el progreso: respuestas hechas / total, aciertos (✅) y errores (❌).",
+    "howto-pas8-titol":"8. Imprimir / Exportar",
+    "howto-pas8-text":"Puedes <b>imprimir</b> una hoja de resultados con tu respuesta y la correcta, o <b>exportar</b> el progreso en JSON.",
     "howto-legend":"<b>Consejo:</b> usa el <b>Repaso de errores</b> después de responder todo para reforzar los puntos débiles. Guarda la sesión si quieres continuar más tarde. Los datos se guardan localmente en tu dispositivo (<code>localStorage</code>)."
   },
   en: {
@@ -528,6 +576,27 @@ const T = {
       short: "Short answer",
       essay: "Essay / Case study"
     },
+    demanarNom:"Write your name and surname:",
+    missatgeLliurament:"The PDF file must be sent to the teacher by email. A copy of it must also be uploaded to the intranet, in the space enabled by the teacher for each of you. You must also make a copy of the JSON file that stores your work in your browser for the page you are working on.",
+    imprimirTitol:"Results sheet · Musculoskeletal System I",
+    imprimirAlumne:"Student:",
+    imprimirData:"Date:",
+    imprimirResum:"Summary",
+    imprimirTotal:"Total questions",
+    imprimirFetes:"Questions answered",
+    imprimirEncerts:"Correct",
+    imprimirPct:"Percentage",
+    imprimirPerBloc:"Results by block",
+    imprimirBloc:"Block",
+    imprimirDetall:"Question detail",
+    imprimirNum:"No.",
+    imprimirPregunta:"Question",
+    imprimirResposta:"Answer",
+    imprimirCorrecta:"Correct",
+    imprimirEncert:"Correct?",
+    imprimirSi:"Yes",
+    imprimirNo:"No",
+    imprimirPendent:"Pending",
     "howto-titol":"ℹ️ Summary of how it works — how to use this activity",
     "howto-pas1-titol":"1. Language",
     "howto-pas1-text":"Switch between <b>Catalan</b>, <b>Spanish</b> and <b>English</b> using the buttons below the header.",
@@ -543,26 +612,16 @@ const T = {
     "howto-pas6-text":"<b>💾 Save session</b> stores the state in the browser. <b>📂 Restore session</b> brings it back. <b>🗑️ Delete</b> removes it.",
     "howto-pas7-titol":"7. Status bar",
     "howto-pas7-text":"On the right of the toolbar the progress is shown: answers done / total, correct (✅) and wrong (❌).",
+    "howto-pas8-titol":"8. Print / Export",
+    "howto-pas8-text":"You can <b>print</b> a results sheet with your answer and the correct one, or <b>export</b> the progress as JSON.",
     "howto-legend":"<b>Tip:</b> use <b>Review errors</b> after answering everything to reinforce weak points. Save the session if you want to continue later. Data is stored locally on your device (<code>localStorage</code>)."
   }
 };
 
 /* ============================================================
    DADES DELS EXERCICIS (27)
-   ------------------------------------------------------------
-   Canvis aplicats:
-     - Ex1: variants ortogràfiques acceptades.
-     - Ex3: barreja aleatòria.
-     - Ex4 (antic): eliminat (sense substituir).
-     - Ex5: "s'escurça" a la resposta model.
-     - Ex6: "L'_______" i correcció "homeostasi" sense accent.
-     - Ex7 (antic): eliminat (sense substituir).
-     - Ex8: variants "intracel·lular".
-     - Ex11, 17, 23: barreja aleatòria.
-     - Ex19 (antic): eliminat (sense substituir).
    ============================================================ */
 const EX = [
-  /* ===== 1. FILL · variants cèl·lula ===== */
   {
     type:"fill",
     ca:{q:"La ________ és la unitat estructural i funcional bàsica dels éssers vius.", a:"cèl·lula",
@@ -572,21 +631,18 @@ const EX = [
     en:{q:"The ________ is the basic structural and functional unit of living beings.", a:"cell",
         variants:["cell"]}
   },
-  /* ===== 2. MC ===== */
   {
     type:"mc",
     ca:{q:"Quin nivell d'organització està format per cèl·lules i matriu extracel·lular especialitzada en una o més funcions?", o:["Cèl·lula","Teixit","Òrgan","Sistema"], a:1},
     es:{q:"¿Qué nivel de organización está formado por células y matriz extracelular especializada en una o más funciones?", o:["Célula","Tejido","Órgano","Sistema"], a:1},
     en:{q:"Which level of organization is made up of cells and extracellular matrix specialized in one or more functions?", o:["Cell","Tissue","Organ","System"], a:1}
   },
-  /* ===== 3. MATCH · barreja ===== */
   {
     type:"match", shuffle:true,
     ca:{q:"Relaciona cada nivell amb la seva definició:", pairs:[["Cèl·lula","Unitat bàsica dels éssers vius"],["Teixit","Conjunt de cèl·lules i matriu especialitzada"],["Òrgan","Estructura formada per diversos teixits"],["Sistema","Conjunt d'òrgans coordinats"]]},
     es:{q:"Relaciona cada nivel con su definición:", pairs:[["Célula","Unidad básica de los seres vivos"],["Tejido","Conjunto de células y matriz especializada"],["Órgano","Estructura formada por varios tejidos"],["Sistema","Conjunto de órganos coordinados"]]},
     en:{q:"Match each level with its definition:", pairs:[["Cell","Basic unit of living beings"],["Tissue","Set of cells and specialized matrix"],["Organ","Structure made of several tissues"],["System","Set of coordinated organs"]]}
   },
-  /* ===== 4 (antic 4 eliminat). Aquest és l'antic 5 = ESSAY grand jeté ===== */
   {
     type:"essay",
     ca:{
@@ -608,7 +664,6 @@ const EX = [
       model:"Concentric: during the push-off, the muscle shortens generating force to jump. Isometric: in the air, it holds the position without changing length (stabilization). Eccentric: on landing, the muscle lengthens while braking and absorbing the impact."
     }
   },
-  /* ===== 5 (antic 6). FILL · homeostasi ===== */
   {
     type:"fill",
     ca:{q:"L'________ és el manteniment dinàmic de les condicions gairebé constants del medi intern.", a:"homeostasi",
@@ -618,7 +673,6 @@ const EX = [
     en:{q:"________ is the dynamic maintenance of nearly constant conditions of the internal environment.", a:"homeostasis",
         variants:["homeostasis"]}
   },
-  /* ===== 6 (antic 7 eliminat). Aquest és l'antic 8 = FILL intracel·lular ===== */
   {
     type:"fill",
     ca:{q:"El líquid ________ (LIC) representa el 60-65% del líquid corporal.", a:"intracel·lular",
@@ -628,28 +682,24 @@ const EX = [
     en:{q:"________ fluid (ICF) accounts for 60-65% of body fluid.", a:"intracellular",
         variants:["intracellular","intra-cellular","intra cellular"]}
   },
-  /* ===== 7. MC (antic 9) ===== */
   {
     type:"mc",
     ca:{q:"Quin mecanisme d'homeòstasi és el més habitual?", o:["Retroalimentació positiva","Retroalimentació negativa","Feed-forward","Cap dels anteriors"], a:1},
     es:{q:"¿Qué mecanismo de homeostasis es el más habitual?", o:["Retroalimentación positiva","Retroalimentación negativa","Feed-forward","Ninguno de los anteriores"], a:1},
     en:{q:"Which homeostasis mechanism is the most common?", o:["Positive feedback","Negative feedback","Feed-forward","None of the above"], a:1}
   },
-  /* ===== 8. MC (antic 10) ===== */
   {
     type:"mc",
     ca:{q:"Quin tipus de múscul és voluntari i està unit als ossos mitjançant tendons?", o:["Múscul cardíac","Múscul llis","Múscul esquelètic","Múscul visceral"], a:2},
     es:{q:"¿Qué tipo de músculo es voluntario y está unido a los huesos mediante tendones?", o:["Músculo cardíaco","Músculo liso","Músculo esquelético","Músculo visceral"], a:2},
     en:{q:"Which muscle type is voluntary and attached to bones via tendons?", o:["Cardiac muscle","Smooth muscle","Skeletal muscle","Visceral muscle"], a:2}
   },
-  /* ===== 9. MATCH · barreja (antic 11) ===== */
   {
     type:"match", shuffle:true,
     ca:{q:"Relaciona cada estructura amb la seva descripció:", pairs:[["Fibra muscular","Cèl·lula muscular llarga i multinucleada"],["Miofibril·la","Estructura cilíndrica contràctil dins la fibra"],["Sarcòmer","Unitat funcional entre dues línies Z"],["Miofilament","Actina o miosina"]]},
     es:{q:"Relaciona cada estructura con su descripción:", pairs:[["Fibra muscular","Célula muscular larga y multinucleada"],["Miofibrilla","Estructura cilíndrica contráctil dentro de la fibra"],["Sarcómero","Unidad funcional entre dos líneas Z"],["Miofilamento","Actina o miosina"]]},
     en:{q:"Match each structure with its description:", pairs:[["Muscle fiber","Long, multinucleated muscle cell"],["Myofibril","Contractile cylindrical structure inside the fiber"],["Sarcomere","Functional unit between two Z lines"],["Myofilament","Actin or myosin"]]}
   },
-  /* ===== 10. FILL (antic 12) ===== */
   {
     type:"fill",
     ca:{q:"La ________ és la proteïna motora que forma els filaments gruixuts.", a:"miosina",
@@ -659,14 +709,12 @@ const EX = [
     en:{q:"________ is the motor protein that forms the thick filaments.", a:"myosin",
         variants:["myosin"]}
   },
-  /* ===== 11. MC (antic 13) ===== */
   {
     type:"mc",
     ca:{q:"Quina banda del sarcòmer manté la seva longitud constant durant la contracció?", o:["Banda I","Banda A","Línia Z","Zona H"], a:1},
     es:{q:"¿Qué banda del sarcómero mantiene su longitud constante durante la contracción?", o:["Banda I","Banda A","Línea Z","Zona H"], a:1},
     en:{q:"Which sarcomere band keeps its length constant during contraction?", o:["I band","A band","Z line","H zone"], a:1}
   },
-  /* ===== 12. ESSAY · sarcòmer (antic 14) ===== */
   {
     type:"essay",
     ca:{
@@ -688,7 +736,6 @@ const EX = [
       model:"Calcium binds to troponin and displaces tropomyosin, exposing the actin binding sites. Myosin binds to actin and, with ATP, performs the power stroke. The filaments slide over each other and the Z lines move closer, so the sarcomere shortens and force is generated."
     }
   },
-  /* ===== 13. FILL (antic 15) ===== */
   {
     type:"fill",
     ca:{q:"Les ________ són les neurones que porten l'ordre nerviosa al múscul esquelètic.", a:"motoneurones",
@@ -698,21 +745,18 @@ const EX = [
     en:{q:"________ are the neurons that carry the nerve command to skeletal muscle.", a:"motor neurons",
         variants:["motor neurons","motoneurons","motor neurones"]}
   },
-  /* ===== 14. MC (antic 16) ===== */
   {
     type:"mc",
     ca:{q:"On es troben els cossos cel·lulars de les motoneurones?", o:["Al cerebel","A l'asta anterior de la medul·la espinal","Al bulb raquidi","A l'escorça motora"], a:1},
     es:{q:"¿Dónde se encuentran los cuerpos celulares de las motoneuronas?", o:["En el cerebelo","En el asta anterior de la médula espinal","En el bulbo raquídeo","En la corteza motora"], a:1},
     en:{q:"Where are the cell bodies of motor neurons located?", o:["In the cerebellum","In the anterior horn of the spinal cord","In the medulla oblongata","In the motor cortex"], a:1}
   },
-  /* ===== 15. ORDER · barreja (antic 17) ===== */
   {
     type:"order", shuffle:true,
     ca:{q:"Ordena els esdeveniments de la unió neuromuscular (1-5):", items:["Arriba el potencial d'acció a la terminal","Les vesícules s'uneixen i alliberen ACh","L'ACh s'uneix als receptors","Es despolaritza la fibra muscular","Es genera el potencial d'acció muscular"], a:[1,2,3,4,5]},
     es:{q:"Ordena los eventos de la unión neuromuscular (1-5):", items:["Llega el potencial de acción a la terminal","Las vesículas se fusionan y liberan ACh","La ACh se une a los receptores","Se despolariza la fibra muscular","Se genera el potencial de acción muscular"], a:[1,2,3,4,5]},
     en:{q:"Order the events of the neuromuscular junction (1-5):", items:["Action potential arrives at the terminal","Vesicles fuse and release ACh","ACh binds to receptors","Muscle fiber depolarizes","Muscle action potential is generated"], a:[1,2,3,4,5]}
   },
-  /* ===== 16. FILL (antic 18) ===== */
   {
     type:"fill",
     ca:{q:"El neurotransmissor alliberat a la unió neuromuscular és l'________.", a:"acetilcolina",
@@ -722,14 +766,12 @@ const EX = [
     en:{q:"The neurotransmitter released at the neuromuscular junction is ________.", a:"acetylcholine",
         variants:["acetylcholine"]}
   },
-  /* ===== 17 (antic 19 eliminat). Aquest és l'antic 20 = MC calci ===== */
   {
     type:"mc",
     ca:{q:"Quin ió és imprescindible perquè la miosina s'uneixi a l'actina?", o:["Sodi (Na+)","Potassi (K+)","Calci (Ca²⁺)","Magnesi (Mg²⁺)"], a:2},
     es:{q:"¿Qué ion es imprescindible para que la miosina se una a la actina?", o:["Sodio (Na+)","Potasio (K+)","Calcio (Ca²⁺)","Magnesio (Mg²⁺)"], a:2},
     en:{q:"Which ion is essential for myosin to bind to actin?", o:["Sodium (Na+)","Potassium (K+)","Calcium (Ca²⁺)","Magnesium (Mg²⁺)"], a:2}
   },
-  /* ===== 18. FILL (antic 21) ===== */
   {
     type:"fill",
     ca:{q:"En repòs, la ________ cobreix els llocs d'unió de la miosina a l'actina.", a:"tropomiosina",
@@ -739,21 +781,18 @@ const EX = [
     en:{q:"At rest, ________ covers the myosin-binding sites on actin.", a:"tropomyosin",
         variants:["tropomyosin"]}
   },
-  /* ===== 19. MC (antic 22) ===== */
   {
     type:"mc",
     ca:{q:"Què passa quan el calci s'uneix a la troponina?", o:["La miosina es trenca","La tropomiosina es desplaça i exposa els llocs d'unió","L'actina desapareix","El sarcòmer s'allarga"], a:1},
     es:{q:"¿Qué ocurre cuando el calcio se une a la troponina?", o:["La miosina se rompe","La tropomiosina se desplaza y expone los sitios de unión","La actina desaparece","El sarcómero se alarga"], a:1},
     en:{q:"What happens when calcium binds to troponin?", o:["Myosin breaks","Tropomyosin shifts and exposes binding sites","Actin disappears","The sarcomere lengthens"], a:1}
   },
-  /* ===== 20. ORDER · barreja (antic 23) ===== */
   {
     type:"order", shuffle:true,
     ca:{q:"Ordena el cicle de la miosina (1-4):", items:["Unió de la miosina a l'actina","Arrastre de l'actina","Acostament de les línies Z","Despreniment amb ATP"], a:[1,2,3,4]},
     es:{q:"Ordena el ciclo de la miosina (1-4):", items:["Unión de la miosina a la actina","Arrastre de la actina","Acercamiento de las líneas Z","Desprendimiento con ATP"], a:[1,2,3,4]},
     en:{q:"Order the myosin cycle (1-4):", items:["Myosin binds to actin","Power stroke pulls actin","Z lines move closer","Detachment with ATP"], a:[1,2,3,4]}
   },
-  /* ===== 21. ESSAY · rigor mortis (antic 24) ===== */
   {
     type:"essay",
     ca:{
@@ -775,21 +814,18 @@ const EX = [
       model:"Without ATP, myosin remains bound to actin and cannot detach, so the muscle stays contracted and rigid. Over time, protein degradation and tissue decomposition make the rigidity disappear."
     }
   },
-  /* ===== 22. MC (antic 25) ===== */
   {
     type:"mc",
     ca:{q:"En una contracció ________, el múscul s'acurta mentre genera força.", o:["excèntrica","isomètrica","concèntrica","passiva"], a:2},
     es:{q:"En una contracción ________, el músculo se acorta mientras genera fuerza.", o:["excéntrica","isométrica","concéntrica","pasiva"], a:2},
     en:{q:"In a ________ contraction, the muscle shortens while generating force.", o:["eccentric","isometric","concentric","passive"], a:2}
   },
-  /* ===== 23. MC (antic 26) ===== */
   {
     type:"mc",
     ca:{q:"Quin tipus de contracció té funció d'amortiment i frena el moviment?", o:["Concèntrica","Isomètrica","Excèntrica","Totes per igual"], a:2},
     es:{q:"¿Qué tipo de contracción tiene función de amortiguación y frena el movimiento?", o:["Concéntrica","Isométrica","Excéntrica","Todas por igual"], a:2},
     en:{q:"Which contraction type has a shock-absorbing function and brakes movement?", o:["Concentric","Isometric","Eccentric","All equally"], a:2}
   },
-  /* ===== 24. FILL (antic 27) ===== */
   {
     type:"fill",
     ca:{q:"En una contracció isomètrica, la tensió és ________ a la resistència.", a:"igual",
@@ -799,21 +835,18 @@ const EX = [
     en:{q:"In an isometric contraction, tension is ________ to resistance.", a:"equal",
         variants:["equal","equally","equivalent"]}
   },
-  /* ===== 25. MATCH (antic 28) ===== */
   {
     type:"match",
     ca:{q:"Relaciona cada tipus de contracció amb la seva característica principal:", pairs:[["Concèntrica","El múscul s'acurta"],["Excèntrica","El múscul s'allarga"],["Isomètrica","No canvia la longitud"]]},
     es:{q:"Relaciona cada tipo de contracción con su característica principal:", pairs:[["Concéntrica","El músculo se acorta"],["Excéntrica","El músculo se alarga"],["Isométrica","No cambia la longitud"]]},
     en:{q:"Match each contraction type with its main feature:", pairs:[["Concentric","Muscle shortens"],["Eccentric","Muscle lengthens"],["Isometric","Length does not change"]]}
   },
-  /* ===== 26. MC (antic 29) ===== */
   {
     type:"mc",
     ca:{q:"Quin fenomen post mortem s'explica per la falta d'ATP al múscul?", o:["La rampa muscular","El rigor mortis","La contracció concèntrica","L'escalfament"], a:1},
     es:{q:"¿Qué fenómeno post mortem se explica por la falta de ATP en el músculo?", o:["El calambre muscular","El rigor mortis","La contracción concéntrica","El calentamiento"], a:1},
     en:{q:"Which post-mortem phenomenon is explained by the lack of ATP in muscle?", o:["Muscle cramp","Rigor mortis","Concentric contraction","Warm-up"], a:1}
   },
-  /* ===== 27. ESSAY · rampa muscular (antic 30) ===== */
   {
     type:"essay",
     ca:{
@@ -844,7 +877,7 @@ let currentLang = "ca";
 let results = {};
 let reviewMode = false;
 
-const STORAGE_KEY = "musculoesqueletico_sessions_v4";
+const STORAGE_KEY = "musculoesqueletico_sessions_v5";
 
 /* ============================================================
    RENDERITZACIÓ
@@ -858,7 +891,6 @@ function setLang(lang){
   renderHowto();
 }
 
-/* ---------- BARREJA ALEATÒRIA ---------- */
 function shuffleArray(arr){
   const a = arr.slice();
   for(let i = a.length - 1; i > 0; i--){
@@ -877,7 +909,6 @@ function barrejarOpcions(ex){
   return { opcions: noves, correcteIndex: nouIndex };
 }
 
-/* ---------- APARTAT FUNCIONAMENT ---------- */
 function renderHowto(){
   const t = T[currentLang];
   const titol = document.getElementById("howto-titol");
@@ -886,7 +917,7 @@ function renderHowto(){
   if(!titol || !body || !legend) return;
   titol.textContent = t["howto-titol"];
   let html = "";
-  for(let i = 1; i <= 7; i++){
+  for(let i = 1; i <= 8; i++){
     html += `
       <div class="step">
         <h4>${t["howto-pas" + i + "-titol"]}</h4>
@@ -946,27 +977,24 @@ function render(){
           </div>`;
         });
       }
-else if(ex.type === "order"){
-  let items = d.items.slice();
-  let ordreItems;
-  if(ex.shuffle){
-    const idxs = items.map((_,k)=>k);
-    const barrejats = shuffleArray(idxs);
-    items = barrejats.map(k => d.items[k]);
-    // Per a cada posició visual (j), quin número li pertoca (1..N)
-    // "barrejats[j]" és l'índex original de l'ítem visual j
-    // El número correcte per aquest ítem és: barrejats[j] + 1
-    ordreItems = barrejats.map(orig => orig + 1);
-  } else {
-    ordreItems = items.map((_,k)=>k+1);
-  }
-  ex._ordreCorrecte = ordreItems; // array: número que ha d'anar a cada input visual
-  html += `<ul class="order-list">`;
-  items.forEach((it, j)=>{
-    html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`;
-  });
-  html += `</ul>`;
-}
+      else if(ex.type === "order"){
+        let items = d.items.slice();
+        let ordreItems;
+        if(ex.shuffle){
+          const idxs = items.map((_,k)=>k);
+          const barrejats = shuffleArray(idxs);
+          items = barrejats.map(k => d.items[k]);
+          ordreItems = barrejats.map(orig => orig + 1);
+        } else {
+          ordreItems = items.map((_,k)=>k+1);
+        }
+        ex._ordreCorrecte = ordreItems;
+        html += `<ul class="order-list">`;
+        items.forEach((it, j)=>{
+          html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`;
+        });
+        html += `</ul>`;
+      }
 
       html += `<button class="btn-check" onclick="check(${i})">${T[currentLang].check}</button>`;
       html += `<div class="feedback" id="fb${i}"></div>`;
@@ -1028,15 +1056,15 @@ function check(i, silent){
     });
     correctText = d.pairs.map((p,j)=>`${p[0]} → ${p[1]}`).join("; ");
   }
-else if(ex.type === "order"){
-  ok = true;
-  const ordreCorrecte = ex._ordreCorrecte || d.a;
-  ordreCorrecte.forEach((val, j)=>{
-    const inp = document.getElementById("o" + i + "_" + j).value;
-    if(parseInt(inp) !== val) ok = false;
-  });
-  correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
-}
+  else if(ex.type === "order"){
+    ok = true;
+    const ordreCorrecte = ex._ordreCorrecte || d.a;
+    ordreCorrecte.forEach((val, j)=>{
+      const inp = document.getElementById("o" + i + "_" + j).value;
+      if(parseInt(inp) !== val) ok = false;
+    });
+    correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+  }
   else if(ex.type === "essay"){
     const val = document.getElementById("in" + i).value;
     if(!val || val.trim().length < 15){
@@ -1129,6 +1157,7 @@ function collectState(){
     lang: currentLang,
     results: results,
     reviewMode: reviewMode,
+    nomAlumne: estat.nomAlumne || "",
     answers: {},
     timestamp: Date.now()
   };
@@ -1151,7 +1180,14 @@ function collectState(){
   return state;
 }
 
+let estat = { nomAlumne:"" };
+
 function saveSession(){
+  if(!estat.nomAlumne){
+    const nom = prompt(T[currentLang].demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+  }
   const state = collectState();
   try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -1185,6 +1221,7 @@ function applyState(state){
   if(btn) btn.classList.add("active");
 
   results = state.results || {};
+  estat.nomAlumne = state.nomAlumne || "";
   reviewMode = false;
   document.body.classList.remove("review-mode");
   const revBtn = document.getElementById("reviewBtn");
@@ -1229,6 +1266,7 @@ function applyState(state){
 function resetSession(){
   localStorage.removeItem(STORAGE_KEY);
   results = {};
+  estat.nomAlumne = "";
   reviewMode = false;
   document.body.classList.remove("review-mode");
   const revBtn = document.getElementById("reviewBtn");
@@ -1262,6 +1300,14 @@ function showBanner(msg, withPrompt){
   }
 }
 
+function mostrarMissatgeLliurament(){
+  const b = document.getElementById("banner");
+  b.innerHTML = T[currentLang].missatgeLliurament;
+  b.classList.add("show");
+  clearTimeout(b._t);
+  b._t = setTimeout(()=>b.classList.remove("show"), 20000);
+}
+
 function updateStatus(){
   const total = EX.length;
   const done = Object.keys(results).length;
@@ -1274,6 +1320,175 @@ function updateStatus(){
     en: `Answers: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`
   };
   el.textContent = labels[currentLang];
+}
+
+/* ============================================================
+   IMPRIMIR
+   ============================================================ */
+function imprimir(){
+  const lang = currentLang;
+  const t = T[lang];
+  if(!estat.nomAlumne){
+    const nom = prompt(t.demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+  }
+
+  let encerts=0, fetes=0;
+  const perBloc = {A:{encerts:0,total:0}, B:{encerts:0,total:0}, C:{encerts:0,total:0}};
+
+  EX.forEach((p,i) => {
+    perBloc[p.bloc].total++;
+    const resp = results[i];
+    const ok = resp === true;
+    if(resp !== undefined){
+      fetes++;
+      if(ok){ encerts++; perBloc[p.bloc].encerts++; }
+    }
+  });
+  const total = EX.length;
+  const pct = total ? Math.round((encerts/total)*100) : 0;
+
+  const filesDetall = EX.map((p,i) => {
+    const d = p[lang];
+    const resp = results[i];
+    const ok = resp === true;
+    const est = (resp===undefined) ? t.imprimirPendent : (ok ? t.imprimirSi : t.imprimirNo);
+    const color = (resp===undefined) ? "#999" : (ok ? "#2e7d32" : "#c62828");
+
+    // Resposta de l'alumne
+    let respostaAlumne = "—";
+    if(p.type === "mc"){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      if(sel){
+        const idxTriat = parseInt(sel.value);
+        const parells = (d.o || []).map((txt, orig) => ({ txt, orig }));
+        respostaAlumne = d.o[idxTriat] || "—";
+      }
+    } else if(p.type === "fill" || p.type === "short"){
+      const inp = document.getElementById("in"+i);
+      respostaAlumne = inp ? inp.value : "—";
+    } else if(p.type === "match"){
+      respostaAlumne = (resp === true) ? "Correcte" : (resp === false ? "Incorrecte" : "—");
+    } else if(p.type === "order"){
+      respostaAlumne = (resp === true) ? "Correcte" : (resp === false ? "Incorrecte" : "—");
+    } else if(p.type === "essay"){
+      const ta = document.getElementById("in"+i);
+      respostaAlumne = ta ? ta.value.slice(0, 300) : "—";
+    }
+
+    // Resposta correcta
+    let respostaCorrecta = "—";
+    if(p.type === "mc"){
+      respostaCorrecta = d.o[d.a];
+    } else if(p.type === "fill" || p.type === "short"){
+      respostaCorrecta = d.a;
+    } else if(p.type === "match"){
+      respostaCorrecta = d.pairs.map(pp=>`${pp[0]} → ${pp[1]}`).join("; ");
+    } else if(p.type === "order"){
+      respostaCorrecta = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+    } else if(p.type === "essay"){
+      respostaCorrecta = d.model;
+    }
+
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${p.bloc}</td>
+      <td>${p.pi ? "🌿" : "—"}</td>
+      <td>${d.q.replace(/<[^>]+>/g,"").slice(0,120)}</td>
+      <td>${respostaAlumne}</td>
+      <td>${respostaCorrecta}</td>
+      <td style="color:${color};font-weight:700">${est}</td>
+    </tr>`;
+  }).join("");
+
+  const html = `<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8">
+    <title>${t.imprimirTitol}</title>
+    <style>
+      body{font-family:Georgia,serif;color:#1f2933;padding:1.5rem;font-size:11pt}
+      h1{color:#0f4c5c;font-size:16pt;margin:0 0 .2rem}
+      h2{color:#0f4c5c;font-size:13pt;margin:1rem 0 .3rem;border-bottom:2px solid #e36414;padding-bottom:.2rem}
+      .meta{display:flex;gap:2rem;margin:.6rem 0 1rem;font-size:10.5pt}
+      .meta span{display:inline-block;border-bottom:1px solid #999;min-width:180px}
+      table{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:9.5pt}
+      th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:left;vertical-align:top}
+      th{background:#eef4f5;color:#0f4c5c}
+      .resum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.3rem 1.5rem;font-size:10.5pt}
+      @media print{body{padding:0}}
+    </style></head><body>
+    <h1>${t.imprimirTitol}</h1>
+    <div class="meta">
+      <div>${t.imprimirAlumne} <span>${estat.nomAlumne}</span></div>
+      <div>${t.imprimirData} <span>${new Date().toLocaleDateString()}</span></div>
+    </div>
+    <h2>${t.imprimirResum}</h2>
+    <div class="resum-grid">
+      <div><strong>${t.imprimirTotal}:</strong> ${total}</div>
+      <div><strong>${t.imprimirFetes}:</strong> ${fetes}</div>
+      <div><strong>${t.imprimirEncerts}:</strong> ${encerts}</div>
+      <div><strong>${t.imprimirPct}:</strong> ${pct} %</div>
+    </div>
+    <h2>${t.imprimirPerBloc}</h2>
+    <table><thead><tr><th>${t.imprimirBloc}</th><th>${t.imprimirEncerts}</th></tr></thead><tbody>
+      <tr><td>A</td><td>${perBloc.A.encerts} / ${perBloc.A.total}</td></tr>
+      <tr><td>B</td><td>${perBloc.B.encerts} / ${perBloc.B.total}</td></tr>
+      <tr><td>C</td><td>${perBloc.C.encerts} / ${perBloc.C.total}</td></tr>
+    </tbody></table>
+    <h2>${t.imprimirDetall}</h2>
+    <table><thead><tr>
+      <th>${t.imprimirNum}</th><th>${t.imprimirBloc}</th><th>🌿</th>
+      <th>${t.imprimirPregunta}</th><th>${t.imprimirResposta}</th>
+      <th>${t.imprimirCorrecta}</th><th>${t.imprimirEncert}</th>
+    </tr></thead><tbody>${filesDetall}</tbody></table>
+    </body></html>`;
+
+  const win = window.open("", "_blank");
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(()=>{
+    win.print();
+    mostrarMissatgeLliurament();
+  }, 300);
+}
+
+/* ============================================================
+   EXPORTAR
+   ============================================================ */
+function exportar(){
+  const t = T[currentLang];
+  if(!estat.nomAlumne){
+    const nom = prompt(t.demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+  }
+
+  let encerts=0, fetes=0;
+  const detall = EX.map((p,i) => {
+    const resp = results[i];
+    const ok = resp === true;
+    if(resp !== undefined){ fetes++; if(ok) encerts++; }
+    return { num:i+1, bloc:p.bloc, pi:p.pi, tipus:p.type, encert: resp===undefined ? null : ok };
+  });
+  const data = {
+    activitat:"Sistema Musculoesquelètic I",
+    alumne:estat.nomAlumne,
+    data_exportacio:new Date().toISOString(),
+    idioma_actual:currentLang,
+    total_preguntes:EX.length,
+    respostes_fetes:fetes,
+    encerts:encerts,
+    detall
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const avui = new Date().toISOString().slice(0,10);
+  a.download = `${estat.nomAlumne.replace(/\s+/g,"_")}_${avui}_t2.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  mostrarMissatgeLliurament();
 }
 
 /* ============================================================

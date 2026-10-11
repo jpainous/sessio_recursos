@@ -394,7 +394,7 @@
       </div>
       <div class="step">
         <h4>8. Exportar / Imprimir</h4>
-        <p>Pots <b>exportar el progrés</b> en JSON o <b>imprimir</b> un full de resultats amb el detall de cada pregunta.</p>
+        <p>Pots <b>exportar el progrés</b> en JSON o <b>imprimir</b> un full de resultats amb el detall de cada pregunta i la teva resposta.</p>
       </div>
     </div>
     <div class="legend">
@@ -521,13 +521,8 @@ const UI = {
     imprimirSi:"Sí",
     imprimirNo:"No",
     imprimirPendent:"Pendent",
-    tipus:{
-      mc:"Elecció múltiple",
-      fill:"Omplir buit",
-      match:"Relacionar",
-      order:"Ordenar",
-      essay:"Redacció / Cas pràctic"
-    }
+    demanarNom:"Escriu el teu nom i cognoms:",
+    missatgeLliurament:"L'arxiu en PDF s'ha de fer arribar a la professora per email. També penjar una còpia d'ell a la intranet, dins l'espai habilitat per la professora per a cadascú de vosaltres. També cal fer una còpia de l'arxiu JSON que guarda la feina feta del teu navegador de la pàgina que et trobes treballant."
   },
   es: {
     titol:"Tema 1 · Introducción a la fisiología y homeostasis",
@@ -595,13 +590,8 @@ const UI = {
     imprimirSi:"Sí",
     imprimirNo:"No",
     imprimirPendent:"Pendiente",
-    tipus:{
-      mc:"Elección múltiple",
-      fill:"Rellenar hueco",
-      match:"Relacionar",
-      order:"Ordenar",
-      essay:"Redacción / Caso práctico"
-    }
+    demanarNom:"Escribe tu nombre y apellidos:",
+    missatgeLliurament:"El archivo en PDF debe hacerse llegar a la profesora por email. También hay que colgar una copia de él en la intranet, dentro del espacio habilitado por la profesora para cada uno de vosotros. También hay que hacer una copia del archivo JSON que guarda el trabajo hecho en tu navegador de la página en la que estás trabajando."
   },
   en: {
     titol:"Topic 1 · Introduction to physiology and homeostasis",
@@ -669,13 +659,8 @@ const UI = {
     imprimirSi:"Yes",
     imprimirNo:"No",
     imprimirPendent:"Pending",
-    tipus:{
-      mc:"Multiple choice",
-      fill:"Fill in the blank",
-      match:"Match",
-      order:"Order",
-      essay:"Essay / Case study"
-    }
+    demanarNom:"Write your name and surname:",
+    missatgeLliurament:"The PDF file must be sent to the teacher by email. A copy of it must also be uploaded to the intranet, in the space enabled by the teacher for each of you. You must also make a copy of the JSON file that stores your work in your browser for the page you are working on."
   }
 };
 
@@ -807,10 +792,6 @@ const OBJECTIUS = {
 
 /* ============================================================
    BLOK 08 · EXERCICIS (30)
-   ------------------------------------------------------------
-   Tipus: "mc" (elecció múltiple), "fill" (omplir buit),
-          "match" (relacionar), "order" (ordenar),
-          "essay" (redacció / cas pràctic).
    ============================================================ */
 const PREGUNTES = [
   /* ============ BLOC A · EL BUCLE HOMEOSTÀTIC (10) ============ */
@@ -1407,16 +1388,17 @@ const elContinuarInfo = document.getElementById("continuar-info");
 function carregarEstat(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false };
+    if(!raw) return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false, nomAlumne:"" };
     const p = JSON.parse(raw);
     return {
       idxActual: p.idxActual || 0,
       respostes: p.respostes || {},
       blocActual: p.blocActual || null,
-      modeAdaptat: !!p.modeAdaptat
+      modeAdaptat: !!p.modeAdaptat,
+      nomAlumne: p.nomAlumne || ""
     };
   }catch(e){
-    return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false };
+    return { idxActual:0, respostes:{}, blocActual:null, modeAdaptat:false, nomAlumne:"" };
   }
 }
 function desarEstat(){
@@ -1665,7 +1647,6 @@ function render(){
   elOpcions.style.display = "block";
 
   if(p.type === "mc"){
-    /* Barreja de les opcions */
     const parells = p.o[lang].map((txt, i) => ({ txt, orig: i }));
     const barrejats = shuffleArray(parells);
     const opcions = barrejats.map(x => x.txt);
@@ -1720,7 +1701,6 @@ function render(){
     elOpcions.appendChild(wrap);
   }
   else if(p.type === "match"){
-    /* Barreja de les files del desplegable */
     const wrap = document.createElement("div");
     wrap.className = "options";
     const parells = p.pairs[lang];
@@ -1751,7 +1731,6 @@ function render(){
     elOpcions.appendChild(wrap);
   }
   else if(p.type === "order"){
-    /* Barreja de les files + guardem l'ordre correcte per a la correcció */
     const wrap = document.createElement("div");
     wrap.className = "options";
     const ul = document.createElement("ul");
@@ -2095,8 +2074,28 @@ elBtnAdaptat.addEventListener("click", () => {
   renderIndex();
 });
 
+/* ---------- MOSTRAR MISSATGE DE LLIURAMENT ---------- */
+function mostrarMissatgeLliurament(){
+  const b = document.getElementById("banner") || document.createElement("div");
+  b.id = "banner";
+  if(!b.parentNode) document.querySelector(".wrap").appendChild(b);
+  b.innerHTML = UI[currentLang].missatgeLliurament;
+  b.className = "banner show";
+  clearTimeout(b._t);
+  b._t = setTimeout(()=>b.classList.remove("show"), 20000);
+}
+
+/* ---------- EXPORTAR ---------- */
 document.getElementById("btn-exportar").addEventListener("click", () => {
   const t = UI[currentLang];
+  let nom = estat.nomAlumne;
+  if(!nom){
+    nom = prompt(t.demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+    desarEstat();
+  }
+
   let encerts=0, encertsMarc=0, fetes=0, fetesMarc=0;
   const detall = PREGUNTES.map((p,i) => {
     const resp = estat.respostes[i];
@@ -2112,6 +2111,7 @@ document.getElementById("btn-exportar").addEventListener("click", () => {
   });
   const data = {
     activitat:"Tema 1 · Introducció a la fisiologia i homeòstasi",
+    alumne:estat.nomAlumne,
     data_exportacio:new Date().toISOString(),
     idioma_actual:currentLang,
     mode_adaptat:modeAdaptat,
@@ -2127,14 +2127,25 @@ document.getElementById("btn-exportar").addEventListener("click", () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `t1_general_progres_${new Date().toISOString().slice(0,10)}.json`;
+  const avui = new Date().toISOString().slice(0,10);
+  a.download = `${estat.nomAlumne.replace(/\s+/g,"_")}_${avui}_t1.json`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
   alert(t.exportat);
+  mostrarMissatgeLliurament();
 });
 
+/* ---------- IMPRIMIR ---------- */
 document.getElementById("btn-imprimir").addEventListener("click", () => {
   const t = UI[currentLang], lang = currentLang;
+  let nom = estat.nomAlumne;
+  if(!nom){
+    nom = prompt(t.demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+    desarEstat();
+  }
+
   let encerts=0, fetes=0, encertsMarc=0, fetesMarc=0;
   const perBloc = {};
   BLOCS[lang].forEach(b => perBloc[b.id] = { encerts:0, total:0, fetes:0, piTotal:0, piEncerts:0 });
@@ -2166,6 +2177,33 @@ document.getElementById("btn-imprimir").addEventListener("click", () => {
   const filesDetall = PREGUNTES.map((p,i) => {
     const resp = estat.respostes[i];
     const ok = (p.type === "mc") ? resp === p.a : resp === "__ok__";
+
+    // Resposta de l'alumne
+    let respostaAlumne = "—";
+    if(p.type === "mc" && resp !== undefined){
+      respostaAlumne = p.o[lang][resp] || "—";
+    } else if(p.type === "fill"){
+      respostaAlumne = estat.respostes[i+"_text"] || "—";
+    } else if(p.type === "match" || p.type === "order"){
+      respostaAlumne = resp === "__ok__" ? "Correcte" : (resp === "__ko__" ? "Incorrecte" : "—");
+    } else if(p.type === "essay"){
+      respostaAlumne = resp === "__ok__" ? "Redacció correcta" : (resp === "__ko__" ? "Redacció incompleta" : "—");
+    }
+
+    // Resposta correcta
+    let respostaCorrecta = "—";
+    if(p.type === "mc"){
+      respostaCorrecta = p.o[lang][p.a];
+    } else if(p.type === "fill"){
+      respostaCorrecta = p.a[lang];
+    } else if(p.type === "match"){
+      respostaCorrecta = p.pairs[lang].map((pp,j)=>`${pp[0]} → ${pp[1]}`).join("; ");
+    } else if(p.type === "order"){
+      respostaCorrecta = p.items[lang].map((it,j)=>`${p.a[j]}. ${it}`).join(" | ");
+    } else if(p.type === "essay"){
+      respostaCorrecta = p.model[lang];
+    }
+
     const est = resp===undefined ? t.imprimirPendent : (ok ? t.imprimirSi : t.imprimirNo);
     const color = resp===undefined ? "#999" : (ok ? "#2e7d32" : "#c62828");
     return `<tr>
@@ -2173,8 +2211,8 @@ document.getElementById("btn-imprimir").addEventListener("click", () => {
       <td>${p.bloc}</td>
       <td>${p.pi ? "🌿" : "—"}</td>
       <td>${p.situacio[lang]}</td>
-      <td>${resp!==undefined ? "✓" : "—"}</td>
-      <td>—</td>
+      <td>${respostaAlumne}</td>
+      <td>${respostaCorrecta}</td>
       <td style="color:${color};font-weight:700">${est}</td>
     </tr>`;
   }).join("");
@@ -2196,7 +2234,7 @@ document.getElementById("btn-imprimir").addEventListener("click", () => {
     </style></head><body>
     <h1>${t.imprimirTitol}</h1>
     <div class="meta">
-      <div>${t.imprimirAlumne} <span></span></div>
+      <div>${t.imprimirAlumne} <span>${estat.nomAlumne}</span></div>
       <div>${t.imprimirData} <span>${new Date().toLocaleDateString()}</span></div>
     </div>
     <h2>${t.imprimirResum}</h2>
@@ -2222,7 +2260,10 @@ document.getElementById("btn-imprimir").addEventListener("click", () => {
   win.document.write(html);
   win.document.close();
   win.focus();
-  setTimeout(() => win.print(), 300);
+  setTimeout(() => {
+    win.print();
+    mostrarMissatgeLliurament();
+  }, 300);
 });
 
 elIndexHead.addEventListener("click", () => {
