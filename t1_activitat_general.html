@@ -370,7 +370,7 @@
       </div>
       <div class="step">
         <h4>2. Tipus d'exercici</h4>
-        <p>N'hi ha de 4 tipus: <b>elecció múltiple</b>, <b>omplir buit</b>, <b>relacionar</b> i <b>ordenar</b>. Els 5 darrers (26-30) són de <b>redacció / cas pràctic</b> i es validen per paraules clau.</p>
+        <p>N'hi ha de 5 tipus: <b>elecció múltiple</b>, <b>omplir buit</b>, <b>relacionar</b>, <b>ordenar</b> i <b>redacció</b>. Les opcions surten en ordre aleatori.</p>
       </div>
       <div class="step">
         <h4>3. Comprovar</h4>
@@ -449,7 +449,7 @@
    BLOK 04 · BASE I STORAGE_KEY
    ============================================================ */
 const BASE_URL = "https://jpainous.github.io/dansa_tema03/";
-const STORAGE_KEY = "t1_activitat_general_v2";
+const STORAGE_KEY = "t1_activitat_general_v3";
 
 /* ============================================================
    BLOK 05 · UI · Traduccions de la interfície
@@ -501,6 +501,7 @@ const UI = {
     model:"Resposta model:",
     showModel:"Veure resposta model",
     hideModel:"Amagar resposta model",
+    variantsOk:(correcte)=>`✔ Correcte. L'escriptura correcta és «${correcte}».`,
     imprimirTitol:"Full de resultats · Tema 1",
     imprimirAlumne:"Alumne/a:",
     imprimirData:"Data:",
@@ -519,7 +520,14 @@ const UI = {
     imprimirEncert:"Encert",
     imprimirSi:"Sí",
     imprimirNo:"No",
-    imprimirPendent:"Pendent"
+    imprimirPendent:"Pendent",
+    tipus:{
+      mc:"Elecció múltiple",
+      fill:"Omplir buit",
+      match:"Relacionar",
+      order:"Ordenar",
+      essay:"Redacció / Cas pràctic"
+    }
   },
   es: {
     titol:"Tema 1 · Introducción a la fisiología y homeostasis",
@@ -567,6 +575,7 @@ const UI = {
     model:"Respuesta modelo:",
     showModel:"Ver respuesta modelo",
     hideModel:"Ocultar respuesta modelo",
+    variantsOk:(correcte)=>`✔ Correcto. La escritura correcta es «${correcte}».`,
     imprimirTitol:"Hoja de resultados · Tema 1",
     imprimirAlumne:"Alumno/a:",
     imprimirData:"Fecha:",
@@ -585,7 +594,14 @@ const UI = {
     imprimirEncert:"Acierto",
     imprimirSi:"Sí",
     imprimirNo:"No",
-    imprimirPendent:"Pendiente"
+    imprimirPendent:"Pendiente",
+    tipus:{
+      mc:"Elección múltiple",
+      fill:"Rellenar hueco",
+      match:"Relacionar",
+      order:"Ordenar",
+      essay:"Redacción / Caso práctico"
+    }
   },
   en: {
     titol:"Topic 1 · Introduction to physiology and homeostasis",
@@ -633,6 +649,7 @@ const UI = {
     model:"Model answer:",
     showModel:"Show model answer",
     hideModel:"Hide model answer",
+    variantsOk:(correcte)=>`✔ Correct. The correct spelling is «${correcte}».`,
     imprimirTitol:"Results sheet · Topic 1",
     imprimirAlumne:"Student:",
     imprimirData:"Date:",
@@ -651,7 +668,14 @@ const UI = {
     imprimirEncert:"Correct?",
     imprimirSi:"Yes",
     imprimirNo:"No",
-    imprimirPendent:"Pending"
+    imprimirPendent:"Pending",
+    tipus:{
+      mc:"Multiple choice",
+      fill:"Fill in the blank",
+      match:"Match",
+      order:"Order",
+      essay:"Essay / Case study"
+    }
   }
 };
 
@@ -787,15 +811,6 @@ const OBJECTIUS = {
    Tipus: "mc" (elecció múltiple), "fill" (omplir buit),
           "match" (relacionar), "order" (ordenar),
           "essay" (redacció / cas pràctic).
-   Camps:
-     bloc, pi (🌿), icon, recurs
-     Per tipus:
-       mc:    o:[...], a:índex
-       fill:  a:"resposta"
-       match: pairs:[[esq,dret],...]
-       order: items:[...], a:[ordre correcte]
-       essay: scenario, q, keywords:[...], model
-     Explicació i info en CA/ES/EN.
    ============================================================ */
 const PREGUNTES = [
   /* ============ BLOC A · EL BUCLE HOMEOSTÀTIC (10) ============ */
@@ -868,6 +883,11 @@ const PREGUNTES = [
     situacio:{ ca:"L'homeòstasi no és un estat fix, sinó un equilibri amb ajustos continus.", es:"La homeostasis no es un estado fijo, sino un equilibrio con ajustes continuos.", en:"Homeostasis is not a fixed state, but a balance with continuous adjustments." },
     pregunta:{ ca:"Com s'anomena aquest tipus d'equilibri? Equilibri ________.", es:"¿Cómo se llama este tipo de equilibrio? Equilibrio ________.", en:"What is this type of balance called? ________ balance." },
     a:{ ca:"dinàmic", es:"dinámico", en:"dynamic" },
+    variants:{
+      ca:["dinàmic","dinamic","dinàmica"],
+      es:["dinámico","dinamico","dinámica"],
+      en:["dynamic"]
+    },
     explica:{ ca:"És un <strong>equilibri dinàmic</strong>: el cos fa micro-ajustos constantment.", es:"Es un <strong>equilibrio dinámico</strong>: el cuerpo hace micro-ajustes constantemente.", en:"It is a <strong>dynamic balance</strong>: the body makes constant micro-adjustments." },
     info:{
       titol:{ ca:"Equilibri dinàmic", es:"Equilibrio dinámico", en:"Dynamic balance" },
@@ -896,6 +916,11 @@ const PREGUNTES = [
     situacio:{ ca:"Durant un assaig llarg, la temperatura corporal puja.", es:"Durante un ensayo largo, la temperatura corporal sube.", en:"During a long rehearsal, body temperature rises." },
     pregunta:{ ca:"Quin òrgan fa de centre d'integració principal en la temperatura?", es:"¿Qué órgano actúa como centro de integración principal en la temperatura?", en:"Which organ acts as the main integration centre for temperature?" },
     a:{ ca:"hipotàlem", es:"hipotálamo", en:"hypothalamus" },
+    variants:{
+      ca:["hipotàlem","hipotalem","hipotàlam","hipotalam"],
+      es:["hipotálamo","hipotalamo"],
+      en:["hypothalamus"]
+    },
     explica:{ ca:"L'<strong>hipotàlem</strong>, dins del sistema nerviós central.", es:"El <strong>hipotálamo</strong>, dentro del sistema nervioso central.", en:"The <strong>hypothalamus</strong>, within the central nervous system." },
     info:{
       titol:{ ca:"Hipotàlem", es:"Hipotálamo", en:"Hypothalamus" },
@@ -1088,6 +1113,11 @@ const PREGUNTES = [
     situacio:{ ca:"El tendó d'Aquil·les uneix el bessó amb el taló.", es:"El tendón de Aquiles une el gemelo con el talón.", en:"The Achilles tendon joins the calf to the heel." },
     pregunta:{ ca:"A quin tipus de teixit pertany el tendó? Teixit ________.", es:"¿A qué tipo de tejido pertenece el tendón? Tejido ________.", en:"Which tissue type does the tendon belong to? ________ tissue." },
     a:{ ca:"connectiu", es:"conectivo", en:"connective" },
+    variants:{
+      ca:["connectiu","conectiu","connectivo"],
+      es:["conectivo","connectivo"],
+      en:["connective"]
+    },
     explica:{ ca:"El tendó és <strong>teixit connectiu</strong> resistent.", es:"El tendón es <strong>tejido conectivo</strong> resistente.", en:"The tendon is strong <strong>connective tissue</strong>." },
     info:{
       titol:{ ca:"Tendons", es:"Tendones", en:"Tendons" },
@@ -1269,7 +1299,7 @@ const PREGUNTES = [
       en:["concentric","isometric","eccentric","push","position","landing","force","absorb","brake","stabilize"]
     },
     model:{
-      ca:"Concèntrica: en l'impuls, el múscul s'acurta generant força per saltar. Isomètrica: a l'aire, manté la posició sense canvi de longitud (estabilització). Excèntrica: en aterrar, el múscul s'allarga mentre frena i amortigua l'impacte.",
+      ca:"Concèntrica: en l'impuls, el múscul s'escurça generant força per saltar. Isomètrica: a l'aire, manté la posició sense canvi de longitud (estabilització). Excèntrica: en aterrar, el múscul s'allarga mentre frena i amortigua l'impacte.",
       es:"Concéntrica: en el impulso, el músculo se acorta generando fuerza para saltar. Isométrica: en el aire, mantiene la posición sin cambio de longitud (estabilización). Excéntrica: al aterrizar, el músculo se alarga mientras frena y amortigua el impacto.",
       en:"Concentric: during the push-off, the muscle shortens generating force to jump. Isometric: in the air, it holds the position without changing length (stabilization). Eccentric: on landing, the muscle lengthens while braking and absorbing the impact."
     }
@@ -1284,7 +1314,7 @@ const PREGUNTES = [
       en:["actin","myosin","calcium","atp","z lines","sliding","sarcomere","troponin","tropomyosin","force"]
     },
     model:{
-      ca:"El calci s'uneix a la troponina i desplaça la tropomiosina, deixant lliures els llocs d'unió de l'actina. La miosina s'uneix a l'actina i, amb l'ATP, fa el cop de força. Els filaments llisquen uns sobre els altres i les línies Z s'acosten, de manera que el sarcòmer s'acurta i es genera força.",
+      ca:"El calci s'uneix a la troponina i desplaça la tropomiosina, deixant lliures els llocs d'unió de l'actina. La miosina s'uneix a l'actina i, amb l'ATP, fa el cop de força. Els filaments llisquen uns sobre els altres i les línies Z s'acosten, de manera que el sarcòmer s'escurça i es genera força.",
       es:"El calcio se une a la troponina y desplaza la tropomiosina, dejando libres los sitios de unión de la actina. La miosina se une a la actina y, con el ATP, realiza el golpe de fuerza. Los filamentos se deslizan unos sobre otros y las líneas Z se acercan, de modo que el sarcómero se acorta y se genera fuerza.",
       en:"Calcium binds to troponin and displaces tropomyosin, exposing the actin binding sites. Myosin binds to actin and, with ATP, performs the power stroke. The filaments slide over each other and the Z lines move closer, so the sarcomere shortens and force is generated."
     }
@@ -1397,7 +1427,9 @@ function getIndexosVisibles(){
   if(modeRepas){
     visibles = visibles.filter(i => {
       const resp = estat.respostes[i];
-      return resp === undefined || resp !== PREGUNTES[i].correcte;
+      const p = PREGUNTES[i];
+      const esCorrecte = (p.type === "mc") ? resp === p.a : resp === "__ok__";
+      return resp === undefined || !esCorrecte;
     });
   }
   return visibles;
@@ -1551,6 +1583,16 @@ function actualitzarProgresGlobal(){
   }
 }
 
+/* ---------- BARREJA ALEATÒRIA ---------- */
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 /* ---------- RENDER PRINCIPAL ---------- */
 function render(){
   const visibles = getIndexosVisibles();
@@ -1623,9 +1665,16 @@ function render(){
   elOpcions.style.display = "block";
 
   if(p.type === "mc"){
+    /* Barreja de les opcions */
+    const parells = p.o[lang].map((txt, i) => ({ txt, orig: i }));
+    const barrejats = shuffleArray(parells);
+    const opcions = barrejats.map(x => x.txt);
+    const correcteIndex = barrejats.findIndex(x => x.orig === p.a);
+    p._correcteIndexActual = correcteIndex;
+
     const wrap = document.createElement("div");
     wrap.className = "options";
-    p.o[lang].forEach((opt, j) => {
+    opcions.forEach((opt, j) => {
       const label = document.createElement("label");
       label.dataset.resp = j;
       label.innerHTML = `<input type="radio" name="q${idx}" value="${j}"> ${opt}`;
@@ -1654,12 +1703,14 @@ function render(){
     wrap.appendChild(inp);
     const btn = document.createElement("button");
     btn.className = "btn-check";
-    btn.textContent = t.correcte.replace("✔ ","").trim() || "Comprova";
+    btn.textContent = "Comprova";
     btn.addEventListener("click", () => {
       const val = inp.value;
       if(val === undefined || val.trim() === "") return;
-      const correcte = normalitzar(val) === normalitzar(p.a[lang]);
+      const variants = (p.variants && p.variants[lang]) ? p.variants[lang] : [p.a[lang]];
+      const correcte = variants.some(v => normalitzar(v) === normalitzar(val));
       estat.respostes[idx] = correcte ? "__ok__" : "__ko__";
+      estat.respostes[idx + "_text"] = val;
       desarEstat();
       mostrarRespostaFill(val, correcte);
       renderIndex();
@@ -1669,9 +1720,13 @@ function render(){
     elOpcions.appendChild(wrap);
   }
   else if(p.type === "match"){
+    /* Barreja de les files del desplegable */
     const wrap = document.createElement("div");
     wrap.className = "options";
-    p.pairs[lang].forEach((par, j) => {
+    const parells = p.pairs[lang];
+    const ordreOpcions = shuffleArray(parells.map((_, k) => k));
+
+    parells.forEach((par, j) => {
       const row = document.createElement("div");
       row.className = "match-row";
       const left = document.createElement("span");
@@ -1679,7 +1734,7 @@ function render(){
       const sel = document.createElement("select");
       sel.id = "match-" + idx + "-" + j;
       sel.innerHTML = `<option value="">— Selecciona —</option>` +
-        p.pairs[lang].map((pp, k) => `<option value="${k}">${pp[1]}</option>`).join("");
+        ordreOpcions.map((origIdx) => `<option value="${origIdx}">${parells[origIdx][1]}</option>`).join("");
       sel.addEventListener("change", () => {
         if(respost) return;
         comprovarMatch();
@@ -1696,16 +1751,24 @@ function render(){
     elOpcions.appendChild(wrap);
   }
   else if(p.type === "order"){
+    /* Barreja de les files + guardem l'ordre correcte per a la correcció */
     const wrap = document.createElement("div");
     wrap.className = "options";
     const ul = document.createElement("ul");
     ul.className = "order-list";
-    p.items[lang].forEach((it, j) => {
+
+    const items = p.items[lang].slice();
+    const idxs = items.map((_,k)=>k);
+    const barrejats = shuffleArray(idxs);
+    const itemsBarrejats = barrejats.map(k => p.items[lang][k]);
+    p._ordreCorrecte = barrejats.map(orig => orig + 1);
+
+    itemsBarrejats.forEach((it, j) => {
       const li = document.createElement("li");
       const inp = document.createElement("input");
       inp.type = "number";
       inp.min = 1;
-      inp.max = p.items[lang].length;
+      inp.max = items.length;
       inp.id = "order-" + idx + "-" + j;
       inp.addEventListener("change", () => {
         if(respost) return;
@@ -1764,7 +1827,8 @@ function render(){
 function normalitzar(s){
   return s.toString().toLowerCase().trim()
     .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .replace(/[.,;:!?]/g,"");
+    .replace(/[.,;:!?·\-_.]/g,"")
+    .replace(/\s+/g,"");
 }
 
 /* ---------- COMPROVACIONS ---------- */
@@ -1788,7 +1852,8 @@ function comprovarOrder(mostrar){
   const p = PREGUNTES[idx];
   const lang = currentLang;
   let ok = true;
-  p.a.forEach((val, j) => {
+  const ordreCorrecte = p._ordreCorrecte || p.a;
+  ordreCorrecte.forEach((val, j) => {
     const inp = document.getElementById("order-" + idx + "-" + j);
     if(parseInt(inp.value) !== val) ok = false;
   });
@@ -1842,7 +1907,8 @@ function mostrarResposta(resp){
   respost = true;
   const p = PREGUNTES[idx];
   const t = UI[currentLang];
-  const correcte = resp === p.a;
+  const correcteIndex = p._correcteIndexActual !== undefined ? p._correcteIndexActual : p.a;
+  const correcte = resp === correcteIndex;
   if(correcte){
     elFeedback.className = "feedback ok";
     elFeedback.innerHTML = `<strong>${t.correcte}</strong>${p.explica[currentLang]}`;
@@ -1853,7 +1919,7 @@ function mostrarResposta(resp){
   document.querySelectorAll(`input[name="q${idx}"]`).forEach(i => {
     i.disabled = true;
     const label = i.closest("label");
-    if(parseInt(i.value) === p.a) label.classList.add("ok");
+    if(parseInt(i.value) === correcteIndex) label.classList.add("ok");
     else if(parseInt(i.value) === resp) label.classList.add("err");
   });
 }
@@ -1861,15 +1927,22 @@ function mostrarRespostaFill(val, correcte){
   respost = true;
   const p = PREGUNTES[idx];
   const t = UI[currentLang];
+  const lang = currentLang;
   const inp = document.getElementById("fill-in-" + idx);
   inp.disabled = true;
   inp.classList.add(correcte ? "ok" : "err");
   if(correcte){
+    const variants = (p.variants && p.variants[lang]) ? p.variants[lang] : [p.a[lang]];
+    const esCorrecta = normalitzar(val) === normalitzar(p.a[lang]);
     elFeedback.className = "feedback ok";
-    elFeedback.innerHTML = `<strong>${t.correcte}</strong>${p.explica[currentLang]}`;
+    if(esCorrecta){
+      elFeedback.innerHTML = `<strong>${t.correcte}</strong>${p.explica[lang]}`;
+    } else {
+      elFeedback.innerHTML = `<strong>${t.variantsOk(p.a[lang])}</strong>${p.explica[lang]}`;
+    }
   } else {
     elFeedback.className = "feedback err";
-    elFeedback.innerHTML = `<strong>${t.incorrecte}</strong>${p.explica[currentLang]}`;
+    elFeedback.innerHTML = `<strong>${t.incorrecte}</strong>${p.explica[lang]}<br><br><b>Resposta correcta:</b> ${p.a[lang]}`;
   }
 }
 function mostrarRespostaGeneric(correcte, correcteText){
@@ -1889,20 +1962,29 @@ function mostrarRespostaGuardada(){
   const p = PREGUNTES[idx];
   const val = estat.respostes[idx];
   if(p.type === "mc"){
-    const correcte = val === p.a;
     mostrarResposta(val);
   }
   else if(p.type === "fill"){
     const inp = document.getElementById("fill-in-" + idx);
     if(inp){
-      inp.value = "";
+      inp.value = estat.respostes[idx + "_text"] || "";
       inp.disabled = true;
       inp.classList.add(val === "__ok__" ? "ok" : "err");
     }
     respost = true;
     const ok = val === "__ok__";
     elFeedback.className = "feedback " + (ok ? "ok" : "err");
-    elFeedback.innerHTML = `<strong>${ok ? UI[currentLang].correcte : UI[currentLang].incorrecte}</strong>${p.explica[currentLang]}`;
+    if(ok){
+      const escrit = estat.respostes[idx + "_text"] || "";
+      const esCorrecta = normalitzar(escrit) === normalitzar(p.a[currentLang]);
+      if(esCorrecta){
+        elFeedback.innerHTML = `<strong>${UI[currentLang].correcte}</strong>${p.explica[currentLang]}`;
+      } else {
+        elFeedback.innerHTML = `<strong>${UI[currentLang].variantsOk(p.a[currentLang])}</strong>${p.explica[currentLang]}`;
+      }
+    } else {
+      elFeedback.innerHTML = `<strong>${UI[currentLang].incorrecte}</strong>${p.explica[currentLang]}<br><br><b>Resposta correcta:</b> ${p.a[currentLang]}`;
+    }
   }
   else if(p.type === "match" || p.type === "order"){
     respost = true;
