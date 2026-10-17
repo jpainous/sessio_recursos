@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casos Prácticos – Sistema Musculoesquelético (Fisiología de la Danza)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;padding:20px;color:#333}
+.container{max-width:960px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:40px;text-align:center;position:relative}
+header h1{font-size:2em;margin-bottom:8px}
+header p{opacity:.9;font-size:1.05em}
+
+.lang-selector{position:absolute;top:15px;right:20px;display:flex;gap:5px}
+.lang-selector button{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:20px;cursor:pointer;font-size:.85em;font-weight:600;transition:.3s}
+.lang-selector button:hover{background:rgba(255,255,255,.35)}
+.lang-selector button.active{background:#fff;color:#764ba2;border-color:#fff}
+
+/* PERSONAL DATA */
+.personal{background:#f8f9ff;padding:30px 40px;border-bottom:2px solid #e8e8ff}
+.personal h2{color:#667eea;margin-bottom:15px;font-size:1.3em}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.form-grid label{font-weight:600;color:#555;font-size:.95em}
+.form-grid input{width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:1em;transition:.3s}
+.form-grid input:focus{border-color:#667eea;outline:none}
+.time-display{background:#e8e8ff;padding:10px 14px;border-radius:8px;font-size:1em;color:#333;font-weight:500}
+
+/* NAV */
+.nav{background:#302b63;padding:15px 20px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:sticky;top:0;z-index:100}
+.nav button{background:rgba(255,255,255,.15);color:#fff;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-size:.85em;transition:.3s}
+.nav button:hover,.nav button.active{background:#667eea;transform:scale(1.05)}
+
+/* BLOCKS */
+.block{padding:30px 40px;border-bottom:3px solid #eee;display:none}
+.block.visible{display:block}
+.block h2{color:#764ba2;font-size:1.5em;margin-bottom:5px;border-left:5px solid #667eea;padding-left:15px}
+.block .block-ref{color:#999;font-size:.85em;margin-bottom:20px;padding-left:20px}
+
+/* CASE */
+.case{background:#fafbff;border:1px solid #e0e0f0;border-radius:14px;padding:22px;margin-bottom:22px;transition:.3s}
+.case:hover{box-shadow:0 4px 15px rgba(102,126,234,.15)}
+.case-num{display:inline-block;background:#667eea;color:#fff;padding:3px 12px;border-radius:12px;font-size:.8em;font-weight:700;margin-bottom:8px}
+.case-topic{display:inline-block;background:#f3e5f5;color:#7b1fa2;padding:3px 12px;border-radius:12px;font-size:.8em;margin-left:6px;margin-bottom:8px}
+.case h3{color:#333;font-size:1.1em;margin-bottom:10px;line-height:1.5}
+.options{margin:12px 0}
+.opt{display:block;background:#fff;padding:12px 16px;margin:6px 0;border-radius:10px;cursor:pointer;border:2px solid #e0e0e0;transition:.3s;line-height:1.4}
+.opt:hover{border-color:#667eea;transform:translateX(4px)}
+.opt.selected{border-color:#667eea;background:#eef0ff}
+.opt.correct{border-color:#2e7d32;background:#e8f5e9;color:#1b5e20}
+.opt.incorrect{border-color:#c62828;background:#ffebee;color:#b71c1c}
+.opt.disabled{pointer-events:none;opacity:.85}
+.opt.show-correct{border-color:#2e7d32;background:#e8f5e9}
+
+.reason-area{width:100%;padding:10px;border:2px solid #ddd;border-radius:8px;margin-top:10px;font-size:.95em;resize:vertical;min-height:60px;font-family:inherit}
+.reason-area:focus{border-color:#667eea;outline:none}
+.reason-area::placeholder{color:#aaa}
+
+.btn-validate{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:10px 24px;border-radius:10px;cursor:pointer;font-size:.95em;font-weight:600;margin-top:10px;transition:.3s}
+.btn-validate:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(102,126,234,.4)}
+.btn-validate:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.feedback{margin-top:12px;padding:14px;border-radius:10px;display:none;line-height:1.6;font-size:.95em}
+.feedback.show{display:block}
+.feedback.ok{background:#e8f5e9;border-left:4px solid #2e7d32;color:#1b5e20}
+.feedback.bad{background:#ffebee;border-left:4px solid #c62828;color:#b71c1c}
+
+/* PROGRESS */
+.progress-bar{background:#e0e0e0;height:8px;border-radius:4px;margin:20px 40px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);width:0%;transition:width .5s;border-radius:4px}
+.progress-text{text-align:center;color:#667eea;font-weight:600;margin-bottom:10px;font-size:.95em}
+
+/* SEND */
+.send-section{background:#f8f9ff;padding:30px 40px;text-align:center}
+.send-section h2{color:#667eea;margin-bottom:15px}
+.btn-send{background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff;border:none;padding:14px 40px;border-radius:12px;cursor:pointer;font-size:1.1em;font-weight:700;transition:.3s;margin:8px}
+.btn-send:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(17,153,142,.4)}
+.btn-copy{background:linear-gradient(135deg,#ff6b6b,#ee5a6f);color:#fff;border:none;padding:14px 40px;border-radius:12px;cursor:pointer;font-size:1.1em;font-weight:700;transition:.3s;margin:8px}
+.btn-copy:hover{transform:scale(1.05)}
+.btn-end{background:#302b63;color:#fff;border:none;padding:10px 30px;border-radius:10px;cursor:pointer;font-size:1em;margin:8px}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:14px 28px;border-radius:10px;display:none;z-index:999;font-weight:600}
+
+footer{background:#302b63;color:#fff;text-align:center;padding:20px;font-size:.85em}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  .block{padding:20px}
+  header{padding:25px}
+  .nav button{font-size:.75em;padding:6px 10px}
+  .lang-selector{position:static;justify-content:center;margin-bottom:15px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="lang-selector">
+    <button type="button" data-lang="es" class="active" onclick="setLanguage('es')">ES</button>
+    <button type="button" data-lang="ca" onclick="setLanguage('ca')">CA</button>
+    <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
+  </div>
+  <h1 data-i18n="headerTitle">🩰 Casos Prácticos</h1>
+  <p data-i18n="headerSubtitle">Sistema Musculoesquelético – Fisiología aplicada a la Danza</p>
+  <p style="font-size:.85em;margin-top:8px;opacity:.8" data-i18n="headerInfo">80 casos · 8 bloques temáticos · Curso 2026-2027</p>
+</header>
+
+<!-- PERSONAL DATA -->
+<div class="personal">
+  <h2 data-i18n="personalTitle">📋 Datos del alumno/a</h2>
+  <div class="form-grid">
+    <div><label data-i18n="labelName">Nombre completo</label><input type="text" id="studentName" data-i18n-placeholder="placeholderName" placeholder="Ej: María López García"></div>
+    <div><label data-i18n="labelEmail">Email</label><input type="email" id="studentEmail" data-i18n-placeholder="placeholderEmail" placeholder="Ej: maria@escuela.com"></div>
+    <div><label data-i18n="labelDate">Fecha de realización</label><input type="date" id="fillDate"></div>
+    <div><label data-i18n="labelStartTime">Hora de inicio</label><div class="time-display" id="startTime"></div></div>
+    <div><label data-i18n="labelEndTime">Hora de finalización</label><div class="time-display" id="endTime" data-i18n="pending">Pendiente</div></div>
+    <div><label data-i18n="labelTeacher">Profesora</label><input type="email" id="profEmail" value="celia.painous@escuela.com" placeholder="Email profesora"></div>
+  </div>
+</div>
+
+<div class="progress-text" id="progressText" data-i18n="progressText">Progreso: 0 / 80 casos respondidos</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- NAV -->
+<div class="nav" id="navBar"></div>
+
+<!-- BLOCKS CONTAINER -->
+<div id="blocksContainer"></div>
+
+<!-- SEND -->
+<div class="send-section">
+  <h2 data-i18n="sendTitle">📤 Enviar resultados</h2>
+  <p style="margin-bottom:15px;color:#666" data-i18n="sendSubtitle">Finaliza el test y envía tus respuestas a la profesora.</p>
+  <button class="btn-end" onclick="endTest()" data-i18n="btnEnd">⏹ Finalizar test (registrar hora)</button><br>
+  <button class="btn-send" onclick="sendEmail()" data-i18n="btnSend">📧 Enviar por email</button>
+  <button class="btn-copy" onclick="copyResults()" data-i18n="btnCopy">📋 Copiar resultados</button>
+</div>
+
+<footer data-i18n="footer">🩰 Fisiología aplicada a la Danza · Dra. Cèlia Painous · Curso 2026-2027</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===================== TRANSLATIONS =====================
+const translations = {
+  es: {
+    headerTitle: "🩰 Casos Prácticos",
+    headerSubtitle: "Sistema Musculoesquelético – Fisiología aplicada a la Danza",
+    headerInfo: "80 casos · 8 bloques temáticos · Curso 2026-2027",
+    personalTitle: "📋 Datos del alumno/a",
+    labelName: "Nombre completo",
+    placeholderName: "Ej: María López García",
+    labelEmail: "Email",
+    placeholderEmail: "Ej: maria@escuela.com",
+    labelDate: "Fecha de realización",
+    labelStartTime: "Hora de inicio",
+    labelEndTime: "Hora de finalización",
+    pending: "Pendiente",
+    labelTeacher: "Profesora",
+    progressText: "Progreso: {n} / {total} casos respondidos ({pct}%)",
+    sendTitle: "📤 Enviar resultados",
+    sendSubtitle: "Finaliza el test y envía tus respuestas a la profesora.",
+    btnEnd: "⏹ Finalizar test (registrar hora)",
+    btnSend: "📧 Enviar por email",
+    btnCopy: "📋 Copiar resultados",
+    footer: "🩰 Fisiología aplicada a la Danza · Dra. Cèlia Painous · Curso 2026-2027",
+    validate: "Validar respuesta",
+    reasonPlaceholder: "✍️ Explica brevemente por qué has elegido esta respuesta...",
+    correct: "✅ ¡Correcto!",
+    incorrect: "❌ No es correcto.",
+    correctAnswerIs: "La respuesta correcta es la <strong>{letter})</strong>.",
+    toastEnd: "⏹ Hora de finalización registrada",
+    toastEmail: "📧 Abriendo cliente de correo...",
+    toastCopy: "📋 Resultados copiados al portapapeles",
+    toastCopyFail: "⚠️ No se pudo copiar",
+    noName: "Sin nombre",
+    noEmail: "Sin email",
+    noDate: "Sin fecha",
+    noReason: "(sin respuesta)",
+    resultsHeader: "CASOS PRÁCTICOS – SISTEMA MUSCULOESQUELÉTICO",
+    resultsStudent: "Alumno/a",
+    resultsEmail: "Email",
+    resultsDate: "Fecha",
+    resultsStart: "Hora inicio",
+    resultsEnd: "Hora fin",
+    resultsScore: "Resultado",
+    resultsCorrect: "correctas",
+    resultsBlock: "Bloque",
+    resultsQuestion: "Pregunta",
+    resultsChosen: "Respuesta elegida",
+    resultsCorrectAnswer: "Respuesta correcta",
+    resultsResult: "Resultado",
+    resultsCorrectMark: "✅ Correcto",
+    resultsIncorrectMark: "❌ Incorrecto",
+    resultsReason: "Razón del alumno",
+    resultsExplanation: "Explicación"
+  },
+  ca: {
+    headerTitle: "🩰 Casos Pràctics",
+    headerSubtitle: "Sistema Musculoesquelètic – Fisiologia aplicada a la Dansa",
+    headerInfo: "80 casos · 8 blocs temàtics · Curs 2026-2027",
+    personalTitle: "📋 Dades de l'alumne/a",
+    labelName: "Nom complet",
+    placeholderName: "Ex: Maria López García",
+    labelEmail: "Email",
+    placeholderEmail: "Ex: maria@escola.com",
+    labelDate: "Data de realització",
+    labelStartTime: "Hora d'inici",
+    labelEndTime: "Hora de finalització",
+    pending: "Pendent",
+    labelTeacher: "Professora",
+    progressText: "Progrés: {n} / {total} casos respostos ({pct}%)",
+    sendTitle: "📤 Enviar resultats",
+    sendSubtitle: "Finalitza el test i envia les teves respostes a la professora.",
+    btnEnd: "⏹ Finalitzar test (registrar hora)",
+    btnSend: "📧 Enviar per email",
+    btnCopy: "📋 Copiar resultats",
+    footer: "🩰 Fisiologia aplicada a la Dansa · Dra. Cèlia Painous · Curs 2026-2027",
+    validate: "Validar resposta",
+    reasonPlaceholder: "✍️ Explica breument per què has triat aquesta resposta...",
+    correct: "✅ Correcte!",
+    incorrect: "❌ No és correcte.",
+    correctAnswerIs: "La resposta correcta és la <strong>{letter})</strong>.",
+    toastEnd: "⏹ Hora de finalització registrada",
+    toastEmail: "📧 Obrint client de correu...",
+    toastCopy: "📋 Resultats copiats al porta-retalls",
+    toastCopyFail: "⚠️ No s'ha pogut copiar",
+    noName: "Sense nom",
+    noEmail: "Sense email",
+    noDate: "Sense data",
+    noReason: "(sense resposta)",
+    resultsHeader: "CASOS PRÀCTICS – SISTEMA MUSCULOESQUELÈTIC",
+    resultsStudent: "Alumne/a",
+    resultsEmail: "Email",
+    resultsDate: "Data",
+    resultsStart: "Hora inici",
+    resultsEnd: "Hora fi",
+    resultsScore: "Resultat",
+    resultsCorrect: "correctes",
+    resultsBlock: "Bloc",
+    resultsQuestion: "Pregunta",
+    resultsChosen: "Resposta triada",
+    resultsCorrectAnswer: "Resposta correcta",
+    resultsResult: "Resultat",
+    resultsCorrectMark: "✅ Correcte",
+    resultsIncorrectMark: "❌ Incorrecte",
+    resultsReason: "Raó de l'alumne",
+    resultsExplanation: "Explicació"
+  },
+  en: {
+    headerTitle: "🩰 Practical Cases",
+    headerSubtitle: "Musculoskeletal System – Physiology applied to Dance",
+    headerInfo: "80 cases · 8 thematic blocks · Academic year 2026-2027",
+    personalTitle: "📋 Student data",
+    labelName: "Full name",
+    placeholderName: "E.g.: Mary Smith",
+    labelEmail: "Email",
+    placeholderEmail: "E.g.: mary@school.com",
+    labelDate: "Date of completion",
+    labelStartTime: "Start time",
+    labelEndTime: "End time",
+    pending: "Pending",
+    labelTeacher: "Teacher",
+    progressText: "Progress: {n} / {total} cases answered ({pct}%)",
+    sendTitle: "📤 Send results",
+    sendSubtitle: "Finish the test and send your answers to the teacher.",
+    btnEnd: "⏹ Finish test (record time)",
+    btnSend: "📧 Send by email",
+    btnCopy: "📋 Copy results",
+    footer: "🩰 Physiology applied to Dance · Dr. Cèlia Painous · Academic year 2026-2027",
+    validate: "Validate answer",
+    reasonPlaceholder: "✍️ Briefly explain why you chose this answer...",
+    correct: "✅ Correct!",
+    incorrect: "❌ Not correct.",
+    correctAnswerIs: "The correct answer is <strong>{letter})</strong>.",
+    toastEnd: "⏹ End time recorded",
+    toastEmail: "📧 Opening email client...",
+    toastCopy: "📋 Results copied to clipboard",
+    toastCopyFail: "⚠️ Could not copy",
+    noName: "No name",
+    noEmail: "No email",
+    noDate: "No date",
+    noReason: "(no answer)",
+    resultsHeader: "PRACTICAL CASES – MUSCULOSKELETAL SYSTEM",
+    resultsStudent: "Student",
+    resultsEmail: "Email",
+    resultsDate: "Date",
+    resultsStart: "Start time",
+    resultsEnd: "End time",
+    resultsScore: "Result",
+    resultsCorrect: "correct",
+    resultsBlock: "Block",
+    resultsQuestion: "Question",
+    resultsChosen: "Chosen answer",
+    resultsCorrectAnswer: "Correct answer",
+    resultsResult: "Result",
+    resultsCorrectMark: "✅ Correct",
+    resultsIncorrectMark: "❌ Incorrect",
+    resultsReason: "Student's reason",
+    resultsExplanation: "Explanation"
+  }
+};
+
+// ===================== DATA =====================
+const BLOCKS = [
+  {
+    id:"b1", title:"Bloque 1: Homeostasis y Regulación",
+    titleCa:"Bloc 1: Homeòstasi i Regulació",
+    titleEn:"Block 1: Homeostasis and Regulation",
+    ref:"Presentación I · Diapositivas 2-7",
+    refCa:"Presentació I · Diapositives 2-7",
+    refEn:"Presentation I · Slides 2-7",
+    cases:[
+      {q:"Durante un ensayo intenso de 2 horas, una bailarina nota que suda mucho, tiene la cara roja y respira agitadamente. ¿Qué está ocurriendo desde el punto de vista homeostático?",
+       qCa:"Durant un assaig intens de 2 hores, una ballarina nota que sua molt, té la cara vermella i respira agitadament. Què està passant des del punt de vista homeostàtic?",
+       qEn:"During an intense 2-hour rehearsal, a dancer notices she sweats a lot, her face is red and she breathes heavily. What is happening from a homeostatic point of view?",
+       opts:["Su cuerpo ha perdido la capacidad de regular la temperatura","Su cuerpo está activando respuestas para restaurar el equilibrio del medio interno roto por el ejercicio","La homeostasis solo funciona en reposo, así que su cuerpo está descontrolado","El líquido intracelular se ha convertido en extracelular"],
+       optsCa:["El seu cos ha perdut la capacitat de regular la temperatura","El seu cos està activant respostes per restaurar l'equilibri del medi intern trencat per l'exercici","L'homeòstasi només funciona en repòs, així que el seu cos està descontrolat","El líquid intracel·lular s'ha convertit en extracel·lular"],
+       optsEn:["Her body has lost the ability to regulate temperature","Her body is activating responses to restore the internal environment balance disrupted by exercise","Homeostasis only works at rest, so her body is out of control","Intracellular fluid has become extracellular"],
+       correct:1,
+       exp:"La actividad física rompe el equilibrio homeostático (aumenta temperatura, CO₂, gasto de glucosa). El cuerpo activa respuestas como la sudoración (enfriar), la vasodilatación (cara roja, disipar calor) y la hiperventilación (eliminar CO₂ y captar O₂) para restaurar las condiciones del medio interno (LEC). Esto es exactamente lo que describe la diapositiva 'Homeostasis en el movimiento'.",
+       expCa:"L'activitat física trenca l'equilibri homeostàtic (augmenta temperatura, CO₂, despesa de glucosa). El cos activa respostes com la sudoració (refredar), la vasodilatació (cara vermella, dissipar calor) i la hiperventilació (eliminar CO₂ i captar O₂) per restaurar les condicions del medi intern (LEC). Això és exactament el que descriu la diapositiva 'Homeòstasi en el moviment'.",
+       expEn:"Physical activity disrupts homeostatic balance (increases temperature, CO₂, glucose consumption). The body activates responses such as sweating (cooling), vasodilation (red face, heat dissipation) and hyperventilation (eliminating CO₂ and taking in O₂) to restore internal environment conditions (ECF). This is exactly what the slide 'Homeostasis in movement' describes."},
+
+      {q:"Una estudiante de danza se pesa y calcula que el 60% de su peso corporal es agua. ¿Dónde se encuentra la mayor parte de esa agua?",
+       qCa:"Una estudiant de dansa es pesa i calcula que el 60% del seu pes corporal és aigua. On es troba la major part d'aquesta aigua?",
+       qEn:"A dance student weighs herself and calculates that 60% of her body weight is water. Where is most of that water located?",
+       opts:["En el líquido extracelular (LEC)","En la sangre","En el líquido intracelular (LIC), dentro de las células","En el líquido sinovial de las articulaciones"],
+       optsCa:["En el líquid extracel·lular (LEC)","En la sang","En el líquid intracel·lular (LIC), dins de les cèl·lules","En el líquid sinovial de les articulacions"],
+       optsEn:["In the extracellular fluid (ECF)","In the blood","In the intracellular fluid (ICF), inside the cells","In the synovial fluid of the joints"],
+       correct:2,
+       exp:"El agua corporal total (60% del peso) se distribuye: 60-65% en el líquido intracelular (LIC, dentro de las células) y 35-40% en el líquido extracelular (LEC, fuera de las células). La mayor parte está dentro de las células.",
+       expCa:"L'aigua corporal total (60% del pes) es distribueix: 60-65% en el líquid intracel·lular (LIC, dins de les cèl·lules) i 35-40% en el líquid extracel·lular (LEC, fora de les cèl·lules). La major part està dins de les cèl·lules.",
+       expEn:"Total body water (60% of weight) is distributed: 60-65% in intracellular fluid (ICF, inside cells) and 35-40% in extracellular fluid (ECF, outside cells). Most of it is inside the cells."},
+
+      {q:"Antes de una actuación, una bailarina siente que su corazón late rápido y tiene las manos frías. ¿Qué sistemas de regulación están actuando?",
+       qCa:"Abans d'una actuació, una ballarina sent que el seu cor batega ràpid i té les mans fredes. Quins sistemes de regulació estan actuant?",
+       qEn:"Before a performance, a dancer feels her heart beating fast and her hands cold. What regulatory systems are acting?",
+       opts:["Solo el sistema endocrino","Solo el sistema nervioso","El sistema nervioso (respuesta rápida) y el sistema endocrino (adrenalina)","El sistema muscular directamente"],
+       optsCa:["Només el sistema endocrí","Només el sistema nerviós","El sistema nerviós (resposta ràpida) i el sistema endocrí (adrenalina)","El sistema muscular directament"],
+       optsEn:["Only the endocrine system","Only the nervous system","The nervous system (rapid response) and the endocrine system (adrenaline)","The muscular system directly"],
+       correct:2,
+       exp:"El sistema nervioso genera respuestas rápidas (taquicardia inmediata) y el sistema endocrino libera hormonas como la adrenalina que mantienen el estado de alerta. Ambos sistemas trabajan juntos como centros de control e integración corporal.",
+       expCa:"El sistema nerviós genera respostes ràpides (taquicàrdia immediata) i el sistema endocrí allibera hormones com l'adrenalina que mantenen l'estat d'alerta. Tots dos sistemes treballen junts com a centres de control i integració corporal.",
+       expEn:"The nervous system generates rapid responses (immediate tachycardia) and the endocrine system releases hormones such as adrenaline that maintain the alert state. Both systems work together as control and integration centers for the body."},
+
+      {q:"El pH sanguíneo normal es 7,35-7,45. Si durante un ejercicio muy intenso el pH baja a 7,2, ¿qué significa?",
+       qCa:"El pH sanguini normal és 7,35-7,45. Si durant un exercici molt intens el pH baixa a 7,2, què significa?",
+       qEn:"Normal blood pH is 7.35-7.45. If during very intense exercise the pH drops to 7.2, what does it mean?",
+       opts:["El medio interno está estable, es normal durante el baile","El medio interno se ha acidificado y el cuerpo debe activar mecanismos para restaurar el pH","El cuerpo ha entrado en retroalimentación positiva","La glucosa ha subido demasiado"],
+       optsCa:["El medi intern està estable, és normal durant el ball","El medi intern s'ha acidificat i el cos ha d'activar mecanismes per restaurar el pH","El cos ha entrat en retroalimentació positiva","La glucosa ha pujat massa"],
+       optsEn:["The internal environment is stable, it's normal during dance","The internal environment has become acidic and the body must activate mechanisms to restore pH","The body has entered positive feedback","Glucose has risen too much"],
+       correct:1,
+       exp:"Un pH de 7,2 está por debajo del rango normal (7,35-7,45), lo que indica acidificación del medio interno (LEC). La homeostasis implica que el cuerpo debe activar mecanismos (como aumentar la ventilación para eliminar CO₂) para restaurar el pH a su rango normal.",
+       expCa:"Un pH de 7,2 està per sota del rang normal (7,35-7,45), cosa que indica acidificació del medi intern (LEC). L'homeòstasi implica que el cos ha d'activar mecanismes (com augmentar la ventilació per eliminar CO₂) per restaurar el pH al seu rang normal.",
+       expEn:"A pH of 7.2 is below the normal range (7.35-7.45), indicating acidification of the internal environment (ECF). Homeostasis implies that the body must activate mechanisms (such as increasing ventilation to eliminate CO₂) to restore pH to its normal range."},
+
+      {q:"¿Qué es el medio interno al que se refiere la homeostasis?",
+       qCa:"Què és el medi intern al qual es refereix l'homeòstasi?",
+       qEn:"What is the internal environment referred to by homeostasis?",
+       opts:["El interior de las células (LIC)","El líquido extracelular (LEC) que baña las células","El aire dentro de los pulmones","El líquido dentro de las articulaciones"],
+       optsCa:["L'interior de les cèl·lules (LIC)","El líquid extracel·lular (LEC) que banya les cèl·lules","L'aire dins dels pulmons","El líquid dins de les articulacions"],
+       optsEn:["The interior of cells (ICF)","The extracellular fluid (ECF) that bathes the cells","The air inside the lungs","The fluid inside the joints"],
+       correct:1,
+       exp:"La homeostasis se define como el mantenimiento dinámico del medio interno, que es el líquido extracelular (LEC). Es el entorno inmediato que baña las células y cuyas condiciones (pH, temperatura, glucosa, etc.) deben mantenerse dentro de rangos estrechos.",
+       expCa:"L'homeòstasi es defineix com el manteniment dinàmic del medi intern, que és el líquid extracel·lular (LEC). És l'entorn immediat que banya les cèl·lules i les condicions del qual (pH, temperatura, glucosa, etc.) s'han de mantenir dins de rangs estrets.",
+       expEn:"Homeostasis is defined as the dynamic maintenance of the internal environment, which is the extracellular fluid (ECF). It is the immediate environment that bathes the cells and whose conditions (pH, temperature, glucose, etc.) must be kept within narrow ranges."},
+
+      {q:"Una bailarina bebe 2 litros de agua antes de un ensayo largo. ¿Por qué es importante para la homeostasis?",
+       qCa:"Una ballarina beu 2 litres d'aigua abans d'un assaig llarg. Per què és important per a l'homeòstasi?",
+       qEn:"A dancer drinks 2 liters of water before a long rehearsal. Why is it important for homeostasis?",
+       opts:["Porque el agua se convierte directamente en energía muscular","Porque ayuda a mantener el volumen y la composición del LEC, facilitando la termorregulación y el transporte de nutrientes","Porque el agua solo sirve para lubricar las articulaciones","Porque el agua aumenta la masa muscular"],
+       optsCa:["Perquè l'aigua es converteix directament en energia muscular","Perquè ajuda a mantenir el volum i la composició del LEC, facilitant la termoregulació i el transport de nutrients","Perquè l'aigua només serveix per lubricar les articulacions","Perquè l'aigua augmenta la massa muscular"],
+       optsEn:["Because water is directly converted into muscle energy","Because it helps maintain the volume and composition of the ECF, facilitating thermoregulation and nutrient transport","Because water only serves to lubricate joints","Because water increases muscle mass"],
+       correct:1,
+       exp:"El agua es el componente principal del LEC. Mantener una hidratación adecuada asegura que el volumen sanguíneo sea suficiente para transportar nutrientes y oxígeno, eliminar desechos y regular la temperatura mediante la sudoración. Todo ello es esencial para la homeostasis durante el ejercicio.",
+       expCa:"L'aigua és el component principal del LEC. Mantenir una hidratació adequada assegura que el volum sanguini sigui suficient per transportar nutrients i oxigen, eliminar residus i regular la temperatura mitjançant la sudoració. Tot això és essencial per a l'homeòstasi durant l'exercici.",
+       expEn:"Water is the main component of the ECF. Maintaining adequate hydration ensures that blood volume is sufficient to transport nutrients and oxygen, eliminate waste and regulate temperature through sweating. All of this is essential for homeostasis during exercise."},
+
+      {q:"En la retroalimentación positiva, la respuesta del cuerpo…",
+       qCa:"En la retroalimentació positiva, la resposta del cos…",
+       qEn:"In positive feedback, the body's response…",
+       opts:["Reduce el estímulo para volver al punto de ajuste","Amplifica el estímulo alejando la variable del punto de ajuste hasta completar un proceso","Mantiene la variable exactamente igual","Solo actúa en el sistema nervioso"],
+       optsCa:["Redueix l'estímul per tornar al punt d'ajust","Amplifica l'estímul allunyant la variable del punt d'ajust fins a completar un procés","Manté la variable exactament igual","Només actua en el sistema nerviós"],
+       optsEn:["Reduces the stimulus to return to the set point","Amplifies the stimulus by moving the variable away from the set point until a process is completed","Keeps the variable exactly the same","Only acts in the nervous system"],
+       correct:1,
+       exp:"La retroalimentación positiva amplifica el estímulo inicial, alejando la variable del punto de ajuste. No busca restaurar el equilibrio, sino llevar un proceso hasta su finalización (como las contracciones del parto, que se intensifican hasta el nacimiento).",
+       expCa:"La retroalimentació positiva amplifica l'estímul inicial, allunyant la variable del punt d'ajust. No busca restaurar l'equilibri, sinó portar un procés fins a la seva finalització (com les contraccions del part, que s'intensifiquen fins al naixement).",
+       expEn:"Positive feedback amplifies the initial stimulus, moving the variable away from the set point. It does not seek to restore balance, but to carry a process through to completion (such as labor contractions, which intensify until birth)."},
+
+      {q:"Una bailarina termina un ensayo y se tumba 15 minutos en el suelo. Su respiración y pulso van bajando gradualmente. ¿Qué proceso está ocurriendo?",
+       qCa:"Una ballarina acaba un assaig i es tomba 15 minuts a terra. La seva respiració i pols van baixant gradualment. Quin procés està passant?",
+       qEn:"A dancer finishes rehearsal and lies on the floor for 15 minutes. Her breathing and pulse gradually decrease. What process is happening?",
+       opts:["Su cuerpo está entrando en hipotermia","El período de reposo está restaurando las condiciones homeostáticas del medio interno","Ha perdido la capacidad homeostática","El sistema endocrino se ha desconectado"],
+       optsCa:["El seu cos està entrant en hipotèrmia","El període de repòs està restaurant les condicions homeostàtiques del medi intern","Ha perdut la capacitat homeostàtica","El sistema endocrí s'ha desconnectat"],
+       optsEn:["Her body is entering hypothermia","The rest period is restoring homeostatic conditions of the internal environment","She has lost homeostatic capacity","The endocrine system has disconnected"],
+       correct:1,
+       exp:"Tras el ejercicio, el medio interno (LEC) está alterado (temperatura alta, pH bajo, glucosa baja, etc.). El reposo permite que los sistemas de regulación restauren las condiciones homeostáticas: la respiración baja porque ya no necesita eliminar tanto CO₂, el pulso baja porque los músculos ya no demandan tanto oxígeno.",
+       expCa:"Després de l'exercici, el medi intern (LEC) està alterat (temperatura alta, pH baix, glucosa baixa, etc.). El repòs permet que els sistemes de regulació restaurin les condicions homeostàtiques: la respiració baixa perquè ja no necessita eliminar tant CO₂, el pols baixa perquè els músculs ja no demanden tant oxigen.",
+       expEn:"After exercise, the internal environment (ECF) is altered (high temperature, low pH, low glucose, etc.). Rest allows the regulatory systems to restore homeostatic conditions: breathing decreases because it no longer needs to eliminate as much CO₂, and pulse decreases because the muscles no longer demand as much oxygen."},
+
+      {q:"¿Cuál de estas variables NO se mencionó como valor homeostático regulado por el cuerpo?",
+       qCa:"Quina d'aquestes variables NO es va esmentar com a valor homeostàtic regulat pel cos?",
+       qEn:"Which of these variables was NOT mentioned as a homeostatic value regulated by the body?",
+       opts:["pH sanguíneo (7,35-7,45)","Temperatura corporal (36-37,5 °C)","Longitud del sarcómero","Presión arterial (120/80 mmHg)"],
+       optsCa:["pH sanguini (7,35-7,45)","Temperatura corporal (36-37,5 °C)","Longitud del sarcòmer","Pressió arterial (120/80 mmHg)"],
+       optsEn:["Blood pH (7.35-7.45)","Body temperature (36-37.5 °C)","Sarcomere length","Blood pressure (120/80 mmHg)"],
+       correct:2,
+       exp:"Los valores homeostáticos mencionados son pH, glucosa, temperatura y presión arterial. La longitud del sarcómero cambia durante la contracción muscular y no es una variable homeostática del medio interno.",
+       expCa:"Els valors homeostàtics esmentats són pH, glucosa, temperatura i pressió arterial. La longitud del sarcòmer canvia durant la contracció muscular i no és una variable homeostàtica del medi intern.",
+       expEn:"The homeostatic values mentioned are pH, glucose, temperature and blood pressure. Sarcomere length changes during muscle contraction and is not a homeostatic variable of the internal environment."},
+
+      {q:"Si una bailarina no come antes de un ensayo largo y su glucosa baja a 60 mg/dL (por debajo del rango normal de 75-110), ¿qué tipo de regulación actuará?",
+       qCa:"Si una ballarina no menja abans d'un assaig llarg i la seva glucosa baixa a 60 mg/dL (per sota del rang normal de 75-110), quin tipus de regulació actuarà?",
+       qEn:"If a dancer doesn't eat before a long rehearsal and her glucose drops to 60 mg/dL (below the normal range of 75-110), what type of regulation will act?",
+       opts:["Retroalimentación positiva para que baje más","El sistema nervioso y endocrino activarán respuestas para elevar la glucosa (retroalimentación negativa)","No pasará nada, la glucosa no es importante","El cuerpo dejará de mover los músculos"],
+       optsCa:["Retroalimentació positiva perquè baixi més","El sistema nerviós i endocrí activaran respostes per elevar la glucosa (retroalimentació negativa)","No passarà res, la glucosa no és important","El cos deixarà de moure els músculs"],
+       optsEn:["Positive feedback to make it drop further","The nervous and endocrine systems will activate responses to raise glucose (negative feedback)","Nothing will happen, glucose is not important","The body will stop moving the muscles"],
+       correct:1,
+       exp:"Cuando una variable se desvía del rango normal, los sistemas de regulación (nervioso y endocrino) activan respuestas de retroalimentación negativa para restaurarla. En este caso, se liberarán hormonas como el glucagón para elevar la glucosa sanguínea.",
+       expCa:"Quan una variable es desvia del rang normal, els sistemes de regulació (nerviós i endocrí) activen respostes de retroalimentació negativa per restaurar-la. En aquest cas, s'alliberaran hormones com el glucagó per elevar la glucosa sanguínia.",
+       expEn:"When a variable deviates from the normal range, the regulatory systems (nervous and endocrine) activate negative feedback responses to restore it. In this case, hormones such as glucagon will be released to raise blood glucose."}
+    ]
+  },
+  {
+    id:"b2", title:"Bloque 2: Fibra Muscular y Sarcómero",
+    titleCa:"Bloc 2: Fibra Muscular i Sarcòmer",
+    titleEn:"Block 2: Muscle Fiber and Sarcomere",
+    ref:"Presentación I · Diapositivas 8-11 + Presentación II · Secciones 1-2",
+    refCa:"Presentació I · Diapositives 8-11 + Presentació II · Seccions 1-2",
+    refEn:"Presentation I · Slides 8-11 + Presentation II · Sections 1-2",
+    cases:[
+      {q:"Una bailarina se pregunta por qué sus músculos pueden contraerse voluntariamente pero su corazón late sin que ella lo piense. ¿Qué diferencia hay?",
+       qCa:"Una ballarina es pregunta per què els seus músculs es poden contreure voluntàriament però el seu cor batega sense que ella ho pensi. Quina diferència hi ha?",
+       qEn:"A dancer wonders why her muscles can contract voluntarily but her heart beats without her thinking about it. What is the difference?",
+       opts:["No hay diferencia, todos los músculos son iguales","El músculo esquelético es voluntario y el cardíaco es involuntario; son tipos distintos de tejido muscular","El corazón tiene huesos dentro que lo mueven","El músculo esquelético no necesita energía"],
+       optsCa:["No hi ha diferència, tots els músculs són iguals","El múscul esquelètic és voluntari i el cardíac és involuntari; són tipus diferents de teixit muscular","El cor té ossos dins que el mouen","El múscul esquelètic no necessita energia"],
+       optsEn:["There is no difference, all muscles are the same","Skeletal muscle is voluntary and cardiac muscle is involuntary; they are different types of muscle tissue","The heart has bones inside that move it","Skeletal muscle does not need energy"],
+       correct:1,
+       exp:"Existen tres tipos de tejido muscular: liso (involuntario, en órganos), cardíaco (involuntario, en el corazón) y esquelético (voluntario, unido a huesos). El músculo esquelético es el que la bailarina controla conscientemente para bailar.",
+       expCa:"Existeixen tres tipus de teixit muscular: llis (involuntari, en òrgans), cardíac (involuntari, al cor) i esquelètic (voluntari, units als ossos). El múscul esquelètic és el que la ballarina controla conscientment per ballar.",
+       expEn:"There are three types of muscle tissue: smooth (involuntary, in organs), cardiac (involuntary, in the heart) and skeletal (voluntary, attached to bones). Skeletal muscle is what the dancer consciously controls to dance."},
+
+      {q:"¿Qué es una fibra muscular?",
+       qCa:"Què és una fibra muscular?",
+       qEn:"What is a muscle fiber?",
+       opts:["Un tipo de hueso alargado","La unidad estructural básica del músculo esquelético: una célula alargada, cilíndrica y multinucleada","Un tendón muy fino","Una articulación especial"],
+       optsCa:["Un tipus d'os allargat","La unitat estructural bàsica del múscul esquelètic: una cèl·lula allargada, cilíndrica i multinucleada","Un tendó molt fi","Una articulació especial"],
+       optsEn:["A type of elongated bone","The basic structural unit of skeletal muscle: an elongated, cylindrical, multinucleated cell","A very thin tendon","A special joint"],
+       correct:1,
+       exp:"La fibra muscular es la unidad estructural básica del músculo esquelético. Es una célula especial: alargada, cilíndrica y con múltiples núcleos, lo que le permite ser muy grande y generar fuerza.",
+       expCa:"La fibra muscular és la unitat estructural bàsica del múscul esquelètic. És una cèl·lula especial: allargada, cilíndrica i amb múltiples nuclis, cosa que li permet ser molt gran i generar força.",
+       expEn:"The muscle fiber is the basic structural unit of skeletal muscle. It is a special cell: elongated, cylindrical and with multiple nuclei, which allows it to be very large and generate force."},
+
+      {q:"Al observar una miofibrilla al microscopio, se ven bandas claras y oscuras alternadas. ¿Qué representa la Banda A?",
+       qCa:"En observar una miofibril·la al microscopi, es veuen bandes clares i fosques alternades. Què representa la Banda A?",
+       qEn:"When observing a myofibril under the microscope, alternating light and dark bands are seen. What does the A Band represent?",
+       opts:["La zona donde solo hay actina","La longitud de los filamentos de miosina (gruesos)","El espacio entre dos sarcómeros","La línea Z"],
+       optsCa:["La zona on només hi ha actina","La longitud dels filaments de miosina (gruixuts)","L'espai entre dos sarcòmers","La línia Z"],
+       optsEn:["The zone where there is only actin","The length of the myosin (thick) filaments","The space between two sarcomeres","The Z line"],
+       correct:1,
+       exp:"La Banda A corresponde a la longitud de los filamentos gruesos de miosina. Es la banda oscura y permanece constante durante la contracción porque la longitud de la miosina no cambia.",
+       expCa:"La Banda A correspon a la longitud dels filaments gruixuts de miosina. És la banda fosca i roman constant durant la contracció perquè la longitud de la miosina no canvia.",
+       expEn:"The A Band corresponds to the length of the thick myosin filaments. It is the dark band and remains constant during contraction because the length of myosin does not change."},
+
+      {q:"Durante una contracción muscular, ¿qué ocurre con la Banda I del sarcómero?",
+       qCa:"Durant una contracció muscular, què passa amb la Banda I del sarcòmer?",
+       qEn:"During muscle contraction, what happens to the I Band of the sarcomere?",
+       opts:["Se ensancha","Permanece igual","Se estrecha porque las líneas Z se acercan","Desaparece completamente siempre"],
+       optsCa:["S'eixampla","Roman igual","S'estreny perquè les línies Z s'acosten","Desapareix completament sempre"],
+       optsEn:["It widens","It remains the same","It narrows because the Z lines come closer together","It always disappears completely"],
+       correct:2,
+       exp:"La Banda I (zona de solo actina, banda clara) se estrecha durante la contracción porque los filamentos de actina se deslizan hacia el centro del sarcómero, acercando las líneas Z entre sí.",
+       expCa:"La Banda I (zona de només actina, banda clara) s'estreny durant la contracció perquè els filaments d'actina es llisquen cap al centre del sarcòmer, acostant les línies Z entre si.",
+       expEn:"The I Band (zone of only actin, light band) narrows during contraction because the actin filaments slide toward the center of the sarcomere, bringing the Z lines closer together."},
+
+      {q:"¿Qué es el sarcómero?",
+       qCa:"Què és el sarcòmer?",
+       qEn:"What is the sarcomere?",
+       opts:["Un tipo de hueso del pie","La unidad funcional y contráctil básica del músculo, comprendida entre dos líneas Z","Un nervio que controla el músculo","Una articulación del tobillo"],
+       optsCa:["Un tipus d'os del peu","La unitat funcional i contràctil bàsica del múscul, compresa entre dues línies Z","Un nervi que controla el múscul","Una articulació del turmell"],
+       optsEn:["A type of foot bone","The basic functional and contractile unit of muscle, comprised between two Z lines","A nerve that controls the muscle","An ankle joint"],
+       correct:1,
+       exp:"El sarcómero es la unidad funcional y contráctil básica del músculo esquelético. Se define como la porción de miofibrilla comprendida entre dos líneas Z consecutivas. Es lo que se acorta durante la contracción.",
+       expCa:"El sarcòmer és la unitat funcional i contràctil bàsica del múscul esquelètic. Es defineix com la porció de miofibril·la compresa entre dues línies Z consecutives. És el que s'escurça durant la contracció.",
+       expEn:"The sarcomere is the basic functional and contractile unit of skeletal muscle. It is defined as the portion of myofibril between two consecutive Z lines. It is what shortens during contraction."},
+
+      {q:"Si el bíceps braquial contiene unos 100.000 sarcómeros alineados en serie, ¿qué implica esto para su función?",
+       qCa:"Si el bíceps braquial conté uns 100.000 sarcòmers alineats en sèrie, què implica això per a la seva funció?",
+       qEn:"If the biceps brachii contains about 100,000 sarcomeres aligned in series, what does this imply for its function?",
+       opts:["Que es un músculo muy débil","Que cada sarcómero se acorta un poco, y la suma de todos los acortamientos produce un acortamiento total significativo del músculo","Que solo funciona un sarcómero a la vez","Que no puede contraerse"],
+       optsCa:["Que és un múscul molt feble","Que cada sarcòmer s'escurça una mica, i la suma de tots els escurçaments produeix un escurçament total significatiu del múscul","Que només funciona un sarcòmer a la vegada","Que no es pot contreure"],
+       optsEn:["That it is a very weak muscle","That each sarcomere shortens a little, and the sum of all shortenings produces a significant total shortening of the muscle","That only one sarcomere works at a time","That it cannot contract"],
+       correct:1,
+       exp:"Los sarcómeros están alineados en serie (uno detrás de otro). Cada uno se acorta una pequeña cantidad durante la contracción, pero la suma de 100.000 pequeños acortamientos produce un acortamiento total considerable del músculo, permitiendo movimientos amplios.",
+       expCa:"Els sarcòmers estan alineats en sèrie (un darrere l'altre). Cadascun s'escurça una petita quantitat durant la contracció, però la suma de 100.000 petits escurçaments produeix un escurçament total considerable del múscul, permetent moviments amplis.",
+       expEn:"Sarcomeres are aligned in series (one behind another). Each one shortens a small amount during contraction, but the sum of 100,000 small shortenings produces a considerable total shortening of the muscle, allowing wide movements."},
+
+      {q:"¿Cuáles son los dos tipos de miofilamentos que componen el sarcómero?",
+       qCa:"Quins són els dos tipus de miofilaments que componen el sarcòmer?",
+       qEn:"What are the two types of myofilaments that make up the sarcomere?",
+       opts:["Colágeno y elastina","Miosina (gruesos) y actina (delgados)","Calcio y sodio","Tendón y ligamento"],
+       optsCa:["Col·lagen i elastina","Miosina (gruixuts) i actina (prim)","Calci i sodi","Tendó i lligament"],
+       optsEn:["Collagen and elastin","Myosin (thick) and actin (thin)","Calcium and sodium","Tendon and ligament"],
+       correct:1,
+       exp:"El sarcómero contiene dos tipos de miofilamentos: los filamentos gruesos de miosina y los filamentos delgados de actina. La interacción entre ambos (deslizamiento) es lo que produce la contracción muscular.",
+       expCa:"El sarcòmer conté dos tipus de miofilaments: els filaments gruixuts de miosina i els filaments prims d'actina. La interacció entre tots dos (lliscament) és el que produeix la contracció muscular.",
+       expEn:"The sarcomere contains two types of myofilaments: the thick myosin filaments and the thin actin filaments. The interaction between them (sliding) is what produces muscle contraction."},
+
+      {q:"En la cadena biomecánica, ¿qué papel juega el tendón?",
+       qCa:"En la cadena biomecànica, quin paper juga el tendó?",
+       qEn:"In the biomechanical chain, what role does the tendon play?",
+       opts:["Genera la contracción muscular","Es tejido conectivo que une el músculo al hueso y transmite la fuerza muscular","Protege las articulaciones del frío","Produce líquido sinovial"],
+       optsCa:["Genera la contracció muscular","És teixit connectiu que uneix el múscul a l'os i transmet la força muscular","Protegeix les articulacions del fred","Produeix líquid sinovial"],
+       optsEn:["It generates muscle contraction","It is connective tissue that attaches muscle to bone and transmits muscle force","It protects joints from cold","It produces synovial fluid"],
+       correct:1,
+       exp:"El tendón es tejido conectivo que une el músculo al hueso. Su función es transmitir la fuerza generada por la contracción muscular al hueso, permitiendo que se produzca el movimiento articular.",
+       expCa:"El tendó és teixit connectiu que uneix el múscul a l'os. La seva funció és transmetre la força generada per la contracció muscular a l'os, permetent que es produeixi el moviment articular.",
+       expEn:"The tendon is connective tissue that attaches muscle to bone. Its function is to transmit the force generated by muscle contraction to the bone, allowing joint movement to occur."},
+
+      {q:"Cuando una bailarina hace un port de bras, ¿qué funciones del músculo esquelético están actuando?",
+       qCa:"Quan una ballarina fa un port de bras, quines funcions del múscul esquelètic estan actuant?",
+       qEn:"When a dancer performs a port de bras, what functions of skeletal muscle are acting?",
+       opts:["Solo la locomoción","Movimiento voluntario, control postural y estabilización","Solo la termorregulación","Solo la circulación"],
+       optsCa:["Només la locomoció","Moviment voluntari, control postural i estabilització","Només la termoregulació","Només la circulació"],
+       optsEn:["Only locomotion","Voluntary movement, postural control and stabilization","Only thermoregulation","Only circulation"],
+       correct:1,
+       exp:"El músculo esquelético tiene múltiples funciones: movimiento voluntario (mover los brazos), mantenimiento de la postura (mantener el tronco erguido), locomoción, circulación (bomba muscular venosa) y termorregulación (generar calor). En un port de bras se combinan movimiento voluntario y control postural.",
+       expCa:"El múscul esquelètic té múltiples funcions: moviment voluntari (moure els braços), manteniment de la postura (mantenir el tronc dret), locomoció, circulació (bomba muscular venosa) i termoregulació (generar calor). En un port de bras es combinen moviment voluntari i control postural.",
+       expEn:"Skeletal muscle has multiple functions: voluntary movement (moving the arms), maintaining posture (keeping the trunk upright), locomotion, circulation (venous muscle pump) and thermoregulation (generating heat). A port de bras combines voluntary movement and postural control."},
+
+      {q:"¿Qué ocurre a nivel del sarcómero cuando una bailarina mantiene un arabesque estático?",
+       qCa:"Què passa a nivell del sarcòmer quan una ballarina manté un arabesque estàtic?",
+       qEn:"What happens at the sarcomere level when a dancer holds a static arabesque?",
+       opts:["Los sarcómeros se relajan completamente","Los sarcómeros generan tensión manteniendo su longitud (las líneas Z no se acercan ni se alejan)","Los sarcómeros se alargan","Las bandas A desaparecen"],
+       optsCa:["Els sarcòmers es relaxen completament","Els sarcòmers generen tensió mantenint la seva longitud (les línies Z no s'acosten ni s'allunyen)","Els sarcòmers s'allarguen","Les bandes A desapareixen"],
+       optsEn:["The sarcomeres relax completely","The sarcomeres generate tension while maintaining their length (the Z lines neither approach nor move away)","The sarcomeres lengthen","The A bands disappear"],
+       correct:1,
+       exp:"En una contracción isométrica (como mantener un arabesque), los sarcómeros generan tensión pero no cambian significativamente su longitud. Las líneas Z mantienen su posición, las bandas A e I permanecen iguales, pero hay tensión activa por la interacción actina-miosina.",
+       expCa:"En una contracció isomètrica (com mantenir un arabesque), els sarcòmers generen tensió però no canvien significativament la seva longitud. Les línies Z mantenen la seva posició, les bandes A i I romanen iguals, però hi ha tensió activa per la interacció actina-miosina.",
+       expEn:"In an isometric contraction (such as holding an arabesque), the sarcomeres generate tension but do not significantly change their length. The Z lines maintain their position, the A and I bands remain the same, but there is active tension from the actin-myosin interaction."}
+    ]
+  },
+  {
+    id:"b3", title:"Bloque 3: Unidad Motora y Excitación-Construcción",
+    titleCa:"Bloc 3: Unitat Motora i Excitació-Construcció",
+    titleEn:"Block 3: Motor Unit and Excitation-Contraction",
+    ref:"Presentación I · Diapositivas 12-13",
+    refCa:"Presentació I · Diapositives 12-13",
+    refEn:"Presentation I · Slides 12-13",
+    cases:[
+      {q:"¿De dónde parte la orden para que un músculo se contraiga?",
+       qCa:"D'on parteix l'ordre perquè un múscul es contregui?",
+       qEn:"Where does the order for a muscle to contract come from?",
+       opts:["Del hueso","De las motoneuronas del asta anterior de la médula espinal","Del líquido sinovial","Del cartílago articular"],
+       optsCa:["De l'os","De les motoneurones de l'asta anterior de la medul·la espinal","Del líquid sinovial","Del cartílag articular"],
+       optsEn:["From the bone","From the motor neurons of the anterior horn of the spinal cord","From the synovial fluid","From the articular cartilage"],
+       correct:1,
+       exp:"La orden motora se origina en las motoneuronas situadas en el asta anterior de la médula espinal. Desde allí, el impulso viaja por el axón hasta llegar a las fibras musculares.",
+       expCa:"L'ordre motora s'origina en les motoneurones situades a l'asta anterior de la medul·la espinal. Des d'allà, l'impuls viatja per l'axó fins a arribar a les fibres musculars.",
+       expEn:"The motor command originates in the motor neurons located in the anterior horn of the spinal cord. From there, the impulse travels along the axon to reach the muscle fibers."},
+
+      {q:"¿Qué es una unidad motora?",
+       qCa:"Què és una unitat motora?",
+       qEn:"What is a motor unit?",
+       opts:["Todo el músculo completo","Una motoneurona junto con el conjunto de fibras musculares que inerva","Un sarcómero individual","La unión entre dos huesos"],
+       optsCa:["Tot el múscul complet","Una motoneurona juntament amb el conjunt de fibres musculars que innerva","Un sarcòmer individual","La unió entre dos ossos"],
+       optsEn:["The entire complete muscle","A motor neuron together with the set of muscle fibers it innervates","An individual sarcomere","The union between two bones"],
+       correct:1,
+       exp:"Una unidad motora está formada por una única motoneurona y todas las fibras musculares que esa neurona controla. Cuando la motoneurona se activa, todas sus fibras se contraen simultáneamente.",
+       expCa:"Una unitat motora està formada per una única motoneurona i totes les fibres musculars que aquesta neurona controla. Quan la motoneurona s'activa, totes les seves fibres es contreuen simultàniament.",
+       expEn:"A motor unit is formed by a single motor neuron and all the muscle fibers that neuron controls. When the motor neuron activates, all its fibers contract simultaneously."},
+
+      {q:"Una bailarina necesita mover los dedos del pie con gran precisión para apuntar bien el pie en puntas. ¿Qué tipo de unidades motoras predominan en esos músculos?",
+       qCa:"Una ballarina necessita moure els dits del peu amb gran precisió per apuntar bé el peu en puntes. Quin tipus d'unitats motores predominen en aquests músculs?",
+       qEn:"A dancer needs to move her toes with great precision to point her foot well on pointe. What type of motor units predominate in those muscles?",
+       opts:["Unidades motoras grandes (muchas fibras por neurona)","Unidades motoras pequeñas (pocas fibras por neurona)","No hay unidades motoras en los pies","Solo unidades isométricas"],
+       optsCa:["Unitats motores grans (moltes fibres per neurona)","Unitats motores petites (poques fibres per neurona)","No hi ha unitats motores als peus","Només unitats isomètriques"],
+       optsEn:["Large motor units (many fibers per neuron)","Small motor units (few fibers per neuron)","There are no motor units in the feet","Only isometric units"],
+       correct:1,
+       exp:"Los músculos que requieren precisión (como los que mueven los dedos del pie) tienen unidades motoras pequeñas: cada motoneurona controla pocas fibras (3-10), lo que permite un control fino y preciso del movimiento.",
+       expCa:"Els músculs que requereixen precisió (com els que mouen els dits del peu) tenen unitats motores petites: cada motoneurona controla poques fibres (3-10), cosa que permet un control fi i precís del moviment.",
+       expEn:"Muscles that require precision (such as those that move the toes) have small motor units: each motor neuron controls few fibers (3-10), allowing fine and precise movement control."},
+
+      {q:"Cuando una bailarina hace un grand jeté, necesita mucha fuerza en los cuádriceps. ¿Cómo consigue el cuerpo generar más fuerza?",
+       qCa:"Quan una ballarina fa un grand jeté, necessita molta força als quàdriceps. Com aconsegueix el cos generar més força?",
+       qEn:"When a dancer performs a grand jeté, she needs a lot of strength in the quadriceps. How does the body manage to generate more force?",
+       opts:["Contrayendo solo las unidades motoras pequeñas","Reclutando más unidades motoras y aumentando la frecuencia de impulsos nerviosos","Estirando los músculos primero","Reduciendo el calcio"],
+       optsCa:["Contraient només les unitats motores petites","Reclutant més unitats motores i augmentant la freqüència d'impulsos nerviosos","Estirant els músculs primer","Reduint el calci"],
+       optsEn:["By contracting only the small motor units","By recruiting more motor units and increasing the frequency of nerve impulses","By stretching the muscles first","By reducing calcium"],
+       correct:1,
+       exp:"El cuerpo gradúa la fuerza de dos formas: reclutando más unidades motoras (principio del tamaño de Henneman: primero las pequeñas, luego las grandes) y aumentando la frecuencia de los impulsos nerviosos para que cada unidad se contraiga con más fuerza (tetanización).",
+       expCa:"El cos gradua la força de dues maneres: reclutant més unitats motores (principi de la mida de Henneman: primer les petites, després les grans) i augmentant la freqüència dels impulsos nerviosos perquè cada unitat es contregui amb més força (tetanització).",
+       expEn:"The body grades force in two ways: by recruiting more motor units (Henneman's size principle: first the small ones, then the large ones) and by increasing the frequency of nerve impulses so that each unit contracts with more force (tetanization)."},
+
+      {q:"¿Qué ocurre en la unión neuromuscular cuando llega el impulso nervioso?",
+       qCa:"Què passa a la unió neuromuscular quan arriba l'impuls nerviós?",
+       qEn:"What happens at the neuromuscular junction when the nerve impulse arrives?",
+       opts:["Se libera calcio directamente al hueso","Se libera acetilcolina que transmite la señal eléctrica a la fibra muscular","El músculo se relaja inmediatamente","El tendón se estira"],
+       optsCa:["S'allibera calci directament a l'os","S'allibera acetilcolina que transmet el senyal elèctric a la fibra muscular","El múscul es relaxa immediatament","El tendó s'estira"],
+       optsEn:["Calcium is released directly to the bone","Acetylcholine is released, transmitting the electrical signal to the muscle fiber","The muscle relaxes immediately","The tendon stretches"],
+       correct:1,
+       exp:"Cuando el potencial de acción llega a la terminal sináptica de la motoneurona, se libera el neurotransmisor acetilcolina (ACh) a la hendidura sináptica. La ACh se une a receptores de la fibra muscular, generando un nuevo potencial de acción que se propaga por la membrana muscular.",
+       expCa:"Quan el potencial d'acció arriba a la terminal sinàptica de la motoneurona, s'allibera el neurotransmissor acetilcolina (ACh) a l'escletxa sinàptica. L'ACh s'uneix a receptors de la fibra muscular, generant un nou potencial d'acció que es propaga per la membrana muscular.",
+       expEn:"When the action potential reaches the synaptic terminal of the motor neuron, the neurotransmitter acetylcholine (ACh) is released into the synaptic cleft. ACh binds to receptors on the muscle fiber, generating a new action potential that propagates along the muscle membrane."},
+
+      {q:"¿Qué papel juegan los túbulos T en la contracción muscular?",
+       qCa:"Quin paper juguen els túbuls T en la contracció muscular?",
+       qEn:"What role do T-tubules play in muscle contraction?",
+       opts:["Producen ATP","Transmiten la señal eléctrica desde la superficie de la fibra muscular hasta el interior, provocando la liberación de Ca²⁺","Conectan el músculo al hueso","Almacenan glucosa"],
+       optsCa:["Produeixen ATP","Transmeten el senyal elèctric des de la superfície de la fibra muscular fins a l'interior, provocant l'alliberament de Ca²⁺","Connecten el múscul a l'os","Emmagatzemen glucosa"],
+       optsEn:["They produce ATP","They transmit the electrical signal from the surface of the muscle fiber to the interior, causing the release of Ca²⁺","They connect muscle to bone","They store glucose"],
+       correct:1,
+       exp:"Los túbulos T son invaginaciones de la membrana de la fibra muscular que penetran al interior. Su función es transmitir el potencial de acción desde la superficie hasta las profundidades de la fibra, donde provocan la liberación de Ca²⁺ desde los depósitos internos (retículo sarcoplásmico).",
+       expCa:"Els túbuls T són invaginacions de la membrana de la fibra muscular que penetren a l'interior. La seva funció és transmetre el potencial d'acció des de la superfície fins a les profunditats de la fibra, on provoquen l'alliberament de Ca²⁺ des dels dipòsits interns (reticle sarcoplasmàtic).",
+       expEn:"T-tubules are invaginations of the muscle fiber membrane that penetrate inward. Their function is to transmit the action potential from the surface to the depths of the fiber, where they trigger the release of Ca²⁺ from internal stores (sarcoplasmic reticulum)."},
+
+      {q:"¿De dónde se libera el calcio (Ca²⁺) que inicia la contracción muscular?",
+       qCa:"D'on s'allibera el calci (Ca²⁺) que inicia la contracció muscular?",
+       qEn:"Where is the calcium (Ca²⁺) released from that initiates muscle contraction?",
+       opts:["Del hueso directamente","De los depósitos internos de la fibra muscular (retículo sarcoplásmico)","Del líquido sinovial","Del tendón"],
+       optsCa:["De l'os directament","Dels dipòsits interns de la fibra muscular (reticle sarcoplasmàtic)","Del líquid sinovial","Del tendó"],
+       optsEn:["Directly from the bone","From the internal stores of the muscle fiber (sarcoplasmic reticulum)","From the synovial fluid","From the tendon"],
+       correct:1,
+       exp:"El Ca²⁺ se almacena en el retículo sarcoplásmico, un depósito interno dentro de la fibra muscular. Cuando la señal eléctrica llega por los túbulos T, se abren canales de calcio y este se libera al citoplasma, donde inicia la interacción actina-miosina.",
+       expCa:"El Ca²⁺ s'emmagatzema al reticle sarcoplasmàtic, un dipòsit intern dins de la fibra muscular. Quan el senyal elèctric arriba pels túbuls T, s'obren canals de calci i aquest s'allibera al citoplasma, on inicia la interacció actina-miosina.",
+       expEn:"Ca²⁺ is stored in the sarcoplasmic reticulum, an internal store within the muscle fiber. When the electrical signal arrives through the T-tubules, calcium channels open and it is released into the cytoplasm, where it initiates the actin-myosin interaction."},
+
+      {q:"Si una motoneurona se activa, ¿qué fibras se contraen?",
+       qCa:"Si una motoneurona s'activa, quines fibres es contreuen?",
+       qEn:"If a motor neuron activates, which fibers contract?",
+       opts:["Solo una fibra muscular","Todas las fibras del músculo completo","Todas las fibras de su unidad motora (principio de 'todo o nada')","Ninguna, necesita dos neuronas"],
+       optsCa:["Només una fibra muscular","Totes les fibres del múscul complet","Totes les fibres de la seva unitat motora (principi de 'tot o res')","Cap, necessita dues neurones"],
+       optsEn:["Only one muscle fiber","All the fibers of the complete muscle","All the fibers of its motor unit ('all or nothing' principle)","None, it needs two neurons"],
+       correct:2,
+       exp:"Cuando una motoneurona se activa, TODAS las fibras musculares de su unidad motora se contraen simultáneamente. Esto se conoce como el principio de 'todo o nada' de la unidad motora: o se activan todas las fibras de esa unidad, o ninguna.",
+       expCa:"Quan una motoneurona s'activa, TOTES les fibres musculars de la seva unitat motora es contreuen simultàniament. Això es coneix com el principi de 'tot o res' de la unitat motora: o s'activen totes les fibres d'aquesta unitat, o cap.",
+       expEn:"When a motor neuron activates, ALL the muscle fibers of its motor unit contract simultaneously. This is known as the 'all or nothing' principle of the motor unit: either all the fibers of that unit activate, or none do."},
+
+      {q:"¿Por qué los músculos grandes como los gemelos tienen unidades motoras con muchas fibras (1000-2000)?",
+       qCa:"Per què els músculs grans com els bessons tenen unitats motores amb moltes fibres (1000-2000)?",
+       qEn:"Why do large muscles like the calves have motor units with many fibers (1000-2000)?",
+       opts:["Porque necesitan mucha precisión","Porque necesitan generar mucha fuerza y no requieren un control tan fino","Porque son músculos involuntarios","Porque tienen menos sarcómeros"],
+       optsCa:["Perquè necessiten molta precisió","Perquè necessiten generar molta força i no requereixen un control tan fi","Perquè són músculs involuntaris","Perquè tenen menys sarcòmers"],
+       optsEn:["Because they need a lot of precision","Because they need to generate a lot of force and don't require such fine control","Because they are involuntary muscles","Because they have fewer sarcomeres"],
+       correct:1,
+       exp:"Los músculos que generan gran fuerza (como gemelos, cuádriceps, glúteos) tienen unidades motoras grandes: cada motoneurona controla muchas fibras (1000-2000). Esto permite generar mucha fuerza con cada impulso, aunque con menor precisión que las unidades pequeñas.",
+       expCa:"Els músculs que generen gran força (com bessons, quàdriceps, glutis) tenen unitats motores grans: cada motoneurona controla moltes fibres (1000-2000). Això permet generar molta força amb cada impuls, encara que amb menys precisió que les unitats petites.",
+       expEn:"Muscles that generate great force (such as calves, quadriceps, glutes) have large motor units: each motor neuron controls many fibers (1000-2000). This allows generating a lot of force with each impulse, although with less precision than small units."},
+
+      {q:"Durante un adagio lento, una bailarina activa progresivamente más fuerza en la pierna de apoyo. ¿Qué está ocurriendo a nivel de unidades motoras?",
+       qCa:"Durant un adagio lent, una ballarina activa progressivament més força a la cama de suport. Què està passant a nivell d'unitats motores?",
+       qEn:"During a slow adagio, a dancer progressively activates more force in the supporting leg. What is happening at the motor unit level?",
+       opts:["Se desactivan unidades motoras","Se van reclutando progresivamente más unidades motoras, empezando por las pequeñas","Solo trabaja una unidad motora todo el tiempo","Las unidades motoras cambian de tamaño"],
+       optsCa:["Es desactiven unitats motores","Es van reclutant progressivament més unitats motores, començant per les petites","Només treballa una unitat motora tot el temps","Les unitats motores canvien de mida"],
+       optsEn:["Motor units are deactivated","More motor units are progressively recruited, starting with the small ones","Only one motor unit works the whole time","Motor units change size"],
+       correct:1,
+       exp:"Según el principio del tamaño de Henneman, las unidades motoras se reclutan en orden de tamaño: primero las pequeñas (poca fuerza, mucha precisión, resistentes a la fatiga) y progresivamente las más grandes (más fuerza, menos resistentes). En un adagio, la bailarina va reclutando más unidades a medida que necesita más fuerza.",
+       expCa:"Segons el principi de la mida de Henneman, les unitats motores es recluten en ordre de mida: primer les petites (poca força, molta precisió, resistents a la fatiga) i progressivament les més grans (més força, menys resistents). En un adagio, la ballarina va reclutant més unitats a mesura que necessita més força.",
+       expEn:"According to Henneman's size principle, motor units are recruited in order of size: first the small ones (little force, high precision, fatigue-resistant) and progressively the larger ones (more force, less resistant). In an adagio, the dancer recruits more units as she needs more force."}
+    ]
+  },
+  {
+    id:"b4", title:"Bloque 4: Mecanismo de Contracción y Ciclo de la Miosina",
+    titleCa:"Bloc 4: Mecanisme de Contracció i Cicle de la Miosina",
+    titleEn:"Block 4: Contraction Mechanism and Myosin Cycle",
+    ref:"Presentación I · Diapositiva 14 + Presentación II · Sección 3",
+    refCa:"Presentació I · Diapositiva 14 + Presentació II · Secció 3",
+    refEn:"Presentation I · Slide 14 + Presentation II · Section 3",
+    cases:[
+      {q:"¿Cuál es el orden correcto de los 6 pasos de la contracción muscular?",
+       qCa:"Quin és l'ordre correcte dels 6 passos de la contracció muscular?",
+       qEn:"What is the correct order of the 6 steps of muscle contraction?",
+       opts:["Deslizamiento → Ca²⁺ → Orden nerviosa → Fuerza → Actina-miosina → Acortamiento","Orden nerviosa → Liberación de Ca²⁺ → Unión actina-miosina → Deslizamiento → Acortamiento del sarcómero → Generación de fuerza","Ca²⁺ → Fuerza → Orden → Deslizamiento → Unión → Acortamiento","Unión actina-miosina → Orden → Ca²⁺ → Fuerza → Deslizamiento → Acortamiento"],
+       optsCa:["Lliscament → Ca²⁺ → Ordre nerviosa → Força → Actina-miosina → Escurçament","Ordre nerviosa → Alliberament de Ca²⁺ → Unió actina-miosina → Lliscament → Escurçament del sarcòmer → Generació de força","Ca²⁺ → Força → Ordre → Lliscament → Unió → Escurçament","Unió actina-miosina → Ordre → Ca²⁺ → Força → Lliscament → Escurçament"],
+       optsEn:["Sliding → Ca²⁺ → Nerve order → Force → Actin-myosin → Shortening","Nerve order → Ca²⁺ release → Actin-myosin binding → Sliding → Sarcomere shortening → Force generation","Ca²⁺ → Force → Order → Sliding → Binding → Shortening","Actin-myosin binding → Order → Ca²⁺ → Force → Sliding → Shortening"],
+       correct:1,
+       exp:"La secuencia correcta es: 1) Orden nerviosa → 2) Liberación de Ca²⁺ → 3) Unión actina-miosina → 4) Deslizamiento de filamentos → 5) Acortamiento del sarcómero → 6) Generación de fuerza. Cada paso depende del anterior.",
+       expCa:"La seqüència correcta és: 1) Ordre nerviosa → 2) Alliberament de Ca²⁺ → 3) Unió actina-miosina → 4) Lliscament de filaments → 5) Escurçament del sarcòmer → 6) Generació de força. Cada pas depèn de l'anterior.",
+       expEn:"The correct sequence is: 1) Nerve order → 2) Ca²⁺ release → 3) Actin-myosin binding → 4) Filament sliding → 5) Sarcomere shortening → 6) Force generation. Each step depends on the previous one."},
+
+      {q:"¿Qué papel esencial juega el ATP en el ciclo de la miosina?",
+       qCa:"Quin paper essencial juga l'ATP en el cicle de la miosina?",
+       qEn:"What essential role does ATP play in the myosin cycle?",
+       opts:["El ATP es el calcio que inicia la contracción","El ATP es necesario para desacoplar (soltar) la miosina de la actina e iniciar un nuevo ciclo","El ATP solo sirve para calentar el músculo","El ATP no participa en la contracción"],
+       optsCa:["L'ATP és el calci que inicia la contracció","L'ATP és necessari per desacoblar (soltar) la miosina de l'actina i iniciar un nou cicle","L'ATP només serveix per escalfar el múscul","L'ATP no participa en la contracció"],
+       optsEn:["ATP is the calcium that initiates contraction","ATP is necessary to uncouple (release) myosin from actin and start a new cycle","ATP only serves to warm up the muscle","ATP does not participate in contraction"],
+       correct:1,
+       exp:"El ATP es imprescindible para desacoplar la cabeza de miosina de la actina después del golpe de fuerza. Sin ATP, la miosina queda unida a la actina permanentemente (esto es lo que ocurre en el rigor mortis). Una vez desacoplada, el ATP se hidroliza para 'recargar' la cabeza de miosina y permitir un nuevo ciclo.",
+       expCa:"L'ATP és imprescindible per desacoblar el cap de miosina de l'actina després del cop de força. Sense ATP, la miosina queda unida a l'actina permanentment (això és el que passa en el rigor mortis). Un cop desacoblada, l'ATP s'hidrolitza per 'recarregar' el cap de miosina i permetre un nou cicle.",
+       expEn:"ATP is essential to uncouple the myosin head from actin after the power stroke. Without ATP, myosin remains permanently bound to actin (this is what happens in rigor mortis). Once uncoupled, ATP is hydrolyzed to 'recharge' the myosin head and allow a new cycle."},
+
+      {q:"Cuando decimos que 'actina y miosina se deslizan unas sobre otras', ¿qué significa realmente?",
+       qCa:"Quan diem que 'actina i miosina es llisquen unes sobre les altres', què significa realment?",
+       qEn:"When we say that 'actin and myosin slide over each other', what does it really mean?",
+       opts:["Que las proteínas se encogen físicamente","Que las proteínas mantienen su longitud pero se mueven relativamente, acercando las líneas Z","Que la miosina se disuelve","Que la actina se convierte en miosina"],
+       optsCa:["Que les proteïnes s'encongeixen físicament","Que les proteïnes mantenen la seva longitud però es mouen relativament, acostant les línies Z","Que la miosina es dissol","Que l'actina es converteix en miosina"],
+       optsEn:["That the proteins physically shrink","That the proteins maintain their length but move relatively, bringing the Z lines closer","That myosin dissolves","That actin converts into myosin"],
+       correct:1,
+       exp:"El mecanismo de deslizamiento significa que las proteínas de actina y miosina NO se acortan físicamente. Mantienen su longitud, pero los filamentos de actina se deslizan sobre los de miosina, acercando las líneas Z entre sí. Esto acorta el sarcómero y, en conjunto, el músculo.",
+       expCa:"El mecanisme de lliscament significa que les proteïnes d'actina i miosina NO s'escurcen físicament. Mantenen la seva longitud, però els filaments d'actina es llisquen sobre els de miosina, acostant les línies Z entre si. Això escurça el sarcòmer i, en conjunt, el múscul.",
+       expEn:"The sliding mechanism means that actin and myosin proteins do NOT physically shorten. They maintain their length, but the actin filaments slide over the myosin ones, bringing the Z lines closer together. This shortens the sarcomere and, overall, the muscle."},
+
+      {q:"¿Qué ocurre si no hay Ca²⁺ disponible en el citoplasma de la fibra muscular?",
+       qCa:"Què passa si no hi ha Ca²⁺ disponible al citoplasma de la fibra muscular?",
+       qEn:"What happens if there is no Ca²⁺ available in the cytoplasm of the muscle fiber?",
+       opts:["La contracción se produce igualmente","La miosina no puede unirse a la actina porque los sitios de unión en la actina permanecen bloqueados","El músculo se contrae más fuerte","El ATP se agota inmediatamente"],
+       optsCa:["La contracció es produeix igualment","La miosina no es pot unir a l'actina perquè els llocs d'unió a l'actina romanen bloquejats","El múscul es contreu més fort","L'ATP s'esgota immediatament"],
+       optsEn:["Contraction occurs anyway","Myosin cannot bind to actin because the binding sites on actin remain blocked","The muscle contracts harder","ATP is immediately depleted"],
+       correct:1,
+       exp:"En reposo, los sitios de unión de la actina están bloqueados por proteínas reguladoras (troponina y tropomiosina). El Ca²⁺ se une a la troponina, cambiando su forma y desplazando la tropomiosina, lo que deja libres los sitios de unión para que la miosina pueda unirse a la actina. Sin Ca²⁺, no hay contracción.",
+       expCa:"En repòs, els llocs d'unió de l'actina estan bloquejats per proteïnes reguladores (troponina i tropomiosina). El Ca²⁺ s'uneix a la troponina, canviant la seva forma i desplaçant la tropomiosina, cosa que deixa lliures els llocs d'unió perquè la miosina es pugui unir a l'actina. Sense Ca²⁺, no hi ha contracció.",
+       expEn:"At rest, the actin binding sites are blocked by regulatory proteins (troponin and tropomyosin). Ca²⁺ binds to troponin, changing its shape and displacing tropomyosin, which frees the binding sites so that myosin can bind to actin. Without Ca²⁺, there is no contraction."},
+
+      {q:"Una bailarina hace un relevé y mantiene la posición arriba. A nivel molecular, ¿qué está ocurriendo en sus gemelos?",
+       qCa:"Una ballarina fa un relevé i manté la posició a dalt. A nivell molecular, què està passant als seus bessons?",
+       qEn:"A dancer does a relevé and holds the position up. At the molecular level, what is happening in her calves?",
+       opts:["Los sarcómeros se están acortando rápidamente","Los ciclos de actina-miosina se repiten continuamente generando tensión sin acortamiento neto","Las proteínas se han detenido completamente","El calcio ha desaparecido"],
+       optsCa:["Els sarcòmers s'estan escurçant ràpidament","Els cicles d'actina-miosina es repeteixen contínuament generant tensió sense escurçament net","Les proteïnes s'han aturat completament","El calci ha desaparegut"],
+       optsEn:["The sarcomeres are shortening rapidly","The actin-myosin cycles repeat continuously generating tension without net shortening","The proteins have stopped completely","Calcium has disappeared"],
+       correct:1,
+       exp:"En una contracción isométrica, los ciclos de actina-miosina continúan (se unen, generan fuerza, se sueltan con ATP, se vuelven a unir), pero el músculo no se acorta porque la tensión generada iguala la resistencia. A nivel molecular hay actividad continua, pero sin cambio neto de longitud.",
+       expCa:"En una contracció isomètrica, els cicles d'actina-miosina continuen (s'uneixen, generen força, es solten amb ATP, es tornen a unir), però el múscul no s'escurça perquè la tensió generada iguala la resistència. A nivell molecular hi ha activitat contínua, però sense canvi net de longitud.",
+       expEn:"In an isometric contraction, the actin-myosin cycles continue (they bind, generate force, release with ATP, rebind), but the muscle does not shorten because the generated tension equals the resistance. At the molecular level there is continuous activity, but without net change in length."},
+
+      {q:"¿Cuántos pasos tiene la secuencia de la contracción muscular según la presentación?",
+       qCa:"Quants passos té la seqüència de la contracció muscular segons la presentació?",
+       qEn:"How many steps does the muscle contraction sequence have according to the presentation?",
+       opts:["3 pasos","4 pasos","6 pasos","10 pasos"],
+       optsCa:["3 passos","4 passos","6 passos","10 passos"],
+       optsEn:["3 steps","4 steps","6 steps","10 steps"],
+       correct:2,
+       exp:"La secuencia se resume en 6 pasos: 1) Orden nerviosa, 2) Liberación de Ca²⁺, 3) Unión actina-miosina, 4) Deslizamiento de filamentos, 5) Acortamiento del sarcómero, 6) Generación de fuerza.",
+       expCa:"La seqüència es resumeix en 6 passos: 1) Ordre nerviosa, 2) Alliberament de Ca²⁺, 3) Unió actina-miosina, 4) Lliscament de filaments, 5) Escurçament del sarcòmer, 6) Generació de força.",
+       expEn:"The sequence is summarized in 6 steps: 1) Nerve order, 2) Ca²⁺ release, 3) Actin-myosin binding, 4) Filament sliding, 5) Sarcomere shortening, 6) Force generation."},
+
+      {q:"Después del 'golpe de fuerza' (power stroke), ¿qué debe ocurrir para que la miosina pueda volver a unirse a un nuevo sitio de la actina?",
+       qCa:"Després del 'cop de força' (power stroke), què ha de passar perquè la miosina pugui tornar a unir-se a un nou lloc de l'actina?",
+       qEn:"After the 'power stroke', what must happen for myosin to be able to bind again to a new site on actin?",
+       opts:["Nada, se une automáticamente","Debe llegar ATP para desacoplar la miosina de la actina, y luego el ATP se hidroliza para recargar la cabeza de miosina","Debe llegar más calcio","El sarcómero debe estirarse primero"],
+       optsCa:["Res, s'uneix automàticament","Ha d'arribar ATP per desacoblar la miosina de l'actina, i després l'ATP s'hidrolitza per recarregar el cap de miosina","Ha d'arribar més calci","El sarcòmer s'ha d'estirar primer"],
+       optsEn:["Nothing, it binds automatically","ATP must arrive to uncouple myosin from actin, and then ATP is hydrolyzed to recharge the myosin head","More calcium must arrive","The sarcomere must stretch first"],
+       correct:1,
+       exp:"Tras el golpe de fuerza, la miosina queda unida a la actina. Para soltarse, necesita ATP. El ATP se une a la cabeza de miosina, provocando su desacoplamiento de la actina. Luego, el ATP se hidroliza (se rompe en ADP + Pi), lo que 'recarga' la cabeza de miosina en posición de alta energía, lista para un nuevo ciclo.",
+       expCa:"Després del cop de força, la miosina queda unida a l'actina. Per soltar-se, necessita ATP. L'ATP s'uneix al cap de miosina, provocant el seu desacoblament de l'actina. Després, l'ATP s'hidrolitza (es trenca en ADP + Pi), cosa que 'recarrega' el cap de miosina en posició d'alta energia, llest per a un nou cicle.",
+       expEn:"After the power stroke, myosin remains bound to actin. To release, it needs ATP. ATP binds to the myosin head, causing its uncoupling from actin. Then, ATP is hydrolyzed (broken into ADP + Pi), which 'recharges' the myosin head in a high-energy position, ready for a new cycle."},
+
+      {q:"¿Por qué se dice que el músculo 'no se encoge físicamente' en su estructura proteica?",
+       qCa:"Per què es diu que el múscul 'no s'encongeix físicament' en la seva estructura proteica?",
+       qEn:"Why is it said that the muscle 'does not physically shrink' in its protein structure?",
+       opts:["Porque las proteínas de actina y miosina mantienen su longitud individual; lo que cambia es su posición relativa","Porque el músculo es rígido","Porque solo los huesos se mueven","Porque la contracción es una ilusión óptica"],
+       optsCa:["Perquè les proteïnes d'actina i miosina mantenen la seva longitud individual; el que canvia és la seva posició relativa","Perquè el múscul és rígid","Perquè només es mouen els ossos","Perquè la contracció és una il·lusió òptica"],
+       optsEn:["Because actin and myosin proteins maintain their individual length; what changes is their relative position","Because the muscle is rigid","Because only bones move","Because contraction is an optical illusion"],
+       correct:0,
+       exp:"La contracción muscular no implica que las proteínas individuales se acorten. Los filamentos de actina y miosina mantienen su longitud constante. Lo que ocurre es que se deslizan unos sobre otros, acercando las líneas Z y acortando el sarcómero. Es un cambio de posición relativa, no de tamaño de las proteínas.",
+       expCa:"La contracció muscular no implica que les proteïnes individuals s'escurcin. Els filaments d'actina i miosina mantenen la seva longitud constant. El que passa és que es llisquen uns sobre els altres, acostant les línies Z i escurçant el sarcòmer. És un canvi de posició relativa, no de mida de les proteïnes.",
+       expEn:"Muscle contraction does not imply that individual proteins shorten. Actin and myosin filaments maintain their constant length. What happens is that they slide over each other, bringing the Z lines closer and shortening the sarcomere. It is a change in relative position, not in protein size."},
+
+      {q:"Si una bailarina está en medio de un grand allegro y sus músculos necesitan contraerse repetidamente, ¿qué molécula es la más crítica para que cada ciclo de contracción pueda repetirse?",
+       qCa:"Si una ballarina està enmig d'un grand allegro i els seus músculs necessiten contreure's repetidament, quina molècula és la més crítica perquè cada cicle de contracció es pugui repetir?",
+       qEn:"If a dancer is in the middle of a grand allegro and her muscles need to contract repeatedly, which molecule is most critical for each contraction cycle to repeat?",
+       opts:["Solo el calcio","El ATP, porque sin él la miosina no puede soltarse de la actina y el ciclo se detiene","La glucosa directamente","El oxígeno directamente"],
+       optsCa:["Només el calci","L'ATP, perquè sense ell la miosina no es pot soltar de l'actina i el cicle s'atura","La glucosa directament","L'oxigen directament"],
+       optsEn:["Only calcium","ATP, because without it myosin cannot release from actin and the cycle stops","Glucose directly","Oxygen directly"],
+       correct:1,
+       exp:"Aunque el calcio inicia la contracción y la glucosa/oxígeno son necesarios para producir energía, la molécula más directamente crítica para que cada ciclo se repita es el ATP. Sin ATP, la miosina no puede desacoplarse de la actina y el ciclo se detiene (como ocurre en el rigor mortis).",
+       expCa:"Encara que el calci inicia la contracció i la glucosa/oxigen són necessaris per produir energia, la molècula més directament crítica perquè cada cicle es repeteixi és l'ATP. Sense ATP, la miosina no es pot desacoblar de l'actina i el cicle s'atura (com passa en el rigor mortis).",
+       expEn:"Although calcium initiates contraction and glucose/oxygen are necessary to produce energy, the molecule most directly critical for each cycle to repeat is ATP. Without ATP, myosin cannot uncouple from actin and the cycle stops (as occurs in rigor mortis)."},
+
+      {q:"¿Qué relación hay entre el número de ciclos de actina-miosina y la fuerza generada?",
+       qCa:"Quina relació hi ha entre el nombre de cicles d'actina-miosina i la força generada?",
+       qEn:"What is the relationship between the number of actin-myosin cycles and the force generated?",
+       opts:["No hay relación","Cuantos más ciclos por unidad de tiempo, mayor tensión se genera","Un solo ciclo genera toda la fuerza posible","Los ciclos reducen la fuerza"],
+       optsCa:["No hi ha relació","Com més cicles per unitat de temps, més tensió es genera","Un sol cicle genera tota la força possible","Els cicles redueixen la força"],
+       optsEn:["There is no relationship","The more cycles per unit of time, the greater the tension generated","A single cycle generates all possible force","Cycles reduce force"],
+       correct:1,
+       exp:"La fuerza muscular depende del número de puentes cruzados (uniones actina-miosina) activos en un momento dado. Cuantos más ciclos se produzcan por unidad de tiempo (mayor frecuencia de estimulación), más puentes cruzados habrá activos simultáneamente y mayor será la tensión generada.",
+       expCa:"La força muscular depèn del nombre de ponts creuats (unions actina-miosina) actius en un moment donat. Com més cicles es produeixin per unitat de temps (major freqüència d'estimulació), més ponts creuats hi haurà actius simultàniament i major serà la tensió generada.",
+       expEn:"Muscle force depends on the number of cross-bridges (actin-myosin bindings) active at a given moment. The more cycles produced per unit of time (higher stimulation frequency), the more cross-bridges will be active simultaneously and the greater the tension generated."}
+    ]
+  },
+  {
+    id:"b5", title:"Bloque 5: Tipos de Contracción Muscular",
+    titleCa:"Bloc 5: Tipus de Contracció Muscular",
+    titleEn:"Block 5: Types of Muscle Contraction",
+    ref:"Presentación I · Diapositiva 16 + Presentación II · Sección 4",
+    refCa:"Presentació I · Diapositiva 16 + Presentació II · Secció 4",
+    refEn:"Presentation I · Slide 16 + Presentation II · Section 4",
+    cases:[
+      {q:"En la fase de subida de un relevé, los gemelos se acortan mientras generan tensión. ¿Qué tipo de contracción es?",
+       qCa:"En la fase de pujada d'un relevé, els bessons s'escurcen mentre generen tensió. Quin tipus de contracció és?",
+       qEn:"In the rising phase of a relevé, the calves shorten while generating tension. What type of contraction is it?",
+       opts:["Excéntrica","Isométrica","Concéntrica","Pasiva"],
+       optsCa:["Excèntrica","Isomètrica","Concèntrica","Passiva"],
+       optsEn:["Eccentric","Isometric","Concentric","Passive"],
+       correct:2,
+       exp:"En la contracción concéntrica, el músculo genera tensión mientras se acorta (tensión > resistencia). Al subir al relevé, los gemelos se acortan para elevar el talón, venciendo la resistencia del peso corporal.",
+       expCa:"En la contracció concèntrica, el múscul genera tensió mentre s'escurça (tensió > resistència). En pujar al relevé, els bessons s'escurcen per elevar el taló, vencent la resistència del pes corporal.",
+       expEn:"In a concentric contraction, the muscle generates tension while shortening (tension > resistance). When rising to relevé, the calves shorten to lift the heel, overcoming the resistance of body weight."},
+
+      {q:"Una bailarina mantiene la posición de relevé arriba sin moverse. Sus gemelos están en contracción…",
+       qCa:"Una ballarina manté la posició de relevé a dalt sense moure's. Els seus bessons estan en contracció…",
+       qEn:"A dancer holds the relevé position up without moving. Her calves are in contraction…",
+       opts:["Concéntrica","Excéntrica","Isométrica","Relajada"],
+       optsCa:["Concèntrica","Excèntrica","Isomètrica","Relaxada"],
+       optsEn:["Concentric","Eccentric","Isometric","Relaxed"],
+       correct:2,
+       exp:"En la contracción isométrica, el músculo genera tensión sin modificar apreciablemente su longitud (tensión = resistencia). Al mantener el relevé estático, los gemelos generan fuerza para sostener el peso pero no se acortan ni se alargan.",
+       expCa:"En la contracció isomètrica, el múscul genera tensió sense modificar apreciablement la seva longitud (tensió = resistència). En mantenir el relevé estàtic, els bessons generen força per sostenir el pes però no s'escurcen ni s'allarguen.",
+       expEn:"In an isometric contraction, the muscle generates tension without appreciably changing its length (tension = resistance). When holding a static relevé, the calves generate force to support the weight but do not shorten or lengthen."},
+
+      {q:"Al bajar lentamente desde un relevé, los gemelos se alargan mientras controlan el descenso. ¿Qué tipo de contracción es?",
+       qCa:"En baixar lentament des d'un relevé, els bessons s'allarguen mentre controlen el descens. Quin tipus de contracció és?",
+       qEn:"When slowly lowering from a relevé, the calves lengthen while controlling the descent. What type of contraction is it?",
+       opts:["Concéntrica","Isométrica","Excéntrica","No hay contracción, es relajación"],
+       optsCa:["Concèntrica","Isomètrica","Excèntrica","No hi ha contracció, és relaxació"],
+       optsEn:["Concentric","Isometric","Eccentric","There is no contraction, it's relaxation"],
+       correct:2,
+       exp:"En la contracción excéntrica, el músculo genera tensión mientras se alarga (la resistencia > tensión muscular). Al bajar del relevé de forma controlada, los gemelos se alargan pero siguen generando fuerza para frenar el descenso. No es relajación: si se relajaran, caería de golpe.",
+       expCa:"En la contracció excèntrica, el múscul genera tensió mentre s'allarga (la resistència > tensió muscular). En baixar del relevé de forma controlada, els bessons s'allarguen però segueixen generant força per frenar el descens. No és relaxació: si es relaxessin, cauria de cop.",
+       expEn:"In an eccentric contraction, the muscle generates tension while lengthening (resistance > muscle tension). When lowering from relevé in a controlled manner, the calves lengthen but continue to generate force to brake the descent. It is not relaxation: if they relaxed, she would fall abruptly."},
+
+      {q:"En un demi-plié, ¿qué tipo de contracción realizan los cuádriceps al bajar?",
+       qCa:"En un demi-plié, quin tipus de contracció fan els quàdriceps en baixar?",
+       qEn:"In a demi-plié, what type of contraction do the quadriceps perform when lowering?",
+       opts:["Concéntrica","Isométrica","Excéntrica","No trabajan"],
+       optsCa:["Concèntrica","Isomètrica","Excèntrica","No treballen"],
+       optsEn:["Concentric","Isometric","Eccentric","They don't work"],
+       correct:2,
+       exp:"Al bajar en demi-plié, los cuádriceps se alargan (la rodilla se flexiona) pero generan tensión para controlar el descenso contra la gravedad. Esto es una contracción excéntrica: el músculo genera fuerza mientras se alarga.",
+       expCa:"En baixar en demi-plié, els quàdriceps s'allarguen (el genoll es flexiona) però generen tensió per controlar el descens contra la gravetat. Això és una contracció excèntrica: el múscul genera força mentre s'allarga.",
+       expEn:"When lowering in demi-plié, the quadriceps lengthen (the knee flexes) but generate tension to control the descent against gravity. This is an eccentric contraction: the muscle generates force while lengthening."},
+
+      {q:"Y al subir desde el demi-plié, ¿qué tipo de contracción realizan los cuádriceps?",
+       qCa:"I en pujar des del demi-plié, quin tipus de contracció fan els quàdriceps?",
+       qEn:"And when rising from the demi-plié, what type of contraction do the quadriceps perform?",
+       opts:["Excéntrica","Isométrica","Concéntrica","Pasiva"],
+       optsCa:["Excèntrica","Isomètrica","Concèntrica","Passiva"],
+       optsEn:["Eccentric","Isometric","Concentric","Passive"],
+       correct:2,
+       exp:"Al subir desde el demi-plié, los cuádriceps se acortan (extienden la rodilla) generando tensión para elevar el cuerpo. Esto es una contracción concéntrica: tensión > resistencia, el músculo se acorta.",
+       expCa:"En pujar des del demi-plié, els quàdriceps s'escurcen (estenen el genoll) generant tensió per elevar el cos. Això és una contracció concèntrica: tensió > resistència, el múscul s'escurça.",
+       expEn:"When rising from the demi-plié, the quadriceps shorten (extending the knee) generating tension to lift the body. This is a concentric contraction: tension > resistance, the muscle shortens."},
+
+      {q:"¿Por qué es importante saber que el tipo de contracción depende del músculo analizado y de la fase del movimiento?",
+       qCa:"Per què és important saber que el tipus de contracció depèn del múscul analitzat i de la fase del moviment?",
+       qEn:"Why is it important to know that the type of contraction depends on the muscle analyzed and the phase of movement?",
+       opts:["Porque no importa, todos los músculos hacen lo mismo","Porque en un mismo gesto, un músculo puede estar en contracción concéntrica mientras otro está en excéntrica o isométrica","Porque solo los gemelos se contraen","Porque la contracción excéntrica no existe en danza"],
+       optsCa:["Perquè no importa, tots els músculs fan el mateix","Perquè en un mateix gest, un múscul pot estar en contracció concèntrica mentre un altre està en excèntrica o isomètrica","Perquè només es contreuen els bessons","Perquè la contracció excèntrica no existeix en dansa"],
+       optsEn:["Because it doesn't matter, all muscles do the same","Because in the same gesture, one muscle can be in concentric contraction while another is in eccentric or isometric","Because only the calves contract","Because eccentric contraction doesn't exist in dance"],
+       correct:1,
+       exp:"Un mismo movimiento implica diferentes tipos de contracción según el músculo y la fase. Por ejemplo, en un grand jeté: los cuádriceps de la pierna de impulso hacen concéntrica (extensión), los isquiotibiales de la pierna que se eleva hacen concéntrica (flexión de cadera), y los músculos del tronco pueden hacer isométrica (estabilización).",
+       expCa:"Un mateix moviment implica diferents tipus de contracció segons el múscul i la fase. Per exemple, en un grand jeté: els quàdriceps de la cama d'impuls fan concèntrica (extensió), els isquiotibials de la cama que s'eleva fan concèntrica (flexió de maluc), i els músculs del tronc poden fer isomètrica (estabilització).",
+       expEn:"The same movement involves different types of contraction depending on the muscle and the phase. For example, in a grand jeté: the quadriceps of the push-off leg do concentric (extension), the hamstrings of the raised leg do concentric (hip flexion), and the trunk muscles may do isometric (stabilization)."},
+
+      {q:"Una bailarina hace un développé à la seconde lento. Al elevar la pierna, los abductores de la cadera trabajan en…",
+       qCa:"Una ballarina fa un développé à la seconde lent. En elevar la cama, els abductors del maluc treballen en…",
+       qEn:"A dancer performs a slow développé à la seconde. When raising the leg, the hip abductors work in…",
+       opts:["Contracción excéntrica","Contracción isométrica","Contracción concéntrica","No trabajan"],
+       optsCa:["Contracció excèntrica","Contracció isomètrica","Contracció concèntrica","No treballen"],
+       optsEn:["Eccentric contraction","Isometric contraction","Concentric contraction","They don't work"],
+       correct:2,
+       exp:"Al elevar la pierna lateralmente, los abductores de la cadera se acortan generando tensión para vencer la gravedad y el peso de la pierna. Esto es una contracción concéntrica.",
+       expCa:"En elevar la cama lateralment, els abductors del maluc s'escurcen generant tensió per vèncer la gravetat i el pes de la cama. Això és una contracció concèntrica.",
+       expEn:"When raising the leg laterally, the hip abductors shorten generating tension to overcome gravity and the weight of the leg. This is a concentric contraction."},
+
+      {q:"En ese mismo développé, al bajar la pierna lentamente, los abductores trabajan en…",
+       qCa:"En aquest mateix développé, en baixar la cama lentament, els abductors treballen en…",
+       qEn:"In that same développé, when slowly lowering the leg, the abductors work in…",
+       opts:["Concéntrica","Isométrica","Excéntrica","Relajación total"],
+       optsCa:["Concèntrica","Isomètrica","Excèntrica","Relaxació total"],
+       optsEn:["Concentric","Isometric","Eccentric","Total relaxation"],
+       correct:2,
+       exp:"Al bajar la pierna de forma controlada, los abductores se alargan (la pierna desciende) pero siguen generando tensión para frenar el movimiento contra la gravedad. Esto es una contracción excéntrica.",
+       expCa:"En baixar la cama de forma controlada, els abductors s'allarguen (la cama descendeix) però segueixen generant tensió per frenar el moviment contra la gravetat. Això és una contracció excèntrica.",
+       expEn:"When lowering the leg in a controlled manner, the abductors lengthen (the leg descends) but continue to generate tension to brake the movement against gravity. This is an eccentric contraction."},
+
+      {q:"¿Cuál de estas afirmaciones sobre la contracción excéntrica es correcta?",
+       qCa:"Quina d'aquestes afirmacions sobre la contracció excèntrica és correcta?",
+       qEn:"Which of these statements about eccentric contraction is correct?",
+       opts:["El músculo no genera fuerza","El músculo genera tensión mientras se alarga, controlando el movimiento","Es la contracción más débil","Solo ocurre en los brazos"],
+       optsCa:["El múscul no genera força","El múscul genera tensió mentre s'allarga, controlant el moviment","És la contracció més feble","Només passa als braços"],
+       optsEn:["The muscle generates no force","The muscle generates tension while lengthening, controlling the movement","It is the weakest contraction","It only occurs in the arms"],
+       correct:1,
+       exp:"La contracción excéntrica se define como aquella en la que el músculo genera tensión (fuerza) mientras se alarga. Es fundamental para controlar movimientos como descensos, frenadas y cambios de dirección. De hecho, puede generar más fuerza que la concéntrica.",
+       expCa:"La contracció excèntrica es defineix com aquella en què el múscul genera tensió (força) mentre s'allarga. És fonamental per controlar moviments com descensos, frenades i canvis de direcció. De fet, pot generar més força que la concèntrica.",
+       expEn:"Eccentric contraction is defined as one in which the muscle generates tension (force) while lengthening. It is essential for controlling movements such as descents, braking and changes of direction. In fact, it can generate more force than concentric."},
+
+      {q:"En un grand jeté, durante la fase de vuelo, los músculos de las piernas…",
+       qCa:"En un grand jeté, durant la fase de vol, els músculs de les cames…",
+       qEn:"In a grand jeté, during the flight phase, the leg muscles…",
+       opts:["Están todos en contracción concéntrica","Están todos relajados completamente","Mantienen la posición mediante contracciones isométricas para sostener la forma en el aire","Solo trabajan los músculos de los brazos"],
+       optsCa:["Estan tots en contracció concèntrica","Estan tots relaxats completament","Mantenen la posició mitjançant contraccions isomètriques per sostenir la forma a l'aire","Només treballen els músculs dels braços"],
+       optsEn:["They are all in concentric contraction","They are all completely relaxed","They maintain the position through isometric contractions to hold the shape in the air","Only the arm muscles work"],
+       correct:2,
+       exp:"Durante la fase de vuelo de un grand jeté, los músculos de las piernas mantienen la posición de apertura (split) mediante contracciones isométricas: generan tensión sin cambiar de longitud para sostener la forma del gesto en el aire.",
+       expCa:"Durant la fase de vol d'un grand jeté, els músculs de les cames mantenen la posició d'obertura (split) mitjançant contraccions isomètriques: generen tensió sense canviar de longitud per sostenir la forma del gest a l'aire.",
+       expEn:"During the flight phase of a grand jeté, the leg muscles maintain the split position through isometric contractions: they generate tension without changing length to hold the shape of the gesture in the air."}
+    ]
+  },
+  {
+    id:"b6", title:"Bloque 6: Cuadros Clínicos y Coactivación",
+    titleCa:"Bloc 6: Quadres Clínics i Coactivació",
+    titleEn:"Block 6: Clinical Conditions and Coactivation",
+    ref:"Presentación I · Diapositiva 15 + Presentación II · Sección 5",
+    refCa:"Presentació I · Diapositiva 15 + Presentació II · Secció 5",
+    refEn:"Presentation I · Slide 15 + Presentation II · Section 5",
+    cases:[
+      {q:"¿Qué es el rigor mortis?",
+       qCa:"Què és el rigor mortis?",
+       qEn:"What is rigor mortis?",
+       opts:["Un tipo de contracción muscular voluntaria","La rigidez cadavérica que ocurre porque, al morir, no se produce ATP y la miosina no puede soltarse de la actina","Una enfermedad de los huesos","Un tipo de estiramiento"],
+       optsCa:["Un tipus de contracció muscular voluntària","La rigidesa cadavèrica que passa perquè, en morir, no es produeix ATP i la miosina no es pot soltar de l'actina","Una malaltia dels ossos","Un tipus d'estirament"],
+       optsEn:["A type of voluntary muscle contraction","Cadaveric rigidity that occurs because, upon death, no ATP is produced and myosin cannot release from actin","A bone disease","A type of stretching"],
+       correct:1,
+       exp:"El rigor mortis es la rigidez que aparece tras la muerte. Al cesar la producción de ATP, las cabezas de miosina no pueden desacoplarse de la actina, quedando permanentemente unidas. Esto produce una rigidez muscular generalizada que dura hasta que las proteínas se degradan.",
+       expCa:"El rigor mortis és la rigidesa que apareix després de la mort. En cessar la producció d'ATP, els caps de miosina no es poden desacoblar de l'actina, quedant permanentment units. Això produeix una rigidesa muscular generalitzada que dura fins que les proteïnes es degraden.",
+       expEn:"Rigor mortis is the stiffness that appears after death. When ATP production ceases, myosin heads cannot uncouple from actin, remaining permanently bound. This produces generalized muscle stiffness that lasts until the proteins degrade."},
+
+      {q:"Una bailarina tiene un calambre (rampa muscular) en el gemelo durante un ensayo largo en un día caluroso. ¿Cuál es la causa más probable?",
+       qCa:"Una ballarina té un calambre (rampa muscular) al bessó durant un assaig llarg en un dia calorós. Quina és la causa més probable?",
+       qEn:"A dancer has a cramp (muscle spasm) in her calf during a long rehearsal on a hot day. What is the most likely cause?",
+       opts:["Exceso de ATP","Hiperexcitabilidad de la motoneurona alfa asociada a fatiga, deshidratación o pérdida de electrolitos","Fractura del peroné","Exceso de líquido sinovial"],
+       optsCa:["Excés d'ATP","Hiperexcitabilitat de la motoneurona alfa associada a fatiga, deshidratació o pèrdua d'electròlits","Fractura del peroné","Excés de líquid sinovial"],
+       optsEn:["Excess ATP","Hyperexcitability of the alpha motor neuron associated with fatigue, dehydration or electrolyte loss","Fibula fracture","Excess synovial fluid"],
+       correct:1,
+       exp:"Las rampas musculares (calambres) son contracciones involuntarias causadas por hiperexcitabilidad de la motoneurona alfa. Los factores desencadenantes incluyen fatiga muscular, deshidratación y pérdida de electrolitos (como sodio, potasio, magnesio) por la sudoración intensa.",
+       expCa:"Les rampes musculars (calambres) són contraccions involuntàries causades per hiperexcitabilitat de la motoneurona alfa. Els factors desencadenants inclouen fatiga muscular, deshidratació i pèrdua d'electròlits (com sodi, potassi, magnesi) per la sudoració intensa.",
+       expEn:"Muscle cramps (spasms) are involuntary contractions caused by hyperexcitability of the alpha motor neuron. Triggering factors include muscle fatigue, dehydration and loss of electrolytes (such as sodium, potassium, magnesium) from intense sweating."},
+
+      {q:"¿Por qué la deshidratación puede provocar rampas musculares?",
+       qCa:"Per què la deshidratació pot provocar rampes musculars?",
+       qEn:"Why can dehydration cause muscle cramps?",
+       opts:["Porque el agua lubrica los huesos","Porque la pérdida de agua y electrolitos altera el equilibrio iónico necesario para la función normal de las motoneuronas","Porque el agua es el componente principal de la miosina","Porque deshidrata el cartílago"],
+       optsCa:["Perquè l'aigua lubrica els ossos","Perquè la pèrdua d'aigua i electròlits altera l'equilibri iònic necessari per a la funció normal de les motoneurones","Perquè l'aigua és el component principal de la miosina","Perquè deshidrata el cartílag"],
+       optsEn:["Because water lubricates the bones","Because the loss of water and electrolytes alters the ionic balance necessary for normal motor neuron function","Because water is the main component of myosin","Because it dehydrates cartilage"],
+       correct:1,
+       exp:"La deshidratación implica pérdida de agua y electrolitos (Na⁺, K⁺, Ca²⁺, Mg²⁺). Estos iones son esenciales para la transmisión del impulso nervioso y la excitabilidad de las motoneuronas. Su desequilibrio puede causar hiperexcitabilidad neuronal, provocando contracciones involuntarias (rampas).",
+       expCa:"La deshidratació implica pèrdua d'aigua i electròlits (Na⁺, K⁺, Ca²⁺, Mg²⁺). Aquests ions són essencials per a la transmissió de l'impuls nerviós i l'excitabilitat de les motoneurones. El seu desequilibri pot causar hiperexcitabilitat neuronal, provocant contraccions involuntàries (rampes).",
+       expEn:"Dehydration involves loss of water and electrolytes (Na⁺, K⁺, Ca²⁺, Mg²⁺). These ions are essential for nerve impulse transmission and motor neuron excitability. Their imbalance can cause neuronal hyperexcitability, triggering involuntary contractions (cramps)."},
+
+      {q:"¿Qué es la coactivación muscular?",
+       qCa:"Què és la coactivació muscular?",
+       qEn:"What is muscle coactivation?",
+       opts:["Contraer un solo músculo al máximo","El trabajo coordinado de grupos musculares que permite la estabilidad y el control postural","Relajar todos los músculos a la vez","Contraer solo los músculos de las piernas"],
+       optsCa:["Contraure un sol múscul al màxim","El treball coordinat de grups musculars que permet l'estabilitat i el control postural","Relaxar tots els músculs alhora","Contraure només els músculs de les cames"],
+       optsEn:["Contracting a single muscle to the maximum","The coordinated work of muscle groups that allows stability and postural control","Relaxing all muscles at once","Contracting only the leg muscles"],
+       correct:1,
+       exp:"La coactivación muscular es la activación simultánea y coordinada de grupos musculares (agonistas, antagonistas y estabilizadores) que permite mantener la estabilidad articular y el control postural durante el movimiento.",
+       expCa:"La coactivació muscular és l'activació simultània i coordinada de grups musculars (agonistes, antagonistes i estabilitzadors) que permet mantenir l'estabilitat articular i el control postural durant el moviment.",
+       expEn:"Muscle coactivation is the simultaneous and coordinated activation of muscle groups (agonists, antagonists and stabilizers) that allows maintaining joint stability and postural control during movement."},
+
+      {q:"Cuando una bailarina hace equilibrio sobre una pierna en relevé, ¿qué papel juega la coactivación?",
+       qCa:"Quan una ballarina fa equilibri sobre una cama en relevé, quin paper juga la coactivació?",
+       qEn:"When a dancer balances on one leg in relevé, what role does coactivation play?",
+       opts:["No tiene ningún papel","Los músculos alrededor del tobillo, rodilla y cadera se coactivan para estabilizar las articulaciones y mantener el equilibrio","Solo trabaja el gemelo","Solo trabajan los músculos del pie"],
+       optsCa:["No té cap paper","Els músculs al voltant del turmell, genoll i maluc es coactiven per estabilitzar les articulacions i mantenir l'equilibri","Només treballa el bessó","Només treballen els músculs del peu"],
+       optsEn:["It plays no role","The muscles around the ankle, knee and hip coactivate to stabilize the joints and maintain balance","Only the calf works","Only the foot muscles work"],
+       correct:1,
+       exp:"El equilibrio en relevé requiere coactivación de múltiples grupos musculares: los músculos intrínsecos del pie, los gemelos y sóleo (tobillo), los cuádriceps e isquiotibiales (rodilla), y los glúteos y aductores (cadera). Todos trabajan coordinadamente para estabilizar las articulaciones y mantener el centro de gravedad.",
+       expCa:"L'equilibri en relevé requereix coactivació de múltiples grups musculars: els músculs intrínsecs del peu, els bessons i soli (turmell), els quàdriceps i isquiotibials (genoll), i els glutis i adductors (maluc). Tots treballen coordinadament per estabilitzar les articulacions i mantenir el centre de gravetat.",
+       expEn:"Balance in relevé requires coactivation of multiple muscle groups: the intrinsic foot muscles, the calves and soleus (ankle), the quadriceps and hamstrings (knee), and the glutes and adductors (hip). All work in coordination to stabilize the joints and maintain the center of gravity."},
+
+      {q:"Si el rigor mortis se debe a la falta de ATP, ¿qué nos dice esto sobre la importancia del ATP en la relajación muscular?",
+       qCa:"Si el rigor mortis es deu a la falta d'ATP, què ens diu això sobre la importància de l'ATP en la relaxació muscular?",
+       qEn:"If rigor mortis is due to lack of ATP, what does this tell us about the importance of ATP in muscle relaxation?",
+       opts:["Que el ATP solo sirve para contraer","Que el ATP es esencial tanto para contraer como para relajar el músculo (desacoplar actina-miosina)","Que el ATP no tiene relación con la relajación","Que la relajación es automática"],
+       optsCa:["Que l'ATP només serveix per contraure","Que l'ATP és essencial tant per contreure com per relaxar el múscul (desacoblar actina-miosina)","Que l'ATP no té relació amb la relaxació","Que la relaxació és automàtica"],
+       optsEn:["That ATP only serves to contract","That ATP is essential both for contracting and for relaxing the muscle (uncoupling actin-myosin)","That ATP has no relationship with relaxation","That relaxation is automatic"],
+       correct:1,
+       exp:"El rigor mortis demuestra que sin ATP, el músculo no puede relajarse. Esto confirma que el ATP es necesario no solo para generar el golpe de fuerza, sino también para desacoplar la miosina de la actina, permitiendo la relajación. Sin ATP, la unión es permanente.",
+       expCa:"El rigor mortis demostra que sense ATP, el múscul no es pot relaxar. Això confirma que l'ATP és necessari no només per generar el cop de força, sinó també per desacoblar la miosina de l'actina, permetent la relaxació. Sense ATP, la unió és permanent.",
+       expEn:"Rigor mortis demonstrates that without ATP, the muscle cannot relax. This confirms that ATP is necessary not only to generate the power stroke, but also to uncouple myosin from actin, allowing relaxation. Without ATP, the binding is permanent."},
+
+      {q:"Una bailarina nota que después de varias semanas de ensayos intensos, sus calambres son más frecuentes. ¿Qué debería revisar?",
+       qCa:"Una ballarina nota que després de diverses setmanes d'assajos intensos, els seus calambres són més freqüents. Què hauria de revisar?",
+       qEn:"A dancer notices that after several weeks of intense rehearsals, her cramps are more frequent. What should she review?",
+       opts:["Solo su técnica de baile","Su hidratación, ingesta de electrolitos y descanso, ya que la fatiga y la deshidratación predisponen a rampas musculares","Cambiar de zapatillas","Dejar de bailar"],
+       optsCa:["Només la seva tècnica de ball","La seva hidratació, ingesta d'electròlits i descans, ja que la fatiga i la deshidratació predisposen a rampes musculars","Canviar de sabatilles","Deixar de ballar"],
+       optsEn:["Only her dance technique","Her hydration, electrolyte intake and rest, since fatigue and dehydration predispose to muscle cramps","Changing shoes","Stop dancing"],
+       correct:1,
+       exp:"La fatiga acumulada, la deshidratación crónica y la pérdida de electrolitos son factores de riesgo para las rampas musculares. Revisar la hidratación, la nutrición (especialmente electrolitos como magnesio, potasio y sodio) y el descanso es fundamental para prevenirlas.",
+       expCa:"La fatiga acumulada, la deshidratació crònica i la pèrdua d'electròlits són factors de risc per a les rampes musculars. Revisar la hidratació, la nutrició (especialment electròlits com magnesi, potassi i sodi) i el descans és fonamental per prevenir-les.",
+       expEn:"Accumulated fatigue, chronic dehydration and electrolyte loss are risk factors for muscle cramps. Reviewing hydration, nutrition (especially electrolytes such as magnesium, potassium and sodium) and rest is essential to prevent them."},
+
+      {q:"En una pirouette, ¿qué grupos musculares se coactivan para mantener el eje de giro?",
+       qCa:"En una pirouette, quins grups musculars es coactiven per mantenir l'eix de gir?",
+       qEn:"In a pirouette, what muscle groups coactivate to maintain the axis of rotation?",
+       opts:["Solo los gemelos","Los músculos del tronco (core), cadera, pierna de apoyo y brazos trabajan coordinadamente","Solo los músculos del cuello","Solo los músculos del pie de apoyo"],
+       optsCa:["Només els bessons","Els músculs del tronc (core), maluc, cama de suport i braços treballen coordinadament","Només els músculs del coll","Només els músculs del peu de suport"],
+       optsEn:["Only the calves","The trunk (core), hip, supporting leg and arm muscles work in coordination","Only the neck muscles","Only the supporting foot muscles"],
+       correct:1,
+       exp:"La pirouette requiere coactivación de múltiples grupos: el core (estabilización del tronco), los músculos de la cadera y pierna de apoyo (equilibrio), los brazos (control del momento angular) y los músculos del pie (base de apoyo). La coactivación coordinada de todos ellos permite mantener el eje de giro estable.",
+       expCa:"La pirouette requereix coactivació de múltiples grups: el core (estabilització del tronc), els músculs del maluc i cama de suport (equilibri), els braços (control del moment angular) i els músculs del peu (base de suport). La coactivació coordinada de tots ells permet mantenir l'eix de gir estable.",
+       expEn:"The pirouette requires coactivation of multiple groups: the core (trunk stabilization), the hip and supporting leg muscles (balance), the arms (angular momentum control) and the foot muscles (support base). The coordinated coactivation of all of them allows maintaining a stable axis of rotation."},
+
+      {q:"¿Por qué la coactivación es especialmente importante en danza?",
+       qCa:"Per què la coactivació és especialment important en dansa?",
+       qEn:"Why is coactivation especially important in dance?",
+       opts:["Porque en danza no se usa fuerza","Porque la danza exige movimientos complejos que requieren estabilidad articular, control postural y precisión simultáneamente","Porque solo importa la flexibilidad","Porque la coactivación solo sirve en deportes de contacto"],
+       optsCa:["Perquè en dansa no s'usa força","Perquè la dansa exigeix moviments complexos que requereixen estabilitat articular, control postural i precisió simultàniament","Perquè només importa la flexibilitat","Perquè la coactivació només serveix en esports de contacte"],
+       optsEn:["Because dance doesn't use force","Because dance demands complex movements that require joint stability, postural control and precision simultaneously","Because only flexibility matters","Because coactivation is only useful in contact sports"],
+       correct:1,
+       exp:"La danza combina demandas de fuerza, flexibilidad, equilibrio, precisión y control postural en gestos complejos y a menudo sobre bases de apoyo reducidas (puntas, una pierna). La coactivación muscular es esencial para estabilizar las articulaciones, protegerlas de lesiones y permitir el control fino del movimiento.",
+       expCa:"La dansa combina demandes de força, flexibilitat, equilibri, precisió i control postural en gestos complexos i sovint sobre bases de suport reduïdes (puntes, una cama). La coactivació muscular és essencial per estabilitzar les articulacions, protegir-les de lesions i permetre el control fi del moviment.",
+       expEn:"Dance combines demands of strength, flexibility, balance, precision and postural control in complex gestures and often on reduced support bases (pointe, one leg). Muscle coactivation is essential to stabilize joints, protect them from injury and allow fine movement control."},
+
+      {q:"Si una motoneurona alfa se vuelve hiperexcitable, ¿qué ocurre?",
+       qCa:"Si una motoneurona alfa es torna hiperexcitable, què passa?",
+       qEn:"If an alpha motor neuron becomes hyperexcitable, what happens?",
+       opts:["El músculo se relaja completamente","Puede disparar impulsos involuntarios que causan contracciones involuntarias (rampas/calambres)","El hueso se debilita","La articulación se inflama"],
+       optsCa:["El múscul es relaxa completament","Pot disparar impulsos involuntaris que causen contraccions involuntàries (rampes/calambres)","L'os s'afebleix","L'articulació s'inflama"],
+       optsEn:["The muscle relaxes completely","It can fire involuntary impulses causing involuntary contractions (cramps/spasms)","The bone weakens","The joint becomes inflamed"],
+       correct:1,
+       exp:"La hiperexcitabilidad de la motoneurona alfa significa que se activa con estímulos que normalmente no serían suficientes, disparando impulsos involuntarios que provocan contracciones musculares involuntarias y sostenidas, conocidas como rampas musculares o calambres.",
+       expCa:"La hiperexcitabilitat de la motoneurona alfa significa que s'activa amb estímuls que normalment no serien suficients, disparant impulsos involuntaris que provoquen contraccions musculars involuntàries i sostingudes, conegudes com a rampes musculars o calambres.",
+       expEn:"Hyperexcitability of the alpha motor neuron means it activates with stimuli that normally wouldn't be sufficient, firing involuntary impulses that cause involuntary and sustained muscle contractions, known as muscle cramps or spasms."}
+    ]
+  },
+  {
+    id:"b7", title:"Bloque 7: Huesos – Clasificación, Estructura y Remodelación",
+    titleCa:"Bloc 7: Ossos – Classificació, Estructura i Remodelació",
+    titleEn:"Block 7: Bones – Classification, Structure and Remodeling",
+    ref:"Presentación II · Secciones 6-11",
+    refCa:"Presentació II · Seccions 6-11",
+    refEn:"Presentation II · Sections 6-11",
+    cases:[
+      {q:"El fémur de una bailarina actúa como palanca durante un grand battement. ¿Qué tipo de hueso es según su forma?",
+       qCa:"El fèmur d'una ballarina actua com a palanca durant un grand battement. Quin tipus d'os és segons la seva forma?",
+       qEn:"A dancer's femur acts as a lever during a grand battement. What type of bone is it according to its shape?",
+       opts:["Hueso corto","Hueso plano","Hueso largo","Hueso irregular"],
+       optsCa:["Os curt","Os pla","Os llarg","Os irregular"],
+       optsEn:["Short bone","Flat bone","Long bone","Irregular bone"],
+       correct:2,
+       exp:"El fémur es un hueso largo: tiene una diáfisis (parte central alargada) y dos epífisis (extremos). Los huesos largos actúan como palancas y soportan el movimiento. Otros ejemplos: tibia, húmero.",
+       expCa:"El fèmur és un os llarg: té una diàfisi (part central allargada) i dues epífisis (extrems). Els ossos llargs actuen com a palanques i suporten el moviment. Altres exemples: tíbia, húmer.",
+       expEn:"The femur is a long bone: it has a diaphysis (elongated central part) and two epiphyses (ends). Long bones act as levers and support movement. Other examples: tibia, humerus."},
+
+      {q:"Los huesos del carpo (muñeca) y del tarso (tobillo) son importantes para la estabilidad en danza. ¿Qué tipo de huesos son?",
+       qCa:"Els ossos del carp (canell) i del tars (turmell) són importants per a l'estabilitat en dansa. Quin tipus d'ossos són?",
+       qEn:"The carpal (wrist) and tarsal (ankle) bones are important for stability in dance. What type of bones are they?",
+       opts:["Huesos largos","Huesos cortos","Huesos planos","Huesos sesamoideos"],
+       optsCa:["Ossos llargs","Ossos curts","Ossos plans","Ossos sesamoides"],
+       optsEn:["Long bones","Short bones","Flat bones","Sesamoid bones"],
+       correct:1,
+       exp:"Los huesos del carpo y tarso son huesos cortos: tienen forma aproximadamente cúbica, aportan estabilidad y permiten pequeños desplazamientos. Son fundamentales para la movilidad y estabilidad de muñecas y tobillos en danza.",
+       expCa:"Els ossos del carp i tars són ossos curts: tenen forma aproximadament cúbica, aporten estabilitat i permeten petits desplaçaments. Són fonamentals per a la mobilitat i estabilitat de canells i turmells en dansa.",
+       expEn:"Carpal and tarsal bones are short bones: they have an approximately cubic shape, provide stability and allow small displacements. They are essential for the mobility and stability of wrists and ankles in dance."},
+
+      {q:"La rótula de una bailarina se desarrolla dentro del tendón del cuádriceps. ¿Qué tipo de hueso es?",
+       qCa:"La ròtula d'una ballarina es desenvolupa dins del tendó del quàdriceps. Quin tipus d'os és?",
+       qEn:"A dancer's patella develops within the quadriceps tendon. What type of bone is it?",
+       opts:["Hueso largo","Hueso irregular","Hueso sesamoideo","Hueso plano"],
+       optsCa:["Os llarg","Os irregular","Os sesamoide","Os pla"],
+       optsEn:["Long bone","Irregular bone","Sesamoid bone","Flat bone"],
+       correct:2,
+       exp:"La rótula es un hueso sesamoideo: se desarrolla dentro de un tendón (el tendón del cuádriceps). Su función es modificar la dirección o el brazo de palanca de la fuerza muscular, aumentando la eficacia mecánica del cuádriceps en la extensión de rodilla.",
+       expCa:"La ròtula és un os sesamoide: es desenvolupa dins d'un tendó (el tendó del quàdriceps). La seva funció és modificar la direcció o el braç de palanca de la força muscular, augmentant l'eficàcia mecànica del quàdriceps en l'extensió de genoll.",
+       expEn:"The patella is a sesamoid bone: it develops within a tendon (the quadriceps tendon). Its function is to modify the direction or lever arm of muscle force, increasing the mechanical efficiency of the quadriceps in knee extension."},
+
+      {q:"¿Qué parte del hueso largo contiene la placa de crecimiento durante el desarrollo?",
+       qCa:"Quina part de l'os llarg conté la placa de creixement durant el desenvolupament?",
+       qEn:"Which part of the long bone contains the growth plate during development?",
+       opts:["La epífisis","La diáfisis","La metáfisis","La cavidad medular"],
+       optsCa:["L'epífisi","La diàfisi","La metàfisi","La cavitat medul·lar"],
+       optsEn:["The epiphysis","The diaphysis","The metaphysis","The medullary cavity"],
+       correct:2,
+       exp:"La metáfisis es la zona de transición entre la epífisis y la diáfisis. Durante la etapa de desarrollo, contiene la placa de crecimiento (cartílago de crecimiento), responsable del crecimiento en longitud del hueso.",
+       expCa:"La metàfisi és la zona de transició entre l'epífisi i la diàfisi. Durant l'etapa de desenvolupament, conté la placa de creixement (cartílag de creixement), responsable del creixement en longitud de l'os.",
+       expEn:"The metaphysis is the transition zone between the epiphysis and the diaphysis. During development, it contains the growth plate (growth cartilage), responsible for bone growth in length."},
+
+      {q:"Una bailarina adolescente aún está creciendo. ¿Dónde se produce el crecimiento en longitud de sus huesos largos?",
+       qCa:"Una ballarina adolescent encara està creixent. On es produeix el creixement en longitud dels seus ossos llargs?",
+       qEn:"A teenage dancer is still growing. Where does lengthwise growth of her long bones occur?",
+       opts:["En la diáfisis","En la epífisis","En la metáfisis (placa de crecimiento)","En el periostio"],
+       optsCa:["A la diàfisi","A l'epífisi","A la metàfisi (placa de creixement)","Al periosti"],
+       optsEn:["In the diaphysis","In the epiphysis","In the metaphysis (growth plate)","In the periosteum"],
+       correct:2,
+       exp:"El crecimiento en longitud de los huesos largos ocurre en la placa de crecimiento, situada en la metáfisis. Esta placa de cartílago se va osificando progresivamente hasta que se cierra al final del desarrollo, momento en el que el hueso deja de crecer en longitud.",
+       expCa:"El creixement en longitud dels ossos llargs passa a la placa de creixement, situada a la metàfisi. Aquesta placa de cartílag es va osificant progressivament fins que es tanca al final del desenvolupament, moment en què l'os deixa de créixer en longitud.",
+       expEn:"Lengthwise growth of long bones occurs at the growth plate, located in the metaphysis. This cartilage plate progressively ossifies until it closes at the end of development, at which point the bone stops growing in length."},
+
+      {q:"¿Qué tipo de médula ósea se encuentra en la cavidad medular de los huesos largos de un adulto y produce células sanguíneas?",
+       qCa:"Quin tipus de medul·la òssia es troba a la cavitat medul·lar dels ossos llargs d'un adult i produeix cèl·lules sanguínies?",
+       qEn:"What type of bone marrow is found in the medullary cavity of adult long bones and produces blood cells?",
+       opts:["Médula amarilla","Médula roja","Médula espinal","No hay médula en los huesos"],
+       optsCa:["Medul·la groga","Medul·la vermella","Medul·la espinal","No hi ha medul·la als ossos"],
+       optsEn:["Yellow marrow","Red marrow","Spinal cord","There is no marrow in bones"],
+       correct:1,
+       exp:"La médula ósea roja es la responsable de la producción de células sanguíneas (hematopoyesis). En los adultos, se encuentra principalmente en huesos planos y en las epífisis de huesos largos. La médula amarilla es tejido adiposo de reserva.",
+       expCa:"La medul·la òssia vermella és la responsable de la producció de cèl·lules sanguínies (hematopoesi). En els adults, es troba principalment en ossos plans i a les epífisis d'ossos llargs. La medul·la groga és teixit adipós de reserva.",
+       expEn:"Red bone marrow is responsible for blood cell production (hematopoiesis). In adults, it is found mainly in flat bones and in the epiphyses of long bones. Yellow marrow is reserve adipose tissue."},
+
+      {q:"Una bailarina que entrena intensamente todos los días tiene huesos más densos que una persona sedentaria. ¿Por qué?",
+       qCa:"Una ballarina que entrena intensament cada dia té ossos més densos que una persona sedentària. Per què?",
+       qEn:"A dancer who trains intensely every day has denser bones than a sedentary person. Why?",
+       opts:["Porque come más calcio","Porque el hueso es un tejido dinámico que se adapta y remodela según la carga mecánica que recibe","Porque los huesos no cambian","Porque el sudor endurece los huesos"],
+       optsCa:["Perquè menja més calci","Perquè l'os és un teixit dinàmic que s'adapta i remodela segons la càrrega mecànica que rep","Perquè els ossos no canvien","Perquè la suor endureix els ossos"],
+       optsEn:["Because she eats more calcium","Because bone is a dynamic tissue that adapts and remodels according to the mechanical load it receives","Because bones don't change","Because sweat hardens bones"],
+       correct:1,
+       exp:"El hueso es un tejido dinámico que se adapta continuamente a la carga mecánica (ley de Wolff). La carga repetida estimula a los osteoblastos (células formadoras de hueso) a depositar más matriz ósea, aumentando la densidad y resistencia del hueso. Por eso los bailarines tienen huesos más densos.",
+       expCa:"L'os és un teixit dinàmic que s'adapta contínuament a la càrrega mecànica (llei de Wolff). La càrrega repetida estimula els osteoblasts (cèl·lules formadores d'os) a dipositar més matriu òssia, augmentant la densitat i resistència de l'os. Per això els ballarins tenen ossos més densos.",
+       expEn:"Bone is a dynamic tissue that continuously adapts to mechanical load (Wolff's law). Repeated loading stimulates osteoblasts (bone-forming cells) to deposit more bone matrix, increasing bone density and strength. That's why dancers have denser bones."},
+
+      {q:"¿Qué células del tejido óseo son responsables de la reabsorción (destrucción) de hueso?",
+       qCa:"Quines cèl·lules del teixit ossi són responsables de la reabsorció (destrucció) d'os?",
+       qEn:"Which bone tissue cells are responsible for bone resorption (destruction)?",
+       opts:["Osteoblastos","Osteocitos","Osteoclastos","Condrocitos"],
+       optsCa:["Osteoblasts","Osteòcits","Osteoclasts","Condròcits"],
+       optsEn:["Osteoblasts","Osteocytes","Osteoclasts","Chondrocytes"],
+       correct:2,
+       exp:"Los osteoclastos son las células responsables de la reabsorción ósea: destruyen tejido óseo viejo o dañado. Los osteoblastos forman hueso nuevo, y los osteocitos son células maduras que mantienen el tejido óseo. El equilibrio entre osteoclastos y osteoblastos es la base de la remodelación ósea.",
+       expCa:"Els osteoclasts són les cèl·lules responsables de la reabsorció òssia: destrueixen teixit ossi vell o danyat. Els osteoblasts formen os nou, i els osteòcits són cèl·lules madures que mantenen el teixit ossi. L'equilibri entre osteoclasts i osteoblasts és la base de la remodelació òssia.",
+       expEn:"Osteoclasts are the cells responsible for bone resorption: they destroy old or damaged bone tissue. Osteoblasts form new bone, and osteocytes are mature cells that maintain bone tissue. The balance between osteoclasts and osteoblasts is the basis of bone remodeling."},
+
+      {q:"Las costillas y el esternón protegen el corazón y los pulmones de una bailarina. ¿Qué tipo de huesos son?",
+       qCa:"Les costelles i l'estèrnum protegeixen el cor i els pulmons d'una ballarina. Quin tipus d'ossos són?",
+       qEn:"The ribs and sternum protect a dancer's heart and lungs. What type of bones are they?",
+       opts:["Huesos largos","Huesos cortos","Huesos planos","Huesos sesamoideos"],
+       optsCa:["Ossos llargs","Ossos curts","Ossos plans","Ossos sesamoides"],
+       optsEn:["Long bones","Short bones","Flat bones","Sesamoid bones"],
+       correct:2,
+       exp:"Las costillas, el esternón, la escápula y los huesos del cráneo son huesos planos: tienen forma aplanada, protegen órganos internos y ofrecen amplia superficie de inserción muscular.",
+       expCa:"Les costelles, l'estèrnum, l'escàpula i els ossos del crani són ossos plans: tenen forma aplanada, protegeixen òrgans interns i ofereixen àmplia superfície d'inserció muscular.",
+       expEn:"The ribs, sternum, scapula and skull bones are flat bones: they have a flattened shape, protect internal organs and offer a wide surface for muscle attachment."},
+
+      {q:"Las vértebras de una bailarina tienen formas complejas adaptadas a funciones específicas (soporte, protección de la médula, movilidad). ¿Qué tipo de huesos son?",
+       qCa:"Les vèrtebres d'una ballarina tenen formes complexes adaptades a funcions específiques (suport, protecció de la medul·la, mobilitat). Quin tipus d'ossos són?",
+       qEn:"A dancer's vertebrae have complex shapes adapted to specific functions (support, spinal cord protection, mobility). What type of bones are they?",
+       opts:["Huesos largos","Huesos planos","Huesos irregulares","Huesos cortos"],
+       optsCa:["Ossos llargs","Ossos plans","Ossos irregulars","Ossos curts"],
+       optsEn:["Long bones","Flat bones","Irregular bones","Short bones"],
+       correct:2,
+       exp:"Las vértebras son huesos irregulares: presentan formas complejas que no encajan en las categorías de largo, corto o plano. Su forma está adaptada a funciones específicas como el soporte del peso, la protección de la médula espinal y la permitividad de movimientos de la columna.",
+       expCa:"Les vèrtebres són ossos irregulars: presenten formes complexes que no encaixen en les categories de llarg, curt o pla. La seva forma està adaptada a funcions específiques com el suport del pes, la protecció de la medul·la espinal i la permitivitat de moviments de la columna.",
+       expEn:"Vertebrae are irregular bones: they present complex shapes that don't fit the long, short or flat categories. Their shape is adapted to specific functions such as weight support, spinal cord protection and allowing spinal movements."}
+    ]
+  },
+  {
+    id:"b8", title:"Bloque 8: Articulaciones, Planos y Propiocepción",
+    titleCa:"Bloc 8: Articulacions, Plans i Propiocepció",
+    titleEn:"Block 8: Joints, Planes and Proprioception",
+    ref:"Presentación II · Secciones 12-16",
+    refCa:"Presentació II · Seccions 12-16",
+    refEn:"Presentation II · Sections 12-16",
+    cases:[
+      {q:"¿Qué tipo de articulación es la rodilla de una bailarina?",
+       qCa:"Quin tipus d'articulació és el genoll d'una ballarina?",
+       qEn:"What type of joint is a dancer's knee?",
+       opts:["Articulación fibrosa (inmóvil)","Articulación cartilaginosa (poco móvil)","Articulación sinovial (móvil)","No es una articulación"],
+       optsCa:["Articulació fibrosa (immòbil)","Articulació cartilaginosa (poc mòbil)","Articulació sinovial (mòbil)","No és una articulació"],
+       optsEn:["Fibrous joint (immobile)","Cartilaginous joint (slightly mobile)","Synovial joint (mobile)","It is not a joint"],
+       correct:2,
+       exp:"La rodilla es una articulación sinovial: tiene cavidad articular con líquido sinovial, cartílago articular, cápsula y ligamentos. Las articulaciones sinoviales son las más móviles del cuerpo e incluyen la mayoría de las articulaciones de las extremidades.",
+       expCa:"El genoll és una articulació sinovial: té cavitat articular amb líquid sinovial, cartílag articular, càpsula i lligaments. Les articulacions sinovials són les més mòbils del cos i inclouen la majoria de les articulacions de les extremitats.",
+       expEn:"The knee is a synovial joint: it has a joint cavity with synovial fluid, articular cartilage, capsule and ligaments. Synovial joints are the most mobile in the body and include most limb joints."},
+
+      {q:"¿Por qué el cartílago articular necesita movimiento y carga para nutrirse?",
+       qCa:"Per què el cartílag articular necessita moviment i càrrega per nodrir-se?",
+       qEn:"Why does articular cartilage need movement and load to be nourished?",
+       opts:["Porque tiene muchos vasos sanguíneos que necesitan presión","Porque carece de vasos sanguíneos y se nutre por la alternancia carga (expulsa agua) y descarga (absorbe líquido sinovial)","Porque se alimenta directamente del músculo","Porque el cartílago no necesita nutrición"],
+       optsCa:["Perquè té molts vasos sanguinis que necessiten pressió","Perquè manca de vasos sanguinis i es nodreix per l'alternança càrrega (expulsa aigua) i descàrrega (absorbeix líquid sinovial)","Perquè s'alimenta directament del múscul","Perquè el cartílag no necessita nutrició"],
+       optsEn:["Because it has many blood vessels that need pressure","Because it lacks blood vessels and is nourished by alternating load (expels water) and unload (absorbs synovial fluid)","Because it feeds directly from muscle","Because cartilage doesn't need nutrition"],
+       correct:1,
+       exp:"El cartílago articular es avascular (sin vasos sanguíneos). Su nutrición depende del intercambio de líquidos: la compresión (carga) expulsa agua y solutos del cartílago, y la descompresión (descarga) permite la reabsorción de líquido sinovial rico en nutrientes. Por eso el movimiento es esencial para la salud del cartílago.",
+       expCa:"El cartílag articular és avascular (sense vasos sanguinis). La seva nutrició depèn de l'intercanvi de líquids: la compressió (càrrega) expulsa aigua i soluts del cartílag, i la descompressió (descàrrega) permet la reabsorció de líquid sinovial ric en nutrients. Per això el moviment és essencial per a la salut del cartílag.",
+       expEn:"Articular cartilage is avascular (no blood vessels). Its nutrition depends on fluid exchange: compression (load) expels water and solutes from the cartilage, and decompression (unload) allows reabsorption of nutrient-rich synovial fluid. That's why movement is essential for cartilage health."},
+
+      {q:"¿Qué estructuras protegen y amortiguan una articulación sinovial?",
+       qCa:"Quines estructures protegeixen i esmorteïxen una articulació sinovial?",
+       qEn:"What structures protect and cushion a synovial joint?",
+       opts:["Solo los músculos","El cartílago articular, la cápsula, el líquido sinovial y los ligamentos","Solo los tendones","Solo los huesos"],
+       optsCa:["Només els músculs","El cartílag articular, la càpsula, el líquid sinovial i els lligaments","Només els tendons","Només els ossos"],
+       optsEn:["Only muscles","Articular cartilage, capsule, synovial fluid and ligaments","Only tendons","Only bones"],
+       correct:1,
+       exp:"Una articulación sinovial tiene varias estructuras protectoras: el cartílago articular (amortigua y reduce fricción), la cápsula articular (envuelve y sella), el líquido sinovial (lubrica y nutre) y los ligamentos (estabilizan y limitan movimientos excesivos).",
+       expCa:"Una articulació sinovial té diverses estructures protectores: el cartílag articular (esmorteïx i redueix fricció), la càpsula articular (embolcalla i segella), el líquid sinovial (lubrica i nodreix) i els lligaments (estabilitzen i limiten moviments excessius).",
+       expEn:"A synovial joint has several protective structures: articular cartilage (cushions and reduces friction), joint capsule (envelops and seals), synovial fluid (lubricates and nourishes) and ligaments (stabilize and limit excessive movements)."},
+
+      {q:"Cuando una bailarina hace turnout de cadera en ballet, ¿en qué plano ocurre principalmente este movimiento?",
+       qCa:"Quan una ballarina fa turnout de maluc en ballet, en quin pla passa principalment aquest moviment?",
+       qEn:"When a dancer does a hip turnout in ballet, in which plane does this movement mainly occur?",
+       opts:["Plano sagital","Plano frontal","Plano transversal","Plano oblicuo"],
+       optsCa:["Pla sagital","Pla frontal","Pla transversal","Pla oblic"],
+       optsEn:["Sagittal plane","Frontal plane","Transverse plane","Oblique plane"],
+       correct:2,
+       exp:"El turnout (rotación externa de cadera) es un movimiento de rotación que ocurre en el plano transversal. Este plano divide el cuerpo en parte superior e inferior, y los movimientos en él son rotaciones alrededor del eje vertical.",
+       expCa:"El turnout (rotació externa de maluc) és un moviment de rotació que passa en el pla transversal. Aquest pla divideix el cos en part superior i inferior, i els moviments en ell són rotacions al voltant de l'eix vertical.",
+       expEn:"Turnout (external hip rotation) is a rotational movement that occurs in the transverse plane. This plane divides the body into upper and lower parts, and movements in it are rotations around the vertical axis."},
+
+      {q:"¿Qué significa 'en dehors'?",
+       qCa:"Què significa 'en dehors'?",
+       qEn:"What does 'en dehors' mean?",
+       opts:["Rotación interna: la cara anterior se acerca a la línea media","Rotación externa: la cara anterior de la extremidad se aleja de la línea media","Flexión de la cadera","Extensión de la rodilla"],
+       optsCa:["Rotació interna: la cara anterior s'acosta a la línia mitjana","Rotació externa: la cara anterior de l'extremitat s'allunya de la línia mitjana","Flexió del maluc","Extensió del genoll"],
+       optsEn:["Internal rotation: the anterior surface approaches the midline","External rotation: the anterior surface of the limb moves away from the midline","Hip flexion","Knee extension"],
+       correct:1,
+       exp:"'En dehors' significa rotación externa: la extremidad gira hacia afuera, alejando su cara anterior de la línea media del cuerpo. En ballet, el turnout de cadera es el ejemplo clásico de en dehors.",
+       expCa:"'En dehors' significa rotació externa: l'extremitat gira cap enfora, allunyant la seva cara anterior de la línia mitjana del cos. En ballet, el turnout de maluc és l'exemple clàssic d'en dehors.",
+       expEn:"'En dehors' means external rotation: the limb rotates outward, moving its anterior surface away from the body's midline. In ballet, hip turnout is the classic example of en dehors."},
+
+      {q:"¿Qué significa 'en dedans'?",
+       qCa:"Què significa 'en dedans'?",
+       qEn:"What does 'en dedans' mean?",
+       opts:["Rotación externa","Rotación interna: la cara anterior de la extremidad se orienta hacia el centro del cuerpo","Abducción de la pierna","Extensión del tronco"],
+       optsCa:["Rotació externa","Rotació interna: la cara anterior de l'extremitat s'orienta cap al centre del cos","Abducció de la cama","Extensió del tronc"],
+       optsEn:["External rotation","Internal rotation: the anterior surface of the limb is oriented toward the body's center","Leg abduction","Trunk extension"],
+       correct:1,
+       exp:"'En dedans' significa rotación interna: la extremidad gira hacia adentro, orientando su cara anterior hacia la línea media del cuerpo. En danza contemporánea, la posición neutra o paralela es un ejemplo de en dedans.",
+       expCa:"'En dedans' significa rotació interna: l'extremitat gira cap endins, orientant la seva cara anterior cap a la línia mitjana del cos. En dansa contemporània, la posició neutra o paral·lela és un exemple d'en dedans.",
+       expEn:"'En dedans' means internal rotation: the limb rotates inward, orienting its anterior surface toward the body's midline. In contemporary dance, the neutral or parallel position is an example of en dedans."},
+
+      {q:"¿Qué es la propiocepción?",
+       qCa:"Què és la propiocepció?",
+       qEn:"What is proprioception?",
+       opts:["La capacidad de ver los movimientos del cuerpo","La capacidad inconsciente de percibir la posición y el movimiento del cuerpo mediante mecanorreceptores","La capacidad de escuchar la música mientras se baila","La flexibilidad de las articulaciones"],
+       optsCa:["La capacitat de veure els moviments del cos","La capacitat inconscient de percebre la posició i el moviment del cos mitjançant mecanoreceptors","La capacitat d'escoltar la música mentre es balla","La flexibilitat de les articulacions"],
+       optsEn:["The ability to see body movements","The unconscious ability to perceive body position and movement through mechanoreceptors","The ability to listen to music while dancing","Joint flexibility"],
+       correct:1,
+       exp:"La propiocepción es el sentido que permite percibir de forma inconsciente la posición, el movimiento y la fuerza de las partes del cuerpo. Se basa en mecanorreceptores situados en músculos (husos musculares), tendones (órganos tendinosos de Golgi) y articulaciones.",
+       expCa:"La propiocepció és el sentit que permet percebre de forma inconscient la posició, el moviment i la força de les parts del cos. Es basa en mecanoreceptors situats en músculs (fusos musculars), tendons (òrgans tendinosos de Golgi) i articulacions.",
+       expEn:"Proprioception is the sense that allows unconscious perception of the position, movement and force of body parts. It is based on mechanoreceptors located in muscles (muscle spindles), tendons (Golgi tendon organs) and joints."},
+
+      {q:"Una bailarina hace un equilibrio con los ojos cerrados y no se cae. ¿Qué sistema le permite saber dónde está su cuerpo sin verlo?",
+       qCa:"Una ballarina fa un equilibri amb els ulls tancats i no cau. Quin sistema li permet saber on és el seu cos sense veure'l?",
+       qEn:"A dancer balances with her eyes closed and doesn't fall. What system allows her to know where her body is without seeing it?",
+       opts:["El sistema visual","El sistema propioceptivo (mecanorreceptores musculares, tendinosos y articulares)","El sistema auditivo","El sistema digestivo"],
+       optsCa:["El sistema visual","El sistema propioceptiu (mecanoreceptors musculars, tendinosos i articulars)","El sistema auditiu","El sistema digestiu"],
+       optsEn:["The visual system","The proprioceptive system (muscular, tendinous and articular mechanoreceptors)","The auditory system","The digestive system"],
+       correct:1,
+       exp:"Con los ojos cerrados, la bailarina depende de la propiocepción para mantener el equilibrio. Los mecanorreceptores en músculos, tendones y articulaciones envían información constante al sistema nervioso sobre la posición y el movimiento del cuerpo, permitiendo ajustes posturales inconscientes.",
+       expCa:"Amb els ulls tancats, la ballarina depèn de la propiocepció per mantenir l'equilibri. Els mecanoreceptors en músculs, tendons i articulacions envien informació constant al sistema nerviós sobre la posició i el moviment del cos, permetent ajustos posturals inconscients.",
+       expEn:"With eyes closed, the dancer depends on proprioception to maintain balance. Mechanoreceptors in muscles, tendons and joints send constant information to the nervous system about body position and movement, allowing unconscious postural adjustments."},
+
+      {q:"¿Dónde se encuentran los mecanorreceptores que alimentan la propiocepción?",
+       qCa:"On es troben els mecanoreceptors que alimenten la propiocepció?",
+       qEn:"Where are the mechanoreceptors that feed proprioception located?",
+       opts:["Solo en la piel","En músculos, tendones y articulaciones","Solo en el cerebro","Solo en los huesos"],
+       optsCa:["Només a la pell","En músculs, tendons i articulacions","Només al cervell","Només als ossos"],
+       optsEn:["Only in the skin","In muscles, tendons and joints","Only in the brain","Only in bones"],
+       correct:1,
+       exp:"Los mecanorreceptores propioceptivos se encuentran en tres localizaciones principales: los husos musculares (dentro de los músculos, detectan cambios de longitud), los órganos tendinosos de Golgi (en los tendones, detectan tensión) y los receptores articulares (en las cápsulas y ligamentos, detectan posición y movimiento articular).",
+       expCa:"Els mecanoreceptors propioceptius es troben en tres localitzacions principals: els fusos musculars (dins dels músculs, detecten canvis de longitud), els òrgans tendinosos de Golgi (als tendons, detecten tensió) i els receptors articulars (a les càpsules i lligaments, detecten posició i moviment articular).",
+       expEn:"Proprioceptive mechanoreceptors are found in three main locations: muscle spindles (within muscles, detect length changes), Golgi tendon organs (in tendons, detect tension) and articular receptors (in capsules and ligaments, detect joint position and movement)."},
+
+      {q:"Un rond de jambe à terre combina movimientos en varios planos. ¿Cuáles?",
+       qCa:"Un rond de jambe à terre combina moviments en diversos plans. Quins?",
+       qEn:"A rond de jambe à terre combines movements in several planes. Which ones?",
+       opts:["Solo el plano transversal","Plano sagital (delante/atrás), frontal (lateral) y transversal (rotación de cadera)","Solo el plano frontal","Solo el plano sagital"],
+       optsCa:["Només el pla transversal","Pla sagital (davant/darrere), frontal (lateral) i transversal (rotació de maluc)","Només el pla frontal","Només el pla sagital"],
+       optsEn:["Only the transverse plane","Sagittal plane (front/back), frontal (lateral) and transverse (hip rotation)","Only the frontal plane","Only the sagittal plane"],
+       correct:1,
+       exp:"Un rond de jambe à terre describe un semicírculo con el pie en el suelo: pasa por devant (plano sagital, flexión de cadera), à la seconde (plano frontal, abducción) y derrière (plano sagital, extensión), todo ello con rotación externa de cadera (plano transversal, en dehors). Es un ejemplo perfecto de movimiento multiplanar.",
+       expCa:"Un rond de jambe à terre descriu un semicercle amb el peu a terra: passa per devant (pla sagital, flexió de maluc), à la seconde (pla frontal, abducció) i derrière (pla sagital, extensió), tot això amb rotació externa de maluc (pla transversal, en dehors). És un exemple perfecte de moviment multiplanar.",
+       expEn:"A rond de jambe à terre describes a semicircle with the foot on the floor: it passes through devant (sagittal plane, hip flexion), à la seconde (frontal plane, abduction) and derrière (sagittal plane, extension), all with external hip rotation (transverse plane, en dehors). It is a perfect example of multiplanar movement."}
+    ]
+  }
+];
+
+// ===================== LANGUAGE =====================
+let currentLang = 'es';
+
+function setLanguage(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-selector button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.dataset.i18nPlaceholder;
+    if(translations[lang] && translations[lang][key]) el.placeholder = translations[lang][key];
+  });
+  // Update dynamic texts
+  updateProgressText();
+  // Rebuild blocks with current language
+  document.getElementById('blocksContainer').innerHTML = '';
+  buildBlocks();
+  // Re-show current block
+  const visible = document.querySelector('.block.visible');
+  if(visible) visible.classList.add('visible');
+  localStorage.setItem('testLanguage', lang);
+}
+
+function t(key, replacements){
+  let text = (translations[currentLang] && translations[currentLang][key]) || (translations.es && translations.es[key]) || key;
+  if(replacements){
+    for(const [k,v] of Object.entries(replacements)){
+      text = text.replace(new RegExp('\\{'+k+'\\}','g'), v);
+    }
+  }
+  return text;
+}
+
+function getBlockTitle(b){ return currentLang==='ca'?b.titleCa:currentLang==='en'?b.titleEn:b.title; }
+function getBlockRef(b){ return currentLang==='ca'?b.refCa:currentLang==='en'?b.refEn:b.ref; }
+function getCaseQ(c){ return currentLang==='ca'?c.qCa:currentLang==='en'?c.qEn:c.q; }
+function getCaseOpts(c){ return currentLang==='ca'?c.optsCa:currentLang==='en'?c.optsEn:c.opts; }
+function getCaseExp(c){ return currentLang==='ca'?c.expCa:currentLang==='en'?c.expEn:c.exp; }
+
+// ===================== INIT =====================
+let answered = 0;
+const totalCases = BLOCKS.reduce((s,b)=>s+b.cases.length,0);
+const results = {};
+let selected = {};
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const savedLang = localStorage.getItem('testLanguage');
+  if(savedLang && translations[savedLang]){
+    currentLang = savedLang;
+    document.querySelectorAll('.lang-selector button').forEach(b=>b.classList.toggle('active', b.dataset.lang===savedLang));
+  }
+  const now = new Date();
+  document.getElementById('startTime').textContent = now.toLocaleTimeString(currentLang==='en'?'en-GB':currentLang+'-ES',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('fillDate').value = now.toISOString().split('T')[0];
+  buildNav();
+  buildBlocks();
+  showBlock('b1');
+});
+
+function buildNav(){
+  const nav = document.getElementById('navBar');
+  nav.innerHTML = '';
+  BLOCKS.forEach((b,i)=>{
+    const btn = document.createElement('button');
+    btn.textContent = `B${i+1}`;
+    btn.title = getBlockTitle(b);
+    btn.onclick = ()=> showBlock(b.id);
+    btn.id = 'nav-'+b.id;
+    nav.appendChild(btn);
+  });
+}
+
+function showBlock(id){
+  document.querySelectorAll('.block').forEach(b=>b.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nav-'+id).classList.add('active');
+}
+
+function buildBlocks(){
+  const container = document.getElementById('blocksContainer');
+  BLOCKS.forEach((block,bi)=>{
+    const div = document.createElement('div');
+    div.className = 'block';
+    div.id = block.id;
+    let html = `<h2>${getBlockTitle(block)}</h2><p class="block-ref">📖 ${getBlockRef(block)}</p>`;
+    block.cases.forEach((c,ci)=>{
+      const cid = `${block.id}_c${ci}`;
+      const opts = getCaseOpts(c);
+      html += `<div class="case" id="case_${cid}">
+        <span class="case-num">Caso ${ci+1}</span>
+        <span class="case-topic">${getBlockTitle(block).split(':')[1]?.trim()||getBlockTitle(block)}</span>
+        <h3>${getCaseQ(c)}</h3>
+        <div class="options" id="opts_${cid}">`;
+      opts.forEach((o,oi)=>{
+        html += `<div class="opt" data-cid="${cid}" data-oi="${oi}" onclick="selectOpt(this,'${cid}',${oi})">${String.fromCharCode(97+oi)}) ${o}</div>`;
+      });
+      html += `</div>
+        <textarea class="reason-area" id="reason_${cid}" placeholder="${t('reasonPlaceholder')}"></textarea>
+        <button class="btn-validate" id="btn_${cid}" onclick="validate('${cid}',${bi},${ci})" disabled>${t('validate')}</button>
+        <div class="feedback" id="fb_${cid}"></div>
+      </div>`;
+    });
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+  // Restore selections
+  for(const [cid, oi] of Object.entries(selected)){
+    const el = document.querySelector(`[data-cid="${cid}"][data-oi="${oi}"]`);
+    if(el) el.classList.add('selected');
+    const btn = document.getElementById('btn_'+cid);
+    if(btn) btn.disabled = false;
+  }
+  // Restore validated results
+  for(const [cid, r] of Object.entries(results)){
+    const opts = document.querySelectorAll(`[data-cid="${cid}"]`);
+    opts.forEach(o=>{
+      o.classList.add('disabled');
+      const oi = parseInt(o.dataset.oi);
+      if(oi === r.correct) o.classList.add('show-correct','correct');
+      if(oi === r.chosen && !r.isCorrect) o.classList.add('incorrect');
+    });
+    const fb = document.getElementById('fb_'+cid);
+    if(fb){
+      fb.classList.add('show');
+      if(r.isCorrect){ fb.classList.add('ok'); fb.innerHTML = `<strong>${t('correct')}</strong><br>${r.explanation}`; }
+      else { fb.classList.add('bad'); fb.innerHTML = `<strong>${t('incorrect')}</strong> ${t('correctAnswerIs',{letter:String.fromCharCode(97+r.correct)})}<br><br>${r.explanation}`; }
+    }
+    const btn = document.getElementById('btn_'+cid);
+    if(btn) btn.disabled = true;
+  }
+}
+
+function selectOpt(el, cid, oi){
+  const opts = document.querySelectorAll(`[data-cid="${cid}"]`);
+  opts.forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selected[cid] = oi;
+  document.getElementById('btn_'+cid).disabled = false;
+}
+
+function validate(cid, bi, ci){
+  const c = BLOCKS[bi].cases[ci];
+  const chosen = selected[cid];
+  if(chosen === undefined) return;
+  const isCorrect = chosen === c.correct;
+  const opts = document.querySelectorAll(`[data-cid="${cid}"]`);
+  opts.forEach(o=>{
+    o.classList.add('disabled');
+    const oi = parseInt(o.dataset.oi);
+    if(oi === c.correct) o.classList.add('show-correct','correct');
+    if(oi === chosen && !isCorrect) o.classList.add('incorrect');
+  });
+  const fb = document.getElementById('fb_'+cid);
+  fb.classList.add('show');
+  if(isCorrect){
+    fb.classList.add('ok');
+    fb.innerHTML = `<strong>${t('correct')}</strong><br>${getCaseExp(c)}`;
+  } else {
+    fb.classList.add('bad');
+    fb.innerHTML = `<strong>${t('incorrect')}</strong> ${t('correctAnswerIs',{letter:String.fromCharCode(97+c.correct)})}<br><br>${getCaseExp(c)}`;
+  }
+  document.getElementById('btn_'+cid).disabled = true;
+  results[cid] = {
+    block: getBlockTitle(BLOCKS[bi]),
+    question: getCaseQ(c),
+    chosen: chosen,
+    correct: c.correct,
+    isCorrect: isCorrect,
+    reason: document.getElementById('reason_'+cid).value,
+    explanation: getCaseExp(c)
+  };
+  answered++;
+  updateProgress();
+}
+
+function updateProgress(){
+  const pct = Math.round((answered/totalCases)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressText').textContent = t('progressText',{n:answered, total:totalCases, pct:pct});
+}
+
+function updateProgressText(){
+  updateProgress();
+}
+
+function endTest(){
+  const now = new Date();
+  document.getElementById('endTime').textContent = now.toLocaleTimeString(currentLang==='en'?'en-GB':currentLang+'-ES',{hour:'2-digit',minute:'2-digit'});
+  showToast(t('toastEnd'));
+}
+
+function compileResults(){
+  const name = document.getElementById('studentName').value || t('noName');
+  const email = document.getElementById('studentEmail').value || t('noEmail');
+  const date = document.getElementById('fillDate').value || t('noDate');
+  const start = document.getElementById('startTime').textContent;
+  const end = document.getElementById('endTime').textContent;
+  let correctCount = Object.values(results).filter(r=>r.isCorrect).length;
+  let txt = `${t('resultsHeader')}\n`;
+  txt += `============================================\n`;
+  txt += `${t('resultsStudent')}: ${name}\n${t('resultsEmail')}: ${email}\n${t('resultsDate')}: ${date}\n${t('resultsStart')}: ${start}\n${t('resultsEnd')}: ${end}\n`;
+  txt += `${t('resultsScore')}: ${correctCount}/${answered} ${t('resultsCorrect')}\n\n`;
+  for(const [cid,r] of Object.entries(results)){
+    txt += `--- ${cid} ---\n`;
+    txt += `${t('resultsBlock')}: ${r.block}\n`;
+    txt += `${t('resultsQuestion')}: ${r.question}\n`;
+    txt += `${t('resultsChosen')}: ${String.fromCharCode(97+r.chosen)})\n`;
+    txt += `${t('resultsCorrectAnswer')}: ${String.fromCharCode(97+r.correct)})\n`;
+    txt += `${t('resultsResult')}: ${r.isCorrect?t('resultsCorrectMark'):t('resultsIncorrectMark')}\n`;
+    txt += `${t('resultsReason')}: ${r.reason||t('noReason')}\n`;
+    txt += `${t('resultsExplanation')}: ${r.explanation}\n\n`;
+  }
+  return txt;
+}
+
+function sendEmail(){
+  const profEmail = document.getElementById('profEmail').value;
+  const name = document.getElementById('studentName').value || 'Alumno/a';
+  const subject = encodeURIComponent(`Casos Prácticos Musculoesquelético – ${name}`);
+  const body = encodeURIComponent(compileResults());
+  window.location.href = `mailto:${profEmail}?subject=${subject}&body=${body}`;
+  showToast(t('toastEmail'));
+}
+
+function copyResults(){
+  navigator.clipboard.writeText(compileResults()).then(()=>{
+    showToast(t('toastCopy'));
+  }).catch(()=>{
+    showToast(t('toastCopyFail'));
+  });
+}
+
+function showToast(msg){
+  const t2 = document.getElementById('toast');
+  t2.textContent = msg;
+  t2.style.display = 'block';
+  setTimeout(()=>t2.style.display='none',3000);
+}
+</script>
+</body>
+</html>

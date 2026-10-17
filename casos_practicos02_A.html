@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casos Prácticos – Sistema Musculoesquelético (Fisiología de la Danza)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#f0f2f5;color:#333;line-height:1.6}
+.top-bar{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:30px 20px;text-align:center;position:relative}
+.top-bar h1{font-size:1.8em;margin-bottom:5px}
+.top-bar p{opacity:.85;font-size:.95em}
+.lang-selector{position:absolute;top:15px;right:20px;display:flex;gap:5px}
+.lang-selector button{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);color:#fff;padding:5px 12px;border-radius:20px;cursor:pointer;font-size:.85em;font-weight:600;transition:.3s}
+.lang-selector button:hover{background:rgba(255,255,255,.35)}
+.lang-selector button.active{background:#fff;color:#1a1a2e;border-color:#fff}
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+
+/* PERSONALIZACIÓN */
+.personal{background:#fff;border-radius:14px;padding:28px 32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.personal h2{color:#1a1a2e;margin-bottom:16px;font-size:1.3em}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid label{font-weight:600;font-size:.9em;color:#555;display:block;margin-bottom:4px}
+.form-grid input{width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-size:1em;transition:.3s}
+.form-grid input:focus{border-color:#667eea;outline:none}
+.time-row{display:flex;gap:14px;margin-top:14px}
+.time-row div{flex:1}
+.btn-start{margin-top:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:12px 30px;border-radius:8px;font-size:1.05em;cursor:pointer;transition:.3s}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(102,126,234,.4)}
+
+/* BLOQUES */
+.block{background:#fff;border-radius:14px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.08);overflow:hidden;display:none}
+.block.active{display:block}
+.block-header{padding:22px 28px;color:#fff;font-size:1.2em;font-weight:700}
+.block-header small{display:block;font-weight:400;font-size:.75em;opacity:.9;margin-top:4px}
+.bh1{background:linear-gradient(135deg,#667eea,#764ba2)}
+.bh2{background:linear-gradient(135deg,#11998e,#38ef7d)}
+.bh3{background:linear-gradient(135deg,#ee5a6f,#ff6b6b)}
+.bh4{background:linear-gradient(135deg,#f7971e,#ffd200)}
+.bh5{background:linear-gradient(135deg,#6a11cb,#2575fc)}
+.bh6{background:linear-gradient(135deg,#fc4a1a,#f7b733)}
+.bh7{background:linear-gradient(135deg,#0f2027,#2c5364)}
+.block-body{padding:20px 28px 28px}
+
+/* CASO */
+.caso{background:#fafbfc;border:1px solid #e8ecf1;border-radius:10px;padding:20px;margin-bottom:18px;position:relative}
+.caso-tag{display:inline-block;font-size:.7em;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:10px}
+.caso h4{font-size:1.05em;color:#1a1a2e;margin-bottom:10px}
+.caso .escenario{font-style:italic;color:#555;margin-bottom:12px;font-size:.95em}
+.opts label{display:block;padding:10px 14px;margin:5px 0;background:#fff;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:.25s;font-size:.95em}
+.opts label:hover{border-color:#667eea;background:#f5f3ff}
+.opts input[type=radio]{margin-right:8px;accent-color:#667eea}
+.opts label.sel{border-color:#667eea;background:#ede9fe}
+.opts label.correct{border-color:#2e7d32;background:#e8f5e9}
+.opts label.wrong{border-color:#c62828;background:#ffebee}
+.explicacion-user{width:100%;margin-top:10px;padding:10px;border:2px solid #ddd;border-radius:8px;font-size:.9em;resize:vertical;min-height:50px;font-family:inherit}
+.explicacion-user:focus{border-color:#667eea;outline:none}
+.btn-val{margin-top:10px;background:#667eea;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:.9em;transition:.3s}
+.btn-val:hover{background:#5a6fd6}
+.btn-val:disabled{background:#bbb;cursor:default}
+.feedback{margin-top:10px;padding:12px 16px;border-radius:8px;font-size:.92em;display:none;line-height:1.6}
+.feedback.ok{display:block;background:#e8f5e9;border-left:4px solid #2e7d32;color:#1b5e20}
+.feedback.bad{display:block;background:#ffebee;border-left:4px solid #c62828;color:#b71c1c}
+
+/* NAV */
+.nav-bar{display:flex;justify-content:space-between;align-items:center;margin:20px 0}
+.btn-nav{padding:10px 24px;border:none;border-radius:8px;font-size:1em;cursor:pointer;transition:.3s;color:#fff}
+.btn-prev{background:#78909c}
+.btn-next{background:#667eea}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.btn-nav:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
+.progress{font-size:.9em;color:#666;font-weight:600}
+
+/* ENVÍO */
+.send-section{background:#fff;border-radius:14px;padding:28px 32px;margin-bottom:40px;box-shadow:0 4px 20px rgba(0,0,0,.08);text-align:center;display:none}
+.send-section h2{color:#1a1a2e;margin-bottom:10px}
+.score-display{font-size:2em;font-weight:700;color:#667eea;margin:16px 0}
+.btn-send{background:linear-gradient(135deg,#2e7d32,#43a047);color:#fff;border:none;padding:14px 36px;border-radius:8px;font-size:1.1em;cursor:pointer;transition:.3s;margin-top:10px}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(46,125,50,.4)}
+.btn-print{background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;border:none;padding:14px 36px;border-radius:8px;font-size:1.1em;cursor:pointer;transition:.3s;margin-top:10px;margin-left:10px}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  .time-row{flex-direction:column}
+  .top-bar h1{font-size:1.3em}
+  .lang-selector{position:static;justify-content:center;margin-bottom:15px}
+}
+@media print{
+  .btn-val,.btn-nav,.btn-start,.btn-send,.btn-print,.nav-bar,.lang-selector{display:none!important}
+  .block{display:block!important;break-inside:avoid}
+  .send-section{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="lang-selector">
+    <button type="button" data-lang="es" class="active" onclick="setLanguage('es')">ES</button>
+    <button type="button" data-lang="ca" onclick="setLanguage('ca')">CA</button>
+    <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
+  </div>
+  <h1 data-i18n="topTitle">🩰 Casos Prácticos – Sistema Musculoesquelético</h1>
+  <p data-i18n="topSubtitle">Fisiología aplicada a la Danza · Curso 2026-2027 · 70 casos en 7 bloques temáticos</p>
+</div>
+
+<div class="wrap">
+
+<!-- PERSONALIZACIÓN -->
+<div class="personal" id="personalForm">
+  <h2 data-i18n="personalTitle">📝 Datos del alumnado</h2>
+  <div class="form-grid">
+    <div><label data-i18n="labelName">Nombre completo</label><input type="text" id="stuName" data-i18n-placeholder="phName" placeholder="Ej: María López García"></div>
+    <div><label data-i18n="labelEmail">Email</label><input type="email" id="stuEmail" data-i18n-placeholder="phEmail" placeholder="Ej: maria@escuela.com"></div>
+    <div><label data-i18n="labelProfEmail">Email de la professora</label><input type="email" id="profEmail" data-i18n-placeholder="phProfEmail" placeholder="Ej: celia.painous@escuela.com"></div>
+    <div><label data-i18n="labelDate">Fecha</label><input type="date" id="stuDate"></div>
+  </div>
+  <div class="time-row">
+    <div><label data-i18n="labelStartTime">Hora de inicio</label><input type="time" id="startTime"></div>
+    <div><label data-i18n="labelEndTime">Hora de finalización</label><input type="time" id="endTime" disabled></div>
+  </div>
+  <button class="btn-start" onclick="startTest()" data-i18n="btnStart">🚀 Comenzar test</button>
+</div>
+
+<!-- CONTENEDOR DE BLOQUES -->
+<div id="blocksContainer"></div>
+
+<!-- NAVEGACIÓN -->
+<div class="nav-bar" id="navBar" style="display:none">
+  <button class="btn-nav btn-prev" id="btnPrev" onclick="navBlock(-1)" data-i18n="btnPrev">⬅ Anterior</button>
+  <span class="progress" id="progressText"></span>
+  <button class="btn-nav btn-next" id="btnNext" onclick="navBlock(1)" data-i18n="btnNext">Siguiente ➡</button>
+</div>
+
+<!-- ENVÍO -->
+<div class="send-section" id="sendSection">
+  <h2 data-i18n="resultTitle">📊 Resultado final</h2>
+  <div class="score-display" id="scoreDisplay"></div>
+  <p id="scoreDetail"></p>
+  <button class="btn-send" onclick="sendEmail()" data-i18n="btnSend">📧 Enviar a la professora por email</button>
+  <button class="btn-print" onclick="window.print()" data-i18n="btnPrint">🖨️ Imprimir / Guardar PDF</button>
+</div>
+
+</div>
+
+<script>
+// ===================== TRANSLATIONS =====================
+const translations = {
+  es: {
+    topTitle: "🩰 Casos Prácticos – Sistema Musculoesquelético",
+    topSubtitle: "Fisiología aplicada a la Danza · Curso 2026-2027 · 70 casos en 7 bloques temáticos",
+    personalTitle: "📝 Datos del alumnado",
+    labelName: "Nombre completo",
+    phName: "Ej: María López García",
+    labelEmail: "Email",
+    phEmail: "Ej: maria@escuela.com",
+    labelProfEmail: "Email de la professora",
+    phProfEmail: "Ej: celia.painous@escuela.com",
+    labelDate: "Fecha",
+    labelStartTime: "Hora de inicio",
+    labelEndTime: "Hora de finalización",
+    btnStart: "🚀 Comenzar test",
+    btnPrev: "⬅ Anterior",
+    btnNext: "Siguiente ➡",
+    resultTitle: "📊 Resultado final",
+    btnSend: "📧 Enviar a la professora por email",
+    btnPrint: "🖨️ Imprimir / Guardar PDF",
+    alertFillNameEmail: "Por favor, rellena al menos tu nombre y email.",
+    validateBtn: "✅ Validar respuesta",
+    validatedBtn: "✔ Validado",
+    reasonPlaceholder: "✏️ Explica brevemente por qué has elegido esta respuesta...",
+    correctMsg: "✅ <strong>¡Correcto!</strong>",
+    incorrectMsg: "❌ <strong>No es correcto.</strong> La respuesta correcta es la <strong>{letter}</strong>.",
+    progressBlock: "Bloque {n} de {total}",
+    blockSubtitle: "{ref} · 10 casos prácticos",
+    casoLabel: "Caso {n}",
+    emailSubject: "Casos Prácticos – {name} – {ok}/{total}",
+    emailHeader: "CASOS PRÁCTICOS – SISTEMA MUSCULOESQUELÉTICO",
+    emailCourse: "Fisiología de la Danza · Curso 2026-2027",
+    emailStudent: "Alumno/a",
+    emailEmail: "Email",
+    emailDate: "Fecha",
+    emailStart: "Hora inicio",
+    emailEnd: "Hora final",
+    emailResult: "RESULTADO",
+    emailExplanation: "Explicación del alumno",
+    emailResp: "Respuesta",
+    emailCorrect: "Correcta"
+  },
+  ca: {
+    topTitle: "🩰 Casos Pràctics – Sistema Musculoesquelètic",
+    topSubtitle: "Fisiologia aplicada a la Dansa · Curs 2026-2027 · 70 casos en 7 blocs temàtics",
+    personalTitle: "📝 Dades de l'alumnat",
+    labelName: "Nom complet",
+    phName: "Ex: Maria López García",
+    labelEmail: "Email",
+    phEmail: "Ex: maria@escola.com",
+    labelProfEmail: "Email de la professora",
+    phProfEmail: "Ex: celia.painous@escola.com",
+    labelDate: "Data",
+    labelStartTime: "Hora d'inici",
+    labelEndTime: "Hora de finalització",
+    btnStart: "🚀 Començar test",
+    btnPrev: "⬅ Anterior",
+    btnNext: "Següent ➡",
+    resultTitle: "📊 Resultat final",
+    btnSend: "📧 Enviar a la professora per email",
+    btnPrint: "🖨️ Imprimir / Guardar PDF",
+    alertFillNameEmail: "Si us plau, omple almenys el teu nom i email.",
+    validateBtn: "✅ Validar resposta",
+    validatedBtn: "✔ Validat",
+    reasonPlaceholder: "✏️ Explica breument per què has triat aquesta resposta...",
+    correctMsg: "✅ <strong>Correcte!</strong>",
+    incorrectMsg: "❌ <strong>No és correcte.</strong> La resposta correcta és la <strong>{letter}</strong>.",
+    progressBlock: "Bloc {n} de {total}",
+    blockSubtitle: "{ref} · 10 casos pràctics",
+    casoLabel: "Cas {n}",
+    emailSubject: "Casos Pràctics – {name} – {ok}/{total}",
+    emailHeader: "CASOS PRÀCTICS – SISTEMA MUSCULOESQUELÈTIC",
+    emailCourse: "Fisiologia aplicada a la Dansa · Curs 2026-2027",
+    emailStudent: "Alumne/a",
+    emailEmail: "Email",
+    emailDate: "Data",
+    emailStart: "Hora inici",
+    emailEnd: "Hora final",
+    emailResult: "RESULTAT",
+    emailExplanation: "Explicació de l'alumne",
+    emailResp: "Resposta",
+    emailCorrect: "Correcta"
+  },
+  en: {
+    topTitle: "🩰 Practical Cases – Musculoskeletal System",
+    topSubtitle: "Physiology applied to Dance · Academic year 2026-2027 · 70 cases in 7 thematic blocks",
+    personalTitle: "📝 Student data",
+    labelName: "Full name",
+    phName: "E.g.: Mary Smith",
+    labelEmail: "Email",
+    phEmail: "E.g.: mary@school.com",
+    labelProfEmail: "Teacher's email",
+    phProfEmail: "E.g.: celia.painous@school.com",
+    labelDate: "Date",
+    labelStartTime: "Start time",
+    labelEndTime: "End time",
+    btnStart: "🚀 Start test",
+    btnPrev: "⬅ Previous",
+    btnNext: "Next ➡",
+    resultTitle: "📊 Final result",
+    btnSend: "📧 Send to teacher by email",
+    btnPrint: "🖨️ Print / Save PDF",
+    alertFillNameEmail: "Please fill in at least your name and email.",
+    validateBtn: "✅ Validate answer",
+    validatedBtn: "✔ Validated",
+    reasonPlaceholder: "✏️ Briefly explain why you chose this answer...",
+    correctMsg: "✅ <strong>Correct!</strong>",
+    incorrectMsg: "❌ <strong>Not correct.</strong> The correct answer is <strong>{letter}</strong>.",
+    progressBlock: "Block {n} of {total}",
+    blockSubtitle: "{ref} · 10 practical cases",
+    casoLabel: "Case {n}",
+    emailSubject: "Practical Cases – {name} – {ok}/{total}",
+    emailHeader: "PRACTICAL CASES – MUSCULOSKELETAL SYSTEM",
+    emailCourse: "Physiology applied to Dance · Academic year 2026-2027",
+    emailStudent: "Student",
+    emailEmail: "Email",
+    emailDate: "Date",
+    emailStart: "Start time",
+    emailEnd: "End time",
+    emailResult: "RESULT",
+    emailExplanation: "Student's explanation",
+    emailResp: "Answer",
+    emailCorrect: "Correct"
+  }
+};
+
+// ===================== BLOCK METADATA (translated) =====================
+const BLOCK_NAMES = [
+  {key:"b1", cls:"bh1", ref:{es:"Presentación I · Diapositivas 2-7",ca:"Presentació I · Diapositives 2-7",en:"Presentation I · Slides 2-7"},
+   name:{es:"Homeostasis y Regulación",ca:"Homeòstasi i Regulació",en:"Homeostasis and Regulation"}},
+  {key:"b2", cls:"bh2", ref:{es:"Presentación I · Diapositivas 8-11",ca:"Presentació I · Diapositives 8-11",en:"Presentation I · Slides 8-11"},
+   name:{es:"Estructura Muscular y Sarcómero",ca:"Estructura Muscular i Sarcòmer",en:"Muscle Structure and Sarcomere"}},
+  {key:"b3", cls:"bh3", ref:{es:"Presentación I · Diapositivas 12-16",ca:"Presentació I · Diapositives 12-16",en:"Presentation I · Slides 12-16"},
+   name:{es:"Contracción Muscular y Unidad Motora",ca:"Contracció Muscular i Unitat Motora",en:"Muscle Contraction and Motor Unit"}},
+  {key:"b4", cls:"bh4", ref:{es:"Presentación II · Secciones 1-5",ca:"Presentació II · Seccions 1-5",en:"Presentation II · Sections 1-5"},
+   name:{es:"Componentes del Sistema y Biomecánica",ca:"Components del Sistema i Biomecànica",en:"System Components and Biomechanics"}},
+  {key:"b5", cls:"bh5", ref:{es:"Presentación II · Secciones 6-11",ca:"Presentació II · Seccions 6-11",en:"Presentation II · Sections 6-11"},
+   name:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"}},
+  {key:"b6", cls:"bh6", ref:{es:"Presentación II · Secciones 12-14",ca:"Presentació II · Seccions 12-14",en:"Presentation II · Sections 12-14"},
+   name:{es:"Articulaciones y Cartílago",ca:"Articulacions i Cartílag",en:"Joints and Cartilage"}},
+  {key:"b7", cls:"bh7", ref:{es:"Presentación II · Secciones 15-16",ca:"Presentació II · Seccions 15-16",en:"Presentation II · Sections 15-16"},
+   name:{es:"Planos de Movimiento y Propiocepción",ca:"Plans de Moviment i Propiocepció",en:"Movement Planes and Proprioception"}}
+];
+
+// ===================== DATA (70 CASES) =====================
+// Each case has: block, tag {es,ca,en}, tagColor, ref {es,ca,en},
+// q {es,ca,en}, opts {es:[],ca:[],en:[]}, correct, expl {es,ca,en}
+const DATA = [
+// ─── BLOQUE 1 ───
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositivas 2-7",ca:"Presentació I · Diapositives 2-7",en:"Presentation I · Slides 2-7"},
+ q:{es:"Durante un ensayo de <em>grand allegro</em> de 20 minutos, Lucía nota que su piel está enrojecida y empapada de sudor. ¿Qué variable homeostática está intentando regular su cuerpo principalmente?",
+    ca:"Durant un assaig de <em>grand allegro</em> de 20 minuts, la Lucía nota que la seva pell està vermella i xopa de suor. Quina variable homeostàtica està intentant regular el seu cos principalment?",
+    en:"During a 20-minute <em>grand allegro</em> rehearsal, Lucía notices her skin is red and soaked with sweat. Which homeostatic variable is her body mainly trying to regulate?"},
+ opts:{es:["a) La glucosa sanguínea","b) La temperatura corporal","c) La presión arterial","d) El pH del líquido intracelular"],
+       ca:["a) La glucosa sanguínia","b) La temperatura corporal","c) La pressió arterial","d) El pH del líquid intracel·lular"],
+       en:["a) Blood glucose","b) Body temperature","c) Blood pressure","d) Intracellular fluid pH"]},
+ correct:1,
+ expl:{es:"La sudoración y la vasodilatación cutánea (piel enrojecida) son mecanismos de termorregulación. El cuerpo disipa el calor generado por la contracción muscular para mantener la temperatura dentro del rango de 36-37,5 °C (Diapositiva 4: Homeostasis).",
+       ca:"La sudoració i la vasodilatació cutània (pell vermella) són mecanismes de termoregulació. El cos dissipa la calor generada per la contracció muscular per mantenir la temperatura dins del rang de 36-37,5 °C (Diapositiva 4: Homeòstasi).",
+       en:"Sweating and cutaneous vasodilation (red skin) are thermoregulation mechanisms. The body dissipates the heat generated by muscle contraction to keep temperature within the 36-37.5 °C range (Slide 4: Homeostasis)."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 3",ca:"Presentació I · Diapositiva 3",en:"Presentation I · Slide 3"},
+ q:{es:"El cuerpo de un bailarín adulto pesa 65 kg. Aproximadamente, ¿cuántos litros de agua contiene su cuerpo y dónde se encuentra la mayor parte?",
+    ca:"El cos d'un ballarí adult pesa 65 kg. Aproximadament, quants litres d'aigua conté el seu cos i on es troba la major part?",
+    en:"An adult dancer's body weighs 65 kg. Approximately how many liters of water does his body contain and where is most of it?"},
+ opts:{es:["a) Unos 20 L, la mayoría en el líquido extracelular","b) Unos 39 L, la mayoría en el líquido intracelular (60-65%)","c) Unos 50 L, repartidos a partes iguales","d) Unos 10 L, la mayoría en la sangre"],
+       ca:["a) Uns 20 L, la majoria al líquid extracel·lular","b) Uns 39 L, la majoria al líquid intracel·lular (60-65%)","c) Uns 50 L, repartits a parts iguals","d) Uns 10 L, la majoria a la sang"],
+       en:["a) About 20 L, mostly in extracellular fluid","b) About 39 L, mostly in intracellular fluid (60-65%)","c) About 50 L, split equally","d) About 10 L, mostly in blood"]},
+ correct:1,
+ expl:{es:"El agua corporal total es aproximadamente el 60% del peso (65 × 0,6 ≈ 39 L). De esa agua, el 60-65% está dentro de las células (LIC) y el 35-40% fuera (LEC) (Diapositiva 3).",
+       ca:"L'aigua corporal total és aproximadament el 60% del pes (65 × 0,6 ≈ 39 L). D'aquesta aigua, el 60-65% està dins de les cèl·lules (LIC) i el 35-40% fora (LEC) (Diapositiva 3).",
+       en:"Total body water is about 60% of weight (65 × 0.6 ≈ 39 L). Of that water, 60-65% is inside cells (ICF) and 35-40% outside (ECF) (Slide 3)."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 4",ca:"Presentació I · Diapositiva 4",en:"Presentation I · Slide 4"},
+ q:{es:"Antes de una audición importante, a Marc le miden la glucosa en sangre y obtienen 105 mg/dL. ¿Este valor es compatible con la homeostasis normal?",
+    ca:"Abans d'una audició important, a en Marc li mesuren la glucosa a la sang i obtenen 105 mg/dL. Aquest valor és compatible amb l'homeòstasi normal?",
+    en:"Before an important audition, Marc's blood glucose is measured at 105 mg/dL. Is this value compatible with normal homeostasis?"},
+ opts:{es:["a) No, está demasiado alto; lo normal es menos de 60 mg/dL","b) No, está demasiado bajo; lo normal es más de 150 mg/dL","c) Sí, está dentro del rango normal de 75-110 mg/dL","d) No se puede saber sin medir el pH"],
+       ca:["a) No, està massa alt; el normal és menys de 60 mg/dL","b) No, està massa baix; el normal és més de 150 mg/dL","c) Sí, està dins del rang normal de 75-110 mg/dL","d) No es pot saber sense mesurar el pH"],
+       en:["a) No, it's too high; normal is less than 60 mg/dL","b) No, it's too low; normal is more than 150 mg/dL","c) Yes, it's within the normal range of 75-110 mg/dL","d) Can't know without measuring pH"]},
+ correct:2,
+ expl:{es:"El rango normal de glucosa en sangre es de 75-110 mg/dL (Diapositiva 4). Un valor de 105 mg/dL está dentro de ese rango, por lo que es compatible con la homeostasis.",
+       ca:"El rang normal de glucosa a la sang és de 75-110 mg/dL (Diapositiva 4). Un valor de 105 mg/dL està dins d'aquest rang, per la qual cosa és compatible amb l'homeòstasi.",
+       en:"The normal blood glucose range is 75-110 mg/dL (Slide 4). A value of 105 mg/dL is within that range, so it is compatible with homeostasis."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 5",ca:"Presentació I · Diapositiva 5",en:"Presentation I · Slide 5"},
+ q:{es:"Justo antes de salir a escena, el corazón de Ana late muy deprisa y sus músculos están tensos, listos para el primer paso. ¿Qué sistema de regulación ha activado esta respuesta rápida?",
+    ca:"Just abans de sortir a escena, el cor de l'Ana batega molt de pressa i els seus músculs estan tensos, a punt per al primer pas. Quin sistema de regulació ha activat aquesta resposta ràpida?",
+    en:"Just before going on stage, Ana's heart beats very fast and her muscles are tense, ready for the first step. Which regulatory system has activated this rapid response?"},
+ opts:{es:["a) El sistema endocrino, liberando insulina","b) El sistema nervioso, mediante impulsos eléctricos rápidos","c) El sistema digestivo, absorbiendo nutrientes","d) El sistema linfático, drenando líquidos"],
+       ca:["a) El sistema endocrí, alliberant insulina","b) El sistema nerviós, mitjançant impulsos elèctrics ràpids","c) El sistema digestiu, absorbint nutrients","d) El sistema limfàtic, drenant líquids"],
+       en:["a) The endocrine system, releasing insulin","b) The nervous system, through rapid electrical impulses","c) The digestive system, absorbing nutrients","d) The lymphatic system, draining fluids"]},
+ correct:1,
+ expl:{es:"El sistema nervioso genera respuestas rápidas y precisas mediante impulsos eléctricos (Diapositiva 5). La activación inmediata del corazón y los músculos antes de salir a escena es una respuesta nerviosa. El sistema endocrino actúa más lentamente (hormonas).",
+       ca:"El sistema nerviós genera respostes ràpides i precises mitjançant impulsos elèctrics (Diapositiva 5). L'activació immediata del cor i els músculs abans de sortir a escena és una resposta nerviosa. El sistema endocrí actua més lentament (hormones).",
+       en:"The nervous system generates rapid and precise responses through electrical impulses (Slide 5). The immediate activation of the heart and muscles before going on stage is a nervous response. The endocrine system acts more slowly (hormones)."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 6",ca:"Presentació I · Diapositiva 6",en:"Presentation I · Slide 6"},
+ q:{es:"Después de una clase intensa de 90 minutos, la professora pide a las alumnas que se tumben en el suelo y respiren lentamente durante 5 minutos. Desde el punto de vista fisiológico, ¿por qué es importante este reposo?",
+    ca:"Després d'una classe intensa de 90 minuts, la professora demana a les alumnes que es tombin a terra i respirin lentament durant 5 minuts. Des del punt de vista fisiològic, per què és important aquest repòs?",
+    en:"After an intense 90-minute class, the teacher asks the students to lie on the floor and breathe slowly for 5 minutes. From a physiological point of view, why is this rest important?"},
+ opts:{es:["a) Para que los músculos se queden rígidos y mantengan la forma","b) Para que el cuerpo restaure las condiciones homeostáticas del medio interno (LEC)","c) Para que la glucosa baje a cero","d) Para que el sistema nervioso se desconecte completamente"],
+       ca:["a) Perquè els músculs es quedin rígids i mantinguin la forma","b) Perquè el cos restauri les condicions homeostàtiques del medi intern (LEC)","c) Perquè la glucosa baixi a zero","d) Perquè el sistema nerviós es desconnecti completament"],
+       en:["a) So muscles become stiff and keep their shape","b) So the body restores the homeostatic conditions of the internal environment (ECF)","c) So glucose drops to zero","d) So the nervous system completely disconnects"]},
+ correct:1,
+ expl:{es:"La actividad física rompe el equilibrio del medio interno (LEC). El período de reposo permite restaurar las condiciones homeostáticas: normalizar pH, temperatura, glucosa, etc. (Diapositiva 6: Homeostasis en el movimiento).",
+       ca:"L'activitat física trenca l'equilibri del medi intern (LEC). El període de repòs permet restaurar les condicions homeostàtiques: normalitzar pH, temperatura, glucosa, etc. (Diapositiva 6: Homeòstasi en el moviment).",
+       en:"Physical activity disrupts the internal environment (ECF) balance. The rest period allows restoring homeostatic conditions: normalizing pH, temperature, glucose, etc. (Slide 6: Homeostasis in movement)."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 7",ca:"Presentació I · Diapositiva 7",en:"Presentation I · Slide 7"},
+ q:{es:"Durante el parto, las contracciones uterinas provocan la liberación de oxitocina, que a su vez provoca contracciones más fuertes, que liberan más oxitocina, hasta que se produce el nacimiento. ¿Qué tipo de mecanismo es este?",
+    ca:"Durant el part, les contraccions uterines provoquen l'alliberament d'oxitocina, que al seu torn provoca contraccions més fortes, que alliberen més oxitocina, fins que es produeix el naixement. Quin tipus de mecanisme és aquest?",
+    en:"During childbirth, uterine contractions trigger the release of oxytocin, which in turn causes stronger contractions, which release more oxytocin, until birth occurs. What type of mechanism is this?"},
+ opts:{es:["a) Retroalimentación negativa","b) Homeostasis pasiva","c) Retroalimentación positiva","d) Regulación endocrina lenta"],
+       ca:["a) Retroalimentació negativa","b) Homeòstasi passiva","c) Retroalimentació positiva","d) Regulació endocrina lenta"],
+       en:["a) Negative feedback","b) Passive homeostasis","c) Positive feedback","d) Slow endocrine regulation"]},
+ correct:2,
+ expl:{es:"En la retroalimentación positiva, la respuesta amplifica el estímulo inicial, alejando la variable del punto de ajuste hasta completar un proceso (Diapositiva 7). Las contracciones del parto son el ejemplo clásico.",
+       ca:"En la retroalimentació positiva, la resposta amplifica l'estímul inicial, allunyant la variable del punt d'ajust fins a completar un procés (Diapositiva 7). Les contraccions del part són l'exemple clàssic.",
+       en:"In positive feedback, the response amplifies the initial stimulus, moving the variable away from the set point until a process is completed (Slide 7). Labor contractions are the classic example."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 4",ca:"Presentació I · Diapositiva 4",en:"Presentation I · Slide 4"},
+ q:{es:"Un bailarín llega a urgencias después de un ensayo bajo el sol sin beber agua. Su presión arterial es 85/50 mmHg. ¿Qué indica este valor?",
+    ca:"Un ballarí arriba a urgències després d'un assaig sota el sol sense beure aigua. La seva pressió arterial és 85/50 mmHg. Què indica aquest valor?",
+    en:"A dancer arrives at the emergency room after rehearsing in the sun without drinking water. His blood pressure is 85/50 mmHg. What does this value indicate?"},
+ opts:{es:["a) Está dentro del rango normal (120/80 mmHg)","b) Está por debajo del rango normal; puede indicar deshidratación","c) Está por encima del rango normal; tiene hipertensión","d) La presión arterial no se ve afectada por la hidratación"],
+       ca:["a) Està dins del rang normal (120/80 mmHg)","b) Està per sota del rang normal; pot indicar deshidratació","c) Està per sobre del rang normal; té hipertensió","d) La pressió arterial no es veu afectada per la hidratació"],
+       en:["a) It's within the normal range (120/80 mmHg)","b) It's below the normal range; may indicate dehydration","c) It's above the normal range; he has hypertension","d) Blood pressure is not affected by hydration"]},
+ correct:1,
+ expl:{es:"La presión arterial normal es aproximadamente 120/80 mmHg (Diapositiva 4). Un valor de 85/50 está muy por debajo, lo que sugiere deshidratación y pérdida de volumen de líquido extracelular.",
+       ca:"La pressió arterial normal és aproximadament 120/80 mmHg (Diapositiva 4). Un valor de 85/50 està molt per sota, cosa que suggereix deshidratació i pèrdua de volum de líquid extracel·lular.",
+       en:"Normal blood pressure is approximately 120/80 mmHg (Slide 4). A value of 85/50 is well below, suggesting dehydration and loss of extracellular fluid volume."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 3",ca:"Presentació I · Diapositiva 3",en:"Presentation I · Slide 3"},
+ q:{es:"¿Cuál de las siguientes afirmaciones sobre el líquido extracelular (LEC) es correcta?",
+    ca:"Quina de les següents afirmacions sobre el líquid extracel·lular (LEC) és correcta?",
+    en:"Which of the following statements about extracellular fluid (ECF) is correct?"},
+ opts:{es:["a) Representa el 60-65% del agua corporal total","b) Es el medio interno donde viven las células y constituye el 35-40% del agua corporal","c) Se encuentra exclusivamente dentro de los vasos sanguíneos","d) No participa en la homeostasis"],
+       ca:["a) Representa el 60-65% de l'aigua corporal total","b) És el medi intern on viuen les cèl·lules i constitueix el 35-40% de l'aigua corporal","c) Es troba exclusivament dins dels vasos sanguinis","d) No participa en l'homeòstasi"],
+       en:["a) It represents 60-65% of total body water","b) It is the internal environment where cells live and constitutes 35-40% of body water","c) It is found exclusively inside blood vessels","d) It does not participate in homeostasis"]},
+ correct:1,
+ expl:{es:"El LEC constituye el 35-40% del agua corporal total y es el «medio interno» que baña las células. El 60-65% corresponde al líquido intracelular (LIC) (Diapositiva 3).",
+       ca:"El LEC constitueix el 35-40% de l'aigua corporal total i és el «medi intern» que banya les cèl·lules. El 60-65% correspon al líquid intracel·lular (LIC) (Diapositiva 3).",
+       en:"The ECF constitutes 35-40% of total body water and is the 'internal environment' that bathes the cells. 60-65% corresponds to intracellular fluid (ICF) (Slide 3)."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 5",ca:"Presentació I · Diapositiva 5",en:"Presentation I · Slide 5"},
+ q:{es:"Durante una función de 2 horas, el cuerpo de un bailarín libera adrenalina de forma sostenida para mantener el estado de alerta. ¿Qué sistema de regulación es responsable de esta respuesta prolongada?",
+    ca:"Durant una funció de 2 hores, el cos d'un ballarí allibera adrenalina de forma sostinguda per mantenir l'estat d'alerta. Quin sistema de regulació és responsable d'aquesta resposta prolongada?",
+    en:"During a 2-hour performance, a dancer's body releases adrenaline steadily to maintain alertness. Which regulatory system is responsible for this prolonged response?"},
+ opts:{es:["a) El sistema nervioso somático","b) El sistema endocrino, mediante hormonas transportadas por la sangre","c) El sistema muscular, mediante contracciones","d) El sistema óseo, mediante remodelación"],
+       ca:["a) El sistema nerviós somàtic","b) El sistema endocrí, mitjançant hormones transportades per la sang","c) El sistema muscular, mitjançant contraccions","d) El sistema ossi, mitjançant remodelació"],
+       en:["a) The somatic nervous system","b) The endocrine system, through hormones transported by the blood","c) The muscular system, through contractions","d) The skeletal system, through remodeling"]},
+ correct:1,
+ expl:{es:"El sistema endocrino produce respuestas lentas pero duraderas mediante hormonas como la adrenalina, que viajan por la sangre (Diapositiva 5). El sistema nervioso actúa más rápido pero de forma más breve.",
+       ca:"El sistema endocrí produeix respostes lentes però duradores mitjançant hormones com l'adrenalina, que viatgen per la sang (Diapositiva 5). El sistema nerviós actua més ràpid però de forma més breu.",
+       en:"The endocrine system produces slow but lasting responses through hormones such as adrenaline, which travel through the blood (Slide 5). The nervous system acts faster but more briefly."}},
+
+{block:0, tagColor:"#667eea",
+ tag:{es:"Homeostasis",ca:"Homeòstasi",en:"Homeostasis"},
+ ref:{es:"Presentación I · Diapositiva 4",ca:"Presentació I · Diapositiva 4",en:"Presentation I · Slide 4"},
+ q:{es:"Después de un ejercicio muy intenso, el pH sanguíneo de un bailarín baja temporalmente a 7,30. ¿Qué significa esto?",
+    ca:"Després d'un exercici molt intens, el pH sanguini d'un ballarí baixa temporalment a 7,30. Què significa això?",
+    en:"After very intense exercise, a dancer's blood pH temporarily drops to 7.30. What does this mean?"},
+ opts:{es:["a) Que su sangre se ha vuelto demasiado básica (alcalina)","b) Que su sangre se ha vuelto ligeramente más ácida de lo normal (rango: 7,35-7,45)","c) Que su pH es completamente normal","d) Que la glucosa ha subido demasiado"],
+       ca:["a) Que la seva sang s'ha tornat massa bàsica (alcalina)","b) Que la seva sang s'ha tornat lleugerament més àcida del normal (rang: 7,35-7,45)","c) Que el seu pH és completament normal","d) Que la glucosa ha pujat massa"],
+       en:["a) That his blood has become too basic (alkaline)","b) That his blood has become slightly more acidic than normal (range: 7.35-7.45)","c) That his pH is completely normal","d) That glucose has risen too much"]},
+ correct:1,
+ expl:{es:"El pH normal es 7,35-7,45 (Diapositiva 4). Un valor de 7,30 está por debajo del rango, lo que indica acidosis leve, probablemente por acumulación de CO₂ y ácido láctico durante el ejercicio intenso.",
+       ca:"El pH normal és 7,35-7,45 (Diapositiva 4). Un valor de 7,30 està per sota del rang, cosa que indica acidosi lleu, probablement per acumulació de CO₂ i àcid làctic durant l'exercici intens.",
+       en:"Normal pH is 7.35-7.45 (Slide 4). A value of 7.30 is below the range, indicating mild acidosis, probably from CO₂ and lactic acid accumulation during intense exercise."}},
+
+// ─── BLOQUE 2 ───
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 8",ca:"Presentació I · Diapositiva 8",en:"Presentation I · Slide 8"},
+ q:{es:"Una bailarina utiliza sus cuádriceps para saltar, su corazón para bombear sangre y su estómago para digerir la comida. ¿Qué tipos de tejido muscular corresponden a cada acción, en ese orden?",
+    ca:"Una ballarina utilitza els seus quàdriceps per saltar, el seu cor per bombar sang i el seu estómac per digerir el menjar. Quins tipus de teixit muscular corresponen a cada acció, en aquest ordre?",
+    en:"A dancer uses her quadriceps to jump, her heart to pump blood and her stomach to digest food. What types of muscle tissue correspond to each action, in that order?"},
+ opts:{es:["a) Liso, cardíaco, esquelético","b) Esquelético, liso, cardíaco","c) Esquelético, cardíaco, liso","d) Cardíaco, esquelético, liso"],
+       ca:["a) Llis, cardíac, esquelètic","b) Esquelètic, llis, cardíac","c) Esquelètic, cardíac, llis","d) Cardíac, esquelètic, llis"],
+       en:["a) Smooth, cardiac, skeletal","b) Skeletal, smooth, cardiac","c) Skeletal, cardiac, smooth","d) Cardiac, skeletal, smooth"]},
+ correct:2,
+ expl:{es:"Cuádriceps = músculo esquelético (voluntario). Corazón = músculo cardíaco (involuntario, estriado). Estómago = músculo liso (involuntario, no estriado) (Diapositiva 8).",
+       ca:"Quàdriceps = múscul esquelètic (voluntari). Cor = múscul cardíac (involuntari, estriat). Estómac = múscul llis (involuntari, no estriat) (Diapositiva 8).",
+       en:"Quadriceps = skeletal muscle (voluntary). Heart = cardiac muscle (involuntary, striated). Stomach = smooth muscle (involuntary, non-striated) (Slide 8)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 9",ca:"Presentació I · Diapositiva 9",en:"Presentation I · Slide 9"},
+ q:{es:"Al observar una fibra muscular esquelética al microscopio, ¿qué características la distinguen de otras células del cuerpo?",
+    ca:"En observar una fibra muscular esquelètica al microscopi, quines característiques la distingeixen d'altres cèl·lules del cos?",
+    en:"When observing a skeletal muscle fiber under the microscope, what characteristics distinguish it from other body cells?"},
+ opts:{es:["a) Es pequeña, esférica y tiene un solo núcleo","b) Es alargada, cilíndrica y multinucleada","c) Es plana y sin núcleo","d) Tiene forma de estrella con muchas prolongaciones"],
+       ca:["a) És petita, esfèrica i té un sol nucli","b) És allargada, cilíndrica i multinucleada","c) És plana i sense nucli","d) Té forma d'estrella amb moltes prolongacions"],
+       en:["a) It is small, spherical and has a single nucleus","b) It is elongated, cylindrical and multinucleated","c) It is flat and has no nucleus","d) It has a star shape with many extensions"]},
+ correct:1,
+ expl:{es:"La fibra muscular esquelética es una célula alargada, cilíndrica y multinucleada (tiene muchos núcleos), lo que la hace única en el cuerpo humano (Diapositiva 9).",
+       ca:"La fibra muscular esquelètica és una cèl·lula allargada, cilíndrica i multinucleada (té molts nuclis), cosa que la fa única al cos humà (Diapositiva 9).",
+       en:"The skeletal muscle fiber is an elongated, cylindrical, multinucleated cell (it has many nuclei), which makes it unique in the human body (Slide 9)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 10",ca:"Presentació I · Diapositiva 10",en:"Presentation I · Slide 10"},
+ q:{es:"¿Cuál es la unidad funcional y contráctil básica del músculo esquelético?",
+    ca:"Quina és la unitat funcional i contràctil bàsica del múscul esquelètic?",
+    en:"What is the basic functional and contractile unit of skeletal muscle?"},
+ opts:{es:["a) La fibra muscular","b) La miofibrilla","c) El sarcómero","d) El miofilamento de actina"],
+       ca:["a) La fibra muscular","b) La miofibril·la","c) El sarcòmer","d) El miofilament d'actina"],
+       en:["a) The muscle fiber","b) The myofibril","c) The sarcomere","d) The actin myofilament"]},
+ correct:2,
+ expl:{es:"El sarcómero es la unidad funcional y contráctil básica, definido como el segmento entre dos líneas Z consecutivas (Diapositiva 10).",
+       ca:"El sarcòmer és la unitat funcional i contràctil bàsica, definit com el segment entre dues línies Z consecutives (Diapositiva 10).",
+       en:"The sarcomere is the basic functional and contractile unit, defined as the segment between two consecutive Z lines (Slide 10)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 11",ca:"Presentació I · Diapositiva 11",en:"Presentation I · Slide 11"},
+ q:{es:"Durante una contracción muscular, ¿qué ocurre con la Banda A del sarcómero?",
+    ca:"Durant una contracció muscular, què passa amb la Banda A del sarcòmer?",
+    en:"During muscle contraction, what happens to the A Band of the sarcomere?"},
+ opts:{es:["a) Se estrecha hasta desaparecer","b) Se alarga el doble","c) Permanece constante, ya que corresponde a la longitud de la miosina","d) Se divide en dos bandas más pequeñas"],
+       ca:["a) S'estreny fins a desaparèixer","b) S'allarga el doble","c) Roman constant, ja que correspon a la longitud de la miosina","d) Es divideix en dues bandes més petites"],
+       en:["a) It narrows until it disappears","b) It doubles in length","c) It remains constant, as it corresponds to the length of myosin","d) It splits into two smaller bands"]},
+ correct:2,
+ expl:{es:"La Banda A (longitud de los filamentos gruesos de miosina) permanece constante durante la contracción. Lo que se estrecha es la Banda I, al acercarse las líneas Z (Diapositiva 11).",
+       ca:"La Banda A (longitud dels filaments gruixuts de miosina) roman constant durant la contracció. El que s'estreny és la Banda I, en acostar-se les línies Z (Diapositiva 11).",
+       en:"The A Band (length of the thick myosin filaments) remains constant during contraction. What narrows is the I Band, as the Z lines come closer (Slide 11)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 11",ca:"Presentació I · Diapositiva 11",en:"Presentation I · Slide 11"},
+ q:{es:"Cuando un bailarín contrae su bíceps braquial para levantar el brazo en un <em>port de bras</em>, ¿qué ocurre con la Banda I de sus sarcómeros?",
+    ca:"Quan un ballarí contreu el seu bíceps braquial per aixecar el braç en un <em>port de bras</em>, què passa amb la Banda I dels seus sarcòmers?",
+    en:"When a dancer contracts his biceps brachii to lift his arm in a <em>port de bras</em>, what happens to the I Band of his sarcomeres?"},
+ opts:{es:["a) Se ensancha porque las líneas Z se separan","b) Se estrecha porque las líneas Z se acercan","c) No cambia en absoluto","d) Desaparece y se convierte en Banda A"],
+       ca:["a) S'eixampla perquè les línies Z se separen","b) S'estreny perquè les línies Z s'acosten","c) No canvia en absolut","d) Desapareix i es converteix en Banda A"],
+       en:["a) It widens because the Z lines separate","b) It narrows because the Z lines come closer","c) It doesn't change at all","d) It disappears and becomes the A Band"]},
+ correct:1,
+ expl:{es:"Durante la contracción, los filamentos de actina se deslizan hacia el centro del sarcómero, acercando las líneas Z entre sí. Esto hace que la Banda I (zona de solo actina) se estreche (Diapositiva 11).",
+       ca:"Durant la contracció, els filaments d'actina es llisquen cap al centre del sarcòmer, acostant les línies Z entre si. Això fa que la Banda I (zona de només actina) s'estrenyi (Diapositiva 11).",
+       en:"During contraction, actin filaments slide toward the center of the sarcomere, bringing the Z lines closer together. This causes the I Band (actin-only zone) to narrow (Slide 11)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 10",ca:"Presentació I · Diapositiva 10",en:"Presentation I · Slide 10"},
+ q:{es:"¿Cuáles son los dos tipos de miofilamentos que componen el sarcómero?",
+    ca:"Quins són els dos tipus de miofilaments que componen el sarcòmer?",
+    en:"What are the two types of myofilaments that make up the sarcomere?"},
+ opts:{es:["a) Colágeno (grueso) y elastina (delgado)","b) Miosina (grueso) y actina (delgado)","c) Queratina (grueso) y tubulina (delgado)","d) Fibrina (grueso) y globulina (delgado)"],
+       ca:["a) Col·lagen (gruixut) i elastina (prim)","b) Miosina (gruixut) i actina (prim)","c) Queratina (gruixut) i tubulina (prim)","d) Fibrina (gruixut) i globulina (prim)"],
+       en:["a) Collagen (thick) and elastin (thin)","b) Myosin (thick) and actin (thin)","c) Keratin (thick) and tubulin (thin)","d) Fibrin (thick) and globulin (thin)"]},
+ correct:1,
+ expl:{es:"Los miofilamentos gruesos están formados por miosina y los delgados por actina. Su interacción produce la contracción muscular (Diapositiva 10).",
+       ca:"Els miofilaments gruixuts estan formats per miosina i els prims per actina. La seva interacció produeix la contracció muscular (Diapositiva 10).",
+       en:"Thick myofilaments are made of myosin and thin ones of actin. Their interaction produces muscle contraction (Slide 10)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 11",ca:"Presentació I · Diapositiva 11",en:"Presentation I · Slide 11"},
+ q:{es:"Se estima que el músculo bíceps braquial contiene aproximadamente 100.000 sarcómeros alineados en serie. ¿Qué implica esto para la contracción?",
+    ca:"S'estima que el múscul bíceps braquial conté aproximadament 100.000 sarcòmers alineats en sèrie. Què implica això per a la contracció?",
+    en:"The biceps brachii muscle is estimated to contain approximately 100,000 sarcomeres aligned in series. What does this imply for contraction?"},
+ opts:{es:["a) Que cada sarcómero se contrae de forma independiente y desordenada","b) Que el acortamiento de cada sarcómero se suma, produciendo un acortamiento total significativo del músculo","c) Que solo se contraen los sarcómeros de los extremos","d) Que los sarcómeros se alargan durante la contracción"],
+       ca:["a) Que cada sarcòmer es contreu de forma independent i desordenada","b) Que l'escurçament de cada sarcòmer se suma, produint un escurçament total significatiu del múscul","c) Que només es contreuen els sarcòmers dels extrems","d) Que els sarcòmers s'allarguen durant la contracció"],
+       en:["a) That each sarcomere contracts independently and disorderly","b) That the shortening of each sarcomere adds up, producing a significant total shortening of the muscle","c) That only the sarcomeres at the ends contract","d) That the sarcomeres lengthen during contraction"]},
+ correct:1,
+ expl:{es:"Al estar en serie, el pequeño acortamiento de cada uno de los ~100.000 sarcómeros se suma, produciendo un acortamiento total apreciable del músculo completo (Diapositiva 11).",
+       ca:"En estar en sèrie, el petit escurçament de cadascun dels ~100.000 sarcòmers se suma, produint un escurçament total apreciable del múscul complet (Diapositiva 11).",
+       en:"Being in series, the small shortening of each of the ~100,000 sarcomeres adds up, producing an appreciable total shortening of the complete muscle (Slide 11)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 10",ca:"Presentació I · Diapositiva 10",en:"Presentation I · Slide 10"},
+ q:{es:"Ordena de mayor a menor las siguientes estructuras del músculo esquelético:",
+    ca:"Ordena de major a menor les següents estructures del múscul esquelètic:",
+    en:"Order from largest to smallest the following skeletal muscle structures:"},
+ opts:{es:["a) Miofilamento → Sarcómero → Miofibrilla → Fibra muscular","b) Fibra muscular → Miofibrilla → Sarcómero → Miofilamento","c) Sarcómero → Fibra muscular → Miofilamento → Miofibrilla","d) Miofibrilla → Fibra muscular → Miofilamento → Sarcómero"],
+       ca:["a) Miofilament → Sarcòmer → Miofibril·la → Fibra muscular","b) Fibra muscular → Miofibril·la → Sarcòmer → Miofilament","c) Sarcòmer → Fibra muscular → Miofilament → Miofibril·la","d) Miofibril·la → Fibra muscular → Miofilament → Sarcòmer"],
+       en:["a) Myofilament → Sarcomere → Myofibril → Muscle fiber","b) Muscle fiber → Myofibril → Sarcomere → Myofilament","c) Sarcomere → Muscle fiber → Myofilament → Myofibril","d) Myofibril → Muscle fiber → Myofilament → Sarcomere"]},
+ correct:1,
+ expl:{es:"La jerarquía de mayor a menor es: Fibra muscular (célula) → Miofibrilla (orgánulo) → Sarcómero (unidad funcional) → Miofilamento (proteína: actina/miosina) (Diapositiva 10).",
+       ca:"La jerarquia de major a menor és: Fibra muscular (cèl·lula) → Miofibril·la (orgànul) → Sarcòmer (unitat funcional) → Miofilament (proteïna: actina/miosina) (Diapositiva 10).",
+       en:"The hierarchy from largest to smallest is: Muscle fiber (cell) → Myofibril (organelle) → Sarcomere (functional unit) → Myofilament (protein: actin/myosin) (Slide 10)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 8",ca:"Presentació I · Diapositiva 8",en:"Presentation I · Slide 8"},
+ q:{es:"¿Cuál de las siguientes NO es una función del músculo esquelético?",
+    ca:"Quina de les següents NO és una funció del múscul esquelètic?",
+    en:"Which of the following is NOT a function of skeletal muscle?"},
+ opts:{es:["a) Movimiento voluntario","b) Mantenimiento de la postura","c) Bombeo involuntario de la sangre","d) Termorregulación (generación de calor)"],
+       ca:["a) Moviment voluntari","b) Manteniment de la postura","c) Bombament involuntari de la sang","d) Termoregulació (generació de calor)"],
+       en:["a) Voluntary movement","b) Maintaining posture","c) Involuntary pumping of blood","d) Thermoregulation (heat generation)"]},
+ correct:2,
+ expl:{es:"El bombeo involuntario de la sangre es función del músculo cardíaco, no del esquelético. El músculo esquelético sí participa en movimiento voluntario, postura, locomoción, circulación (retorno venoso) y termorregulación (Diapositiva 8).",
+       ca:"El bombament involuntari de la sang és funció del múscul cardíac, no de l'esquelètic. El múscul esquelètic sí que participa en moviment voluntari, postura, locomoció, circulació (retorn venós) i termoregulació (Diapositiva 8).",
+       en:"Involuntary blood pumping is a function of cardiac muscle, not skeletal. Skeletal muscle does participate in voluntary movement, posture, locomotion, circulation (venous return) and thermoregulation (Slide 8)."}},
+
+{block:1, tagColor:"#11998e",
+ tag:{es:"Músculo y Sarcómero",ca:"Múscul i Sarcòmer",en:"Muscle and Sarcomere"},
+ ref:{es:"Presentación I · Diapositiva 11",ca:"Presentació I · Diapositiva 11",en:"Presentation I · Slide 11"},
+ q:{es:"¿Qué estructuras delimitan un sarcómero?",
+    ca:"Quines estructures delimiten un sarcòmer?",
+    en:"What structures delimit a sarcomere?"},
+ opts:{es:["a) Dos bandas A consecutivas","b) Dos líneas Z consecutivas","c) Una banda I y una banda H","d) Dos discos intercalares"],
+       ca:["a) Dues bandes A consecutives","b) Dues línies Z consecutives","c) Una banda I i una banda H","d) Dos discs intercalats"],
+       en:["a) Two consecutive A bands","b) Two consecutive Z lines","c) An I band and an H band","d) Two intercalated discs"]},
+ correct:1,
+ expl:{es:"El sarcómero se define como el segmento comprendido entre dos líneas Z consecutivas. Las líneas Z son los puntos de anclaje de los filamentos de actina (Diapositiva 11).",
+       ca:"El sarcòmer es defineix com el segment comprès entre dues línies Z consecutives. Les línies Z són els punts d'ancoratge dels filaments d'actina (Diapositiva 11).",
+       en:"The sarcomere is defined as the segment between two consecutive Z lines. The Z lines are the anchoring points of the actin filaments (Slide 11)."}},
+
+// ─── BLOQUE 3 ───
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 12",ca:"Presentació I · Diapositiva 12",en:"Presentation I · Slide 12"},
+ q:{es:"¿Qué es una unidad motora?",
+    ca:"Què és una unitat motora?",
+    en:"What is a motor unit?"},
+ opts:{es:["a) Todo el músculo esquelético y su nervio principal","b) Una motoneurona junto con todas las fibras musculares que inerva","c) Un sarcómero y su línea Z","d) La unión entre dos músculos sinergistas"],
+       ca:["a) Tot el múscul esquelètic i el seu nervi principal","b) Una motoneurona juntament amb totes les fibres musculars que innerva","c) Un sarcòmer i la seva línia Z","d) La unió entre dos músculs sinergistes"],
+       en:["a) The entire skeletal muscle and its main nerve","b) A motor neuron together with all the muscle fibers it innervates","c) A sarcomere and its Z line","d) The union between two synergist muscles"]},
+ correct:1,
+ expl:{es:"La unidad motora está formada por una motoneurona (del asta anterior de la médula espinal) y el conjunto de fibras musculares que esa neurona controla (Diapositiva 12).",
+       ca:"La unitat motora està formada per una motoneurona (de l'asta anterior de la medul·la espinal) i el conjunt de fibres musculars que aquesta neurona controla (Diapositiva 12).",
+       en:"The motor unit is formed by a motor neuron (from the anterior horn of the spinal cord) and the set of muscle fibers that neuron controls (Slide 12)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 12",ca:"Presentació I · Diapositiva 12",en:"Presentation I · Slide 12"},
+ q:{es:"¿Dónde se encuentran las motoneuronas que dan la orden de contracción a los músculos esqueléticos?",
+    ca:"On es troben les motoneurones que donen l'ordre de contracció als músculs esquelètics?",
+    en:"Where are the motor neurons that give the contraction order to skeletal muscles located?"},
+ opts:{es:["a) En la corteza cerebral exclusivamente","b) En el asta anterior de la médula espinal","c) En los ganglios linfáticos","d) En el interior de las fibras musculares"],
+       ca:["a) A l'escorça cerebral exclusivament","b) A l'asta anterior de la medul·la espinal","c) Als ganglis limfàtics","d) A l'interior de les fibres musculars"],
+       en:["a) Exclusively in the cerebral cortex","b) In the anterior horn of the spinal cord","c) In the lymph nodes","d) Inside the muscle fibers"]},
+ correct:1,
+ expl:{es:"Las motoneuronas que inervan el músculo esquelético tienen su cuerpo celular en el asta anterior de la médula espinal (Diapositiva 12). Desde allí, su axón viaja hasta el músculo.",
+       ca:"Les motoneurones que innerven el múscul esquelètic tenen el seu cos cel·lular a l'asta anterior de la medul·la espinal (Diapositiva 12). Des d'allà, el seu axó viatja fins al múscul.",
+       en:"The motor neurons that innervate skeletal muscle have their cell body in the anterior horn of the spinal cord (Slide 12). From there, their axon travels to the muscle."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 13",ca:"Presentació I · Diapositiva 13",en:"Presentation I · Slide 13"},
+ q:{es:"En la unión neuromuscular, ¿qué sustancia química se libera desde la terminal del nervio para transmitir la señal a la fibra muscular?",
+    ca:"A la unió neuromuscular, quina substància química s'allibera des de la terminal del nervi per transmetre el senyal a la fibra muscular?",
+    en:"At the neuromuscular junction, what chemical substance is released from the nerve terminal to transmit the signal to the muscle fiber?"},
+ opts:{es:["a) Adrenalina","b) Dopamina","c) Acetilcolina","d) Insulina"],
+       ca:["a) Adrenalina","b) Dopamina","c) Acetilcolina","d) Insulina"],
+       en:["a) Adrenaline","b) Dopamine","c) Acetylcholine","d) Insulin"]},
+ correct:2,
+ expl:{es:"La acetilcolina es el neurotransmisor que se libera en la unión neuromuscular (placa motora). Se une a receptores de la fibra muscular y desencadena el potencial de acción que viaja por los túbulos T (Diapositiva 13).",
+       ca:"L'acetilcolina és el neurotransmissor que s'allibera a la unió neuromuscular (placa motora). S'uneix a receptors de la fibra muscular i desencadena el potencial d'acció que viatja pels túbuls T (Diapositiva 13).",
+       en:"Acetylcholine is the neurotransmitter released at the neuromuscular junction (motor end plate). It binds to receptors on the muscle fiber and triggers the action potential that travels through the T-tubules (Slide 13)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 13",ca:"Presentació I · Diapositiva 13",en:"Presentation I · Slide 13"},
+ q:{es:"¿Qué ion se libera desde los depósitos internos de la fibra muscular y es imprescindible para que la actina y la miosina se unan?",
+    ca:"Quin ió s'allibera des dels dipòsits interns de la fibra muscular i és imprescindible perquè l'actina i la miosina s'uneixin?",
+    en:"What ion is released from the internal stores of the muscle fiber and is essential for actin and myosin to bind?"},
+ opts:{es:["a) Sodio (Na⁺)","b) Potasio (K⁺)","c) Calcio (Ca²⁺)","d) Cloro (Cl⁻)"],
+       ca:["a) Sodi (Na⁺)","b) Potassi (K⁺)","c) Calci (Ca²⁺)","d) Clor (Cl⁻)"],
+       en:["a) Sodium (Na⁺)","b) Potassium (K⁺)","c) Calcium (Ca²⁺)","d) Chlorine (Cl⁻)"]},
+ correct:2,
+ expl:{es:"El calcio (Ca²⁺) se libera desde el retículo sarcoplasmático cuando llega el potencial de acción por los túbulos T. El Ca²⁺ se une a la troponina, descubriendo los sitios de unión de la actina para la miosina (Diapositiva 13).",
+       ca:"El calci (Ca²⁺) s'allibera des del reticle sarcoplasmàtic quan arriba el potencial d'acció pels túbuls T. El Ca²⁺ s'uneix a la troponina, descobrint els llocs d'unió de l'actina per a la miosina (Diapositiva 13).",
+       en:"Calcium (Ca²⁺) is released from the sarcoplasmic reticulum when the action potential arrives through the T-tubules. Ca²⁺ binds to troponin, exposing the actin binding sites for myosin (Slide 13)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 14",ca:"Presentació I · Diapositiva 14",en:"Presentation I · Slide 14"},
+ q:{es:"¿Cuál es el papel esencial del ATP en el ciclo de contracción muscular?",
+    ca:"Quin és el paper essencial de l'ATP en el cicle de contracció muscular?",
+    en:"What is the essential role of ATP in the muscle contraction cycle?"},
+ opts:{es:["a) Unir la actina a la miosina de forma permanente","b) Liberar calcio del retículo sarcoplasmático","c) Desacoplar la miosina de la actina para permitir un nuevo ciclo","d) Degradar la acetilcolina en la sinapsis"],
+       ca:["a) Unir l'actina a la miosina de forma permanent","b) Alliberar calci del reticle sarcoplasmàtic","c) Desacoblar la miosina de l'actina per permetre un nou cicle","d) Degradar l'acetilcolina a la sinapsi"],
+       en:["a) Permanently bind actin to myosin","b) Release calcium from the sarcoplasmic reticulum","c) Uncouple myosin from actin to allow a new cycle","d) Degrade acetylcholine at the synapse"]},
+ correct:2,
+ expl:{es:"El ATP es necesario para que la cabeza de miosina se suelte de la actina después del golpe de fuerza. Sin ATP, la miosina queda unida a la actina de forma permanente (como ocurre en el rigor mortis) (Diapositiva 14).",
+       ca:"L'ATP és necessari perquè el cap de miosina es solti de l'actina després del cop de força. Sense ATP, la miosina queda unida a l'actina de forma permanent (com passa en el rigor mortis) (Diapositiva 14).",
+       en:"ATP is necessary for the myosin head to release from actin after the power stroke. Without ATP, myosin remains permanently bound to actin (as occurs in rigor mortis) (Slide 14)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 15",ca:"Presentació I · Diapositiva 15",en:"Presentation I · Slide 15"},
+ q:{es:"¿Por qué se produce el <em>rigor mortis</em> (rigidez cadavérica) después de la muerte?",
+    ca:"Per què es produeix el <em>rigor mortis</em> (rigidesa cadavèrica) després de la mort?",
+    en:"Why does <em>rigor mortis</em> (cadaveric rigidity) occur after death?"},
+ opts:{es:["a) Porque el calcio desaparece de las células","b) Porque la acetilcolina se acumula en la sinapsis","c) Porque al no haber ATP, la miosina no puede desacoplarse de la actina","d) Porque los huesos se fusionan con los músculos"],
+       ca:["a) Perquè el calci desapareix de les cèl·lules","b) Perquè l'acetilcolina s'acumula a la sinapsi","c) Perquè en no haver-hi ATP, la miosina no es pot desacoblar de l'actina","d) Perquè els ossos es fusionen amb els músculs"],
+       en:["a) Because calcium disappears from the cells","b) Because acetylcholine accumulates at the synapse","c) Because with no ATP, myosin cannot uncouple from actin","d) Because bones fuse with muscles"]},
+ correct:2,
+ expl:{es:"Tras la muerte, las células dejan de producir ATP. Sin ATP, las cabezas de miosina no pueden soltarse de la actina, y los músculos quedan rígidos de forma permanente (Diapositiva 15).",
+       ca:"Després de la mort, les cèl·lules deixen de produir ATP. Sense ATP, els caps de miosina no es poden soltar de l'actina, i els músculs queden rígids de forma permanent (Diapositiva 15).",
+       en:"After death, cells stop producing ATP. Without ATP, myosin heads cannot release from actin, and muscles remain permanently rigid (Slide 15)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 15",ca:"Presentació I · Diapositiva 15",en:"Presentation I · Slide 15"},
+ q:{es:"Una bailarina ha ensayado 5 horas seguidas sin beber agua ni comer. De repente, su gemelo se contrae de forma involuntaria y dolorosa. ¿Qué cuadro clínico describe mejor esta situación?",
+    ca:"Una ballarina ha assajat 5 hores seguides sense beure aigua ni menjar. De sobte, el seu bessó es contreu de forma involuntària i dolorosa. Quin quadre clínic descriu millor aquesta situació?",
+    en:"A dancer has rehearsed for 5 hours straight without drinking water or eating. Suddenly, her calf contracts involuntarily and painfully. What clinical condition best describes this situation?"},
+ opts:{es:["a) Rigor mortis","b) Rampa muscular (calambre)","c) Fractura por estrés","d) Tendinitis aguda"],
+       ca:["a) Rigor mortis","b) Rampa muscular (calambre)","c) Fractura per estrès","d) Tendinitis aguda"],
+       en:["a) Rigor mortis","b) Muscle cramp (spasm)","c) Stress fracture","d) Acute tendinitis"]},
+ correct:1,
+ expl:{es:"Las rampas musculares son contracciones involuntarias causadas por hiperexcitabilidad de la motoneurona alfa, asociadas a fatiga, deshidratación o pérdida de electrolitos (Diapositiva 15).",
+       ca:"Les rampes musculars són contraccions involuntàries causades per hiperexcitabilitat de la motoneurona alfa, associades a fatiga, deshidratació o pèrdua d'electròlits (Diapositiva 15).",
+       en:"Muscle cramps are involuntary contractions caused by hyperexcitability of the alpha motor neuron, associated with fatigue, dehydration or electrolyte loss (Slide 15)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 16",ca:"Presentació I · Diapositiva 16",en:"Presentation I · Slide 16"},
+ q:{es:"Durante la fase de subida de un <em>relevé</em>, los gemelos se acortan mientras generan tensión. ¿Qué tipo de contracción es esta?",
+    ca:"Durant la fase de pujada d'un <em>relevé</em>, els bessons s'escurcen mentre generen tensió. Quin tipus de contracció és aquesta?",
+    en:"During the rising phase of a <em>relevé</em>, the calves shorten while generating tension. What type of contraction is this?"},
+ opts:{es:["a) Excéntrica","b) Isométrica","c) Concéntrica","d) Pasiva"],
+       ca:["a) Excèntrica","b) Isomètrica","c) Concèntrica","d) Passiva"],
+       en:["a) Eccentric","b) Isometric","c) Concentric","d) Passive"]},
+ correct:2,
+ expl:{es:"En la contracción concéntrica, la tensión generada por el músculo supera la resistencia, y el músculo se acorta. Es lo que ocurre en los gemelos al subir al relevé (Diapositiva 16).",
+       ca:"En la contracció concèntrica, la tensió generada pel múscul supera la resistència, i el múscul s'escurça. És el que passa als bessons en pujar al relevé (Diapositiva 16).",
+       en:"In a concentric contraction, the tension generated by the muscle exceeds the resistance, and the muscle shortens. This is what happens in the calves when rising to relevé (Slide 16)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 16",ca:"Presentació I · Diapositiva 16",en:"Presentation I · Slide 16"},
+ q:{es:"Cuando un bailarín baja lentamente desde un <em>relevé</em> controlando el descenso, sus gemelos generan tensión mientras se alargan. ¿Qué tipo de contracción realizan?",
+    ca:"Quan un ballarí baixa lentament des d'un <em>relevé</em> controlant el descens, els seus bessons generen tensió mentre s'allarguen. Quin tipus de contracció fan?",
+    en:"When a dancer slowly lowers from a <em>relevé</em> controlling the descent, his calves generate tension while lengthening. What type of contraction do they perform?"},
+ opts:{es:["a) Concéntrica","b) Isométrica","c) Excéntrica","d) Estática"],
+       ca:["a) Concèntrica","b) Isomètrica","c) Excèntrica","d) Estàtica"],
+       en:["a) Concentric","b) Isometric","c) Eccentric","d) Static"]},
+ correct:2,
+ expl:{es:"En la contracción excéntrica, el músculo genera fuerza mientras se alarga (frena el movimiento). Es la fase de descenso controlado del relevé (Diapositiva 16).",
+       ca:"En la contracció excèntrica, el múscul genera força mentre s'allarga (frena el moviment). És la fase de descens controlat del relevé (Diapositiva 16).",
+       en:"In an eccentric contraction, the muscle generates force while lengthening (braking the movement). It is the controlled descent phase of the relevé (Slide 16)."}},
+
+{block:2, tagColor:"#ee5a6f",
+ tag:{es:"Contracción y Unidad Motora",ca:"Contracció i Unitat Motora",en:"Contraction and Motor Unit"},
+ ref:{es:"Presentación I · Diapositiva 16",ca:"Presentació I · Diapositiva 16",en:"Presentation I · Slide 16"},
+ q:{es:"Una bailarina mantiene un <em>arabesque</em> estático durante 8 tiempos. Su cuádriceps está tenso pero no cambia de longitud. ¿Qué tipo de contracción predomina?",
+    ca:"Una ballarina manté un <em>arabesque</em> estàtic durant 8 temps. El seu quàdriceps està tens però no canvia de longitud. Quin tipus de contracció predomina?",
+    en:"A dancer holds a static <em>arabesque</em> for 8 counts. Her quadriceps is tense but does not change length. What type of contraction predominates?"},
+ opts:{es:["a) Concéntrica","b) Isométrica","c) Excéntrica","d) Balística"],
+       ca:["a) Concèntrica","b) Isomètrica","c) Excèntrica","d) Balística"],
+       en:["a) Concentric","b) Isometric","c) Eccentric","d) Ballistic"]},
+ correct:1,
+ expl:{es:"En la contracción isométrica, la tensión generada iguala la resistencia y el músculo no cambia de longitud apreciablemente. Es típica del mantenimiento de posturas estáticas (Diapositiva 16).",
+       ca:"En la contracció isomètrica, la tensió generada iguala la resistència i el múscul no canvia de longitud apreciablement. És típica del manteniment de postures estàtiques (Diapositiva 16).",
+       en:"In an isometric contraction, the generated tension equals the resistance and the muscle does not appreciably change length. It is typical of holding static postures (Slide 16)."}},
+
+// ─── BLOQUE 4 ───
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 1",ca:"Presentació II · Secció 1",en:"Presentation II · Section 1"},
+ q:{es:"¿Cuáles son los cinco componentes clave de la cadena biomecánica del sistema musculoesquelético?",
+    ca:"Quins són els cinc components clau de la cadena biomecànica del sistema musculoesquelètic?",
+    en:"What are the five key components of the biomechanical chain of the musculoskeletal system?"},
+ opts:{es:["a) Cerebro, nervios, músculos, huesos, piel","b) Músculo, tendón, hueso, articulación, ligamento","c) Sangre, linfa, músculo, hueso, cartílago","d) Músculo, fascia, piel, hueso, nervio"],
+       ca:["a) Cervell, nervis, músculs, ossos, pell","b) Múscul, tendó, os, articulació, lligament","c) Sang, limfa, múscul, os, cartílag","d) Múscul, fàscia, pell, os, nervi"],
+       en:["a) Brain, nerves, muscles, bones, skin","b) Muscle, tendon, bone, joint, ligament","c) Blood, lymph, muscle, bone, cartilage","d) Muscle, fascia, skin, bone, nerve"]},
+ correct:1,
+ expl:{es:"Los cinco componentes son: Músculo (genera tensión), Tendón (une músculo a hueso), Hueso (palanca), Articulación (permite movimiento) y Ligamento (une hueso con hueso) (Pres II, Sección 1).",
+       ca:"Els cinc components són: Múscul (genera tensió), Tendó (uneix múscul a os), Os (palanca), Articulació (permet moviment) i Lligament (uneix os amb os) (Pres II, Secció 1).",
+       en:"The five components are: Muscle (generates tension), Tendon (attaches muscle to bone), Bone (lever), Joint (allows movement) and Ligament (connects bone to bone) (Pres II, Section 1)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 1",ca:"Presentació II · Secció 1",en:"Presentation II · Section 1"},
+ q:{es:"¿Cuál es la función principal del tendón en la cadena biomecánica?",
+    ca:"Quina és la funció principal del tendó a la cadena biomecànica?",
+    en:"What is the main function of the tendon in the biomechanical chain?"},
+ opts:{es:["a) Generar la contracción muscular","b) Unir un hueso con otro hueso","c) Unir el músculo al hueso y transmitir la fuerza muscular","d) Producir líquido sinovial"],
+       ca:["a) Generar la contracció muscular","b) Unir un os amb un altre os","c) Unir el múscul a l'os i transmetre la força muscular","d) Produir líquid sinovial"],
+       en:["a) Generate muscle contraction","b) Connect one bone to another","c) Attach muscle to bone and transmit muscle force","d) Produce synovial fluid"]},
+ correct:2,
+ expl:{es:"El tendón es tejido conectivo que une el músculo al hueso y transmite la fuerza generada por la contracción muscular hasta el hueso, produciendo el movimiento (Pres II, Sección 1).",
+       ca:"El tendó és teixit connectiu que uneix el múscul a l'os i transmet la força generada per la contracció muscular fins a l'os, produint el moviment (Pres II, Secció 1).",
+       en:"The tendon is connective tissue that attaches muscle to bone and transmits the force generated by muscle contraction to the bone, producing movement (Pres II, Section 1)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 1",ca:"Presentació II · Secció 1",en:"Presentation II · Section 1"},
+ q:{es:"¿Qué diferencia fundamental hay entre un tendón y un ligamento?",
+    ca:"Quina diferència fonamental hi ha entre un tendó i un lligament?",
+    en:"What fundamental difference is there between a tendon and a ligament?"},
+ opts:{es:["a) El tendón une músculo a hueso; el ligamento une hueso a hueso","b) El tendón une hueso a hueso; el ligamento une músculo a hueso","c) No hay diferencia; son lo mismo","d) El tendón es elástico y el ligamento es rígido"],
+       ca:["a) El tendó uneix múscul a os; el lligament uneix os a os","b) El tendó uneix os a os; el lligament uneix múscul a os","c) No hi ha diferència; són el mateix","d) El tendó és elàstic i el lligament és rígid"],
+       en:["a) The tendon connects muscle to bone; the ligament connects bone to bone","b) The tendon connects bone to bone; the ligament connects muscle to bone","c) There is no difference; they are the same","d) The tendon is elastic and the ligament is rigid"]},
+ correct:0,
+ expl:{es:"El tendón une músculo a hueso (transmite fuerza). El ligamento une hueso con hueso (estabiliza y limita el movimiento articular) (Pres II, Sección 1).",
+       ca:"El tendó uneix múscul a os (transmet força). El lligament uneix os amb os (estabilitza i limita el moviment articular) (Pres II, Secció 1).",
+       en:"The tendon connects muscle to bone (transmits force). The ligament connects bone to bone (stabilizes and limits joint movement) (Pres II, Section 1)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 2",ca:"Presentació II · Secció 2",en:"Presentation II · Section 2"},
+ q:{es:"Cuando decimos que el músculo es el «tejido contráctil» del sistema musculoesquelético, ¿qué significa exactamente?",
+    ca:"Quan diem que el múscul és el «teixit contràctil» del sistema musculoesquelètic, què significa exactament?",
+    en:"When we say that muscle is the 'contractile tissue' of the musculoskeletal system, what does it mean exactly?"},
+ opts:{es:["a) Que es el único tejido que puede estirarse","b) Que es capaz de generar tensión activa para producir, controlar o estabilizar el movimiento","c) Que solo sirve para mover los huesos","d) Que se contrae de forma involuntaria siempre"],
+       ca:["a) Que és l'únic teixit que es pot estirar","b) Que és capaç de generar tensió activa per produir, controlar o estabilitzar el moviment","c) Que només serveix per moure els ossos","d) Que es contreu de forma involuntària sempre"],
+       en:["a) That it is the only tissue that can stretch","b) That it is capable of generating active tension to produce, control or stabilize movement","c) That it only serves to move bones","d) That it always contracts involuntarily"]},
+ correct:1,
+ expl:{es:"El músculo esquelético genera tensión activa (mediante la contracción de sus sarcómeros) para producir movimiento, controlarlo o estabilizar las articulaciones (Pres II, Secciones 1 y 2).",
+       ca:"El múscul esquelètic genera tensió activa (mitjançant la contracció dels seus sarcòmers) per produir moviment, controlar-lo o estabilitzar les articulacions (Pres II, Seccions 1 i 2).",
+       en:"Skeletal muscle generates active tension (through contraction of its sarcomeres) to produce movement, control it or stabilize joints (Pres II, Sections 1 and 2)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 5",ca:"Presentació II · Secció 5",en:"Presentation II · Section 5"},
+ q:{es:"¿Qué es la coactivación muscular?",
+    ca:"Què és la coactivació muscular?",
+    en:"What is muscle coactivation?"},
+ opts:{es:["a) La contracción de un solo músculo de forma aislada","b) El trabajo coordinado y simultáneo de grupos musculares para lograr estabilidad y control postural","c) La relajación total de todos los músculos","d) La contracción involuntaria de un músculo fatigado"],
+       ca:["a) La contracció d'un sol múscul de forma aïllada","b) El treball coordinat i simultani de grups musculars per aconseguir estabilitat i control postural","c) La relaxació total de tots els músculs","d) La contracció involuntària d'un múscul fatigat"],
+       en:["a) The contraction of a single muscle in isolation","b) The coordinated and simultaneous work of muscle groups to achieve stability and postural control","c) The total relaxation of all muscles","d) The involuntary contraction of a fatigued muscle"]},
+ correct:1,
+ expl:{es:"La coactivación muscular es el trabajo coordinado de varios grupos musculares (agonistas, antagonistas, sinergistas) que permite la estabilidad y el control postural durante el movimiento (Pres II, Sección 5).",
+       ca:"La coactivació muscular és el treball coordinat de diversos grups musculars (agonistes, antagonistes, sinergistes) que permet l'estabilitat i el control postural durant el moviment (Pres II, Secció 5).",
+       en:"Muscle coactivation is the coordinated work of several muscle groups (agonists, antagonists, synergists) that allows stability and postural control during movement (Pres II, Section 5)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 5",ca:"Presentació II · Secció 5",en:"Presentation II · Section 5"},
+ q:{es:"Una bailarina mantiene el equilibrio sobre una pierna en <em>passé relevé</em>. ¿Qué mecanismo fisiológico le permite no caerse?",
+    ca:"Una ballarina manté l'equilibri sobre una cama en <em>passé relevé</em>. Quin mecanisme fisiològic li permet no caure?",
+    en:"A dancer balances on one leg in <em>passé relevé</em>. What physiological mechanism prevents her from falling?"},
+ opts:{es:["a) Solo la fuerza del cuádriceps de la pierna de apoyo","b) La coactivación de múltiples grupos musculares (tobillo, cadera, tronco) que ajustan constantemente la postura","c) La rigidez de los huesos del pie","d) La relajación completa de los músculos de la pierna elevada"],
+       ca:["a) Només la força del quàdriceps de la cama de suport","b) La coactivació de múltiples grups musculars (turmell, maluc, tronc) que ajusten constantment la postura","c) La rigidesa dels ossos del peu","d) La relaxació completa dels músculs de la cama elevada"],
+       en:["a) Only the strength of the supporting leg's quadriceps","b) The coactivation of multiple muscle groups (ankle, hip, trunk) that constantly adjust posture","c) The rigidity of the foot bones","d) The complete relaxation of the raised leg muscles"]},
+ correct:1,
+ expl:{es:"El equilibrio en una posición compleja requiere la coactivación coordinada de músculos del tobillo, cadera, tronco y core, que realizan microajustes constantes para mantener la estabilidad (Pres II, Sección 5).",
+       ca:"L'equilibri en una posició complexa requereix la coactivació coordinada de músculs del turmell, maluc, tronc i core, que fan microajustos constants per mantenir l'estabilitat (Pres II, Secció 5).",
+       en:"Balance in a complex position requires coordinated coactivation of ankle, hip, trunk and core muscles, which make constant micro-adjustments to maintain stability (Pres II, Section 5)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 1",ca:"Presentació II · Secció 1",en:"Presentation II · Section 1"},
+ q:{es:"En la cadena biomecánica, ¿qué papel desempeñan los huesos?",
+    ca:"A la cadena biomecànica, quin paper fan els ossos?",
+    en:"In the biomechanical chain, what role do bones play?"},
+ opts:{es:["a) Generar la fuerza del movimiento","b) Actuar como palancas rígidas que sostienen el cuerpo, protegen órganos y transmiten fuerzas","c) Unir los músculos entre sí","d) Producir líquido sinovial para las articulaciones"],
+       ca:["a) Generar la força del moviment","b) Actuar com a palanques rígides que sostenen el cos, protegeixen òrgans i transmeten forces","c) Unir els músculs entre si","d) Produir líquid sinovial per a les articulacions"],
+       en:["a) Generate movement force","b) Act as rigid levers that support the body, protect organs and transmit forces","c) Connect muscles to each other","d) Produce synovial fluid for joints"]},
+ correct:1,
+ expl:{es:"Los huesos son estructuras rígidas y dinámicas que sostienen el cuerpo, protegen órganos vitales y actúan como palancas para el movimiento (Pres II, Sección 1).",
+       ca:"Els ossos són estructures rígides i dinàmiques que sostenen el cos, protegeixen òrgans vitals i actuen com a palanques per al moviment (Pres II, Secció 1).",
+       en:"Bones are rigid and dynamic structures that support the body, protect vital organs and act as levers for movement (Pres II, Section 1)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 3",ca:"Presentació II · Secció 3",en:"Presentation II · Section 3"},
+ q:{es:"Cuando un músculo se contrae, ¿qué ocurre realmente a nivel de sus proteínas?",
+    ca:"Quan un múscul es contreu, què passa realment a nivell de les seves proteïnes?",
+    en:"When a muscle contracts, what actually happens at the level of its proteins?"},
+ opts:{es:["a) Las proteínas de actina y miosina se encogen individualmente","b) Las proteínas de actina y miosina se deslizan unas sobre otras, acercando las líneas Z","c) Las proteínas se disuelven y se regeneran","d) Las proteínas de colágeno se estiran"],
+       ca:["a) Les proteïnes d'actina i miosina s'encongeixen individualment","b) Les proteïnes d'actina i miosina es llisquen unes sobre les altres, acostant les línies Z","c) Les proteïnes es dissolen i es regeneren","d) Les proteïnes de col·lagen s'estiren"],
+       en:["a) Actin and myosin proteins shrink individually","b) Actin and myosin proteins slide over each other, bringing the Z lines closer","c) Proteins dissolve and regenerate","d) Collagen proteins stretch"]},
+ correct:1,
+ expl:{es:"El músculo no se «encoge» en su estructura proteica. Lo que ocurre es que los filamentos de actina y miosina se deslizan unos sobre otros, acercando las líneas Z y acortando el sarcómero (Pres II, Sección 3).",
+       ca:"El múscul no s'«encongeix» en la seva estructura proteica. El que passa és que els filaments d'actina i miosina es llisquen uns sobre els altres, acostant les línies Z i escurçant el sarcòmer (Pres II, Secció 3).",
+       en:"The muscle does not 'shrink' in its protein structure. What happens is that actin and myosin filaments slide over each other, bringing the Z lines closer and shortening the sarcomere (Pres II, Section 3)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 4",ca:"Presentació II · Secció 4",en:"Presentation II · Section 4"},
+ q:{es:"En un <em>grand plié</em>, ¿qué tipo de contracción realizan los cuádriceps durante la fase de descenso?",
+    ca:"En un <em>grand plié</em>, quin tipus de contracció fan els quàdriceps durant la fase de descens?",
+    en:"In a <em>grand plié</em>, what type of contraction do the quadriceps perform during the descent phase?"},
+ opts:{es:["a) Concéntrica, porque se acortan","b) Isométrica, porque no cambian de longitud","c) Excéntrica, porque generan tensión mientras se alargan para frenar el descenso","d) No realizan ninguna contracción"],
+       ca:["a) Concèntrica, perquè s'escurcen","b) Isomètrica, perquè no canvien de longitud","c) Excèntrica, perquè generen tensió mentre s'allarguen per frenar el descens","d) No fan cap contracció"],
+       en:["a) Concentric, because they shorten","b) Isometric, because they don't change length","c) Eccentric, because they generate tension while lengthening to brake the descent","d) They perform no contraction"]},
+ correct:2,
+ expl:{es:"Durante el descenso del plié, los cuádriceps se alargan pero generan tensión para controlar la velocidad de bajada (frenan la gravedad). Esto es una contracción excéntrica (Pres II, Sección 4).",
+       ca:"Durant el descens del plié, els quàdriceps s'allarguen però generen tensió per controlar la velocitat de baixada (frenen la gravetat). Això és una contracció excèntrica (Pres II, Secció 4).",
+       en:"During the descent of the plié, the quadriceps lengthen but generate tension to control the descent speed (braking gravity). This is an eccentric contraction (Pres II, Section 4)."}},
+
+{block:3, tagColor:"#f7971e",
+ tag:{es:"Biomecánica",ca:"Biomecànica",en:"Biomechanics"},
+ ref:{es:"Presentación II · Sección 5",ca:"Presentació II · Secció 5",en:"Presentation II · Section 5"},
+ q:{es:"¿Por qué se dice que «los músculos trabajan en equipo»?",
+    ca:"Per què es diu que «els músculs treballen en equip»?",
+    en:"Why is it said that 'muscles work as a team'?"},
+ opts:{es:["a) Porque todos los músculos del cuerpo se contraen a la vez","b) Porque para cualquier movimiento se necesita la coordinación de agonistas, antagonistas y sinergistas","c) Porque los músculos comparten la misma motoneurona","d) Porque los músculos se comunican mediante hormonas"],
+       ca:["a) Perquè tots els músculs del cos es contreuen alhora","b) Perquè per a qualsevol moviment es necessita la coordinació d'agonistes, antagonistes i sinergistes","c) Perquè els músculs comparteixen la mateixa motoneurona","d) Perquè els músculs es comuniquen mitjançant hormones"],
+       en:["a) Because all body muscles contract at once","b) Because any movement requires the coordination of agonists, antagonists and synergists","c) Because muscles share the same motor neuron","d) Because muscles communicate through hormones"]},
+ correct:1,
+ expl:{es:"Ningún músculo trabaja aislado. Para cada movimiento, un grupo de músculos (agonistas) produce la acción, otros (antagonistas) la controlan, y otros (sinergistas) la estabilizan (Pres II, Sección 5).",
+       ca:"Cap múscul treballa aïllat. Per a cada moviment, un grup de músculs (agonistes) produeix l'acció, altres (antagonistes) la controlen, i altres (sinergistes) l'estabilitzen (Pres II, Secció 5).",
+       en:"No muscle works in isolation. For each movement, one group of muscles (agonists) produces the action, others (antagonists) control it, and others (synergists) stabilize it (Pres II, Section 5)."}},
+
+// ─── BLOQUE 5 ───
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 6",ca:"Presentació II · Secció 6",en:"Presentation II · Section 6"},
+ q:{es:"¿Qué tipo de hueso es el fémur y cuál es su función principal en la danza?",
+    ca:"Quin tipus d'os és el fèmur i quina és la seva funció principal en la dansa?",
+    en:"What type of bone is the femur and what is its main function in dance?"},
+ opts:{es:["a) Hueso corto; aporta estabilidad al pie","b) Hueso plano; protege los órganos internos","c) Hueso largo; actúa como palanca para el movimiento","d) Hueso sesamoideo; modifica la dirección de la fuerza"],
+       ca:["a) Os curt; aporta estabilitat al peu","b) Os pla; protegeix els òrgans interns","c) Os llarg; actua com a palanca per al moviment","d) Os sesamoide; modifica la direcció de la força"],
+       en:["a) Short bone; provides stability to the foot","b) Flat bone; protects internal organs","c) Long bone; acts as a lever for movement","d) Sesamoid bone; modifies force direction"]},
+ correct:2,
+ expl:{es:"El fémur es un hueso largo. Los huesos largos actúan como palancas y soportan el movimiento, lo que es esencial para saltos, extensiones y desplazamientos en danza (Pres II, Sección 6).",
+       ca:"El fèmur és un os llarg. Els ossos llargs actuen com a palanques i suporten el moviment, cosa que és essencial per a salts, extensions i desplaçaments en dansa (Pres II, Secció 6).",
+       en:"The femur is a long bone. Long bones act as levers and support movement, which is essential for jumps, extensions and displacements in dance (Pres II, Section 6)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 6",ca:"Presentació II · Secció 6",en:"Presentation II · Section 6"},
+ q:{es:"Los huesos del tarso (en el pie) y del carpo (en la mano) se clasifican como:",
+    ca:"Els ossos del tars (al peu) i del carp (a la mà) es classifiquen com:",
+    en:"The tarsal (foot) and carpal (hand) bones are classified as:"},
+ opts:{es:["a) Huesos largos","b) Huesos cortos","c) Huesos planos","d) Huesos irregulares"],
+       ca:["a) Ossos llargs","b) Ossos curts","c) Ossos plans","d) Ossos irregulars"],
+       en:["a) Long bones","b) Short bones","c) Flat bones","d) Irregular bones"]},
+ correct:1,
+ expl:{es:"Los huesos cortos (carpo, tarso) tienen forma aproximadamente cúbica. Aportan estabilidad y permiten pequeños desplazamientos, esenciales para la articulación del pie en danza (Pres II, Sección 6).",
+       ca:"Els ossos curts (carp, tars) tenen forma aproximadament cúbica. Aporten estabilitat i permeten petits desplaçaments, essencials per a l'articulació del peu en dansa (Pres II, Secció 6).",
+       en:"Short bones (carpal, tarsal) have an approximately cubic shape. They provide stability and allow small displacements, essential for foot articulation in dance (Pres II, Section 6)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 6",ca:"Presentació II · Secció 6",en:"Presentation II · Section 6"},
+ q:{es:"¿Cuál es la función principal de los huesos planos como la escápula, el esternón o las costillas?",
+    ca:"Quina és la funció principal dels ossos plans com l'escàpula, l'estèrnum o les costelles?",
+    en:"What is the main function of flat bones such as the scapula, sternum or ribs?"},
+ opts:{es:["a) Actuar como palancas para el movimiento","b) Proteger órganos y ofrecer amplia superficie de inserción muscular","c) Modificar la dirección de la fuerza muscular","d) Permitir pequeños desplazamientos"],
+       ca:["a) Actuar com a palanques per al moviment","b) Protegir òrgans i oferir àmplia superfície d'inserció muscular","c) Modificar la direcció de la força muscular","d) Permetre petits desplaçaments"],
+       en:["a) Act as levers for movement","b) Protect organs and offer a wide surface for muscle attachment","c) Modify the direction of muscle force","d) Allow small displacements"]},
+ correct:1,
+ expl:{es:"Los huesos planos protegen órganos vitales (cráneo → cerebro, costillas → pulmones/corazón) y ofrecen una amplia superficie para la inserción de músculos (Pres II, Sección 6).",
+       ca:"Els ossos plans protegeixen òrgans vitals (crani → cervell, costelles → pulmons/cor) i ofereixen una àmplia superfície per a la inserció de músculs (Pres II, Secció 6).",
+       en:"Flat bones protect vital organs (skull → brain, ribs → lungs/heart) and offer a wide surface for muscle attachment (Pres II, Section 6)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 6",ca:"Presentació II · Secció 6",en:"Presentation II · Section 6"},
+ q:{es:"La rótula es un hueso que se desarrolla dentro del tendón del cuádriceps. ¿Cómo se clasifica?",
+    ca:"La ròtula és un os que es desenvolupa dins del tendó del quàdriceps. Com es classifica?",
+    en:"The patella is a bone that develops within the quadriceps tendon. How is it classified?"},
+ opts:{es:["a) Hueso largo","b) Hueso irregular","c) Hueso sesamoideo","d) Hueso plano"],
+       ca:["a) Os llarg","b) Os irregular","c) Os sesamoide","d) Os pla"],
+       en:["a) Long bone","b) Irregular bone","c) Sesamoid bone","d) Flat bone"]},
+ correct:2,
+ expl:{es:"Los huesos sesamoideos se desarrollan dentro de tendones para modificar la dirección o el brazo de palanca de la fuerza muscular. La rótula es el ejemplo más conocido (Pres II, Sección 6).",
+       ca:"Els ossos sesamoides es desenvolupen dins de tendons per modificar la direcció o el braç de palanca de la força muscular. La ròtula és l'exemple més conegut (Pres II, Secció 6).",
+       en:"Sesamoid bones develop within tendons to modify the direction or lever arm of muscle force. The patella is the best-known example (Pres II, Section 6)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 7",ca:"Presentació II · Secció 7",en:"Presentation II · Section 7"},
+ q:{es:"¿Qué parte del hueso largo corresponde a los extremos y está compuesta principalmente por hueso esponjoso?",
+    ca:"Quina part de l'os llarg correspon als extrems i està composta principalment per os esponjós?",
+    en:"Which part of the long bone corresponds to the ends and is mainly composed of spongy bone?"},
+ opts:{es:["a) Diáfisis","b) Metáfisis","c) Epífisis","d) Periostio"],
+       ca:["a) Diàfisi","b) Metàfisi","c) Epífisi","d) Periosti"],
+       en:["a) Diaphysis","b) Metaphysis","c) Epiphysis","d) Periosteum"]},
+ correct:2,
+ expl:{es:"Las epífisis son los extremos del hueso largo, compuestas principalmente por hueso esponjoso. Participan en la formación de las articulaciones (Pres II, Sección 7).",
+       ca:"Les epífisis són els extrems de l'os llarg, compostes principalment per os esponjós. Participen en la formació de les articulacions (Pres II, Secció 7).",
+       en:"The epiphyses are the ends of the long bone, mainly composed of spongy bone. They participate in joint formation (Pres II, Section 7)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 7",ca:"Presentació II · Secció 7",en:"Presentation II · Section 7"},
+ q:{es:"¿Qué es la diáfisis de un hueso largo?",
+    ca:"Què és la diàfisi d'un os llarg?",
+    en:"What is the diaphysis of a long bone?"},
+ opts:{es:["a) El extremo articular del hueso","b) La zona de transición con la placa de crecimiento","c) La parte central y alargada, formada por hueso compacto que rodea la cavidad medular","d) La capa externa de tejido conectivo"],
+       ca:["a) L'extrem articular de l'os","b) La zona de transició amb la placa de creixement","c) La part central i allargada, formada per os compacte que envolta la cavitat medul·lar","d) La capa externa de teixit connectiu"],
+       en:["a) The articular end of the bone","b) The transition zone with the growth plate","c) The central elongated part, made of compact bone surrounding the medullary cavity","d) The outer layer of connective tissue"]},
+ correct:2,
+ expl:{es:"La diáfisis es la parte central (caña) del hueso largo, formada por hueso compacto que rodea la cavidad medular. Es la zona que soporta las mayores cargas mecánicas (Pres II, Sección 7).",
+       ca:"La diàfisi és la part central (canya) de l'os llarg, formada per os compacte que envolta la cavitat medul·lar. És la zona que suporta les majors càrregues mecàniques (Pres II, Secció 7).",
+       en:"The diaphysis is the central part (shaft) of the long bone, made of compact bone surrounding the medullary cavity. It is the area that supports the greatest mechanical loads (Pres II, Section 7)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 7",ca:"Presentació II · Secció 7",en:"Presentation II · Section 7"},
+ q:{es:"Una bailarina adolescente de 14 años aún está creciendo. ¿En qué zona de sus huesos largos se encuentra la placa de crecimiento activa?",
+    ca:"Una ballarina adolescent de 14 anys encara està creixent. En quina zona dels seus ossos llargs es troba la placa de creixement activa?",
+    en:"A 14-year-old teenage dancer is still growing. In which area of her long bones is the active growth plate located?"},
+ opts:{es:["a) En la epífisis","b) En la diáfisis","c) En la metáfisis","d) En la cavidad medular"],
+       ca:["a) A l'epífisi","b) A la diàfisi","c) A la metàfisi","d) A la cavitat medul·lar"],
+       en:["a) In the epiphysis","b) In the diaphysis","c) In the metaphysis","d) In the medullary cavity"]},
+ correct:2,
+ expl:{es:"La metáfisis es la zona de transición entre la epífisis y la diáfisis que contiene la placa de crecimiento (cartílago de crecimiento) durante la etapa de desarrollo (Pres II, Sección 7).",
+       ca:"La metàfisi és la zona de transició entre l'epífisi i la diàfisi que conté la placa de creixement (cartílag de creixement) durant l'etapa de desenvolupament (Pres II, Secció 7).",
+       en:"The metaphysis is the transition zone between the epiphysis and diaphysis that contains the growth plate (growth cartilage) during development (Pres II, Section 7)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 8",ca:"Presentació II · Secció 8",en:"Presentation II · Section 8"},
+ q:{es:"¿Cuál es la diferencia entre la médula ósea roja y la amarilla?",
+    ca:"Quina és la diferència entre la medul·la òssia vermella i la groga?",
+    en:"What is the difference between red and yellow bone marrow?"},
+ opts:{es:["a) La roja produce células sanguíneas; la amarilla es tejido adiposo (grasa)","b) La roja es grasa; la amarilla produce células sanguíneas","c) No hay diferencia; ambas producen sangre","d) La roja está en la diáfisis; la amarilla en la epífisis"],
+       ca:["a) La vermella produeix cèl·lules sanguínies; la groga és teixit adipós (greix)","b) La vermella és greix; la groga produeix cèl·lules sanguínies","c) No hi ha diferència; totes dues produeixen sang","d) La vermella està a la diàfisi; la groga a l'epífisi"],
+       en:["a) Red produces blood cells; yellow is adipose tissue (fat)","b) Red is fat; yellow produces blood cells","c) There is no difference; both produce blood","d) Red is in the diaphysis; yellow in the epiphysis"]},
+ correct:0,
+ expl:{es:"La médula ósea roja produce células sanguíneas (hematopoyesis). La médula ósea amarilla es tejido adiposo de reserva energética. Ambas se encuentran en la cavidad medular (Pres II, Sección 8).",
+       ca:"La medul·la òssia vermella produeix cèl·lules sanguínies (hematopoesi). La medul·la òssia groga és teixit adipós de reserva energètica. Totes dues es troben a la cavitat medul·lar (Pres II, Secció 8).",
+       en:"Red bone marrow produces blood cells (hematopoiesis). Yellow bone marrow is adipose tissue for energy reserve. Both are found in the medullary cavity (Pres II, Section 8)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 11",ca:"Presentació II · Secció 11",en:"Presentation II · Section 11"},
+ q:{es:"Una bailarina que entrena <em>pointe work</em> diariamente durante años desarrolla huesos del pie más densos y resistentes. ¿Qué proceso fisiológico explica esto?",
+    ca:"Una ballarina que entrena <em>pointe work</em> diàriament durant anys desenvolupa ossos del peu més densos i resistents. Quin procés fisiològic explica això?",
+    en:"A dancer who trains <em>pointe work</em> daily for years develops denser and stronger foot bones. What physiological process explains this?"},
+ opts:{es:["a) El hueso es un tejido estático que no cambia","b) La remodelación ósea: el hueso se adapta y refuerza según la carga mecánica recibida","c) Los huesos del pie se fusionan con los del tobillo","d) El cartílago se convierte en músculo"],
+       ca:["a) L'os és un teixit estàtic que no canvia","b) La remodelació òssia: l'os s'adapta i reforça segons la càrrega mecànica rebuda","c) Els ossos del peu es fusionen amb els del turmell","d) El cartílag es converteix en múscul"],
+       en:["a) Bone is a static tissue that doesn't change","b) Bone remodeling: bone adapts and strengthens according to the mechanical load received","c) Foot bones fuse with ankle bones","d) Cartilage turns into muscle"]},
+ correct:1,
+ expl:{es:"El hueso es un tejido dinámico que se adapta y remodela continuamente según la magnitud y frecuencia de la carga mecánica (Ley de Wolff). Más carga = más densidad ósea (Pres II, Sección 11).",
+       ca:"L'os és un teixit dinàmic que s'adapta i remodela contínuament segons la magnitud i freqüència de la càrrega mecànica (Llei de Wolff). Més càrrega = més densitat òssia (Pres II, Secció 11).",
+       en:"Bone is a dynamic tissue that continuously adapts and remodels according to the magnitude and frequency of mechanical load (Wolff's Law). More load = more bone density (Pres II, Section 11)."}},
+
+{block:4, tagColor:"#6a11cb",
+ tag:{es:"Sistema Óseo",ca:"Sistema Ossi",en:"Skeletal System"},
+ ref:{es:"Presentación II · Sección 9",ca:"Presentació II · Secció 9",en:"Presentation II · Section 9"},
+ q:{es:"¿Cuál de las siguientes NO es una función del sistema esquelético?",
+    ca:"Quina de les següents NO és una funció del sistema esquelètic?",
+    en:"Which of the following is NOT a function of the skeletal system?"},
+ opts:{es:["a) Soporte mecánico del cuerpo","b) Protección de órganos vitales","c) Producción de hormonas del crecimiento","d) Reservorio de minerales (calcio, fósforo)"],
+       ca:["a) Suport mecànic del cos","b) Protecció d'òrgans vitals","c) Producció d'hormones del creixement","d) Reservori de minerals (calci, fòsfor)"],
+       en:["a) Mechanical support of the body","b) Protection of vital organs","c) Production of growth hormones","d) Mineral reservoir (calcium, phosphorus)"]},
+ correct:2,
+ expl:{es:"Las funciones del esqueleto son: soporte, protección, reservorio mineral y facilitación del movimiento. La producción de hormonas del crecimiento corresponde al sistema endocrino (hipófisis), no al esqueleto (Pres II, Sección 9).",
+       ca:"Les funcions de l'esquelet són: suport, protecció, reservori mineral i facilitació del moviment. La producció d'hormones del creixement correspon al sistema endocrí (hipòfisi), no a l'esquelet (Pres II, Secció 9).",
+       en:"The functions of the skeleton are: support, protection, mineral reservoir and facilitating movement. Growth hormone production corresponds to the endocrine system (pituitary), not the skeleton (Pres II, Section 9)."}},
+
+// ─── BLOQUE 6 ───
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 12",ca:"Presentació II · Secció 12",en:"Presentation II · Section 12"},
+ q:{es:"¿Cuáles son los tres tipos principales de articulaciones según su grado de movilidad?",
+    ca:"Quins són els tres tipus principals d'articulacions segons el seu grau de mobilitat?",
+    en:"What are the three main types of joints according to their degree of mobility?"},
+ opts:{es:["a) Rígidas, semirrígidas y elásticas","b) Fibrosas, cartilaginosas y sinoviales","c) Largas, cortas y planas","d) Simples, compuestas y complejas"],
+       ca:["a) Rígides, semirígides i elàstiques","b) Fibroses, cartilaginoses i sinovials","c) Llargues, curtes i planes","d) Simples, compostes i complexes"],
+       en:["a) Rigid, semi-rigid and elastic","b) Fibrous, cartilaginous and synovial","c) Long, short and flat","d) Simple, compound and complex"]},
+ correct:1,
+ expl:{es:"Las articulaciones se clasifican en: fibrosas (poca o nula movilidad), cartilaginosas (movilidad limitada) y sinoviales (gran movilidad, como la rodilla o la cadera) (Pres II, Sección 12).",
+       ca:"Les articulacions es classifiquen en: fibroses (poca o nul·la mobilitat), cartilaginoses (mobilitat limitada) i sinovials (gran mobilitat, com el genoll o el maluc) (Pres II, Secció 12).",
+       en:"Joints are classified as: fibrous (little or no mobility), cartilaginous (limited mobility) and synovial (great mobility, such as the knee or hip) (Pres II, Section 12)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 12",ca:"Presentació II · Secció 12",en:"Presentation II · Section 12"},
+ q:{es:"La articulación de la cadera, que permite al bailarín hacer <em>grand battement</em> en todas las direcciones, es de tipo:",
+    ca:"L'articulació del maluc, que permet al ballarí fer <em>grand battement</em> en totes les direccions, és de tipus:",
+    en:"The hip joint, which allows the dancer to perform <em>grand battement</em> in all directions, is of type:"},
+ opts:{es:["a) Fibrosa (inmóvil)","b) Cartilaginosa (semimóvil)","c) Sinovial (móvil)","d) Sesamoidea"],
+       ca:["a) Fibrosa (immòbil)","b) Cartilaginosa (semimòbil)","c) Sinovial (mòbil)","d) Sesamoide"],
+       en:["a) Fibrous (immobile)","b) Cartilaginous (semi-mobile)","c) Synovial (mobile)","d) Sesamoid"]},
+ correct:2,
+ expl:{es:"La cadera es una articulación sinovial de tipo enartrosis (bola y cavidad), lo que le permite un amplio rango de movimiento en todos los planos, esencial para la danza (Pres II, Sección 12).",
+       ca:"El maluc és una articulació sinovial de tipus enartrosi (bola i cavitat), cosa que li permet un ampli rang de moviment en tots els plans, essencial per a la dansa (Pres II, Secció 12).",
+       en:"The hip is a synovial joint of the ball-and-socket type, which allows a wide range of movement in all planes, essential for dance (Pres II, Section 12)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 13",ca:"Presentació II · Secció 13",en:"Presentation II · Section 13"},
+ q:{es:"¿Qué estructura articular actúa como amortiguador entre los huesos y reduce la fricción durante el movimiento?",
+    ca:"Quina estructura articular actua com a esmorteïdor entre els ossos i redueix la fricció durant el moviment?",
+    en:"Which joint structure acts as a cushion between bones and reduces friction during movement?"},
+ opts:{es:["a) El ligamento","b) El tendón","c) El cartílago articular","d) La cápsula articular"],
+       ca:["a) El lligament","b) El tendó","c) El cartílag articular","d) La càpsula articular"],
+       en:["a) The ligament","b) The tendon","c) The articular cartilage","d) The joint capsule"]},
+ correct:2,
+ expl:{es:"El cartílago articular recubre los extremos óseos dentro de la articulación, actuando como amortiguador y reduciendo la fricción entre las superficies óseas durante el movimiento (Pres II, Sección 13).",
+       ca:"El cartílag articular recobreix els extrems ossis dins de l'articulació, actuant com a esmorteïdor i reduint la fricció entre les superfícies òssies durant el moviment (Pres II, Secció 13).",
+       en:"Articular cartilage covers the bone ends within the joint, acting as a cushion and reducing friction between bone surfaces during movement (Pres II, Section 13)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 13",ca:"Presentació II · Secció 13",en:"Presentation II · Section 13"},
+ q:{es:"¿Qué función cumple el líquido sinovial dentro de una articulación?",
+    ca:"Quina funció fa el líquid sinovial dins d'una articulació?",
+    en:"What function does synovial fluid serve within a joint?"},
+ opts:{es:["a) Unir los huesos entre sí","b) Nutrir el cartílago y lubricar la articulación para reducir la fricción","c) Generar la contracción muscular","d) Producir células sanguíneas"],
+       ca:["a) Unir els ossos entre si","b) Nodrir el cartílag i lubricar l'articulació per reduir la fricció","c) Generar la contracció muscular","d) Produir cèl·lules sanguínies"],
+       en:["a) Connect bones to each other","b) Nourish cartilage and lubricate the joint to reduce friction","c) Generate muscle contraction","d) Produce blood cells"]},
+ correct:1,
+ expl:{es:"El líquido sinovial, contenido dentro de la cápsula articular, lubrica las superficies articulares y nutre el cartílago articular (que carece de vasos sanguíneos) (Pres II, Sección 13).",
+       ca:"El líquid sinovial, contingut dins de la càpsula articular, lubrica les superfícies articulars i nodreix el cartílag articular (que manca de vasos sanguinis) (Pres II, Secció 13).",
+       en:"Synovial fluid, contained within the joint capsule, lubricates the articular surfaces and nourishes the articular cartilage (which lacks blood vessels) (Pres II, Section 13)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 14",ca:"Presentació II · Secció 14",en:"Presentation II · Section 14"},
+ q:{es:"El cartílago articular no tiene vasos sanguíneos. ¿Cómo obtiene sus nutrientes?",
+    ca:"El cartílag articular no té vasos sanguinis. Com obté els seus nutrients?",
+    en:"Articular cartilage has no blood vessels. How does it obtain its nutrients?"},
+ opts:{es:["a) A través de los nervios que lo rodean","b) Mediante la alternancia de carga (compresión que expulsa agua) y descarga (reabsorción de líquido sinovial)","c) No necesita nutrientes porque es un tejido muerto","d) A través de los tendones que se insertan en él"],
+       ca:["a) A través dels nervis que el rodegen","b) Mitjançant l'alternança de càrrega (compressió que expulsa aigua) i descàrrega (reabsorció de líquid sinovial)","c) No necessita nutrients perquè és un teixit mort","d) A través dels tendons que s'hi inserten"],
+       en:["a) Through the nerves surrounding it","b) Through alternating load (compression expelling water) and unload (reabsorption of synovial fluid)","c) It doesn't need nutrients because it's dead tissue","d) Through the tendons inserted into it"]},
+ correct:1,
+ expl:{es:"Al ser avascular, el cartílago se nutre por un mecanismo de «esponja»: la compresión expulsa agua y solutos, y la descarga permite la reabsorción de líquido sinovial rico en nutrientes (Pres II, Sección 14).",
+       ca:"En ser avascular, el cartílag es nodreix per un mecanisme d'«esponja»: la compressió expulsa aigua i soluts, i la descàrrega permet la reabsorció de líquid sinovial ric en nutrients (Pres II, Secció 14).",
+       en:"Being avascular, cartilage is nourished by a 'sponge' mechanism: compression expels water and solutes, and unloading allows reabsorption of nutrient-rich synovial fluid (Pres II, Section 14)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 14",ca:"Presentació II · Secció 14",en:"Presentation II · Section 14"},
+ q:{es:"¿Por qué es importante que un bailarín no permanezca inmóvil durante muchas horas y alterne períodos de actividad con reposo?",
+    ca:"Per què és important que un ballarí no romangui immòbil durant moltes hores i alterni períodes d'activitat amb repòs?",
+    en:"Why is it important for a dancer not to remain immobile for many hours and to alternate periods of activity with rest?"},
+ opts:{es:["a) Porque los huesos se ablandan si no se mueven","b) Porque el cartílago necesita la alternancia carga-descarga para nutrirse; sin movimiento, se degenera","c) Porque los ligamentos se acortan permanentemente","d) Porque el líquido sinovial se evapora"],
+       ca:["a) Perquè els ossos s'estoven si no es mouen","b) Perquè el cartílag necessita l'alternança càrrega-descàrrega per nodrir-se; sense moviment, es degenera","c) Perquè els lligaments s'escurcen permanentment","d) Perquè el líquid sinovial s'evapora"],
+       en:["a) Because bones soften if not moved","b) Because cartilage needs load-unload alternation to be nourished; without movement, it degenerates","c) Because ligaments permanently shorten","d) Because synovial fluid evaporates"]},
+ correct:1,
+ expl:{es:"El cartílago articular necesita movimiento y carga para nutrirse. La inmovilidad prolongada impide el mecanismo de compresión-reabsorción, lo que puede llevar a la degeneración del cartílago (Pres II, Sección 14).",
+       ca:"El cartílag articular necessita moviment i càrrega per nodrir-se. La immobilitat prolongada impedeix el mecanisme de compressió-reabsorció, cosa que pot portar a la degeneració del cartílag (Pres II, Secció 14).",
+       en:"Articular cartilage needs movement and load to be nourished. Prolonged immobility prevents the compression-reabsorption mechanism, which can lead to cartilage degeneration (Pres II, Section 14)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 13",ca:"Presentació II · Secció 13",en:"Presentation II · Section 13"},
+ q:{es:"¿Qué estructura envuelve la articulación sinovial y mantiene el líquido sinovial en su interior?",
+    ca:"Quina estructura embolcalla l'articulació sinovial i manté el líquid sinovial al seu interior?",
+    en:"What structure surrounds the synovial joint and keeps the synovial fluid inside?"},
+ opts:{es:["a) El periostio","b) La cápsula articular","c) El tendón","d) La fascia muscular"],
+       ca:["a) El periosti","b) La càpsula articular","c) El tendó","d) La fàscia muscular"],
+       en:["a) The periosteum","b) The joint capsule","c) The tendon","d) The muscle fascia"]},
+ correct:1,
+ expl:{es:"La cápsula articular es una envoltura de tejido conectivo que rodea la articulación sinovial, sellando el espacio articular y conteniendo el líquido sinovial (Pres II, Sección 13).",
+       ca:"La càpsula articular és una envoltura de teixit connectiu que envolta l'articulació sinovial, segellant l'espai articular i contenint el líquid sinovial (Pres II, Secció 13).",
+       en:"The joint capsule is a connective tissue envelope that surrounds the synovial joint, sealing the joint space and containing the synovial fluid (Pres II, Section 13)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 12",ca:"Presentació II · Secció 12",en:"Presentation II · Section 12"},
+ q:{es:"Las suturas del cráneo son articulaciones que no permiten movimiento. ¿De qué tipo son?",
+    ca:"Les sutures del crani són articulacions que no permeten moviment. De quin tipus són?",
+    en:"The sutures of the skull are joints that do not allow movement. What type are they?"},
+ opts:{es:["a) Sinoviales","b) Cartilaginosas","c) Fibrosas","d) Sesamoideas"],
+       ca:["a) Sinovials","b) Cartilaginoses","c) Fibroses","d) Sesamoides"],
+       en:["a) Synovial","b) Cartilaginous","c) Fibrous","d) Sesamoid"]},
+ correct:2,
+ expl:{es:"Las suturas del cráneo son articulaciones fibrosas: los huesos están unidos por tejido fibroso denso y no permiten movimiento (o muy poco). Su función es proteger el cerebro (Pres II, Sección 12).",
+       ca:"Les sutures del crani són articulacions fibroses: els ossos estan units per teixit fibrós dens i no permeten moviment (o molt poc). La seva funció és protegir el cervell (Pres II, Secció 12).",
+       en:"Skull sutures are fibrous joints: bones are joined by dense fibrous tissue and do not allow movement (or very little). Their function is to protect the brain (Pres II, Section 12)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 13",ca:"Presentació II · Secció 13",en:"Presentation II · Section 13"},
+ q:{es:"¿Qué papel desempeñan los ligamentos en una articulación?",
+    ca:"Quin paper fan els lligaments en una articulació?",
+    en:"What role do ligaments play in a joint?"},
+ opts:{es:["a) Generar la fuerza del movimiento","b) Producir líquido sinovial","c) Unir hueso con hueso, estabilizando y limitando el movimiento articular","d) Nutrir el cartílago articular"],
+       ca:["a) Generar la força del moviment","b) Produir líquid sinovial","c) Unir os amb os, estabilitzant i limitant el moviment articular","d) Nodrir el cartílag articular"],
+       en:["a) Generate movement force","b) Produce synovial fluid","c) Connect bone to bone, stabilizing and limiting joint movement","d) Nourish articular cartilage"]},
+ correct:2,
+ expl:{es:"Los ligamentos son bandas de tejido conectivo que unen un hueso con otro, contribuyendo a la estabilidad articular y limitando los movimientos excesivos que podrían causar lesión (Pres II, Secciones 1 y 13).",
+       ca:"Els lligaments són bandes de teixit connectiu que uneixen un os amb un altre, contribuint a l'estabilitat articular i limitant els moviments excessius que podrien causar lesió (Pres II, Seccions 1 i 13).",
+       en:"Ligaments are bands of connective tissue that connect one bone to another, contributing to joint stability and limiting excessive movements that could cause injury (Pres II, Sections 1 and 13)."}},
+
+{block:5, tagColor:"#fc4a1a",
+ tag:{es:"Articulaciones",ca:"Articulacions",en:"Joints"},
+ ref:{es:"Presentación II · Sección 14",ca:"Presentació II · Secció 14",en:"Presentation II · Section 14"},
+ q:{es:"Un bailarín que siempre entrena sobre superficies muy duras y nunca varía la carga sobre sus rodillas tiene mayor riesgo de desgaste del cartílago. ¿Por qué?",
+    ca:"Un ballarí que sempre entrena sobre superfícies molt dures i mai varia la càrrega sobre els seus genolls té més risc de desgast del cartílag. Per què?",
+    en:"A dancer who always trains on very hard surfaces and never varies the load on his knees has a higher risk of cartilage wear. Why?"},
+ opts:{es:["a) Porque el cartílago se endurece con la carga","b) Porque la carga excesiva y repetitiva sin descarga adecuada impide la nutrición del cartílago y acelera su degeneración","c) Porque los huesos se rompen antes que el cartílago","d) Porque el líquido sinovial se congela"],
+       ca:["a) Perquè el cartílag s'endureix amb la càrrega","b) Perquè la càrrega excessiva i repetitiva sense descàrrega adequada impedeix la nutrició del cartílag i accelera la seva degeneració","c) Perquè els ossos es trenquen abans que el cartílag","d) Perquè el líquid sinovial es congela"],
+       en:["a) Because cartilage hardens with load","b) Because excessive and repetitive load without adequate unloading prevents cartilage nutrition and accelerates its degeneration","c) Because bones break before cartilage","d) Because synovial fluid freezes"]},
+ correct:1,
+ expl:{es:"El cartílago necesita alternancia de carga y descarga. La sobrecarga crónica sin períodos de recuperación comprime el cartílago de forma continua, impidiendo la reabsorción de nutrientes y acelerando el desgaste (Pres II, Sección 14).",
+       ca:"El cartílag necessita alternança de càrrega i descàrrega. La sobrecàrrega crònica sense períodes de recuperació comprimeix el cartílag de forma contínua, impedint la reabsorció de nutrients i accelerant el desgast (Pres II, Secció 14).",
+       en:"Cartilage needs alternating load and unload. Chronic overload without recovery periods continuously compresses the cartilage, preventing nutrient reabsorption and accelerating wear (Pres II, Section 14)."}},
+
+// ─── BLOQUE 7 ───
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"¿En qué plano de movimiento ocurre la rotación externa de la cadera (<em>en dehors</em>)?",
+    ca:"En quin pla de moviment passa la rotació externa del maluc (<em>en dehors</em>)?",
+    en:"In which plane of movement does external hip rotation (<em>en dehors</em>) occur?"},
+ opts:{es:["a) Plano sagital","b) Plano frontal","c) Plano transversal","d) Plano oblicuo"],
+       ca:["a) Pla sagital","b) Pla frontal","c) Pla transversal","d) Pla oblic"],
+       en:["a) Sagittal plane","b) Frontal plane","c) Transverse plane","d) Oblique plane"]},
+ correct:2,
+ expl:{es:"Las rotaciones (tanto externa como interna) ocurren en el plano transversal, que divide el cuerpo en parte superior e inferior. El eje de rotación es vertical (longitudinal) (Pres II, Sección 15).",
+       ca:"Les rotacions (tant externa com interna) passen al pla transversal, que divideix el cos en part superior i inferior. L'eix de rotació és vertical (longitudinal) (Pres II, Secció 15).",
+       en:"Rotations (both external and internal) occur in the transverse plane, which divides the body into upper and lower parts. The axis of rotation is vertical (longitudinal) (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"¿Qué significa <em>en dedans</em> en términos de movimiento?",
+    ca:"Què significa <em>en dedans</em> en termes de moviment?",
+    en:"What does <em>en dedans</em> mean in terms of movement?"},
+ opts:{es:["a) Rotación externa: la cara anterior de la extremidad se aleja de la línea media","b) Rotación interna: la cara anterior de la extremidad gira hacia el centro del cuerpo","c) Flexión de la cadera hacia delante","d) Extensión de la pierna hacia atrás"],
+       ca:["a) Rotació externa: la cara anterior de l'extremitat s'allunya de la línia mitjana","b) Rotació interna: la cara anterior de l'extremitat gira cap al centre del cos","c) Flexió del maluc cap endavant","d) Extensió de la cama cap enrere"],
+       en:["a) External rotation: the anterior surface of the limb moves away from the midline","b) Internal rotation: the anterior surface of the limb rotates toward the body's center","c) Hip flexion forward","d) Leg extension backward"]},
+ correct:1,
+ expl:{es:"<em>En dedans</em> = rotación interna. La extremidad gira hacia adentro, orientando su cara anterior hacia la línea media del cuerpo. Es la posición neutra/paralela en danza contemporánea (Pres II, Sección 15).",
+       ca:"<em>En dedans</em> = rotació interna. L'extremitat gira cap endins, orientant la seva cara anterior cap a la línia mitjana del cos. És la posició neutra/paral·lela en dansa contemporània (Pres II, Secció 15).",
+       en:"<em>En dedans</em> = internal rotation. The limb rotates inward, orienting its anterior surface toward the body's midline. It is the neutral/parallel position in contemporary dance (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"Un <em>demi-plié</em> en primera posición implica principalmente flexión de rodillas y caderas. ¿En qué plano ocurre este movimiento?",
+    ca:"Un <em>demi-plié</em> en primera posició implica principalment flexió de genolls i malucs. En quin pla passa aquest moviment?",
+    en:"A <em>demi-plié</em> in first position mainly involves knee and hip flexion. In which plane does this movement occur?"},
+ opts:{es:["a) Plano transversal","b) Plano frontal","c) Plano sagital","d) Plano oblicuo"],
+       ca:["a) Pla transversal","b) Pla frontal","c) Pla sagital","d) Pla oblic"],
+       en:["a) Transverse plane","b) Frontal plane","c) Sagittal plane","d) Oblique plane"]},
+ correct:2,
+ expl:{es:"La flexión y extensión (doblar y estirar) ocurren en el plano sagital, que divide el cuerpo en mitad izquierda y derecha. El <em>plié</em> es una flexión de rodillas, caderas y tobillos (Pres II, Sección 15).",
+       ca:"La flexió i extensió (doblar i estirar) passen al pla sagital, que divideix el cos en meitat esquerra i dreta. El <em>plié</em> és una flexió de genolls, malucs i turmells (Pres II, Secció 15).",
+       en:"Flexion and extension (bending and straightening) occur in the sagittal plane, which divides the body into left and right halves. The <em>plié</em> is a flexion of knees, hips and ankles (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"Cuando un bailarín eleva la pierna lateralmente en <em>à la seconde</em> (hacia el lado), ¿en qué plano se mueve principalmente?",
+    ca:"Quan un ballarí eleva la cama lateralment en <em>à la seconde</em> (cap al costat), en quin pla es mou principalment?",
+    en:"When a dancer raises the leg laterally in <em>à la seconde</em> (to the side), in which plane does it mainly move?"},
+ opts:{es:["a) Plano sagital","b) Plano frontal","c) Plano transversal","d) Plano diagonal"],
+       ca:["a) Pla sagital","b) Pla frontal","c) Pla transversal","d) Pla diagonal"],
+       en:["a) Sagittal plane","b) Frontal plane","c) Transverse plane","d) Diagonal plane"]},
+ correct:1,
+ expl:{es:"La abducción (separar la pierna hacia el lado) ocurre en el plano frontal, que divide el cuerpo en parte anterior y posterior (Pres II, Sección 15).",
+       ca:"L'abducció (separar la cama cap al costat) passa al pla frontal, que divideix el cos en part anterior i posterior (Pres II, Secció 15).",
+       en:"Abduction (moving the leg to the side) occurs in the frontal plane, which divides the body into anterior and posterior parts (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"El <em>turnout</em> de cadera en ballet clásico es un ejemplo de:",
+    ca:"El <em>turnout</em> de maluc en ballet clàssic és un exemple de:",
+    en:"Hip <em>turnout</em> in classical ballet is an example of:"},
+ opts:{es:["a) Rotación interna en el plano sagital","b) Flexión en el plano frontal","c) Rotación externa en el plano transversal","d) Abducción en el plano transversal"],
+       ca:["a) Rotació interna al pla sagital","b) Flexió al pla frontal","c) Rotació externa al pla transversal","d) Abducció al pla transversal"],
+       en:["a) Internal rotation in the sagittal plane","b) Flexion in the frontal plane","c) External rotation in the transverse plane","d) Abduction in the transverse plane"]},
+ correct:2,
+ expl:{es:"El <em>turnout</em> es la rotación externa de la cadera: la cara anterior del muslo gira hacia afuera, alejándose de la línea media. Ocurre en el plano transversal (Pres II, Sección 15).",
+       ca:"El <em>turnout</em> és la rotació externa del maluc: la cara anterior de la cuixa gira cap enfora, allunyant-se de la línia mitjana. Passa al pla transversal (Pres II, Secció 15).",
+       en:"<em>Turnout</em> is external rotation of the hip: the anterior surface of the thigh rotates outward, moving away from the midline. It occurs in the transverse plane (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 16",ca:"Presentació II · Secció 16",en:"Presentation II · Section 16"},
+ q:{es:"¿Qué es la propiocepción?",
+    ca:"Què és la propiocepció?",
+    en:"What is proprioception?"},
+ opts:{es:["a) La capacidad de ver los propios pies mientras se baila","b) La capacidad inconsciente de percibir la posición y el movimiento del cuerpo mediante mecanorreceptores","c) La capacidad de escuchar la música y seguir el ritmo","d) La capacidad de estirar los músculos al máximo"],
+       ca:["a) La capacitat de veure els propis peus mentre es balla","b) La capacitat inconscient de percebre la posició i el moviment del cos mitjançant mecanoreceptors","c) La capacitat d'escoltar la música i seguir el ritme","d) La capacitat d'estirar els músculs al màxim"],
+       en:["a) The ability to see one's own feet while dancing","b) The unconscious ability to perceive body position and movement through mechanoreceptors","c) The ability to listen to music and follow the rhythm","d) The ability to stretch muscles to the maximum"]},
+ correct:1,
+ expl:{es:"La propiocepción es el sentido que permite percibir de forma inconsciente la posición, el movimiento y la fuerza de las partes del cuerpo, gracias a mecanorreceptores en músculos, tendones y articulaciones (Pres II, Sección 16).",
+       ca:"La propiocepció és el sentit que permet percebre de forma inconscient la posició, el moviment i la força de les parts del cos, gràcies a mecanoreceptors en músculs, tendons i articulacions (Pres II, Secció 16).",
+       en:"Proprioception is the sense that allows unconscious perception of the position, movement and force of body parts, thanks to mechanoreceptors in muscles, tendons and joints (Pres II, Section 16)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 16",ca:"Presentació II · Secció 16",en:"Presentation II · Section 16"},
+ q:{es:"¿Dónde se encuentran los mecanorreceptores que informan al cerebro sobre la posición del cuerpo?",
+    ca:"On es troben els mecanoreceptors que informen el cervell sobre la posició del cos?",
+    en:"Where are the mechanoreceptors that inform the brain about body position located?"},
+ opts:{es:["a) Solo en la piel","b) Solo en el cerebro","c) En músculos, tendones y articulaciones","d) Solo en los huesos"],
+       ca:["a) Només a la pell","b) Només al cervell","c) En músculs, tendons i articulacions","d) Només als ossos"],
+       en:["a) Only in the skin","b) Only in the brain","c) In muscles, tendons and joints","d) Only in bones"]},
+ correct:2,
+ expl:{es:"Los mecanorreceptores propioceptivos se encuentran en los músculos (husos musculares), tendones (órganos tendinosos de Golgi) y articulaciones (receptores capsulares) (Pres II, Sección 16).",
+       ca:"Els mecanoreceptors propioceptius es troben als músculs (fusos musculars), tendons (òrgans tendinosos de Golgi) i articulacions (receptors capsulars) (Pres II, Secció 16).",
+       en:"Proprioceptive mechanoreceptors are found in muscles (muscle spindles), tendons (Golgi tendon organs) and joints (capsular receptors) (Pres II, Section 16)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 16",ca:"Presentació II · Secció 16",en:"Presentation II · Section 16"},
+ q:{es:"Una bailarina hace una <em>pirouette</em> con los ojos cerrados y aun así mantiene el equilibrio. ¿Qué sistema sensorial le permite saber dónde están sus brazos y su pierna en <em>passé</em> sin mirarlos?",
+    ca:"Una ballarina fa una <em>pirouette</em> amb els ulls tancats i tot i així manté l'equilibri. Quin sistema sensorial li permet saber on són els seus braços i la seva cama en <em>passé</em> sense mirar-los?",
+    en:"A dancer performs a <em>pirouette</em> with her eyes closed and still maintains balance. What sensory system allows her to know where her arms and <em>passé</em> leg are without looking at them?"},
+ opts:{es:["a) El sistema visual","b) El sistema auditivo","c) El sistema propioceptivo (control sensoriomotor)","d) El sistema digestivo"],
+       ca:["a) El sistema visual","b) El sistema auditiu","c) El sistema propioceptiu (control sensoriomotor)","d) El sistema digestiu"],
+       en:["a) The visual system","b) The auditory system","c) The proprioceptive system (sensorimotor control)","d) The digestive system"]},
+ correct:2,
+ expl:{es:"El sistema propioceptivo funciona de forma inconsciente y no depende de la visión. Los mecanorreceptores informan al cerebro de la posición de cada segmento corporal en todo momento (Pres II, Sección 16).",
+       ca:"El sistema propioceptiu funciona de forma inconscient i no depèn de la visió. Els mecanoreceptors informen el cervell de la posició de cada segment corporal en tot moment (Pres II, Secció 16).",
+       en:"The proprioceptive system works unconsciously and does not depend on vision. Mechanoreceptors inform the brain of the position of each body segment at all times (Pres II, Section 16)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 15",ca:"Presentació II · Secció 15",en:"Presentation II · Section 15"},
+ q:{es:"En danza contemporánea, cuando se trabaja en posición paralela (pies mirando al frente), la cadera está en:",
+    ca:"En dansa contemporània, quan es treballa en posició paral·lela (peus mirant al front), el maluc està en:",
+    en:"In contemporary dance, when working in parallel position (feet facing forward), the hip is in:"},
+ opts:{es:["a) Rotación externa máxima (<em>en dehors</em>)","b) Posición neutra / rotación interna relativa (<em>en dedans</em>)","c) Flexión máxima","d) Abducción completa"],
+       ca:["a) Rotació externa màxima (<em>en dehors</em>)","b) Posició neutra / rotació interna relativa (<em>en dedans</em>)","c) Flexió màxima","d) Abducció completa"],
+       en:["a) Maximum external rotation (<em>en dehors</em>)","b) Neutral position / relative internal rotation (<em>en dedans</em>)","c) Maximum flexion","d) Complete abduction"]},
+ correct:1,
+ expl:{es:"La posición paralela en danza contemporánea corresponde a una posición neutra de la cadera, que en relación con el <em>turnout</em> del ballet se considera <em>en dedans</em> (rotación interna o neutra) (Pres II, Sección 15).",
+       ca:"La posició paral·lela en dansa contemporània correspon a una posició neutra del maluc, que en relació amb el <em>turnout</em> del ballet es considera <em>en dedans</em> (rotació interna o neutra) (Pres II, Secció 15).",
+       en:"The parallel position in contemporary dance corresponds to a neutral hip position, which in relation to ballet <em>turnout</em> is considered <em>en dedans</em> (internal or neutral rotation) (Pres II, Section 15)."}},
+
+{block:6, tagColor:"#0f2027",
+ tag:{es:"Planos y Propiocepción",ca:"Plans i Propiocepció",en:"Planes and Proprioception"},
+ ref:{es:"Presentación II · Sección 16",ca:"Presentació II · Secció 16",en:"Presentation II · Section 16"},
+ q:{es:"¿Por qué es importante entrenar la propiocepción en la formación de un bailarín?",
+    ca:"Per què és important entrenar la propiocepció en la formació d'un ballarí?",
+    en:"Why is it important to train proprioception in a dancer's education?"},
+ opts:{es:["a) Para aumentar la masa muscular","b) Para mejorar la flexibilidad de los huesos","c) Para mejorar el control del movimiento, la estabilidad y la prevención de lesiones","d) Para aumentar la velocidad de contracción muscular"],
+       ca:["a) Per augmentar la massa muscular","b) Per millorar la flexibilitat dels ossos","c) Per millorar el control del moviment, l'estabilitat i la prevenció de lesions","d) Per augmentar la velocitat de contracció muscular"],
+       en:["a) To increase muscle mass","b) To improve bone flexibility","c) To improve movement control, stability and injury prevention","d) To increase muscle contraction speed"]},
+ correct:2,
+ expl:{es:"Un buen control propioceptivo permite al bailarín ajustar su postura y movimiento de forma precisa e inconsciente, mejorando la estabilidad, la calidad técnica y reduciendo el riesgo de lesiones (Pres II, Sección 16).",
+       ca:"Un bon control propioceptiu permet al ballarí ajustar la seva postura i moviment de forma precisa i inconscient, millorant l'estabilitat, la qualitat tècnica i reduint el risc de lesions (Pres II, Secció 16).",
+       en:"Good proprioceptive control allows the dancer to adjust posture and movement precisely and unconsciously, improving stability, technical quality and reducing injury risk (Pres II, Section 16)."}}
+];
+
+// ===================== LANGUAGE MANAGEMENT =====================
+let currentLang = 'es';
+
+function setLanguage(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-selector button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.dataset.i18nPlaceholder;
+    if(translations[lang] && translations[lang][key]) el.placeholder = translations[lang][key];
+  });
+  // Rebuild dynamic content
+  if(document.getElementById('blocksContainer').children.length > 0){
+    buildBlocks();
+    document.getElementById(`block${currentBlock}`).classList.add('active');
+    updateNav();
+    // Restore answered states
+    restoreAnsweredStates();
+    if(document.getElementById('sendSection').style.display === 'block') showResults();
+  }
+  localStorage.setItem('testLanguage', lang);
+}
+
+function t(key, replacements){
+  let text = (translations[currentLang] && translations[currentLang][key]) || (translations.es && translations.es[key]) || key;
+  if(replacements){
+    for(const [k,v] of Object.entries(replacements)){
+      text = text.replace(new RegExp('\\{'+k+'\\}','g'), v);
+    }
+  }
+  return text;
+}
+
+function getBlockName(bi){ return BLOCK_NAMES[bi].name[currentLang]; }
+function getBlockRef(bi){ return BLOCK_NAMES[bi].ref[currentLang]; }
+function getCaseQ(c){ return c.q[currentLang]; }
+function getCaseOpts(c){ return c.opts[currentLang]; }
+function getCaseExpl(c){ return c.expl[currentLang]; }
+function getCaseTag(c){ return c.tag[currentLang]; }
+function getCaseRef(c){ return c.ref[currentLang]; }
+
+// ===================== APP LOGIC =====================
+let currentBlock = 0;
+let answered = {};
+
+function buildBlocks(){
+  const c = document.getElementById('blocksContainer');
+  let html = '';
+  BLOCK_NAMES.forEach((b,bi) => {
+    const cases = DATA.filter(d => d.block === bi);
+    html += `<div class="block" id="block${bi}">
+      <div class="block-header ${b.cls}">${bi+1}. ${getBlockName(bi)}<small>${t('blockSubtitle',{ref:getBlockRef(bi)})}</small></div>
+      <div class="block-body">`;
+    cases.forEach((cs,ci) => {
+      const gid = `b${bi}c${ci}`;
+      const opts = getCaseOpts(cs);
+      html += `<div class="caso" id="caso_${gid}">
+        <span class="caso-tag" style="background:${cs.tagColor}">${getCaseTag(cs)}</span>
+        <span style="font-size:.75em;color:#888;margin-left:8px">📖 ${getCaseRef(cs)}</span>
+        <h4>${t('casoLabel',{n:ci+1})}: ${getCaseQ(cs)}</h4>
+        <div class="opts" id="opts_${gid}">`;
+      opts.forEach((o,oi) => {
+        html += `<label id="lbl_${gid}_${oi}"><input type="radio" name="r_${gid}" value="${oi}" onchange="selectOpt('${gid}',${oi})"> ${o}</label>`;
+      });
+      html += `</div>
+        <textarea class="explicacion-user" id="exp_${gid}" placeholder="${t('reasonPlaceholder')}"></textarea>
+        <button class="btn-val" id="btn_${gid}" onclick="validate('${gid}',${bi},${ci})" disabled>${t('validateBtn')}</button>
+        <div class="feedback" id="fb_${gid}"></div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  c.innerHTML = html;
+}
+
+function restoreAnsweredStates(){
+  for(const [gid, a] of Object.entries(answered)){
+    const labels = document.querySelectorAll(`#opts_${gid} label`);
+    labels.forEach((l,i) => {
+      l.style.pointerEvents = 'none';
+      if(i === a.correct) l.classList.add('correct');
+      if(i === a.sel && a.sel !== a.correct) l.classList.add('wrong');
+    });
+    const fb = document.getElementById(`fb_${gid}`);
+    if(fb){
+      const cs = findCase(gid);
+      if(cs){
+        if(a.ok){ fb.className = 'feedback ok'; fb.innerHTML = `${t('correctMsg')}<br>${getCaseExpl(cs)}`; }
+        else { fb.className = 'feedback bad'; fb.innerHTML = `${t('incorrectMsg',{letter:getCaseOpts(cs)[a.correct].charAt(0)})}<br>${getCaseExpl(cs)}`; }
+      }
+    }
+    const btn = document.getElementById(`btn_${gid}`);
+    if(btn){ btn.disabled = true; btn.textContent = t('validatedBtn'); }
+    const exp = document.getElementById(`exp_${gid}`);
+    if(exp){ exp.value = a.exp || ''; exp.disabled = true; }
+    const sel = document.querySelector(`input[name="r_${gid}"][value="${a.sel}"]`);
+    if(sel){ sel.checked = true; const lbl = document.getElementById(`lbl_${gid}_${a.sel}`); if(lbl) lbl.classList.add('sel'); }
+  }
+}
+
+function findCase(gid){
+  const m = gid.match(/^b(\d+)c(\d+)$/);
+  if(!m) return null;
+  const bi = parseInt(m[1]), ci = parseInt(m[2]);
+  const cases = DATA.filter(d => d.block === bi);
+  return cases[ci];
+}
+
+function selectOpt(gid, oi){
+  document.getElementById(`btn_${gid}`).disabled = false;
+  const labels = document.querySelectorAll(`#opts_${gid} label`);
+  labels.forEach(l => l.classList.remove('sel'));
+  document.getElementById(`lbl_${gid}_${oi}`).classList.add('sel');
+}
+
+function validate(gid, bi, ci){
+  if(answered[gid]) return;
+  const cs = findCase(gid);
+  const sel = document.querySelector(`input[name="r_${gid}"]:checked`);
+  if(!sel) return;
+  const val = parseInt(sel.value);
+  const correct = cs.correct;
+  answered[gid] = {sel: val, correct: correct, ok: val===correct, exp: document.getElementById(`exp_${gid}`).value};
+
+  const labels = document.querySelectorAll(`#opts_${gid} label`);
+  labels.forEach((l,i) => {
+    l.style.pointerEvents = 'none';
+    if(i === correct) l.classList.add('correct');
+    if(i === val && val !== correct) l.classList.add('wrong');
+  });
+
+  const fb = document.getElementById(`fb_${gid}`);
+  if(val === correct){
+    fb.className = 'feedback ok';
+    fb.innerHTML = `${t('correctMsg')}<br>${getCaseExpl(cs)}`;
+  } else {
+    fb.className = 'feedback bad';
+    fb.innerHTML = `${t('incorrectMsg',{letter:getCaseOpts(cs)[correct].charAt(0)})}<br>${getCaseExpl(cs)}`;
+  }
+
+  document.getElementById(`btn_${gid}`).disabled = true;
+  document.getElementById(`btn_${gid}`).textContent = t('validatedBtn');
+  document.getElementById(`exp_${gid}`).disabled = true;
+
+  checkFinish();
+}
+
+function checkFinish(){
+  const total = DATA.length;
+  const done = Object.keys(answered).length;
+  if(done === total){
+    document.getElementById('endTime').disabled = false;
+    document.getElementById('endTime').value = new Date().toTimeString().slice(0,5);
+    showResults();
+  }
+}
+
+function showResults(){
+  const total = DATA.length;
+  const ok = Object.values(answered).filter(a=>a.ok).length;
+  const pct = Math.round(ok/total*100);
+  document.getElementById('scoreDisplay').textContent = `${ok} / ${total} (${pct}%)`;
+  let detail = '';
+  BLOCK_NAMES.forEach((b,bi) => {
+    const cases = DATA.filter(d=>d.block===bi);
+    const bok = cases.filter((_,ci)=> answered[`b${bi}c${ci}`] && answered[`b${bi}c${ci}`].ok).length;
+    detail += `${getBlockName(bi)}: ${bok}/10 · `;
+  });
+  document.getElementById('scoreDetail').textContent = detail;
+  document.getElementById('sendSection').style.display = 'block';
+  document.getElementById('sendSection').scrollIntoView({behavior:'smooth'});
+}
+
+function navBlock(dir){
+  document.getElementById(`block${currentBlock}`).classList.remove('active');
+  currentBlock += dir;
+  if(currentBlock < 0) currentBlock = 0;
+  if(currentBlock >= BLOCK_NAMES.length) currentBlock = BLOCK_NAMES.length - 1;
+  document.getElementById(`block${currentBlock}`).classList.add('active');
+  updateNav();
+  window.scrollTo({top: document.getElementById(`block${currentBlock}`).offsetTop - 20, behavior:'smooth'});
+}
+
+function updateNav(){
+  document.getElementById('btnPrev').disabled = currentBlock === 0;
+  document.getElementById('btnNext').disabled = currentBlock === BLOCK_NAMES.length - 1;
+  document.getElementById('progressText').textContent = t('progressBlock',{n:currentBlock+1, total:BLOCK_NAMES.length});
+}
+
+function startTest(){
+  const name = document.getElementById('stuName').value.trim();
+  const email = document.getElementById('stuEmail').value.trim();
+  if(!name || !email){
+    alert(t('alertFillNameEmail'));
+    return;
+  }
+  document.getElementById('startTime').value = new Date().toTimeString().slice(0,5);
+  document.getElementById('stuDate').value = new Date().toISOString().slice(0,10);
+  document.getElementById('personalForm').style.display = 'none';
+  document.getElementById('navBar').style.display = 'flex';
+  buildBlocks();
+  document.getElementById(`block0`).classList.add('active');
+  updateNav();
+}
+
+function sendEmail(){
+  const name = document.getElementById('stuName').value;
+  const email = document.getElementById('stuEmail').value;
+  const prof = document.getElementById('profEmail').value || 'professora@escuela.com';
+  const date = document.getElementById('stuDate').value;
+  const start = document.getElementById('startTime').value;
+  const end = document.getElementById('endTime').value;
+  const total = DATA.length;
+  const ok = Object.values(answered).filter(a=>a.ok).length;
+  const pct = Math.round(ok/total*100);
+
+  let body = `${t('emailHeader')}%0D%0A`;
+  body += `${t('emailCourse')}%0D%0A%0D%0A`;
+  body += `${t('emailStudent')}: ${name}%0D%0A`;
+  body += `${t('emailEmail')}: ${email}%0D%0A`;
+  body += `${t('emailDate')}: ${date}%0D%0A`;
+  body += `${t('emailStart')}: ${start}%0D%0A`;
+  body += `${t('emailEnd')}: ${end}%0D%0A%0D%0A`;
+  body += `${t('emailResult')}: ${ok}/${total} (${pct}%)%0D%0A%0D%0A`;
+
+  BLOCK_NAMES.forEach((b,bi) => {
+    body += `--- ${getBlockName(bi)} ---%0D%0A`;
+    const cases = DATA.filter(d=>d.block===bi);
+    cases.forEach((cs,ci) => {
+      const gid = `b${bi}c${ci}`;
+      const a = answered[gid];
+      if(a){
+        body += `Caso ${ci+1}: ${a.ok?'✅':'❌'} (${t('emailResp')}: ${getCaseOpts(cs)[a.sel].charAt(0)} | ${t('emailCorrect')}: ${getCaseOpts(cs)[a.correct].charAt(0)})%0D%0A`;
+        if(a.exp) body += `  ${t('emailExplanation')}: ${a.exp}%0D%0A`;
+      }
+    });
+    body += `%0D%0A`;
+  });
+
+  const subject = encodeURIComponent(t('emailSubject',{name:name, ok:ok, total:total}));
+  window.location.href = `mailto:${prof}?subject=${subject}&body=${body}`;
+}
+
+// Init
+document.getElementById('stuDate').value = new Date().toISOString().slice(0,10);
+const savedLang = localStorage.getItem('testLanguage');
+if(savedLang && translations[savedLang]){
+  currentLang = savedLang;
+  document.querySelectorAll('.lang-selector button').forEach(b=>b.classList.toggle('active', b.dataset.lang===savedLang));
+  setLanguage(savedLang);
+}
+</script>
+</body>
+</html>

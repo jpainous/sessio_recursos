@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resum per a la Professora – Sistema Músculo-Esquelètic II</title>
+<style>
+  :root{
+    --primary:#0f4c5c;
+    --secondary:#1b7f8c;
+    --accent:#e36414;
+    --bg:#f4f7f8;
+    --card:#ffffff;
+    --text:#1f2933;
+    --muted:#5c6b73;
+    --ok:#2a9d8f;
+    --err:#c1121f;
+    --essay:#6a4c93;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    margin:0;
+    padding:20px;
+    line-height:1.6;
+  }
+  .no-print{ display:block; }
+  .print-only{ display:none; }
+
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    padding:28px 22px;
+    border-radius:14px;
+    margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(15,76,92,.25);
+    position:relative;
+  }
+  header h1{margin:0 0 8px;font-size:1.7rem;}
+  header p{margin:0;opacity:.92;font-size:.98rem;}
+  
+  .lang-selector{
+    position:absolute;
+    top:15px;
+    right:20px;
+    display:flex;
+    gap:5px;
+  }
+  .lang-selector button{
+    background:rgba(255,255,255,.2);
+    border:2px solid rgba(255,255,255,.4);
+    color:#fff;
+    padding:5px 12px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:.85em;
+    font-weight:600;
+    transition:.3s;
+  }
+  .lang-selector button:hover{background:rgba(255,255,255,.35);}
+  .lang-selector button.active{background:#fff;color:var(--primary);border-color:#fff;}
+
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+    background:#fff;
+    padding:14px 16px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    align-items:center;
+  }
+  .toolbar button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    font-size:.95rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .toolbar button:hover{background:var(--secondary);}
+  .toolbar button.print{background:var(--accent);}
+  .toolbar button.print:hover{background:#c0520e;}
+  .toolbar .info{
+    margin-left:auto;
+    font-size:.85rem;
+    color:var(--muted);
+  }
+
+  .summary-box{
+    background:#fff;
+    border-radius:14px;
+    padding:24px 28px;
+    margin-bottom:24px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    border-left:5px solid var(--accent);
+  }
+  .summary-box h2{color:var(--primary);margin-top:0;font-size:1.3em;}
+  .summary-box ul{margin:10px 0;padding-left:20px;}
+  .summary-box li{margin-bottom:6px;}
+
+  .case-card{
+    background:#fff;
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-left:5px solid var(--secondary);
+    page-break-inside:avoid;
+    break-inside:avoid;
+  }
+  .case-card h3{color:var(--primary);margin-top:0;font-size:1.1em;}
+  .case-tag{font-size:.75em;background:var(--accent);color:#fff;padding:3px 10px;border-radius:20px;font-weight:700;text-transform:uppercase;display:inline-block;margin-bottom:8px;}
+  .scenario{background:#f8f9fa;padding:12px 16px;border-radius:8px;margin-bottom:12px;font-style:italic;color:#444;border-left:3px solid var(--secondary);}
+  .options{list-style:none;padding:0;margin:10px 0;}
+  .options li{padding:8px 12px;margin:4px 0;background:#eef4f5;border-radius:6px;font-size:.95em;}
+  .options li.correct{background:#d8f3ef;border-left:4px solid var(--ok);font-weight:600;}
+  .answer-box{background:#fff8e1;border:2px solid #ffcc80;border-radius:8px;padding:12px 16px;margin-top:12px;}
+  .answer-box h4{margin:0 0 6px;color:#e65100;font-size:.95em;}
+  .answer-box .correct-answer{font-weight:700;color:var(--ok);font-size:1em;}
+  .answer-box .explanation{font-size:.92em;color:#444;margin-top:6px;}
+
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.85rem;
+    margin-top:30px;
+    padding:18px;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;margin:0;font-size:11pt;}
+    .no-print{display:none !important;}
+    .print-only{display:block !important;}
+    header{background:#fff !important;color:#000 !important;box-shadow:none !important;border-bottom:3px solid #000;border-radius:0;padding:10px 0;margin-bottom:15px;}
+    header h1{font-size:1.4rem;color:#000 !important;}
+    header p{color:#333 !important;}
+    .summary-box{box-shadow:none;border:1px solid #ccc;border-left:5px solid #000;page-break-inside:avoid;break-inside:avoid;margin-bottom:15px;padding:15px;}
+    .case-card{box-shadow:none;border:1px solid #ccc;border-left:5px solid #000;page-break-inside:avoid;break-inside:avoid;margin-bottom:15px;padding:15px;}
+    .case-card h3{font-size:1em;}
+    .options li{background:#f5f5f5 !important;border:1px solid #ddd;}
+    .options li.correct{background:#e8f5e9 !important;border-left:4px solid #2e7d32;}
+    .answer-box{background:#fffde7 !important;border:1px solid #ffcc80;}
+    footer{display:none;}
+  }
+  @media(max-width:600px){
+    header h1{font-size:1.35rem;}
+    .lang-selector{position:static;justify-content:center;margin-bottom:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="lang-selector no-print">
+    <button type="button" data-lang="ca" class="active" onclick="setLang('ca')">CA</button>
+    <button type="button" data-lang="es" onclick="setLang('es')">ES</button>
+    <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+  <h1 data-i18n="headerTitle">📄 Resum per a la Professora – Sistema Músculo-Esquelètic II</h1>
+  <p data-i18n="headerSubtitle">10 casos pràctics per a treball en grup · Respostes correctes i explicacions · Curs 2026-2027</p>
+</header>
+
+<div class="toolbar no-print">
+  <button class="print" onclick="window.print()">🖨️ Imprimir / Guardar com a PDF</button>
+  <span class="info" data-i18n="toolbarInfo">Prem el botó per generar un PDF llest per revisar.</span>
+</div>
+
+<main id="content">
+  <!-- Resum executiu -->
+  <div class="summary-box">
+    <h2 data-i18n="summaryTitle">📋 Resum executiu per a la revisió</h2>
+    <p data-i18n="summaryIntro">Aquesta activitat proposa <strong>10 casos pràctics</strong> per treballar en grup els continguts de la presentació <em>"Sistema Músculo-Esquelètic II"</em>. Els casos han estat seleccionats per la seva rellevància en el dia a dia d'un ballarí o ballarina i estan directament vinculats als temes de la presentació:</p>
+    <ul>
+      <li data-i18n="summaryLi1"><strong>Coactivació i equilibri</strong> en posicions exigents (passé relevé, pirouette).</li>
+      <li data-i18n="summaryLi2"><strong>Tipus de contracció</strong> (concèntrica, isomètrica, excèntrica) en moviments com relevé, plié i développé.</li>
+      <li data-i18n="summaryLi3"><strong>Adaptació dels teixits</strong> (os i cartílag) a la càrrega mecànica.</li>
+      <li data-i18n="summaryLi4"><strong>Propiocepció</strong> i control sensoriomotor.</li>
+      <li data-i18n="summaryLi5"><strong>Plànols de moviment</strong> i anàlisi multiplanar (turnout, rond de jambe).</li>
+    </ul>
+    <p data-i18n="summaryOutro">Cada cas inclou una <strong>fitxa de control</strong> amb preguntes guiades per fomentar el raonament fisiològic, un espai per a la <strong>resposta consensuada</strong> del grup i una <strong>explicació detallada</strong> de la resposta correcta. A continuació es presenta el resum complet dels 10 casos amb les respostes correctes.</p>
+  </div>
+
+  <!-- Container dels casos -->
+  <div id="casesContainer"></div>
+</main>
+
+<footer class="no-print" data-i18n="footer">Fet per a pràctica de fisiología · Sistema Músculo-Esquelètic II</footer>
+
+<script>
+/* ============================================================
+   TRADUCCIONS
+   ============================================================ */
+const T = {
+  ca: {
+    headerTitle: "📄 Resum per a la Professora – Sistema Músculo-Esquelètic II",
+    headerSubtitle: "10 casos pràctics per a treball en grup · Respostes correctes i explicacions · Curs 2026-2027",
+    toolbarInfo: "Prem el botó per generar un PDF llest per revisar.",
+    summaryTitle: "📋 Resum executiu per a la revisió",
+    summaryIntro: "Aquesta activitat proposa 10 casos pràctics per treballar en grup els continguts de la presentació 'Sistema Músculo-Esquelètic II'. Els casos han estat seleccionats per la seva rellevància en el dia a dia d'un ballarí o ballarina i estan directament vinculats als temes de la presentació:",
+    summaryLi1: "Coactivació i equilibri en posicions exigents (passé relevé, pirouette).",
+    summaryLi2: "Tipus de contracció (concèntrica, isomètrica, excèntrica) en moviments com relevé, plié i développé.",
+    summaryLi3: "Adaptació dels teixits (os i cartílag) a la càrrega mecànica.",
+    summaryLi4: "Propiocepció i control sensoriomotor.",
+    summaryLi5: "Plànols de moviment i anàlisi multiplanar (turnout, rond de jambe).",
+    summaryOutro: "Cada cas inclou una fitxa de control amb preguntes guiades per fomentar el raonament fisiològic, un espai per a la resposta consensuada del grup i una explicació detallada de la resposta correcta. A continuació es presenta el resum complet dels 10 casos amb les respostes correctes.",
+    caseLabel: "Cas",
+    correctAnswer: "Resposta correcta",
+    explanation: "Explicació fisiològica",
+    footer: "Fet per a pràctica de fisiología · Sistema Músculo-Esquelètic II"
+  },
+  es: {
+    headerTitle: "📄 Resumen para la Profesora – Sistema Músculo-Esquelético II",
+    headerSubtitle: "10 casos prácticos para trabajo en grupo · Respuestas correctas y explicaciones · Curso 2026-2027",
+    toolbarInfo: "Pulsa el botón para generar un PDF listo para revisar.",
+    summaryTitle: "📋 Resumen ejecutivo para la revisión",
+    summaryIntro: "Esta actividad propone 10 casos prácticos para trabajar en grupo los contenidos de la presentación 'Sistema Músculo-Esquelético II'. Los casos han sido seleccionados por su relevancia en el día a día de un bailarín o bailarina y están directamente vinculados a los temas de la presentación:",
+    summaryLi1: "Coactivación y equilibrio en posiciones exigentes (passé relevé, pirouette).",
+    summaryLi2: "Tipos de contracción (concéntrica, isométrica, excéntrica) en movimientos como relevé, plié y développé.",
+    summaryLi3: "Adaptación de los tejidos (hueso y cartílago) a la carga mecánica.",
+    summaryLi4: "Propiocepción y control sensoriomotor.",
+    summaryLi5: "Planos de movimiento y análisis multiplanar (turnout, rond de jambe).",
+    summaryOutro: "Cada caso incluye una ficha de control con preguntas guiadas para fomentar el razonamiento fisiológico, un espacio para la respuesta consensuada del grupo y una explicación detallada de la respuesta correcta. A continuación se presenta el resumen completo de los 10 casos con las respuestas correctas.",
+    caseLabel: "Caso",
+    correctAnswer: "Respuesta correcta",
+    explanation: "Explicación fisiológica",
+    footer: "Hecho para práctica de fisiología · Sistema Músculo-Esquelético II"
+  },
+  en: {
+    headerTitle: "📄 Summary for the Teacher – Musculoskeletal System II",
+    headerSubtitle: "10 practical cases for group work · Correct answers and explanations · Academic year 2026-2027",
+    toolbarInfo: "Click the button to generate a PDF ready for review.",
+    summaryTitle: "📋 Executive summary for review",
+    summaryIntro: "This activity proposes 10 practical cases to work in groups on the contents of the presentation 'Musculoskeletal System II'. The cases have been selected for their relevance to a dancer's daily life and are directly linked to the presentation's topics:",
+    summaryLi1: "Coactivation and balance in demanding positions (passé relevé, pirouette).",
+    summaryLi2: "Types of contraction (concentric, isometric, eccentric) in movements such as relevé, plié and développé.",
+    summaryLi3: "Tissue adaptation (bone and cartilage) to mechanical load.",
+    summaryLi4: "Proprioception and sensorimotor control.",
+    summaryLi5: "Movement planes and multiplanar analysis (turnout, rond de jambe).",
+    summaryOutro: "Each case includes a control sheet with guided questions to encourage physiological reasoning, a space for the group's consensus answer and a detailed explanation of the correct answer. Below is the complete summary of the 10 cases with the correct answers.",
+    caseLabel: "Case",
+    correctAnswer: "Correct answer",
+    explanation: "Physiological explanation",
+    footer: "Made for physiology practice · Musculoskeletal System II"
+  }
+};
+
+/* ============================================================
+   DADES DELS 10 CASOS
+   ============================================================ */
+const CASES = [
+  {
+    id: 1,
+    title: { ca: "Coactivació i equilibri en passé relevé", es: "Coactivación y equilibrio en passé relevé", en: "Coactivation and balance in passé relevé" },
+    scenario: { 
+      ca: "Una ballarina manté l'equilibri sobre una cama en passé relevé. El seu cos ha d'ajustar constantment la postura per no caure.", 
+      es: "Una bailarina mantiene el equilibrio sobre una pierna en passé relevé. Su cuerpo debe ajustar constantemente la postura para no caerse.", 
+      en: "A dancer balances on one leg in passé relevé. Her body must constantly adjust posture to avoid falling." 
+    },
+    options: {
+      ca: ["Només la força del quàdriceps de la cama de suport", "La coactivació de múltiples grups musculars (turmell, maluc, tronc) que ajusten constantment la postura", "La rigidesa dels ossos del peu", "La relaxació completa dels músculs de la cama elevada"],
+      es: ["Solo la fuerza del cuádriceps de la pierna de apoyo", "La coactivación de múltiples grupos musculares (tobillo, cadera, tronco) que ajustan constantemente la postura", "La rigidez de los huesos del pie", "La relajación completa de los músculos de la pierna elevada"],
+      en: ["Only the strength of the supporting leg's quadriceps", "The coactivation of multiple muscle groups (ankle, hip, trunk) that constantly adjust posture", "The rigidity of the foot bones", "The complete relaxation of the raised leg muscles"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "L'equilibri en una posició complexa requereix la coactivació coordinada de músculs del turmell, maluc, tronc i core, que fan microajustos constants per mantenir l'estabilitat (Pres II, Secció 5).",
+      es: "El equilibrio en una posición compleja requiere la coactivación coordinada de músculos del tobillo, cadera, tronco y core, que realizan microajustes constantes para mantener la estabilidad (Pres II, Sección 5).",
+      en: "Balance in a complex position requires coordinated coactivation of ankle, hip, trunk and core muscles, which make constant micro-adjustments to maintain stability (Pres II, Section 5)."
+    }
+  },
+  {
+    id: 2,
+    title: { ca: "Contraccions en un grand plié", es: "Contracciones en un grand plié", en: "Contractions in a grand plié" },
+    scenario: { 
+      ca: "En un grand plié, els quàdriceps s'allarguen durant el descens i s'escurcen durant la pujada, generant tensió en tot moment.", 
+      es: "En un grand plié, los cuádriceps se alargan durante el descenso y se acortan durante la subida, generando tensión en todo momento.", 
+      en: "In a grand plié, the quadriceps lengthen during the descent and shorten during the ascent, generating tension at all times." 
+    },
+    options: {
+      ca: ["Excèntrica en baixar, concèntrica en pujar", "Concèntrica en baixar, excèntrica en pujar", "Isomètrica en totes dues fases", "No hi ha contracció, és un moviment passiu"],
+      es: ["Excéntrica al bajar, concéntrica al subir", "Concéntrica al bajar, excéntrica al subir", "Isométrica en ambas fases", "No hay contracción, es un movimiento pasivo"],
+      en: ["Eccentric when lowering, concentric when rising", "Concentric when lowering, eccentric when rising", "Isometric in both phases", "There is no contraction, it's a passive movement"]
+    },
+    correct: 0,
+    explanation: {
+      ca: "Durant el descens, els quàdriceps s'allarguen però generen tensió per controlar la gravetat (excèntrica). Durant la pujada, s'escurcen per elevar el cos (concèntrica). Això és clau per al control del moviment i la prevenció de lesions (Pres II, Secció 4).",
+      es: "Durante el descenso, los cuádriceps se alargan pero generan tensión para controlar la gravedad (excéntrica). Durante la subida, se acortan para elevar el cuerpo (concéntrica). Esto es clave para el control del movimiento y la prevención de lesiones (Pres II, Sección 4).",
+      en: "During the descent, the quadriceps lengthen but generate tension to control gravity (eccentric). During the ascent, they shorten to lift the body (concentric). This is key for movement control and injury prevention (Pres II, Section 4)."
+    }
+  },
+  {
+    id: 3,
+    title: { ca: "Adaptació òssia en pointe work", es: "Adaptación ósea en pointe work", en: "Bone adaptation in pointe work" },
+    scenario: { 
+      ca: "Una ballarina que entrena pointe work diàriament durant anys desenvolupa ossos del peu més densos i resistents que una persona sedentària.", 
+      es: "Una bailarina que entrena pointe work diariamente durante años desarrolla huesos del pie más densos y resistentes que una persona sedentaria.", 
+      en: "A dancer who trains pointe work daily for years develops denser and stronger foot bones than a sedentary person." 
+    },
+    options: {
+      ca: ["Els ossos són estàtics i no canvien", "La remodelació òssia: l'os s'adapta i reforça segons la càrrega mecànica rebuda", "Els ossos del peu es fusionen amb els del turmell", "El cartílag es converteix en os"],
+      es: ["Los huesos son estáticos y no cambian", "La remodelación ósea: el hueso se adapta y refuerza según la carga mecánica recibida", "Los huesos del pie se fusionan con los del tobillo", "El cartílago se convierte en hueso"],
+      en: ["Bones are static and don't change", "Bone remodeling: bone adapts and strengthens according to the mechanical load received", "Foot bones fuse with ankle bones", "Cartilage turns into bone"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "Els ossos són teixits dinàmics que es remodelen contínuament. La càrrega mecànica repetida (com el pointe work) estimula els osteoblasts a dipositar més matriu òssia, augmentant la densitat i resistència (Llei de Wolff) (Pres II, Secció 11).",
+      es: "Los huesos son tejidos dinámicos que se remodelan continuamente. La carga mecánica repetida (como el pointe work) estimula a los osteoblastos a depositar más matriz ósea, aumentando la densidad y resistencia (Ley de Wolff) (Pres II, Sección 11).",
+      en: "Bones are dynamic tissues that continuously remodel. Repeated mechanical loading (such as pointe work) stimulates osteoblasts to deposit more bone matrix, increasing density and strength (Wolff's Law) (Pres II, Section 11)."
+    }
+  },
+  {
+    id: 4,
+    title: { ca: "Nutrició del cartílag i entrenament sobre superfícies dures", es: "Nutrición del cartílago y entrenamiento sobre superficies duras", en: "Cartilage nutrition and training on hard surfaces" },
+    scenario: { 
+      ca: "Un ballarí entrena sempre sobre superfícies molt dures i mai varia la càrrega sobre les seves genolls. Té més risc de desgast del cartílag.", 
+      es: "Un bailarín entrena siempre sobre superficies muy duras y nunca varía la carga sobre sus rodillas. Tiene más riesgo de desgaste del cartílago.", 
+      en: "A dancer always trains on very hard surfaces and never varies the load on his knees. He has a higher risk of cartilage wear." 
+    },
+    options: {
+      ca: ["Perquè el cartílag s'endureix amb la càrrega", "Perquè la càrrega excessiva i repetitiva sense descàrrega adequada impedeix la nutrició del cartílag i accelera la seva degeneració", "Perquè els ossos es trenquen abans que el cartílag", "Perquè el líquid sinovial es congela"],
+      es: ["Porque el cartílago se endurece con la carga", "Porque la carga excesiva y repetitiva sin descarga adecuada impide la nutrición del cartílago y acelera su degeneración", "Porque los huesos se rompen antes que el cartílago", "Porque el líquido sinovial se congela"],
+      en: ["Because cartilage hardens with load", "Because excessive and repetitive load without adequate unloading prevents cartilage nutrition and accelerates its degeneration", "Because bones break before cartilage", "Because synovial fluid freezes"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "El cartílag articular és avascular i es nodreix per l'alternança de càrrega (compressió que expulsa líquid) i descàrrega (reabsorció de líquid sinovial). La sobrecàrrega crònica sense recuperació impedeix aquest mecanisme i accelera el desgast (Pres II, Secció 14).",
+      es: "El cartílago articular es avascular y se nutre por la alternancia de carga (compresión que expulsa líquido) y descarga (reabsorción de líquido sinovial). La sobrecarga crónica sin recuperación impide este mecanismo y acelera el desgaste (Pres II, Sección 14).",
+      en: "Articular cartilage is avascular and is nourished by alternating load (compression expelling fluid) and unload (reabsorption of synovial fluid). Chronic overload without recovery prevents this mechanism and accelerates wear (Pres II, Section 14)."
+    }
+  },
+  {
+    id: 5,
+    title: { ca: "Propiocepció en pirouette amb ulls tancats", es: "Propiocepción en pirouette con ojos cerrados", en: "Proprioception in pirouette with eyes closed" },
+    scenario: { 
+      ca: "Una ballarina fa una pirouette amb els ulls tancats i tot i així manté l'equilibri i sap on són els seus braços i la seva cama en passé.", 
+      es: "Una bailarina hace una pirouette con los ojos cerrados y aun así mantiene el equilibrio y sabe dónde están sus brazos y su pierna en passé.", 
+      en: "A dancer performs a pirouette with her eyes closed and still maintains balance and knows where her arms and passé leg are." 
+    },
+    options: {
+      ca: ["El sistema visual", "El sistema propioceptiu (mecanorreceptors musculars, tendinosos i articulars)", "El sistema auditiu", "El sistema digestiu"],
+      es: ["El sistema visual", "El sistema propioceptivo (mecanorreceptores musculares, tendinosos y articulares)", "El sistema auditivo", "El sistema digestivo"],
+      en: ["The visual system", "The proprioceptive system (muscular, tendinous and articular mechanoreceptors)", "The auditory system", "The digestive system"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "La propiocepció és el sentit que permet percebre de forma inconscient la posició i el moviment del cos. Els mecanorreceptors en músculs, tendons i articulacions envien informació constant al sistema nerviós, permetent ajustos posturals sense necessitat de la visió (Pres II, Secció 16).",
+      es: "La propiocepción es el sentido que permite percibir de forma inconsciente la posición y el movimiento del cuerpo. Los mecanorreceptores en músculos, tendones y articulaciones envían información constante al sistema nervioso, permitiendo ajustes posturales sin necesidad de la visión (Pres II, Sección 16).",
+      en: "Proprioception is the sense that allows unconscious perception of body position and movement. Mechanoreceptors in muscles, tendons and joints send constant information to the nervous system, allowing postural adjustments without the need for vision (Pres II, Section 16)."
+    }
+  },
+  {
+    id: 6,
+    title: { ca: "Contraccions en relevé (pujar, mantenir, baixar)", es: "Contracciones en relevé (subir, mantener, bajar)", en: "Contractions in relevé (rise, hold, lower)" },
+    scenario: { 
+      ca: "Una ballarina puja a relevé, manté la posició i baixa controladament. Els seus bessons treballen de tres maneres diferents.", 
+      es: "Una bailarina sube a relevé, mantiene la posición y baja controladamente. Sus gemelos trabajan de tres maneras diferentes.", 
+      en: "A dancer rises to relevé, holds the position and lowers in a controlled manner. Her calves work in three different ways." 
+    },
+    options: {
+      ca: ["Concèntrica en pujar, isomètrica en mantenir, excèntrica en baixar", "Excèntrica en pujar, concèntrica en mantenir, isomètrica en baixar", "Isomètrica en totes les fases", "No hi ha contracció en cap fase"],
+      es: ["Concéntrica al subir, isométrica al mantener, excéntrica al bajar", "Excéntrica al subir, concéntrica al mantener, isométrica al bajar", "Isométrica en todas las fases", "No hay contracción en ninguna fase"],
+      en: ["Concentric when rising, isometric when holding, eccentric when lowering", "Eccentric when rising, concentric when holding, isometric when lowering", "Isometric in all phases", "There is no contraction in any phase"]
+    },
+    correct: 0,
+    explanation: {
+      ca: "En pujar, els bessons s'escurcen (concèntrica). En mantenir, generen tensió sense canviar de longitud (isomètrica). En baixar, s'allarguen mentre frenen el descens (excèntrica). Aquesta combinació és fonamental per al control del moviment (Pres I, Diapo 16; Pres II, Secció 4).",
+      es: "Al subir, los gemelos se acortan (concéntrica). Al mantener, generan tensión sin cambiar de longitud (isométrica). Al bajar, se alargan mientras frenan el descenso (excéntrica). Esta combinación es fundamental para el control del movimiento (Pres I, Diapo 16; Pres II, Sección 4).",
+      en: "When rising, the calves shorten (concentric). When holding, they generate tension without changing length (isometric). When lowering, they lengthen while braking the descent (eccentric). This combination is essential for movement control (Pres I, Slide 16; Pres II, Section 4)."
+    }
+  },
+  {
+    id: 7,
+    title: { ca: "Contraccions en développé à la seconde", es: "Contracciones en développé à la seconde", en: "Contractions in développé à la seconde" },
+    scenario: { 
+      ca: "Una ballarina fa un développé à la seconde lent: eleva la cama lateralment i després la baixa controladament. Els abductors del maluc treballen en totes dues fases.", 
+      es: "Una bailarina hace un développé à la seconde lento: eleva la pierna lateralmente y luego la baja controladamente. Los abductores de la cadera trabajan en ambas fases.", 
+      en: "A dancer performs a slow développé à la seconde: she raises the leg laterally and then lowers it in a controlled manner. The hip abductors work in both phases." 
+    },
+    options: {
+      ca: ["Concèntrica en elevar, excèntrica en baixar", "Excèntrica en elevar, concèntrica en baixar", "Isomètrica en totes dues fases", "No hi ha contracció, és un moviment passiu"],
+      es: ["Concéntrica al elevar, excéntrica al bajar", "Excéntrica al elevar, concéntrica al bajar", "Isométrica en ambas fases", "No hay contracción, es un movimiento pasivo"],
+      en: ["Concentric when raising, eccentric when lowering", "Eccentric when raising, concentric when lowering", "Isometric in both phases", "There is no contraction, it's a passive movement"]
+    },
+    correct: 0,
+    explanation: {
+      ca: "En elevar la cama, els abductors s'escurcen generant tensió (concèntrica). En baixar-la controladament, s'allarguen mentre frenen el moviment (excèntrica). Aquesta alternança és clau per a la força i el control en dansa (Pres II, Secció 4).",
+      es: "Al elevar la pierna, los abductores se acortan generando tensión (concéntrica). Al bajarla controladamente, se alargan mientras frenan el movimiento (excéntrica). Esta alternancia es clave para la fuerza y el control en danza (Pres II, Sección 4).",
+      en: "When raising the leg, the abductors shorten generating tension (concentric). When lowering it in a controlled manner, they lengthen while braking the movement (eccentric). This alternation is key for strength and control in dance (Pres II, Section 4)."
+    }
+  },
+  {
+    id: 8,
+    title: { ca: "Coactivació en pirouette", es: "Coactivación en pirouette", en: "Coactivation in pirouette" },
+    scenario: { 
+      ca: "Durant una pirouette, la ballarina ha de mantenir l'eix de gir estable. Diversos grups musculars treballen coordinadament per aconseguir-ho.", 
+      es: "Durante una pirouette, la bailarina debe mantener el eje de giro estable. Varios grupos musculares trabajan coordinadamente para lograrlo.", 
+      en: "During a pirouette, the dancer must keep the axis of rotation stable. Several muscle groups work in coordination to achieve this." 
+    },
+    options: {
+      ca: ["Només els bessons", "Els músculs del tronc (core), maluc, cama de suport i braços treballen coordinadament", "Només els músculs del coll", "Només els músculs del peu de suport"],
+      es: ["Solo los gemelos", "Los músculos del tronco (core), cadera, pierna de apoyo y brazos trabajan coordinadamente", "Solo los músculos del cuello", "Solo los músculos del pie de apoyo"],
+      en: ["Only the calves", "The trunk (core), hip, supporting leg and arm muscles work in coordination", "Only the neck muscles", "Only the supporting foot muscles"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "La pirouette requereix coactivació de múltiples grups: el core (estabilització del tronc), els músculs del maluc i cama de suport (equilibri), els braços (control del moment angular) i els músculs del peu (base de suport). La coactivació coordinada permet mantenir l'eix de gir estable (Pres II, Secció 5).",
+      es: "La pirouette requiere coactivación de múltiples grupos: el core (estabilización del tronco), los músculos de la cadera y pierna de apoyo (equilibrio), los brazos (control del momento angular) y los músculos del pie (base de apoyo). La coactivación coordinada permite mantener el eje de giro estable (Pres II, Sección 5).",
+      en: "The pirouette requires coactivation of multiple groups: the core (trunk stabilization), the hip and supporting leg muscles (balance), the arms (angular momentum control) and the foot muscles (support base). Coordinated coactivation allows maintaining a stable axis of rotation (Pres II, Section 5)."
+    }
+  },
+  {
+    id: 9,
+    title: { ca: "Turnout i plànols de moviment", es: "Turnout y planos de movimiento", en: "Turnout and movement planes" },
+    scenario: { 
+      ca: "El turnout és la base del ballet clàssic. La rotació externa de la cadera és un moviment que es produeix en un pla específic.", 
+      es: "El turnout es la base del ballet clásico. La rotación externa de la cadera es un movimiento que se produce en un plano específico.", 
+      en: "Turnout is the basis of classical ballet. External hip rotation is a movement that occurs in a specific plane." 
+    },
+    options: {
+      ca: ["Pla sagital", "Pla frontal", "Pla transversal", "Pla oblic"],
+      es: ["Plano sagital", "Plano frontal", "Plano transversal", "Plano oblicuo"],
+      en: ["Sagittal plane", "Frontal plane", "Transverse plane", "Oblique plane"]
+    },
+    correct: 2,
+    explanation: {
+      ca: "El turnout (rotació externa de cadera) és un moviment de rotació que ocorre en el pla transversal, que divideix el cos en part superior i inferior. Els moviments en aquest pla són rotacions al voltant de l'eix vertical (Pres II, Secció 15).",
+      es: "El turnout (rotación externa de cadera) es un movimiento de rotación que ocurre en el plano transversal, que divide el cuerpo en parte superior e inferior. Los movimientos en este plano son rotaciones alrededor del eje vertical (Pres II, Sección 15).",
+      en: "Turnout (external hip rotation) is a rotational movement that occurs in the transverse plane, which divides the body into upper and lower parts. Movements in this plane are rotations around the vertical axis (Pres II, Section 15)."
+    }
+  },
+  {
+    id: 10,
+    title: { ca: "Rond de jambe à terre i moviment multiplanar", es: "Rond de jambe à terre y movimiento multiplanar", en: "Rond de jambe à terre and multiplanar movement" },
+    scenario: { 
+      ca: "Un rond de jambe à terre descriu un semicercle amb el peu a terra. Combina moviments en diversos plànols alhora.", 
+      es: "Un rond de jambe à terre describe un semicírculo con el pie en el suelo. Combina movimientos en varios planos a la vez.", 
+      en: "A rond de jambe à terre describes a semicircle with the foot on the floor. It combines movements in several planes at once." 
+    },
+    options: {
+      ca: ["Només el pla transversal", "Pla sagital (davant/darrere), frontal (lateral) i transversal (rotació de maluc)", "Només el pla frontal", "Només el pla sagital"],
+      es: ["Solo el plano transversal", "Plano sagital (delante/detrás), frontal (lateral) y transversal (rotación de cadera)", "Solo el plano frontal", "Solo el plano sagital"],
+      en: ["Only the transverse plane", "Sagittal plane (front/back), frontal (lateral) and transverse (hip rotation)", "Only the frontal plane", "Only the sagittal plane"]
+    },
+    correct: 1,
+    explanation: {
+      ca: "El rond de jambe à terre passa per davant (flexió de maluc, pla sagital), à la seconde (abducció, pla frontal) i derrière (extensió, pla sagital), tot amb rotació externa de cadera (pla transversal). És un exemple perfecte de moviment multiplanar (Pres II, Secció 15).",
+      es: "El rond de jambe à terre pasa por delante (flexión de cadera, plano sagital), à la seconde (abducción, plano frontal) y derrière (extensión, plano sagital), todo con rotación externa de cadera (plano transversal). Es un ejemplo perfecto de movimiento multiplanar (Pres II, Sección 15).",
+      en: "The rond de jambe à terre passes through devant (hip flexion, sagittal plane), à la seconde (abduction, frontal plane) and derrière (extension, sagittal plane), all with external hip rotation (transverse plane). It is a perfect example of multiplanar movement (Pres II, Section 15)."
+    }
+  }
+];
+
+/* ============================================================
+   LÒGICA
+   ============================================================ */
+let currentLang = 'ca';
+
+function setLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-selector button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(T[lang] && T[lang][key]) el.innerHTML = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.dataset.i18nPlaceholder;
+    if(T[lang] && T[lang][key]) el.placeholder = T[lang][key];
+  });
+  renderCases();
+  localStorage.setItem('pdfLang', lang);
+}
+
+function renderCases(){
+  const container = document.getElementById('casesContainer');
+  container.innerHTML = '';
+  CASES.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'case-card';
+    
+    let html = `<span class="case-tag">${T[currentLang].caseLabel} ${i+1}</span>`;
+    html += `<h3>${c.title[currentLang]}</h3>`;
+    html += `<div class="scenario">📋 ${c.scenario[currentLang]}</div>`;
+    
+    html += `<ul class="options">`;
+    c.options[currentLang].forEach((opt, oi) => {
+      const isCorrect = oi === c.correct;
+      html += `<li class="${isCorrect ? 'correct' : ''}">${String.fromCharCode(97+oi)}) ${opt} ${isCorrect ? ' ✓' : ''}</li>`;
+    });
+    html += `</ul>`;
+
+    html += `<div class="answer-box">
+      <h4>${T[currentLang].correctAnswer}:</h4>
+      <p class="correct-answer">${String.fromCharCode(97+c.correct)}) ${c.options[currentLang][c.correct]}</p>
+      <p class="explanation"><strong>${T[currentLang].explanation}:</strong> ${c.explanation[currentLang]}</p>
+    </div>`;
+
+    div.innerHTML = html;
+    container.appendChild(div);
+  });
+}
+
+/* ============================================================
+   INICIALITZACIÓ
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const savedLang = localStorage.getItem('pdfLang');
+  if(savedLang && T[savedLang]) setLang(savedLang);
+  else renderCases();
+});
+</script>
+</body>
+</html>

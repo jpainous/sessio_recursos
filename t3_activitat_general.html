@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Músculo-Esquelètic II - Exercicis</title>
+<style>
+  :root{
+    --primary:#0f4c5c;
+    --secondary:#1b7f8c;
+    --accent:#e36414;
+    --bg:#f4f7f8;
+    --card:#ffffff;
+    --text:#1f2933;
+    --muted:#5c6b73;
+    --ok:#2a9d8f;
+    --err:#c1121f;
+    --review:#8a5a00;
+    --essay:#6a4c93;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    margin:0;
+    padding:20px;
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    color:#fff;
+    padding:28px 22px;
+    border-radius:14px;
+    margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(15,76,92,.25);
+  }
+  header h1{margin:0 0 8px;font-size:1.7rem;}
+  header p{margin:0;opacity:.92;font-size:.98rem;}
+  .howto{
+    background:#fff;
+    border-radius:12px;
+    padding:18px 22px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-left:5px solid var(--accent);
+  }
+  .howto summary{
+    cursor:pointer;
+    font-weight:700;
+    color:var(--primary);
+    font-size:1.05rem;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .howto summary::-webkit-details-marker{display:none;}
+  .howto summary::before{
+    content:"▶";
+    font-size:.8rem;
+    transition:.2s;
+    color:var(--accent);
+  }
+  .howto[open] summary::before{transform:rotate(90deg);}
+  .howto .howto-body{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;
+  }
+  .howto .step{
+    background:#f4f9fa;
+    border-radius:10px;
+    padding:12px 14px;
+    border:1px solid #e0ecee;
+  }
+  .howto .step h4{
+    margin:0 0 6px;
+    font-size:.9rem;
+    color:var(--secondary);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .howto .step p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--muted);
+  }
+  .howto .legend{
+    margin-top:14px;
+    font-size:.85rem;
+    color:var(--muted);
+    background:#fbfdfd;
+    padding:10px 14px;
+    border-radius:8px;
+    border:1px dashed #cbd5d9;
+  }
+  .howto .legend b{color:var(--primary);}
+  .howto .legend code{
+    background:#eef4f5;
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:.82rem;
+  }
+  .lang-switch{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .lang-switch button{
+    background:#fff;
+    border:2px solid var(--secondary);
+    color:var(--secondary);
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+    font-size:.9rem;
+  }
+  .lang-switch button.active,
+  .lang-switch button:hover{
+    background:var(--secondary);
+    color:#fff;
+  }
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+    background:#fff;
+    padding:14px 16px;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    align-items:center;
+  }
+  .toolbar button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:9px 16px;
+    border-radius:8px;
+    font-size:.88rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+  }
+  .toolbar button:hover{background:var(--secondary);}
+  .toolbar button.alt{background:var(--accent);}
+  .toolbar button.alt:hover{background:#c0520e;}
+  .toolbar button.ghost{background:#eef4f5;color:var(--primary);border:2px solid var(--secondary);}
+  .toolbar button.ghost:hover{background:var(--secondary);color:#fff;}
+  .toolbar button.review{background:var(--review);}
+  .toolbar button.review:hover{background:#6b4600;}
+  .toolbar button.email{background:#2a9d8f;}
+  .toolbar button.email:hover{background:#1b6b5e;}
+  .status{
+    margin-left:auto;
+    font-size:.85rem;
+    color:var(--muted);
+    font-weight:600;
+  }
+  .exercise{
+    background:var(--card);
+    border-radius:12px;
+    padding:20px 22px;
+    margin-bottom:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-left:5px solid var(--secondary);
+    transition:.3s;
+  }
+  .exercise.failed{border-left-color:var(--err);}
+  .exercise.corrected{border-left-color:var(--ok);}
+  .exercise.essay{border-left-color:var(--essay);}
+  .exercise.essay.failed{border-left-color:var(--err);}
+  .exercise.essay.corrected{border-left-color:var(--ok);}
+  .exercise h3{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    color:var(--primary);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .badge{
+    font-size:.72rem;
+    background:var(--accent);
+    color:#fff;
+    padding:3px 10px;
+    border-radius:20px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+  }
+  .badge.essay{background:var(--essay);}
+  .q{font-weight:600;margin-bottom:10px;}
+  .scenario{
+    background:#f4f0fa;
+    border-left:4px solid var(--essay);
+    padding:10px 14px;
+    border-radius:8px;
+    margin-bottom:12px;
+    font-size:.93rem;
+    color:#3d2c5c;
+  }
+  .options label{
+    display:block;
+    background:#eef4f5;
+    padding:9px 13px;
+    border-radius:8px;
+    margin-bottom:7px;
+    cursor:pointer;
+    transition:.15s;
+    border:1px solid transparent;
+  }
+  .options label:hover{background:#d9e8ea;}
+  .options input{margin-right:8px;}
+  input[type="text"], select{
+    width:100%;
+    padding:10px 12px;
+    border:2px solid #cbd5d9;
+    border-radius:8px;
+    font-size:.95rem;
+    font-family:inherit;
+    background:#fbfdfd;
+  }
+  input[type="text"]:focus, select:focus{
+    outline:none;
+    border-color:var(--secondary);
+    background:#fff;
+  }
+  textarea{
+    width:100%;
+    min-height:110px;
+    padding:10px 12px;
+    border:2px solid #cbd5d9;
+    border-radius:8px;
+    font-size:.95rem;
+    font-family:inherit;
+    background:#fbfdfd;
+    resize:vertical;
+  }
+  textarea:focus{
+    outline:none;
+    border-color:var(--essay);
+    background:#fff;
+  }
+  .match-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .match-row span{
+    background:#eef4f5;
+    padding:8px 12px;
+    border-radius:8px;
+    font-size:.9rem;
+  }
+  .match-row select{padding:8px;}
+  .order-list{
+    list-style:none;
+    padding:0;
+    margin:0 0 10px;
+  }
+  .order-list li{
+    background:#eef4f5;
+    padding:9px 13px;
+    border-radius:8px;
+    margin-bottom:6px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .order-list input{width:60px;text-align:center;}
+  .btn-check{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:11px 26px;
+    border-radius:8px;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:8px;
+    transition:.2s;
+  }
+  .btn-check:hover{background:var(--secondary);}
+  .btn-check.essay-btn{background:var(--essay);}
+  .btn-check.essay-btn:hover{background:#543b78;}
+  .btn-model{
+    background:#fff;
+    color:var(--essay);
+    border:2px solid var(--essay);
+    padding:9px 18px;
+    border-radius:8px;
+    font-size:.88rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:8px;
+    margin-left:8px;
+    transition:.2s;
+  }
+  .btn-model:hover{background:var(--essay);color:#fff;}
+  .feedback{
+    margin-top:10px;
+    font-weight:600;
+    font-size:.9rem;
+    display:none;
+    padding:9px 13px;
+    border-radius:8px;
+  }
+  .feedback.ok{background:#d8f3ef;color:#1b6b5e;display:block;}
+  .feedback.err{background:#fde2e4;color:#a4131d;display:block;}
+  .feedback.model{
+    background:#f4f0fa;
+    color:#3d2c5c;
+    display:block;
+    font-weight:500;
+    border-left:4px solid var(--essay);
+  }
+  .feedback.model b{color:var(--essay);}
+  .hidden{display:none;}
+  .banner{
+    background:#fff3cd;
+    border:1px solid #ffe08a;
+    color:#7a5b00;
+    padding:12px 16px;
+    border-radius:10px;
+    margin-bottom:18px;
+    font-size:.9rem;
+    display:none;
+  }
+  .banner.show{display:block;}
+  .banner button{
+    margin-left:10px;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:6px 14px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:.85rem;
+    font-weight:600;
+  }
+  .banner button.ghost{background:#fff;color:var(--primary);border:1px solid var(--primary);}
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:.85rem;
+    margin-top:30px;
+    padding:18px;
+  }
+  .review-mode .exercise:not(.failed){display:none;}
+  .review-mode .exercise.failed{display:block;}
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  .modal-content h3 { margin-top:0; color:var(--primary); }
+  .modal-content label { display:block; margin:10px 0 5px; font-weight:600; font-size:0.9rem;}
+  .modal-content input { width:100%; padding:8px; border:2px solid #cbd5d9; border-radius:6px; margin-bottom:10px;}
+  .modal-content .btn-row { display:flex; justify-content:flex-end; gap:10px; margin-top:10px;}
+  .modal-content button { padding:8px 16px; border-radius:6px; border:none; cursor:pointer; font-weight:600;}
+  .modal-content .btn-cancel { background:#eef4f5; color:var(--text); }
+  .modal-content .btn-send { background:var(--primary); color:#fff; }
+  @media(max-width:600px){
+    .match-row{grid-template-columns:1fr;}
+    header h1{font-size:1.35rem;}
+    .status{margin-left:0;width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦴 Sistema Músculo-Esquelètic II — Exercicis</h1>
+  <p>Fisiología · Curs 2026-2027 · Dra. Cèlia Painous</p>
+</header>
+
+<details class="howto" open>
+  <summary id="howto-titol">ℹ️ Funcionament resumit — com utilitzar aquesta activitat</summary>
+  <div class="howto-body" id="howto-body"></div>
+  <div class="legend" id="howto-legend"></div>
+</details>
+
+<div class="lang-switch">
+  <button class="active" onclick="setLang('ca')">Català</button>
+  <button onclick="setLang('es')">Castellano</button>
+  <button onclick="setLang('en')">English</button>
+</div>
+
+<div class="toolbar">
+  <button class="ghost" onclick="saveSession()">💾 Guardar sessió</button>
+  <button class="ghost" onclick="loadSession()">📂 Recuperar sessió</button>
+  <button class="ghost" onclick="resetSession()">🗑️ Esborrar sessió</button>
+  <button class="review" onclick="toggleReview()" id="reviewBtn">🔁 Repàs d'errors</button>
+  <button class="email" onclick="openEmailModal()">✉️ Enviar al professor</button>
+  <span class="status" id="status">Sessió no guardada</span>
+</div>
+
+<div class="banner" id="banner"></div>
+
+<main id="quiz"></main>
+
+<!-- Modal per enviar per email -->
+<div id="emailModal" class="modal">
+  <div class="modal-content">
+    <h3>Enviar resultats al professor</h3>
+    <label for="profEmail">Correu del professor:</label>
+    <input type="email" id="profEmail" placeholder="professor@exemple.com" value="celia.painous@exemple.com">
+    <label for="studentName">El teu nom (opcional):</label>
+    <input type="text" id="studentName" placeholder="El teu nom">
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeEmailModal()">Cancel·lar</button>
+      <button class="btn-send" onclick="sendEmail()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<footer>Fet per a pràctica de fisiología · Sistema músculo-esquelètic II</footer>
+
+<script>
+/* ============================================================
+   TRADUCCIONS
+   ============================================================ */
+const T = {
+  ca: {
+    check: "Comprova",
+    correct: "✅ Correcte!",
+    incorrect: "❌ Incorrecte. Resposta correcta: ",
+    select: "— Selecciona —",
+    ex: "Exercici",
+    saved: "Sessió guardada correctament.",
+    loaded: "Sessió recuperada.",
+    noSession: "No hi ha cap sessió guardada.",
+    reset: "Sessió esborrada.",
+    reviewOn: "Mode repàs activat: només es mostren els exercicis fallats.",
+    reviewOff: "Mode repàs desactivat: es mostren tots els exercicis.",
+    reviewEmpty: "Encara no hi ha exercicis fallats per repassar.",
+    restorePrompt: "S'ha trobat una sessió guardada. Vols recuperar-la?",
+    yes: "Sí, recupera",
+    no: "No, comença de nou",
+    essayOk: "✅ Bona resposta! Has inclòs les idees clau.",
+    essayPartial: "⚠️ Resposta incompleta. Et falten idees clau. Mira la resposta model.",
+    essayEmpty: "⚠️ Escriu una resposta abans de comprovar.",
+    model: "Resposta model:",
+    showModel: "Veure resposta model",
+    hideModel: "Amagar resposta model",
+    variantsOk:(correcte)=>`✔ Correcte. L'escriptura correcta és «${correcte}».`,
+    types: {
+      fill: "Omple el buit",
+      mc: "Elecció múltiple",
+      match: "Relaciona",
+      order: "Ordena",
+      short: "Resposta curta",
+      essay: "Redacció / Cas pràctic"
+    },
+    "howto-titol":"ℹ️ Funcionament resumit — com utilitzar aquesta activitat",
+    "howto-pas1-titol":"1. Idioma",
+    "howto-pas1-text":"Canvia entre <b>català</b>, <b>castellà</b> i <b>anglès</b> amb els botons de sota la capçalera.",
+    "howto-pas2-titol":"2. Tipus d'exercici",
+    "howto-pas2-text":"N'hi ha de 5 tipus: <b>omplir buits</b>, <b>elecció múltiple</b>, <b>relacionar</b>, <b>ordenar</b> i <b>resposta curta</b>. Els exercicis marcats com a <b>essay</b> (blau) són de raonament i redacció.",
+    "howto-pas3-titol":"3. Comprovar",
+    "howto-pas3-text":"El botó <b>Comprova</b> corregeix l'exercici. En els de redacció es validen <b>paraules clau</b> i es pot veure una <b>resposta model</b>.",
+    "howto-pas4-titol":"4. Feedback",
+    "howto-pas4-text":"Verd = correcte, vermell = incorrecte amb la resposta correcta o model. La targeta canvia de color segons el resultat.",
+    "howto-pas5-titol":"5. Repàs d'errors",
+    "howto-pas5-text":"El botó <b>🔁 Repàs d'errors</b> amaga els exercicis correctes i mostra només els fallats.",
+    "howto-pas6-titol":"6. Guardar / Recuperar",
+    "howto-pas6-text":"<b>💾 Guardar sessió</b> desa l'estat al navegador. <b>📂 Recuperar sessió</b> el restaura. <b>🗑️ Esborrar</b> l'elimina.",
+    "howto-pas7-titol":"7. Enviar per correu",
+    "howto-pas7-text":"El botó <b>✉️ Enviar al professor</b> obre un formulari per enviar els resultats per correu electrònic.",
+    "howto-legend":"<b>Consell:</b> fes servir el <b>Repàs d'errors</b> després de respondre tot per reforçar els punts febles. Guarda la sessió si vols continuar més tard. Les dades es guarden localment al teu dispositiu (<code>localStorage</code>)."
+  },
+  es: {
+    check: "Comprobar",
+    correct: "✅ ¡Correcto!",
+    incorrect: "❌ Incorrecto. Respuesta correcta: ",
+    select: "— Selecciona —",
+    ex: "Ejercicio",
+    saved: "Sesión guardada correctamente.",
+    loaded: "Sesión recuperada.",
+    noSession: "No hay ninguna sesión guardada.",
+    reset: "Sesión borrada.",
+    reviewOn: "Modo repaso activado: solo se muestran los ejercicios fallados.",
+    reviewOff: "Modo repaso desactivado: se muestran todos los ejercicios.",
+    reviewEmpty: "Todavía no hay ejercicios fallados para repasar.",
+    restorePrompt: "Se ha encontrado una sesión guardada. ¿Quieres recuperarla?",
+    yes: "Sí, recuperar",
+    no: "No, empezar de nuevo",
+    essayOk: "✅ ¡Buena respuesta! Has incluido las ideas clave.",
+    essayPartial: "⚠️ Respuesta incompleta. Te faltan ideas clave. Mira la respuesta modelo.",
+    essayEmpty: "⚠️ Escribe una respuesta antes de comprobar.",
+    model: "Respuesta modelo:",
+    showModel: "Ver respuesta modelo",
+    hideModel: "Ocultar respuesta modelo",
+    variantsOk:(correcte)=>`✔ Correcto. La escritura correcta es «${correcte}».`,
+    types: {
+      fill: "Rellenar hueco",
+      mc: "Elección múltiple",
+      match: "Relacionar",
+      order: "Ordenar",
+      short: "Respuesta corta",
+      essay: "Redacción / Caso práctico"
+    },
+    "howto-titol":"ℹ️ Funcionamiento resumido — cómo utilizar esta actividad",
+    "howto-pas1-titol":"1. Idioma",
+    "howto-pas1-text":"Cambia entre <b>catalán</b>, <b>castellano</b> e <b>inglés</b> con los botones de debajo de la cabecera.",
+    "howto-pas2-titol":"2. Tipo de ejercicio",
+    "howto-pas2-text":"Hay 5 tipos: <b>rellenar huecos</b>, <b>elección múltiple</b>, <b>relacionar</b>, <b>ordenar</b> y <b>respuesta corta</b>. Los ejercicios marcados como <b>essay</b> (azul) son de razonamiento y redacción.",
+    "howto-pas3-titol":"3. Comprobar",
+    "howto-pas3-text":"El botón <b>Comprueba</b> corrige el ejercicio. En los de redacción se validan <b>palabras clave</b> y se puede ver una <b>respuesta modelo</b>.",
+    "howto-pas4-titol":"4. Feedback",
+    "howto-pas4-text":"Verde = correcto, rojo = incorrecto con la respuesta correcta o modelo. La tarjeta cambia de color según el resultado.",
+    "howto-pas5-titol":"5. Repaso de errores",
+    "howto-pas5-text":"El botón <b>🔁 Repaso de errores</b> esconde los ejercicios correctos y muestra solo los fallados.",
+    "howto-pas6-titol":"6. Guardar / Recuperar",
+    "howto-pas6-text":"<b>💾 Guardar sesión</b> guarda el estado en el navegador. <b>📂 Recuperar sesión</b> lo restaura. <b>🗑️ Borrar</b> lo elimina.",
+    "howto-pas7-titol":"7. Enviar por correo",
+    "howto-pas7-text":"El botón <b>✉️ Enviar al profesor</b> abre un formulario para enviar los resultados por correo electrónico.",
+    "howto-legend":"<b>Consejo:</b> usa el <b>Repaso de errores</b> después de responder todo para reforzar los puntos débiles. Guarda la sesión si quieres continuar más tarde. Los datos se guardan localmente en tu dispositivo (<code>localStorage</code>)."
+  },
+  en: {
+    check: "Check",
+    correct: "✅ Correct!",
+    incorrect: "❌ Incorrect. Correct answer: ",
+    select: "— Select —",
+    ex: "Exercise",
+    saved: "Session saved successfully.",
+    loaded: "Session restored.",
+    noSession: "No saved session found.",
+    reset: "Session deleted.",
+    reviewOn: "Review mode on: only failed exercises are shown.",
+    reviewOff: "Review mode off: all exercises are shown.",
+    reviewEmpty: "No failed exercises to review yet.",
+    restorePrompt: "A saved session was found. Do you want to restore it?",
+    yes: "Yes, restore",
+    no: "No, start fresh",
+    essayOk: "✅ Good answer! You included the key ideas.",
+    essayPartial: "⚠️ Incomplete answer. You're missing key ideas. See the model answer.",
+    essayEmpty: "⚠️ Write an answer before checking.",
+    model: "Model answer:",
+    showModel: "Show model answer",
+    hideModel: "Hide model answer",
+    variantsOk:(correcte)=>`✔ Correct. The correct spelling is «${correcte}».`,
+    types: {
+      fill: "Fill in the blank",
+      mc: "Multiple choice",
+      match: "Match",
+      order: "Order",
+      short: "Short answer",
+      essay: "Essay / Case study"
+    },
+    "howto-titol":"ℹ️ Summary of how it works — how to use this activity",
+    "howto-pas1-titol":"1. Language",
+    "howto-pas1-text":"Switch between <b>Catalan</b>, <b>Spanish</b> and <b>English</b> using the buttons below the header.",
+    "howto-pas2-titol":"2. Exercise type",
+    "howto-pas2-text":"There are 5 types: <b>fill in the blanks</b>, <b>multiple choice</b>, <b>match</b>, <b>order</b> and <b>short answer</b>. The exercises marked as <b>essay</b> (blue) involve reasoning and writing.",
+    "howto-pas3-titol":"3. Check",
+    "howto-pas3-text":"The <b>Check</b> button corrects the exercise. In the essay ones, <b>keywords</b> are validated and a <b>model answer</b> can be shown.",
+    "howto-pas4-titol":"4. Feedback",
+    "howto-pas4-text":"Green = correct, red = incorrect with the correct or model answer. The card changes colour depending on the result.",
+    "howto-pas5-titol":"5. Review errors",
+    "howto-pas5-text":"The <b>🔁 Review errors</b> button hides correct exercises and shows only the failed ones.",
+    "howto-pas6-titol":"6. Save / Restore",
+    "howto-pas6-text":"<b>💾 Save session</b> stores the state in the browser. <b>📂 Restore session</b> brings it back. <b>🗑️ Delete</b> removes it.",
+    "howto-pas7-titol":"7. Send by email",
+    "howto-pas7-text":"The <b>✉️ Send to teacher</b> button opens a form to send the results by email.",
+    "howto-legend":"<b>Tip:</b> use <b>Review errors</b> after answering everything to reinforce weak points. Save the session if you want to continue later. Data is stored locally on your device (<code>localStorage</code>)."
+  }
+};
+
+/* ============================================================
+   DADES DELS EXERCICIS
+   ============================================================ */
+const EX = [
+  /* 1. FILL - Sarcòmer */
+  {
+    type:"fill",
+    ca:{q:"El ________ és la unitat funcional i contràctil del múscul esquelètic.", a:"sarcòmer",
+        variants:["sarcòmer","sarcomero","sarcómero","sarcomere","sarcomer"]},
+    es:{q:"El ________ es la unidad funcional y contráctil del músculo esquelético.", a:"sarcómero",
+        variants:["sarcómero","sarcomero","sarcòmer","sarcomere"]},
+    en:{q:"The ________ is the functional and contractile unit of skeletal muscle.", a:"sarcomere",
+        variants:["sarcomere"]}
+  },
+  /* 2. MC - Miosina */
+  {
+    type:"mc",
+    ca:{q:"Quin filament està format per miosina i genera força en unir-se a l'actina?", o:["Filament prim","Filament gruixut","Línia Z","Troponina"], a:1},
+    es:{q:"¿Qué filamento está formado por miosina y genera fuerza al unirse a la actina?", o:["Filamento delgado","Filamento grueso","Línea Z","Troponina"], a:1},
+    en:{q:"Which filament is made of myosin and generates force by binding to actin?", o:["Thin filament","Thick filament","Z line","Troponin"], a:1}
+  },
+  /* 3. MATCH - Mecanisme de lliscament */
+  {
+    type:"match", shuffle:true,
+    ca:{q:"Relaciona cada element amb la seva funció durant la contracció:", pairs:[["Actina","Filament prim sobre el qual actua la miosina"],["Miosina","Filament gruixut que genera força"],["Línia Z","Estructura que s'acosta durant la contracció"],["Calci","Ió que permet la unió actina-miosina"]]},
+    es:{q:"Relaciona cada elemento con su función durante la contracción:", pairs:[["Actina","Filamento delgado sobre el que actúa la miosina"],["Miosina","Filamento grueso que genera fuerza"],["Línea Z","Estructura que se acerca durante la contracción"],["Calcio","Ión que permite la unión actina-miosina"]]},
+    en:{q:"Match each element with its function during contraction:", pairs:[["Actin","Thin filament on which myosin acts"],["Myosin","Thick filament that generates force"],["Z line","Structure that moves closer during contraction"],["Calcium","Ion that allows actin-myosin binding"]]}
+  },
+  /* 4. MC - Unió neuromuscular */
+  {
+    type:"mc",
+    ca:{q:"Quin neurotransmissor s'allibera a la unió neuromuscular per iniciar la contracció?", o:["Noradrenalina","Acetilcolina","Dopamina","Serotonina"], a:1},
+    es:{q:"¿Qué neurotransmisor se libera en la unión neuromuscular para iniciar la contracción?", o:["Noradrenalina","Acetilcolina","Dopamina","Serotonina"], a:1},
+    en:{q:"Which neurotransmitter is released at the neuromuscular junction to initiate contraction?", o:["Noradrenaline","Acetylcholine","Dopamine","Serotonin"], a:1}
+  },
+  /* 5. FILL - Unitat motora */
+  {
+    type:"fill",
+    ca:{q:"La ________ motora està formada per una motoneurona i totes les fibres musculars que innerva.", a:"unitat",
+        variants:["unitat","unidad","unit"]},
+    es:{q:"La ________ motora está formada por una motoneurona y todas las fibras musculares que inerva.", a:"unidad",
+        variants:["unidad","unitat","unit"]},
+    en:{q:"The motor ________ consists of a motor neuron and all the muscle fibers it innervates.", a:"unit",
+        variants:["unit","unitat","unidad"]}
+  },
+  /* 6. MC - Tipus de contracció */
+  {
+    type:"mc",
+    ca:{q:"En una contracció ________, el múscul genera tensió mentre s'acurta (per exemple, pujar a relevé).", o:["excèntrica","isomètrica","concèntrica","passiva"], a:2},
+    es:{q:"En una contracción ________, el músculo genera tensión mientras se acorta (por ejemplo, subir a relevé).", o:["excéntrica","isométrica","concéntrica","pasiva"], a:2},
+    en:{q:"In a ________ contraction, the muscle generates tension while shortening (e.g., rising to relevé).", o:["eccentric","isometric","concentric","passive"], a:2}
+  },
+  /* 7. MC - Contracció excèntrica */
+  {
+    type:"mc",
+    ca:{q:"Quin tipus de contracció es produeix en un descens controlat del relevé?", o:["Concèntrica","Isomètrica","Excèntrica","Totes per igual"], a:2},
+    es:{q:"¿Qué tipo de contracción se produce en un descenso controlado del relevé?", o:["Concéntrica","Isométrica","Excéntrica","Todas por igual"], a:2},
+    en:{q:"Which type of contraction occurs during a controlled descent from relevé?", o:["Concentric","Isometric","Eccentric","All equally"], a:2}
+  },
+  /* 8. ESSAY - Aplicació a la dansa */
+  {
+    type:"essay",
+    ca:{
+      scenario:"Una ballarina fa un salt (grand jeté): s'impulsa amb la cama de suport, manté la posició a l'aire i aterra flexionant els genolls.",
+      q:"Identifica els tres tipus de contracció que apareixen en aquesta seqüència i explica en quin moment es produeix cadascun i quina funció té.",
+      keywords:["concentrica","isometrica","excentrica","impuls","posicio","aterratge","força","amortiguar","frenar","estabilitzar"],
+      model:"Concèntrica: en l'impuls, el múscul s'escurça generant força per saltar. Isomètrica: a l'aire, manté la posició sense canvi de longitud (estabilització). Excèntrica: en aterrar, el múscul s'allarga mentre frena i amortigua l'impacte."
+    },
+    es:{
+      scenario:"Una bailarina hace un salto (grand jeté): se impulsa con la pierna de apoyo, mantiene la posición en el aire y aterriza flexionando las rodillas.",
+      q:"Identifica los tres tipos de contracción que aparecen en esta secuencia y explica en qué momento se produce cada uno y qué función tiene.",
+      keywords:["concentrica","isometrica","excentrica","impulso","posicion","aterrizaje","fuerza","amortiguar","frenar","estabilizar"],
+      model:"Concéntrica: en el impulso, el músculo se acorta generando fuerza para saltar. Isométrica: en el aire, mantiene la posición sin cambio de longitud (estabilización). Excéntrica: al aterrizar, el músculo se alarga mientras frena y amortigua el impacto."
+    },
+    en:{
+      scenario:"A dancer performs a jump (grand jeté): she pushes off with the support leg, holds the position in the air, and lands flexing the knees.",
+      q:"Identify the three types of contraction in this sequence and explain when each occurs and what function it has.",
+      keywords:["concentric","isometric","eccentric","push","position","landing","force","absorb","brake","stabilize"],
+      model:"Concentric: during the push-off, the muscle shortens generating force to jump. Isometric: in the air, it holds the position without changing length (stabilization). Eccentric: on landing, the muscle lengthens while braking and absorbing the impact."
+    }
+  },
+  /* 9. FILL - Reclutament */
+  {
+    type:"fill",
+    ca:{q:"El ________ de les unitats motores augmenta la força muscular: com més unitats s'activen, més força es genera.", a:"reclutament",
+        variants:["reclutament","reclutamiento","recruitment"]},
+    es:{q:"El ________ de las unidades motoras aumenta la fuerza muscular: cuantas más unidades se activan, más fuerza se genera.", a:"reclutamiento",
+        variants:["reclutamiento","reclutament","recruitment"]},
+    en:{q:"Motor unit ________ increases muscle force: the more units are activated, the more force is generated.", a:"recruitment",
+        variants:["recruitment","reclutament","reclutamiento"]}
+  },
+  /* 10. MC - Principi de la mida */
+  {
+    type:"mc",
+    ca:{q:"Segons el principi de la mida, com es recluten les unitats motores?", o:["De major a menor","De menor a major","A l'atzar","Totes alhora"], a:1},
+    es:{q:"Según el principio del tamaño, ¿cómo se reclutan las unidades motoras?", o:["De mayor a menor","De menor a mayor","Al azar","Todas a la vez"], a:1},
+    en:{q:"According to the size principle, how are motor units recruited?", o:["From largest to smallest","From smallest to largest","Randomly","All at once"], a:1}
+  },
+  /* 11. MC - Fibres tipus I */
+  {
+    type:"mc",
+    ca:{q:"Quines característiques té la fibra muscular de tipus I?", o:["Contracció ràpida i poca resistència","Contracció lenta i alta resistència a la fatiga","Metabolisme glucolític i força molt alta","Contracció molt ràpida i baixa resistència"], a:1},
+    es:{q:"¿Qué características tiene la fibra muscular de tipo I?", o:["Contracción rápida y poca resistencia","Contracción lenta y alta resistencia a la fatiga","Metabolismo glucolítico y fuerza muy alta","Contracción muy rápida y baja resistencia"], a:1},
+    en:{q:"What characteristics does type I muscle fiber have?", o:["Fast contraction and low resistance","Slow contraction and high fatigue resistance","Glycolytic metabolism and very high force","Very fast contraction and low resistance"], a:1}
+  },
+  /* 12. MC - Fibres tipus IIx */
+  {
+    type:"mc",
+    ca:{q:"Quin tipus de fibra és la més adequada per a impulsos molt explosius i de curta durada?", o:["Tipus I","Tipus IIa","Tipus IIx","Totes per igual"], a:2},
+    es:{q:"¿Qué tipo de fibra es la más adecuada para impulsos muy explosivos y de corta duración?", o:["Tipo I","Tipo IIa","Tipo IIx","Todas por igual"], a:2},
+    en:{q:"Which fiber type is best suited for very explosive, short-duration impulses?", o:["Type I","Type IIa","Type IIx","All equally"], a:2}
+  },
+  /* 13. FILL - Longitud òptima */
+  {
+    type:"fill",
+    ca:{q:"La força activa màxima d'un múscul s'assoleix quan el sarcòmer es troba en una longitud ________.", a:"intermèdia",
+        variants:["intermèdia","intermedia","intermediate"]},
+    es:{q:"La fuerza activa máxima de un músculo se alcanza cuando el sarcómero se encuentra en una longitud ________.", a:"intermedia",
+        variants:["intermedia","intermèdia","intermediate"]},
+    en:{q:"The maximum active force of a muscle is reached when the sarcomere is at an ________ length.", a:"intermediate",
+        variants:["intermediate","intermèdia","intermedia"]}
+  },
+  /* 14. MC - Fatiga */
+  {
+    type:"mc",
+    ca:{q:"Què és la fatiga muscular?", o:["Un augment permanent de la força","Una disminució transitòria de la capacitat per generar força o potència","Una malaltia del múscul","Un tipus de contracció"], a:1},
+    es:{q:"¿Qué es la fatiga muscular?", o:["Un aumento permanente de la fuerza","Una disminución transitoria de la capacidad para generar fuerza o potencia","Una enfermedad del músculo","Un tipo de contracción"], a:1},
+    en:{q:"What is muscle fatigue?", o:["A permanent increase in force","A transient decrease in the ability to generate force or power","A muscle disease","A type of contraction"], a:1}
+  },
+  /* 15. MATCH - Tipus de fatiga */
+  {
+    type:"match", shuffle:true,
+    ca:{q:"Relaciona cada tipus de fatiga amb les seves causes:", pairs:[["Fatiga central","Disminució de l'activació del sistema nerviós"],["Fatiga perifèrica","Acumulació de metabòlits i alteració del calci"]]},
+    es:{q:"Relaciona cada tipo de fatiga con sus causas:", pairs:[["Fatiga central","Disminución de la activación del sistema nervioso"],["Fatiga periférica","Acumulación de metabolitos y alteración del calcio"]]},
+    en:{q:"Match each type of fatigue with its causes:", pairs:[["Central fatigue","Decreased activation of the nervous system"],["Peripheral fatigue","Accumulation of metabolites and altered calcium"]]}
+  },
+  /* 16. ESSAY - Compensació de la fatiga */
+  {
+    type:"essay",
+    ca:{
+      scenario:"Durant una classe de dansa, una ballarina nota que els seus salts perden altura i que li costa mantenir l'equilibri.",
+      q:"Explica quins mecanismes utilitza el sistema nerviós per compensar la fatiga i què passa si aquests no són suficients.",
+      keywords:["recluta","unitats motores","frequencia","descàrrega","sinergistes","estabilitzadors","rendiment","compensacions"],
+      model:"El sistema nerviós compensa reclutant més unitats motores, ajustant la freqüència de descàrrega i activant músculs sinergistes i estabilitzadors. Si no és suficient, el rendiment disminueix i augmenten les compensacions."
+    },
+    es:{
+      scenario:"Durante una clase de danza, una bailarina nota que sus saltos pierden altura y que le cuesta mantener el equilibrio.",
+      q:"Explica qué mecanismos utiliza el sistema nervioso para compensar la fatiga y qué pasa si estos no son suficientes.",
+      keywords:["recluta","unidades motoras","frecuencia","descarga","sinergistas","estabilizadores","rendimiento","compensaciones"],
+      model:"El sistema nervioso compensa reclutando más unidades motoras, ajustando la frecuencia de descarga y activando músculos sinergistas y estabilizadores. Si no es suficiente, el rendimiento disminuye y aumentan las compensaciones."
+    },
+    en:{
+      scenario:"During a dance class, a dancer notices that her jumps lose height and she struggles to maintain balance.",
+      q:"Explain what mechanisms the nervous system uses to compensate for fatigue and what happens if these are not enough.",
+      keywords:["recruit","motor units","frequency","discharge","synergists","stabilizers","performance","compensations"],
+      model:"The nervous system compensates by recruiting more motor units, adjusting the discharge frequency, and activating synergist and stabilizer muscles. If this is not enough, performance decreases and compensations increase."
+    }
+  },
+  /* 17. MC - Agonista */
+  {
+    type:"mc",
+    ca:{q:"Com s'anomena el múscul que contribueix principalment a produir una acció determinada?", o:["Antagonista","Sinergista","Agonista","Estabilitzador"], a:2},
+    es:{q:"¿Cómo se llama el músculo que contribuye principalmente a producir una acción determinada?", o:["Antagonista","Sinergista","Agonista","Estabilizador"], a:2},
+    en:{q:"What is the muscle that mainly contributes to producing a given action called?", o:["Antagonist","Synergist","Agonist","Stabilizer"], a:2}
+  },
+  /* 18. MC - Antagonista */
+  {
+    type:"mc",
+    ca:{q:"Quin múscul pot realitzar l'acció oposada i contribuir a frenar o controlar el moviment?", o:["Agonista","Antagonista","Sinergista","Estabilitzador"], a:1},
+    es:{q:"¿Qué músculo puede realizar la acción opuesta y contribuir a frenar o controlar el movimiento?", o:["Agonista","Antagonista","Sinergista","Estabilizador"], a:1},
+    en:{q:"Which muscle can perform the opposite action and help brake or control movement?", o:["Agonist","Antagonist","Synergist","Stabilizer"], a:1}
+  },
+  /* 19. FILL - Coactivació */
+  {
+    type:"fill",
+    ca:{q:"La ________ és l'activació simultània de músculs agonistes i antagonistes al voltant d'una articulació per augmentar l'estabilitat.", a:"coactivació",
+        variants:["coactivació","coactivacion","coactivation"]},
+    es:{q:"La ________ es la activación simultánea de músculos agonistas y antagonistas alrededor de una articulación para aumentar la estabilidad.", a:"coactivación",
+        variants:["coactivación","coactivació","coactivation"]},
+    en:{q:"________ is the simultaneous activation of agonist and antagonist muscles around a joint to increase stability.", a:"coactivation",
+        variants:["coactivation","coactivació","coactivación"]}
+  },
+  /* 20. MC - Remodelació òssia */
+  {
+    type:"mc",
+    ca:{q:"Quines cèl·lules del teixit ossi s'encarreguen de reabsorbir teixit ossi?", o:["Osteoblasts","Osteocits","Osteoclasts","Cèl·lules osteoprogenitores"], a:2},
+    es:{q:"¿Qué células del tejido óseo se encargan de reabsorber tejido óseo?", o:["Osteoblastos","Osteocitos","Osteoclastos","Células osteoprogenitoras"], a:2},
+    en:{q:"Which bone tissue cells are responsible for resorbing bone tissue?", o:["Osteoblasts","Osteocytes","Osteoclasts","Osteoprogenitor cells"], a:2}
+  },
+  /* 21. ORDER - Remodelació òssia */
+  {
+    type:"order", shuffle:true,
+    ca:{q:"Ordena les etapes del cicle de remodelació òssia (1-4):", items:["Activació (osteocits detecten microdanys)","Resorció (osteoclasts reabsorbeixen os)","Formació (osteoblasts dipositen matriu)","Mineralització (la matriu es mineralitza)"], a:[1,2,3,4]},
+    es:{q:"Ordena las etapas del ciclo de remodelación ósea (1-4):", items:["Activación (osteocitos detectan microdaños)","Resorción (osteoclastos reabsorben hueso)","Formación (osteoblastos depositan matriz)","Mineralización (la matriz se mineraliza)"], a:[1,2,3,4]},
+    en:{q:"Order the stages of the bone remodeling cycle (1-4):", items:["Activation (osteocytes detect microdamage)","Resorption (osteoclasts resorb bone)","Formation (osteoblasts deposit matrix)","Mineralization (the matrix mineralizes)"], a:[1,2,3,4]}
+  },
+  /* 22. MC - Adaptació òssia */
+  {
+    type:"mc",
+    ca:{q:"Què necessita l'os per mantenir-se sa?", o:["Només exercici intens","Càrrega adequada, energia, nutrients, descans i hormones","Només calci","Només repòs"], a:1},
+    es:{q:"¿Qué necesita el hueso para mantenerse sano?", o:["Solo ejercicio intenso","Carga adecuada, energía, nutrientes, descanso y hormonas","Solo calcio","Solo reposo"], a:1},
+    en:{q:"What does bone need to stay healthy?", o:["Only intense exercise","Adequate load, energy, nutrients, rest and hormones","Only calcium","Only rest"], a:1}
+  },
+  /* 23. FILL - Tendó */
+  {
+    type:"fill",
+    ca:{q:"El ________ és el teixit connectiu que uneix el múscul a l'os i transmet la força.", a:"tendó",
+        variants:["tendó","tendon","tendón"]},
+    es:{q:"El ________ es el tejido conectivo que une el músculo al hueso y transmite la fuerza.", a:"tendón",
+        variants:["tendón","tendó","tendon"]},
+    en:{q:"The ________ is the connective tissue that attaches muscle to bone and transmits force.", a:"tendon",
+        variants:["tendon","tendó","tendón"]}
+  },
+  /* 24. MC - Lligament */
+  {
+    type:"mc",
+    ca:{q:"Quina és la funció principal dels lligaments?", o:["Unir múscul i os","Unir os amb os i estabilitzar l'articulació","Produir líquid sinovial","Generar força"], a:1},
+    es:{q:"¿Cuál es la función principal de los ligamentos?", o:["Unir músculo y hueso","Unir hueso con hueso y estabilizar la articulación","Producir líquido sinovial","Generar fuerza"], a:1},
+    en:{q:"What is the main function of ligaments?", o:["Attach muscle to bone","Attach bone to bone and stabilize the joint","Produce synovial fluid","Generate force"], a:1}
+  },
+  /* 25. MC - Cartílag */
+  {
+    type:"mc",
+    ca:{q:"Per què el cartílag articular necessita moviment i càrrega?", o:["Perquè no té vasos sanguinis i necessita que el líquid sinovial li aporti nutrients","Perquè es regenera molt ràpid","Perquè és un teixit ossi","Perquè no té cèl·lules"], a:0},
+    es:{q:"¿Por qué el cartílago articular necesita movimiento y carga?", o:["Porque no tiene vasos sanguíneos y necesita que el líquido sinovial le aporte nutrientes","Porque se regenera muy rápido","Porque es un tejido óseo","Porque no tiene células"], a:0},
+    en:{q:"Why does articular cartilage need movement and load?", o:["Because it has no blood vessels and needs synovial fluid to provide nutrients","Because it regenerates very quickly","Because it is bone tissue","Because it has no cells"], a:0}
+  },
+  /* 26. MC - Propiocepció */
+  {
+    type:"mc",
+    ca:{q:"Quin receptor detecta la longitud i el canvi de longitud del múscul?", o:["Òrgan tendinós de Golgi","Huso muscular","Receptors articulars","Nociceptors"], a:1},
+    es:{q:"¿Qué receptor detecta la longitud y el cambio de longitud del músculo?", o:["Órgano tendinoso de Golgi","Huso muscular","Receptores articulares","Nociceptores"], a:1},
+    en:{q:"Which receptor detects muscle length and changes in length?", o:["Golgi tendon organ","Muscle spindle","Joint receptors","Nociceptors"], a:1}
+  },
+  /* 27. MATCH - Propiocepció */
+  {
+    type:"match", shuffle:true,
+    ca:{q:"Relaciona cada receptor propioceptiu amb la seva funció:", pairs:[["Huso muscular","Detecta longitud i canvi de longitud del múscul"],["Òrgan tendinós de Golgi","Detecta la tensió que genera el múscul al tendó"],["Receptors articulars","Detecten posició i moviment de l'articulació"]]},
+    es:{q:"Relaciona cada receptor propioceptivo con su función:", pairs:[["Huso muscular","Detecta longitud y cambio de longitud del músculo"],["Órgano tendinoso de Golgi","Detecta la tensión que genera el músculo en el tendón"],["Receptores articulares","Detectan posición y movimiento de la articulación"]]},
+    en:{q:"Match each proprioceptive receptor with its function:", pairs:[["Muscle spindle","Detects muscle length and changes in length"],["Golgi tendon organ","Detects the tension generated by the muscle at the tendon"],["Joint receptors","Detect joint position and movement"]]}
+  },
+  /* 28. FILL - Plànol sagital */
+  {
+    type:"fill",
+    ca:{q:"El moviment de ________ redueix l'angle entre dos ossos o parts del cos (per exemple, un plié).", a:"flexió",
+        variants:["flexió","flexion","flexión"]},
+    es:{q:"El movimiento de ________ reduce el ángulo entre dos huesos o partes del cuerpo (por ejemplo, un plié).", a:"flexión",
+        variants:["flexión","flexió","flexion"]},
+    en:{q:"________ movement reduces the angle between two bones or body parts (e.g., a plié).", a:"flexion",
+        variants:["flexion","flexió","flexión"]}
+  },
+  /* 29. MC - Plànol frontal */
+  {
+    type:"mc",
+    ca:{q:"Quin moviment separa una extremitat de la línia mitjana del cos (per exemple, obrir els braços a 2a posició)?", o:["Flexió","Extensió","Abducció","Adducció"], a:2},
+    es:{q:"¿Qué movimiento separa una extremidad de la línea media del cuerpo (por ejemplo, abrir los brazos a 2ª posición)?", o:["Flexión","Extensión","Abducción","Adducción"], a:2},
+    en:{q:"Which movement moves a limb away from the body's midline (e.g., opening the arms to 2nd position)?", o:["Flexion","Extension","Abduction","Adduction"], a:2}
+  },
+  /* 30. MC - Plànol transversal */
+  {
+    type:"mc",
+    ca:{q:"La rotació externa (en dehors) és un moviment que es produeix en quin plànol?", o:["Sagital","Frontal o coronal","Transversal","Oblic"], a:2},
+    es:{q:"La rotación externa (en dehors) es un movimiento que se produce en ¿qué plano?", o:["Sagital","Frontal o coronal","Transversal","Oblicuo"], a:2},
+    en:{q:"External rotation (en dehors) occurs in which plane?", o:["Sagittal","Frontal or coronal","Transverse","Oblique"], a:2}
+  },
+  /* 31. MC - Calci i ATP */
+  {
+    type:"mc",
+    ca:{q:"Quin és el paper del calci en la contracció muscular?", o:["Permet que la miosina s'uneixi a l'actina","Trenca l'ATP","Forma els filaments prims","Allibera acetilcolina"], a:0},
+    es:{q:"¿Cuál es el papel del calcio en la contracción muscular?", o:["Permite que la miosina se una a la actina","Rompe el ATP","Forma los filamentos delgados","Libera acetilcolina"], a:0},
+    en:{q:"What is the role of calcium in muscle contraction?", o:["It allows myosin to bind to actin","It breaks down ATP","It forms thin filaments","It releases acetylcholine"], a:0}
+  },
+  /* 32. FILL - ATP */
+  {
+    type:"fill",
+    ca:{q:"L'________ és necessari perquè la miosina es desprengui de l'actina i es repeteixi el cicle de contracció.", a:"ATP",
+        variants:["atp","adenosina trifosfat","adenosina trifosfato"]},
+    es:{q:"El ________ es necesario para que la miosina se desprenda de la actina y se repita el ciclo de contracción.", a:"ATP",
+        variants:["atp","adenosina trifosfato","adenosina trifosfat"]},
+    en:{q:"________ is required for myosin to detach from actin and repeat the contraction cycle.", a:"ATP",
+        variants:["atp","adenosine triphosphate"]}
+  },
+  /* 33. ESSAY - Rigor mortis */
+  {
+    type:"essay",
+    ca:{
+      scenario:"Després de la mort, els músculs es tornen rígids (rigor mortis) i aquesta rigidesa desapareix al cap d'unes hores.",
+      q:"Explica per què es produeix la rigidesa inicial i per què desapareix després, relacionant-ho amb l'ATP i el cicle de la miosina.",
+      keywords:["atp","miosina","actina","despreniment","calci","rigidesa","descomposicio","proteines"],
+      model:"Sense ATP, la miosina queda unida a l'actina i no es pot desprendre, de manera que el múscul es manté contret i rígid. Amb el temps, la degradació de les proteïnes i la descomposició del teixit fan que la rigidesa desaparegui."
+    },
+    es:{
+      scenario:"Después de la muerte, los músculos se vuelven rígidos (rigor mortis) y esta rigidez desaparece al cabo de unas horas.",
+      q:"Explica por qué se produce la rigidez inicial y por qué desaparece después, relacionándolo con el ATP y el ciclo de la miosina.",
+      keywords:["atp","miosina","actina","desprendimiento","calcio","rigidez","descomposicion","proteinas"],
+      model:"Sin ATP, la miosina queda unida a la actina y no puede desprenderse, de modo que el músculo permanece contraído y rígido. Con el tiempo, la degradación de las proteínas y la descomposición del tejido hacen que la rigidez desaparezca."
+    },
+    en:{
+      scenario:"After death, muscles become rigid (rigor mortis) and this rigidity disappears after a few hours.",
+      q:"Explain why the initial rigidity occurs and why it disappears later, relating it to ATP and the myosin cycle.",
+      keywords:["atp","myosin","actin","detachment","calcium","rigidity","decomposition","proteins"],
+      model:"Without ATP, myosin remains bound to actin and cannot detach, so the muscle stays contracted and rigid. Over time, protein degradation and tissue decomposition make the rigidity disappear."
+    }
+  }
+];
+
+/* ============================================================
+   ESTAT
+   ============================================================ */
+let currentLang = "ca";
+let results = {};
+let reviewMode = false;
+
+const STORAGE_KEY = "musculoesqueletico_II_v1";
+
+/* ============================================================
+   RENDERITZACIÓ
+   ============================================================ */
+function setLang(lang){
+  currentLang = lang;
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  document.querySelector(`.lang-switch button[onclick="setLang('${lang}')"]`).classList.add("active");
+  render();
+  applyReviewFilter();
+  renderHowto();
+}
+
+/* ---------- BARREJA ALEATÒRIA ---------- */
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function barrejarOpcions(ex){
+  if(!ex.shuffle) return { opcions: ex[currentLang].o, correcteIndex: ex[currentLang].a };
+  const opcions = ex[currentLang].o;
+  const parells = opcions.map((t, i) => ({ t, orig: i }));
+  const barrejats = shuffleArray(parells);
+  const noves = barrejats.map(x => x.t);
+  const nouIndex = barrejats.findIndex(x => x.orig === ex[currentLang].a);
+  return { opcions: noves, correcteIndex: nouIndex };
+}
+
+/* ---------- APARTAT FUNCIONAMENT ---------- */
+function renderHowto(){
+  const t = T[currentLang];
+  const titol = document.getElementById("howto-titol");
+  const body = document.getElementById("howto-body");
+  const legend = document.getElementById("howto-legend");
+  if(!titol || !body || !legend) return;
+  titol.textContent = t["howto-titol"];
+  let html = "";
+  for(let i = 1; i <= 7; i++){
+    html += `
+      <div class="step">
+        <h4>${t["howto-pas" + i + "-titol"]}</h4>
+        <p>${t["howto-pas" + i + "-text"]}</p>
+      </div>`;
+  }
+  body.innerHTML = html;
+  legend.innerHTML = t["howto-legend"];
+}
+
+function render(){
+  const quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+  EX.forEach((ex, i)=>{
+    const d = ex[currentLang];
+    const div = document.createElement("div");
+    div.className = "exercise" + (ex.type === "essay" ? " essay" : "");
+    div.id = "ex" + i;
+
+    let html = `<h3>${T[currentLang].ex} ${i+1} <span class="badge ${ex.type === "essay" ? "essay" : ""}">${T[currentLang].types[ex.type]}</span></h3>`;
+
+    if(ex.type === "essay"){
+      html += `<div class="scenario">📋 ${d.scenario}</div>`;
+      html += `<p class="q">${d.q}</p>`;
+      html += `<textarea id="in${i}" placeholder="${currentLang==='ca'?'Escriu la teva resposta raonada...':currentLang==='es'?'Escribe tu respuesta razonada...':'Write your reasoned answer...'}"></textarea>`;
+      html += `<button class="btn-check essay-btn" onclick="check(${i})">${T[currentLang].check}</button>`;
+      html += `<button class="btn-model" onclick="toggleModel(${i})" id="modelBtn${i}">${T[currentLang].showModel}</button>`;
+      html += `<div class="feedback" id="fb${i}"></div>`;
+      html += `<div class="feedback" id="md${i}" style="display:none;"></div>`;
+    } else {
+      html += `<p class="q">${d.q}</p>`;
+
+      if(ex.type === "mc"){
+        const { opcions, correcteIndex } = barrejarOpcions(ex);
+        ex._correcteIndexActual = correcteIndex;
+        html += `<div class="options">`;
+        opcions.forEach((opt, j)=>{
+          html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`;
+        });
+        html += `</div>`;
+      }
+      else if(ex.type === "fill" || ex.type === "short"){
+        html += `<input type="text" id="in${i}" placeholder="${T[currentLang].select.replace('— ','').replace(' —','')}...">`;
+      }
+      else if(ex.type === "match"){
+        const parells = d.pairs;
+        let ordreOpcions = parells.map((_, k) => k);
+        if(ex.shuffle) ordreOpcions = shuffleArray(ordreOpcions);
+        ex._ordreOpcions = ordreOpcions;
+        parells.forEach((p, j)=>{
+          html += `<div class="match-row">
+            <span>${p[0]}</span>
+            <select id="m${i}_${j}">
+              <option value="">${T[currentLang].select}</option>
+              ${ordreOpcions.map((origIdx)=>`<option value="${origIdx}">${parells[origIdx][1]}</option>`).join("")}
+            </select>
+          </div>`;
+        });
+      }
+      else if(ex.type === "order"){
+        let items = d.items.slice();
+        let ordreItems;
+        if(ex.shuffle){
+          const idxs = items.map((_,k)=>k);
+          const barrejats = shuffleArray(idxs);
+          items = barrejats.map(k => d.items[k]);
+          ordreItems = barrejats.map(orig => orig + 1);
+        } else {
+          ordreItems = items.map((_,k)=>k+1);
+        }
+        ex._ordreCorrecte = ordreItems;
+        html += `<ul class="order-list">`;
+        items.forEach((it, j)=>{
+          html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`;
+        });
+        html += `</ul>`;
+      }
+
+      html += `<button class="btn-check" onclick="check(${i})">${T[currentLang].check}</button>`;
+      html += `<div class="feedback" id="fb${i}"></div>`;
+    }
+
+    div.innerHTML = html;
+    quiz.appendChild(div);
+  });
+  updateStatus();
+}
+
+/* ============================================================
+   CORRECCIÓ
+   ============================================================ */
+function normalize(s){
+  return s.toString().toLowerCase().trim()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[.,;:!?·\-_.]/g,"")
+    .replace(/\s+/g,"");
+}
+
+function check(i, silent){
+  const ex = EX[i];
+  const d = ex[currentLang];
+  const fb = document.getElementById("fb" + i);
+  const card = document.getElementById("ex" + i);
+  let ok = false;
+  let correctText = "";
+
+  if(ex.type === "mc"){
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const correcteIndex = ex._correcteIndexActual !== undefined ? ex._correcteIndexActual : d.a;
+    if(sel && parseInt(sel.value) === correcteIndex){ ok = true; }
+    correctText = d.o[correcteIndex];
+  }
+  else if(ex.type === "fill" || ex.type === "short"){
+    const val = document.getElementById("in" + i).value;
+    const variants = d.variants && d.variants.length ? d.variants : [d.a];
+    if(variants.some(v => normalize(v) === normalize(val))){ ok = true; }
+    correctText = d.a;
+    if(ok && normalize(val) !== normalize(d.a) && d.variants && d.variants.length){
+      fb.className = "feedback ok";
+      fb.innerHTML = T[currentLang].variantsOk(d.a);
+      results[i] = true;
+      card.classList.remove("corrected","failed");
+      card.classList.add("corrected");
+      if(!silent){
+        updateStatus();
+        if(reviewMode) applyReviewFilter();
+      }
+      return;
+    }
+  }
+  else if(ex.type === "match"){
+    ok = true;
+    d.pairs.forEach((p, j)=>{
+      const sel = document.getElementById("m" + i + "_" + j).value;
+      if(parseInt(sel) !== j) ok = false;
+    });
+    correctText = d.pairs.map((p,j)=>`${p[0]} → ${p[1]}`).join("; ");
+  }
+  else if(ex.type === "order"){
+    ok = true;
+    const ordreCorrecte = ex._ordreCorrecte || d.a;
+    ordreCorrecte.forEach((val, j)=>{
+      const inp = document.getElementById("o" + i + "_" + j).value;
+      if(parseInt(inp) !== val) ok = false;
+    });
+    correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+  }
+  else if(ex.type === "essay"){
+    const val = document.getElementById("in" + i).value;
+    if(!val || val.trim().length < 15){
+      fb.className = "feedback err";
+      fb.textContent = T[currentLang].essayEmpty;
+      return;
+    }
+    const norm = normalize(val);
+    const found = d.keywords.filter(k => norm.includes(normalize(k)));
+    const total = d.keywords.length;
+    if(found.length >= Math.ceil(total * 0.5)){
+      ok = true;
+      fb.className = "feedback ok";
+      fb.textContent = T[currentLang].essayOk + ` (${found.length}/${total})`;
+    } else {
+      ok = false;
+      fb.className = "feedback err";
+      fb.textContent = T[currentLang].essayPartial + ` (${found.length}/${total})`;
+    }
+  }
+
+  if(ex.type !== "essay" && !(ex.type === "fill" && ok && normalize(document.getElementById("in"+i).value) !== normalize(d.a))){
+    fb.className = "feedback " + (ok ? "ok" : "err");
+    fb.textContent = ok ? T[currentLang].correct : T[currentLang].incorrect + correctText;
+  }
+
+  results[i] = ok;
+  card.classList.remove("corrected","failed");
+  card.classList.add(ok ? "corrected" : "failed");
+
+  if(!silent){
+    updateStatus();
+    if(reviewMode) applyReviewFilter();
+  }
+}
+
+function toggleModel(i){
+  const md = document.getElementById("md" + i);
+  const btn = document.getElementById("modelBtn" + i);
+  const d = EX[i][currentLang];
+  if(md.style.display === "none"){
+    md.className = "feedback model";
+    md.innerHTML = `<b>${T[currentLang].model}</b><br>${d.model}`;
+    md.style.display = "block";
+    btn.textContent = T[currentLang].hideModel;
+  } else {
+    md.style.display = "none";
+    btn.textContent = T[currentLang].showModel;
+  }
+}
+
+/* ============================================================
+   REPÀS D'ERRORS
+   ============================================================ */
+function toggleReview(){
+  if(!reviewMode){
+    const failed = Object.keys(results).filter(k=>results[k] === false);
+    if(failed.length === 0){
+      showBanner(T[currentLang].reviewEmpty);
+      return;
+    }
+    reviewMode = true;
+    document.body.classList.add("review-mode");
+    document.getElementById("reviewBtn").textContent = "🔁 " + (currentLang==="ca"?"Sortir del repàs":currentLang==="es"?"Salir del repaso":"Exit review");
+    showBanner(T[currentLang].reviewOn);
+  } else {
+    reviewMode = false;
+    document.body.classList.remove("review-mode");
+    document.getElementById("reviewBtn").textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+    showBanner(T[currentLang].reviewOff);
+  }
+  applyReviewFilter();
+  updateStatus();
+}
+
+function applyReviewFilter(){
+  document.querySelectorAll(".exercise").forEach(card=>{
+    card.classList.remove("failed","corrected");
+    const idx = parseInt(card.id.replace("ex",""));
+    if(results[idx] === true) card.classList.add("corrected");
+    if(results[idx] === false) card.classList.add("failed");
+  });
+}
+
+/* ============================================================
+   SESSIÓ
+   ============================================================ */
+function collectState(){
+  const state = {
+    lang: currentLang,
+    results: results,
+    reviewMode: reviewMode,
+    answers: {},
+    timestamp: Date.now()
+  };
+  EX.forEach((ex, i)=>{
+    const d = ex[currentLang];
+    if(ex.type === "mc"){
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      state.answers[i] = sel ? parseInt(sel.value) : null;
+    }
+    else if(ex.type === "fill" || ex.type === "short" || ex.type === "essay"){
+      state.answers[i] = document.getElementById("in" + i).value;
+    }
+    else if(ex.type === "match"){
+      state.answers[i] = d.pairs.map((_, j)=>document.getElementById("m"+i+"_"+j).value);
+    }
+    else if(ex.type === "order"){
+      state.answers[i] = d.items.map((_, j)=>document.getElementById("o"+i+"_"+j).value);
+    }
+  });
+  return state;
+}
+
+function saveSession(){
+  const state = collectState();
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    showBanner(T[currentLang].saved);
+  }catch(e){
+    showBanner("⚠️ No s'ha pogut guardar: " + e.message);
+  }
+}
+
+function loadSession(silent){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){
+    if(!silent) showBanner(T[currentLang].noSession);
+    return false;
+  }
+  try{
+    const state = JSON.parse(raw);
+    applyState(state);
+    if(!silent) showBanner(T[currentLang].loaded);
+    return true;
+  }catch(e){
+    if(!silent) showBanner("⚠️ Error en recuperar: " + e.message);
+    return false;
+  }
+}
+
+function applyState(state){
+  currentLang = state.lang || "ca";
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  const btn = document.querySelector(`.lang-switch button[onclick="setLang('${currentLang}')"]`);
+  if(btn) btn.classList.add("active");
+
+  results = state.results || {};
+  reviewMode = false;
+  document.body.classList.remove("review-mode");
+  const revBtn = document.getElementById("reviewBtn");
+  revBtn.textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+
+  render();
+  renderHowto();
+
+  EX.forEach((ex, i)=>{
+    const val = state.answers ? state.answers[i] : null;
+    if(val === undefined || val === null) return;
+    if(ex.type === "mc"){
+      const radio = document.querySelector(`input[name="q${i}"][value="${val}"]`);
+      if(radio) radio.checked = true;
+    }
+    else if(ex.type === "fill" || ex.type === "short" || ex.type === "essay"){
+      const inp = document.getElementById("in" + i);
+      if(inp) inp.value = val;
+    }
+    else if(ex.type === "match"){
+      val.forEach((v, j)=>{
+        const sel = document.getElementById("m"+i+"_"+j);
+        if(sel) sel.value = v;
+      });
+    }
+    else if(ex.type === "order"){
+      val.forEach((v, j)=>{
+        const inp = document.getElementById("o"+i+"_"+j);
+        if(inp) inp.value = v;
+      });
+    }
+  });
+
+  Object.keys(results).forEach(k=>{
+    const i = parseInt(k);
+    if(!isNaN(i)) check(i, true);
+  });
+  applyReviewFilter();
+  updateStatus();
+}
+
+function resetSession(){
+  localStorage.removeItem(STORAGE_KEY);
+  results = {};
+  reviewMode = false;
+  document.body.classList.remove("review-mode");
+  const revBtn = document.getElementById("reviewBtn");
+  revBtn.textContent = "🔁 " + (currentLang==="ca"?"Repàs d'errors":currentLang==="es"?"Repaso de errores":"Review errors");
+  render();
+  showBanner(T[currentLang].reset);
+  updateStatus();
+}
+
+/* ============================================================
+   UTILITATS
+   ============================================================ */
+function showBanner(msg, withPrompt){
+  const b = document.getElementById("banner");
+  b.innerHTML = msg;
+  if(withPrompt){
+    const yes = document.createElement("button");
+    yes.textContent = T[currentLang].yes;
+    yes.onclick = ()=>{ loadSession(); b.classList.remove("show"); };
+    const no = document.createElement("button");
+    no.className = "ghost";
+    no.textContent = T[currentLang].no;
+    no.onclick = ()=>{ resetSession(); b.classList.remove("show"); };
+    b.appendChild(yes);
+    b.appendChild(no);
+  }
+  b.classList.add("show");
+  if(!withPrompt){
+    clearTimeout(b._t);
+    b._t = setTimeout(()=>b.classList.remove("show"), 3500);
+  }
+}
+
+function updateStatus(){
+  const total = EX.length;
+  const done = Object.keys(results).length;
+  const ok = Object.values(results).filter(v=>v===true).length;
+  const ko = Object.values(results).filter(v=>v===false).length;
+  const el = document.getElementById("status");
+  const labels = {
+    ca: `Respostes: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`,
+    es: `Respuestas: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`,
+    en: `Answers: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`
+  };
+  el.textContent = labels[currentLang];
+}
+
+/* ============================================================
+   EMAIL
+   ============================================================ */
+function openEmailModal(){
+  document.getElementById("emailModal").style.display = "block";
+}
+
+function closeEmailModal(){
+  document.getElementById("emailModal").style.display = "none";
+}
+
+function sendEmail(){
+  const profEmail = document.getElementById("profEmail").value;
+  const studentName = document.getElementById("studentName").value || "Alumne/a";
+  if(!profEmail){
+    alert("Si us plau, introdueix el correu del professor.");
+    return;
+  }
+  const state = collectState();
+  let body = `Resultats de l'activitat de Sistema Músculo-Esquelètic II\n`;
+  body += `Alumne/a: ${studentName}\n`;
+  body += `Data: ${new Date().toLocaleString()}\n\n`;
+  body += `Respostes: ${Object.keys(state.results).length}/${EX.length}\n`;
+  body += `Correctes: ${Object.values(state.results).filter(v=>v===true).length}\n`;
+  body += `Incorrectes: ${Object.values(state.results).filter(v=>v===false).length}\n\n`;
+  body += `--- Detall de les respostes ---\n`;
+  EX.forEach((ex, i)=>{
+    const d = ex[currentLang];
+    const res = state.results[i] === true ? "✅ Correcte" : state.results[i] === false ? "❌ Incorrecte" : "⏳ Sense respondre";
+    body += `Exercici ${i+1} (${T[currentLang].types[ex.type]}): ${res}\n`;
+    if(ex.type === "essay"){
+      body += `Resposta: ${state.answers[i] || "(buit)"}\n`;
+    } else if(ex.type === "fill" || ex.type === "short"){
+      body += `Resposta: ${state.answers[i] || "(buit)"}\n`;
+    } else if(ex.type === "mc"){
+      const sel = state.answers[i];
+      if(sel !== null && sel !== undefined){
+        body += `Resposta: ${d.o[sel] || "(no vàlida)"}\n`;
+      } else {
+        body += `Resposta: (buit)\n`;
+      }
+    } else if(ex.type === "match"){
+      body += `Resposta: ${JSON.stringify(state.answers[i])}\n`;
+    } else if(ex.type === "order"){
+      body += `Resposta: ${JSON.stringify(state.answers[i])}\n`;
+    }
+    body += `\n`;
+  });
+
+  const subject = encodeURIComponent(`Resultats activitat Sistema Músculo-Esquelètic II - ${studentName}`);
+  const mailtoLink = `mailto:${profEmail}?subject=${subject}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
+  closeEmailModal();
+}
+
+/* ============================================================
+   INICIALITZACIÓ
+   ============================================================ */
+function init(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  render();
+  renderHowto();
+  if(raw){
+    setTimeout(()=>{
+      showBanner(T[currentLang].restorePrompt, true);
+    }, 400);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
