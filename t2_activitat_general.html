@@ -455,6 +455,7 @@ const T = {
     imprimirSi:"Sí",
     imprimirNo:"No",
     imprimirPendent:"Pendent",
+    popupBlocked:"El navegador ha bloquejat la finestra d'impressió. Activa les finestres emergents per a aquesta pàgina i torna-ho a provar.",
     "howto-titol":"ℹ️ Funcionament resumit — com utilitzar aquesta activitat",
     "howto-pas1-titol":"1. Idioma",
     "howto-pas1-text":"Canvia entre <b>català</b>, <b>castellà</b> i <b>anglès</b> amb els botons de sota la capçalera.",
@@ -526,6 +527,7 @@ const T = {
     imprimirSi:"Sí",
     imprimirNo:"No",
     imprimirPendent:"Pendiente",
+    popupBlocked:"El navegador ha bloqueado la ventana de impresión. Activa las ventanas emergentes para esta página y vuelve a intentarlo.",
     "howto-titol":"ℹ️ Funcionamiento resumido — cómo utilizar esta actividad",
     "howto-pas1-titol":"1. Idioma",
     "howto-pas1-text":"Cambia entre <b>catalán</b>, <b>castellano</b> e <b>inglés</b> con los botones de debajo de la cabecera.",
@@ -597,6 +599,7 @@ const T = {
     imprimirSi:"Yes",
     imprimirNo:"No",
     imprimirPendent:"Pending",
+    popupBlocked:"The browser has blocked the print window. Enable pop-ups for this page and try again.",
     "howto-titol":"ℹ️ Summary of how it works — how to use this activity",
     "howto-pas1-titol":"1. Language",
     "howto-pas1-text":"Switch between <b>Catalan</b>, <b>Spanish</b> and <b>English</b> using the buttons below the header.",
@@ -852,19 +855,19 @@ const EX = [
     ca:{
       scenario:"Un corredor fa una cursa de 10 km en un dia de molta calor. A la meta té una rampa molt dolorosa al bessó.",
       q:"Explica quins factors hi han contribuït (mínim 3) i quin mecanisme fisiològic explica la contracció involuntària i mantinguda.",
-      keywords:["deshidratacio","electrolits","calor","exercici","fatiga","motoneurona","excitabilitat","descàrregues","contraccio involuntaria"],
+      keywords:["deshidratacio","deshidratación","electrolits","electrolitos","calor","exercici","ejercicio","fatiga","motoneurona","excitabilitat","excitabilidad","descàrregues","descargas","contraccio","contraccion","involuntaria","mantinguda","sostinguda","espasme","rampa"],
       model:"Factors: deshidratació, pèrdua d'electròlits (Na⁺, K⁺, Mg²⁺), calor i exercici intens. Mecanisme: augment de l'excitabilitat de la motoneurona α i descàrregues repetitives que mantenen la contracció involuntària i dolorosa."
     },
     es:{
       scenario:"Un corredor hace una carrera de 10 km en un día de mucho calor. En la meta tiene un calambre muy doloroso en el gemelo.",
       q:"Explica qué factores han contribuido (mínimo 3) y qué mecanismo fisiológico explica la contracción involuntaria y mantenida.",
-      keywords:["deshidratacion","electrolitos","calor","ejercicio","fatiga","motoneurona","excitabilidad","descargas","contraccion involuntaria"],
+      keywords:["deshidratacion","deshidratación","electrolitos","electrolits","calor","ejercicio","exercici","fatiga","motoneurona","excitabilidad","excitabilitat","descargas","descàrregues","contraccion","contraccio","involuntaria","mantenida","sostenida","espasmo","calambre"],
       model:"Factores: deshidratación, pérdida de electrolitos (Na⁺, K⁺, Mg²⁺), calor y ejercicio intenso. Mecanismo: aumento de la excitabilidad de la motoneurona α y descargas repetitivas que mantienen la contracción involuntaria y dolorosa."
     },
     en:{
       scenario:"A runner does a 10 km race on a very hot day. At the finish line, he has a very painful cramp in his calf.",
       q:"Explain which factors contributed (at least 3) and which physiological mechanism explains the involuntary, sustained contraction.",
-      keywords:["dehydration","electrolytes","heat","exercise","fatigue","motor neuron","excitability","discharges","involuntary contraction"],
+      keywords:["dehydration","electrolytes","heat","exercise","fatigue","motor neuron","excitability","discharges","contraction","involuntary","sustained","cramp"],
       model:"Factors: dehydration, electrolyte loss (Na⁺, K⁺, Mg²⁺), heat and intense exercise. Mechanism: increased excitability of the α motor neuron and repetitive discharges that maintain the involuntary, painful contraction."
     }
   }
@@ -877,7 +880,7 @@ let currentLang = "ca";
 let results = {};
 let reviewMode = false;
 
-const STORAGE_KEY = "musculoesqueletico_sessions_v5";
+const STORAGE_KEY = "musculoesqueletico_sessions_v6";
 
 /* ============================================================
    RENDERITZACIÓ
@@ -1075,7 +1078,9 @@ function check(i, silent){
     const norm = normalize(val);
     const found = d.keywords.filter(k => norm.includes(normalize(k)));
     const total = d.keywords.length;
-    if(found.length >= Math.ceil(total * 0.5)){
+    // Llindar rebaixat al 40% per fer més fàcil encertar les redaccions
+    const llindar = Math.ceil(total * 0.4);
+    if(found.length >= llindar){
       ok = true;
       fb.className = "feedback ok";
       fb.textContent = T[currentLang].essayOk + ` (${found.length}/${total})`;
@@ -1323,17 +1328,33 @@ function updateStatus(){
 }
 
 /* ============================================================
-   IMPRIMIR
+   IMPRIMIR  (CORREGIT: obre la finestra ABANS de demanar el nom)
    ============================================================ */
 function imprimir(){
   const lang = currentLang;
   const t = T[lang];
+
+  // 1) Obrim la finestra ABANS de demanar el nom, perquè el navegador
+  //    consideri que encara som dins del gest de l'usuari (clic).
+  const win = window.open("", "_blank");
+  if(!win){
+    alert(t.popupBlocked);
+    return;
+  }
+  win.document.write("<p style='font-family:sans-serif;padding:1rem'>Generant el full de resultats…</p>");
+  win.document.close();
+
+  // 2) Ara sí, demanem el nom si no el tenim.
   if(!estat.nomAlumne){
     const nom = prompt(t.demanarNom);
-    if(!nom) return;
+    if(!nom){
+      win.close();
+      return;
+    }
     estat.nomAlumne = nom.trim();
   }
 
+  // 3) Comptem els resultats
   let encerts=0, fetes=0;
   const perBloc = {A:{encerts:0,total:0}, B:{encerts:0,total:0}, C:{encerts:0,total:0}};
 
@@ -1349,6 +1370,7 @@ function imprimir(){
   const total = EX.length;
   const pct = total ? Math.round((encerts/total)*100) : 0;
 
+  // 4) Construïm la taula de detall
   const filesDetall = EX.map((p,i) => {
     const d = p[lang];
     const resp = results[i];
@@ -1362,7 +1384,6 @@ function imprimir(){
       const sel = document.querySelector(`input[name="q${i}"]:checked`);
       if(sel){
         const idxTriat = parseInt(sel.value);
-        const parells = (d.o || []).map((txt, orig) => ({ txt, orig }));
         respostaAlumne = d.o[idxTriat] || "—";
       }
     } else if(p.type === "fill" || p.type === "short"){
@@ -1402,6 +1423,7 @@ function imprimir(){
     </tr>`;
   }).join("");
 
+  // 5) Generem l'HTML del full
   const html = `<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8">
     <title>${t.imprimirTitol}</title>
     <style>
@@ -1442,7 +1464,8 @@ function imprimir(){
     </tr></thead><tbody>${filesDetall}</tbody></table>
     </body></html>`;
 
-  const win = window.open("", "_blank");
+  // 6) Escrivim el contingut final a la finestra i imprimim
+  win.document.open();
   win.document.write(html);
   win.document.close();
   win.focus();
