@@ -444,8 +444,6 @@ const T = {
     imprimirFetes:"Respostes fetes",
     imprimirEncerts:"Encerts",
     imprimirPct:"Percentatge",
-    imprimirPerBloc:"Resultats per bloc",
-    imprimirBloc:"Bloc",
     imprimirDetall:"Detall de preguntes",
     imprimirNum:"Núm.",
     imprimirPregunta:"Pregunta",
@@ -472,7 +470,7 @@ const T = {
     "howto-pas7-titol":"7. Barra d'estat",
     "howto-pas7-text":"A la dreta de la barra d'eines es mostra el progrés: respostes fetes / total, encerts (✅) i errors (❌).",
     "howto-pas8-titol":"8. Imprimir / Exportar",
-    "howto-pas8-text":"Pots <b>imprimir</b> un full de resultats amb la teva resposta i la correcta, o <b>exportar</b> el progrés en JSON.",
+    "howto-pas8-text":"Pots <b>imprimir</b> un full de resultats amb la teva resposta i la correcta, o <b>exportar</b> el progrés en JSON. El nom es demana només al botó <b>Guardar sessió</b>.",
     "howto-legend":"<b>Consell:</b> fes servir el <b>Repàs d'errors</b> després de respondre tot per reforçar els punts febles. Guarda la sessió si vols continuar més tard. Les dades es guarden localment al teu dispositiu (<code>localStorage</code>)."
   },
   es: {
@@ -516,8 +514,6 @@ const T = {
     imprimirFetes:"Respuestas hechas",
     imprimirEncerts:"Aciertos",
     imprimirPct:"Porcentaje",
-    imprimirPerBloc:"Resultados por bloque",
-    imprimirBloc:"Bloque",
     imprimirDetall:"Detalle de preguntas",
     imprimirNum:"N.º",
     imprimirPregunta:"Pregunta",
@@ -544,7 +540,7 @@ const T = {
     "howto-pas7-titol":"7. Barra de estado",
     "howto-pas7-text":"A la derecha de la barra de herramientas se muestra el progreso: respuestas hechas / total, aciertos (✅) y errores (❌).",
     "howto-pas8-titol":"8. Imprimir / Exportar",
-    "howto-pas8-text":"Puedes <b>imprimir</b> una hoja de resultados con tu respuesta y la correcta, o <b>exportar</b> el progreso en JSON.",
+    "howto-pas8-text":"Puedes <b>imprimir</b> una hoja de resultados con tu respuesta y la correcta, o <b>exportar</b> el progreso en JSON. El nombre se pide solo en el botón <b>Guardar sesión</b>.",
     "howto-legend":"<b>Consejo:</b> usa el <b>Repaso de errores</b> después de responder todo para reforzar los puntos débiles. Guarda la sesión si quieres continuar más tarde. Los datos se guardan localmente en tu dispositivo (<code>localStorage</code>)."
   },
   en: {
@@ -588,8 +584,6 @@ const T = {
     imprimirFetes:"Questions answered",
     imprimirEncerts:"Correct",
     imprimirPct:"Percentage",
-    imprimirPerBloc:"Results by block",
-    imprimirBloc:"Block",
     imprimirDetall:"Question detail",
     imprimirNum:"No.",
     imprimirPregunta:"Question",
@@ -616,7 +610,7 @@ const T = {
     "howto-pas7-titol":"7. Status bar",
     "howto-pas7-text":"On the right of the toolbar the progress is shown: answers done / total, correct (✅) and wrong (❌).",
     "howto-pas8-titol":"8. Print / Export",
-    "howto-pas8-text":"You can <b>print</b> a results sheet with your answer and the correct one, or <b>export</b> the progress as JSON.",
+    "howto-pas8-text":"You can <b>print</b> a results sheet with your answer and the correct one, or <b>export</b> the progress as JSON. The name is only asked when you press <b>Save session</b>.",
     "howto-legend":"<b>Tip:</b> use <b>Review errors</b> after answering everything to reinforce weak points. Save the session if you want to continue later. Data is stored locally on your device (<code>localStorage</code>)."
   }
 };
@@ -880,7 +874,7 @@ let currentLang = "ca";
 let results = {};
 let reviewMode = false;
 
-const STORAGE_KEY = "musculoesqueletico_sessions_v6";
+const STORAGE_KEY = "musculoesqueletico_sessions_v9";
 
 /* ============================================================
    RENDERITZACIÓ
@@ -1078,7 +1072,6 @@ function check(i, silent){
     const norm = normalize(val);
     const found = d.keywords.filter(k => norm.includes(normalize(k)));
     const total = d.keywords.length;
-    // Llindar rebaixat al 40% per fer més fàcil encertar les redaccions
     const llindar = Math.ceil(total * 0.4);
     if(found.length >= llindar){
       ok = true;
@@ -1157,6 +1150,8 @@ function applyReviewFilter(){
 /* ============================================================
    SESSIÓ
    ============================================================ */
+let estat = { nomAlumne:"" };
+
 function collectState(){
   const state = {
     lang: currentLang,
@@ -1185,9 +1180,8 @@ function collectState(){
   return state;
 }
 
-let estat = { nomAlumne:"" };
-
 function saveSession(){
+  // Demanem el nom AQUÍ (és l'únic lloc on es demana)
   if(!estat.nomAlumne){
     const nom = prompt(T[currentLang].demanarNom);
     if(!nom) return;
@@ -1328,48 +1322,36 @@ function updateStatus(){
 }
 
 /* ============================================================
-   IMPRIMIR  (CORREGIT: nom demanat abans, finestra oberta neta)
+   IMPRIMIR
+   ------------------------------------------------------------
+   NO demana mai el nom. Sempre obre la finestra.
+   No fa servir p.bloc (no existeix al T2).
    ============================================================ */
 function imprimir(){
   const lang = currentLang;
   const t = T[lang];
 
-  // 1) Si encara no tenim el nom, el demanem ARA (abans d'obrir res)
-  if(!estat.nomAlumne){
-    const nom = prompt(t.demanarNom);
-    if(!nom) return;               // l'usuari ha cancel·lat
-    estat.nomAlumne = nom.trim();
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"),
-      nomAlumne: estat.nomAlumne
-    })); }catch(e){}
-  }
-
-  // 2) Comptem els resultats
-  let encerts=0, fetes=0;
-  const perBloc = {A:{encerts:0,total:0}, B:{encerts:0,total:0}, C:{encerts:0,total:0}};
-
-  EX.forEach((p,i) => {
-    perBloc[p.bloc].total++;
+  // Comptem els resultats globals
+  let encerts = 0, fetes = 0;
+  EX.forEach((p, i) => {
     const resp = results[i];
     const ok = resp === true;
     if(resp !== undefined){
       fetes++;
-      if(ok){ encerts++; perBloc[p.bloc].encerts++; }
+      if(ok) encerts++;
     }
   });
   const total = EX.length;
   const pct = total ? Math.round((encerts/total)*100) : 0;
 
-  // 3) Construïm la taula de detall
-  const filesDetall = EX.map((p,i) => {
+  // Taula de detall
+  const filesDetall = EX.map((p, i) => {
     const d = p[lang];
     const resp = results[i];
     const ok = resp === true;
-    const est = (resp===undefined) ? t.imprimirPendent : (ok ? t.imprimirSi : t.imprimirNo);
-    const color = (resp===undefined) ? "#999" : (ok ? "#2e7d32" : "#c62828");
+    const est = (resp === undefined) ? t.imprimirPendent : (ok ? t.imprimirSi : t.imprimirNo);
+    const color = (resp === undefined) ? "#999" : (ok ? "#2e7d32" : "#c62828");
 
-    // Resposta de l'alumne
     let respostaAlumne = "—";
     if(p.type === "mc"){
       const sel = document.querySelector(`input[name="q${i}"]:checked`);
@@ -1378,41 +1360,34 @@ function imprimir(){
         respostaAlumne = d.o[idxTriat] || "—";
       }
     } else if(p.type === "fill" || p.type === "short"){
-      const inp = document.getElementById("in"+i);
+      const inp = document.getElementById("in" + i);
       respostaAlumne = inp ? inp.value : "—";
     } else if(p.type === "match" || p.type === "order"){
       respostaAlumne = (resp === true) ? "Correcte" : (resp === false ? "Incorrecte" : "—");
     } else if(p.type === "essay"){
-      const ta = document.getElementById("in"+i);
+      const ta = document.getElementById("in" + i);
       respostaAlumne = ta ? ta.value.slice(0, 300) : "—";
     }
 
-    // Resposta correcta
     let respostaCorrecta = "—";
-    if(p.type === "mc"){
-      respostaCorrecta = d.o[d.a];
-    } else if(p.type === "fill" || p.type === "short"){
-      respostaCorrecta = d.a;
-    } else if(p.type === "match"){
-      respostaCorrecta = d.pairs.map(pp=>`${pp[0]} → ${pp[1]}`).join("; ");
-    } else if(p.type === "order"){
-      respostaCorrecta = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
-    } else if(p.type === "essay"){
-      respostaCorrecta = d.model;
-    }
+    if(p.type === "mc"){ respostaCorrecta = d.o[d.a]; }
+    else if(p.type === "fill" || p.type === "short"){ respostaCorrecta = d.a; }
+    else if(p.type === "match"){ respostaCorrecta = d.pairs.map(pp => `${pp[0]} → ${pp[1]}`).join("; "); }
+    else if(p.type === "order"){ respostaCorrecta = d.items.map((it, j) => `${d.a[j]}. ${it}`).join(" | "); }
+    else if(p.type === "essay"){ respostaCorrecta = d.model; }
 
     return `<tr>
       <td>${i+1}</td>
-      <td>${p.bloc}</td>
       <td>${p.pi ? "🌿" : "—"}</td>
-      <td>${d.q.replace(/<[^>]+>/g,"").slice(0,120)}</td>
+      <td>${d.q.replace(/<[^>]+>/g, "").slice(0, 120)}</td>
       <td>${respostaAlumne}</td>
       <td>${respostaCorrecta}</td>
       <td style="color:${color};font-weight:700">${est}</td>
     </tr>`;
   }).join("");
 
-  // 4) Generem l'HTML del full
+  const nomAlumne = estat.nomAlumne || "(sense nom)";
+
   const html = `<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8">
     <title>${t.imprimirTitol}</title>
     <style>
@@ -1429,7 +1404,7 @@ function imprimir(){
     </style></head><body>
     <h1>${t.imprimirTitol}</h1>
     <div class="meta">
-      <div>${t.imprimirAlumne} <span>${estat.nomAlumne}</span></div>
+      <div>${t.imprimirAlumne} <span>${nomAlumne}</span></div>
       <div>${t.imprimirData} <span>${new Date().toLocaleDateString()}</span></div>
     </div>
     <h2>${t.imprimirResum}</h2>
@@ -1439,21 +1414,14 @@ function imprimir(){
       <div><strong>${t.imprimirEncerts}:</strong> ${encerts}</div>
       <div><strong>${t.imprimirPct}:</strong> ${pct} %</div>
     </div>
-    <h2>${t.imprimirPerBloc}</h2>
-    <table><thead><tr><th>${t.imprimirBloc}</th><th>${t.imprimirEncerts}</th></tr></thead><tbody>
-      <tr><td>A</td><td>${perBloc.A.encerts} / ${perBloc.A.total}</td></tr>
-      <tr><td>B</td><td>${perBloc.B.encerts} / ${perBloc.B.total}</td></tr>
-      <tr><td>C</td><td>${perBloc.C.encerts} / ${perBloc.C.total}</td></tr>
-    </tbody></table>
     <h2>${t.imprimirDetall}</h2>
     <table><thead><tr>
-      <th>${t.imprimirNum}</th><th>${t.imprimirBloc}</th><th>🌿</th>
+      <th>${t.imprimirNum}</th><th>🌿</th>
       <th>${t.imprimirPregunta}</th><th>${t.imprimirResposta}</th>
       <th>${t.imprimirCorrecta}</th><th>${t.imprimirEncert}</th>
     </tr></thead><tbody>${filesDetall}</tbody></table>
     </body></html>`;
 
-  // 5) Obrim la finestra i hi escrivim TOT DE COP (sense placeholder ni segon write)
   const win = window.open("", "_blank");
   if(!win){
     alert(t.popupBlocked);
@@ -1464,9 +1432,8 @@ function imprimir(){
   win.document.close();
   win.focus();
 
-  // 6) Imprimim (petit retard perquè acabi de renderitzar)
-  setTimeout(()=>{
-    try{ win.print(); }catch(e){ /* alguns navegadors requereixen acció manual */ }
+  setTimeout(() => {
+    try{ win.print(); }catch(e){}
     mostrarMissatgeLliurament();
   }, 400);
 }
@@ -1475,37 +1442,33 @@ function imprimir(){
    EXPORTAR
    ============================================================ */
 function exportar(){
-  const t = T[currentLang];
-  if(!estat.nomAlumne){
-    const nom = prompt(t.demanarNom);
-    if(!nom) return;
-    estat.nomAlumne = nom.trim();
-  }
-
-  let encerts=0, fetes=0;
-  const detall = EX.map((p,i) => {
+  let encerts = 0, fetes = 0;
+  const detall = EX.map((p, i) => {
     const resp = results[i];
     const ok = resp === true;
     if(resp !== undefined){ fetes++; if(ok) encerts++; }
-    return { num:i+1, bloc:p.bloc, pi:p.pi, tipus:p.type, encert: resp===undefined ? null : ok };
+    return { num: i+1, pi: p.pi, tipus: p.type, encert: resp === undefined ? null : ok };
   });
   const data = {
-    activitat:"Sistema Musculoesquelètic I",
-    alumne:estat.nomAlumne,
-    data_exportacio:new Date().toISOString(),
-    idioma_actual:currentLang,
-    total_preguntes:EX.length,
-    respostes_fetes:fetes,
-    encerts:encerts,
+    activitat: "Sistema Musculoesquelètic I",
+    alumne: estat.nomAlumne || "(sense nom)",
+    data_exportacio: new Date().toISOString(),
+    idioma_actual: currentLang,
+    total_preguntes: EX.length,
+    respostes_fetes: fetes,
+    encerts: encerts,
     detall
   };
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
   const avui = new Date().toISOString().slice(0,10);
-  a.download = `${estat.nomAlumne.replace(/\s+/g,"_")}_${avui}_t2.json`;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  const nomFitxer = (estat.nomAlumne || "sense_nom").replace(/\s+/g, "_");
+  a.download = `${nomFitxer}_${avui}_t2.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
   mostrarMissatgeLliurament();
 }
@@ -1518,7 +1481,7 @@ function init(){
   render();
   renderHowto();
   if(raw){
-    setTimeout(()=>{
+    setTimeout(() => {
       showBanner(T[currentLang].restorePrompt, true);
     }, 400);
   }
