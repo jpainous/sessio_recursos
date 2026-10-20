@@ -626,15 +626,15 @@ const EX = [
     es:{q:"¿Qué neurotransmisor se libera en la unión neuromuscular para iniciar la contracción?", o:["Noradrenalina","Acetilcolina","Dopamina","Serotonina"], a:1},
     en:{q:"Which neurotransmitter is released at the neuromuscular junction to initiate contraction?", o:["Noradrenaline","Acetylcholine","Dopamine","Serotonin"], a:1}
   },
-  /* 5. FILL - Unitat motora */
+  /* 5. FILL - Unitat motora (un sol buit, sense "motora" a l'enunciat) */
   {
     type:"fill",
-    ca:{q:"La ________ motora està formada per una motoneurona i totes les fibres musculars que innerva.", a:"unitat",
-        variants:["unitat","unidad","unit"]},
-    es:{q:"La ________ motora está formada por una motoneurona y todas las fibras musculares que inerva.", a:"unidad",
-        variants:["unidad","unitat","unit"]},
-    en:{q:"The motor ________ consists of a motor neuron and all the muscle fibers it innervates.", a:"unit",
-        variants:["unit","unitat","unidad"]}
+    ca:{q:"La ________ està formada per una motoneurona i totes les fibres musculars que innerva.", a:"unitat motora",
+        variants:["unitat motora","unitatmotora","unidad motora","unidadmotora","motor unit","motorunit"]},
+    es:{q:"La ________ está formada por una motoneurona y todas las fibras musculares que inerva.", a:"unidad motora",
+        variants:["unidad motora","unidadmotora","unitat motora","unitatmotora","motor unit","motorunit"]},
+    en:{q:"The ________ consists of a motor neuron and all the muscle fibers it innervates.", a:"motor unit",
+        variants:["motor unit","motorunit","unitat motora","unitatmotora","unidad motora","unidadmotora"]}
   },
   /* 6. MC - Tipus de contracció */
   {
@@ -650,29 +650,7 @@ const EX = [
     es:{q:"¿Qué tipo de contracción se produce en un descenso controlado del relevé?", o:["Concéntrica","Isométrica","Excéntrica","Todas por igual"], a:2},
     en:{q:"Which type of contraction occurs during a controlled descent from relevé?", o:["Concentric","Isometric","Eccentric","All equally"], a:2}
   },
-  /* 8. ESSAY - Aplicació a la dansa */
-  {
-    type:"essay",
-    ca:{
-      scenario:"Una ballarina fa un salt (grand jeté): s'impulsa amb la cama de suport, manté la posició a l'aire i aterra flexionant els genolls.",
-      q:"Identifica els tres tipus de contracció que apareixen en aquesta seqüència i explica en quin moment es produeix cadascun i quina funció té.",
-      keywords:["concentrica","isometrica","excentrica","impuls","posicio","aterratge","força","amortiguar","frenar","estabilitzar"],
-      model:"Concèntrica: en l'impuls, el múscul s'escurça generant força per saltar. Isomètrica: a l'aire, manté la posició sense canvi de longitud (estabilització). Excèntrica: en aterrar, el múscul s'allarga mentre frena i amortigua l'impacte."
-    },
-    es:{
-      scenario:"Una bailarina hace un salto (grand jeté): se impulsa con la pierna de apoyo, mantiene la posición en el aire y aterriza flexionando las rodillas.",
-      q:"Identifica los tres tipos de contracción que aparecen en esta secuencia y explica en qué momento se produce cada uno y qué función tiene.",
-      keywords:["concentrica","isometrica","excentrica","impulso","posicion","aterrizaje","fuerza","amortiguar","frenar","estabilizar"],
-      model:"Concéntrica: en el impulso, el músculo se acorta generando fuerza para saltar. Isométrica: en el aire, mantiene la posición sin cambio de longitud (estabilización). Excéntrica: al aterrizar, el músculo se alarga mientras frena y amortigua el impacto."
-    },
-    en:{
-      scenario:"A dancer performs a jump (grand jeté): she pushes off with the support leg, holds the position in the air, and lands flexing the knees.",
-      q:"Identify the three types of contraction in this sequence and explain when each occurs and what function it has.",
-      keywords:["concentric","isometric","eccentric","push","position","landing","force","absorb","brake","stabilize"],
-      model:"Concentric: during the push-off, the muscle shortens generating force to jump. Isometric: in the air, it holds the position without changing length (stabilization). Eccentric: on landing, the muscle lengthens while braking and absorbing the impact."
-    }
-  },
-  /* 9. FILL - Reclutament */
+  /* 8. FILL - Reclutament */
   {
     type:"fill",
     ca:{q:"El ________ de les unitats motores augmenta la força muscular: com més unitats s'activen, més força es genera.", a:"reclutament",
@@ -682,52 +660,52 @@ const EX = [
     en:{q:"Motor unit ________ increases muscle force: the more units are activated, the more force is generated.", a:"recruitment",
         variants:["recruitment","reclutament","reclutamiento"]}
   },
-  /* 10. MC - Principi de la mida */
+  /* 9. MC - Principi de la mida */
   {
     type:"mc",
     ca:{q:"Segons el principi de la mida, com es recluten les unitats motores?", o:["De major a menor","De menor a major","A l'atzar","Totes alhora"], a:1},
     es:{q:"Según el principio del tamaño, ¿cómo se reclutan las unidades motoras?", o:["De mayor a menor","De menor a mayor","Al azar","Todas a la vez"], a:1},
     en:{q:"According to the size principle, how are motor units recruited?", o:["From largest to smallest","From smallest to largest","Randomly","All at once"], a:1}
   },
-  /* 11. MC - Fibres tipus I */
+  /* 10. MC - Fibres tipus I */
   {
     type:"mc",
     ca:{q:"Quines característiques té la fibra muscular de tipus I?", o:["Contracció ràpida i poca resistència","Contracció lenta i alta resistència a la fatiga","Metabolisme glucolític i força molt alta","Contracció molt ràpida i baixa resistència"], a:1},
     es:{q:"¿Qué características tiene la fibra muscular de tipo I?", o:["Contracción rápida y poca resistencia","Contracción lenta y alta resistencia a la fatiga","Metabolismo glucolítico y fuerza muy alta","Contracción muy rápida y baja resistencia"], a:1},
     en:{q:"What characteristics does type I muscle fiber have?", o:["Fast contraction and low resistance","Slow contraction and high fatigue resistance","Glycolytic metabolism and very high force","Very fast contraction and low resistance"], a:1}
   },
-  /* 12. MC - Fibres tipus IIx */
+  /* 11. MC - Fibres tipus IIx */
   {
     type:"mc",
     ca:{q:"Quin tipus de fibra és la més adequada per a impulsos molt explosius i de curta durada?", o:["Tipus I","Tipus IIa","Tipus IIx","Totes per igual"], a:2},
     es:{q:"¿Qué tipo de fibra es la más adecuada para impulsos muy explosivos y de corta duración?", o:["Tipo I","Tipo IIa","Tipo IIx","Todas por igual"], a:2},
     en:{q:"Which fiber type is best suited for very explosive, short-duration impulses?", o:["Type I","Type IIa","Type IIx","All equally"], a:2}
   },
-  /* 13. FILL - Longitud òptima */
+  /* 12. FILL - Longitud òptima */
   {
     type:"fill",
     ca:{q:"La força activa màxima d'un múscul s'assoleix quan el sarcòmer es troba en una longitud ________.", a:"intermèdia",
         variants:["intermèdia","intermedia","intermediate"]},
-    es:{q:"La fuerza activa máxima de un músculo se alcanza cuando el sarcómero se encuentra en una longitud ________.", a:"intermedia",
-        variants:["intermedia","intermèdia","intermediate"]},
+    es:{q:"La fuerza activa máxima de un músculo se alcanza cuando el sarcómero se encuentra en una longitud ________.", a:"mediana",
+        variants:["mediana","intermedia","intermèdia","intermediate"]},
     en:{q:"The maximum active force of a muscle is reached when the sarcomere is at an ________ length.", a:"intermediate",
         variants:["intermediate","intermèdia","intermedia"]}
   },
-  /* 14. MC - Fatiga */
+  /* 13. MC - Fatiga */
   {
     type:"mc",
     ca:{q:"Què és la fatiga muscular?", o:["Un augment permanent de la força","Una disminució transitòria de la capacitat per generar força o potència","Una malaltia del múscul","Un tipus de contracció"], a:1},
     es:{q:"¿Qué es la fatiga muscular?", o:["Un aumento permanente de la fuerza","Una disminución transitoria de la capacidad para generar fuerza o potencia","Una enfermedad del músculo","Un tipo de contracción"], a:1},
     en:{q:"What is muscle fatigue?", o:["A permanent increase in force","A transient decrease in the ability to generate force or power","A muscle disease","A type of contraction"], a:1}
   },
-  /* 15. MATCH - Tipus de fatiga */
+  /* 14. MATCH - Tipus de fatiga */
   {
     type:"match", shuffle:true,
     ca:{q:"Relaciona cada tipus de fatiga amb les seves causes:", pairs:[["Fatiga central","Disminució de l'activació del sistema nerviós"],["Fatiga perifèrica","Acumulació de metabòlits i alteració del calci"]]},
     es:{q:"Relaciona cada tipo de fatiga con sus causas:", pairs:[["Fatiga central","Disminución de la activación del sistema nervioso"],["Fatiga periférica","Acumulación de metabolitos y alteración del calcio"]]},
     en:{q:"Match each type of fatigue with its causes:", pairs:[["Central fatigue","Decreased activation of the nervous system"],["Peripheral fatigue","Accumulation of metabolites and altered calcium"]]}
   },
-  /* 16. ESSAY - Compensació de la fatiga */
+  /* 15. ESSAY - Compensació de la fatiga */
   {
     type:"essay",
     ca:{
@@ -749,21 +727,21 @@ const EX = [
       model:"The nervous system compensates by recruiting more motor units, adjusting the discharge frequency, and activating synergist and stabilizer muscles. If this is not enough, performance decreases and compensations increase."
     }
   },
-  /* 17. MC - Agonista */
+  /* 16. MC - Agonista */
   {
     type:"mc",
     ca:{q:"Com s'anomena el múscul que contribueix principalment a produir una acció determinada?", o:["Antagonista","Sinergista","Agonista","Estabilitzador"], a:2},
     es:{q:"¿Cómo se llama el músculo que contribuye principalmente a producir una acción determinada?", o:["Antagonista","Sinergista","Agonista","Estabilizador"], a:2},
     en:{q:"What is the muscle that mainly contributes to producing a given action called?", o:["Antagonist","Synergist","Agonist","Stabilizer"], a:2}
   },
-  /* 18. MC - Antagonista */
+  /* 17. MC - Antagonista */
   {
     type:"mc",
     ca:{q:"Quin múscul pot realitzar l'acció oposada i contribuir a frenar o controlar el moviment?", o:["Agonista","Antagonista","Sinergista","Estabilitzador"], a:1},
     es:{q:"¿Qué músculo puede realizar la acción opuesta y contribuir a frenar o controlar el movimiento?", o:["Agonista","Antagonista","Sinergista","Estabilizador"], a:1},
     en:{q:"Which muscle can perform the opposite action and help brake or control movement?", o:["Agonist","Antagonist","Synergist","Stabilizer"], a:1}
   },
-  /* 19. FILL - Coactivació */
+  /* 18. FILL - Coactivació */
   {
     type:"fill",
     ca:{q:"La ________ és l'activació simultània de músculs agonistes i antagonistes al voltant d'una articulació per augmentar l'estabilitat.", a:"coactivació",
@@ -773,28 +751,28 @@ const EX = [
     en:{q:"________ is the simultaneous activation of agonist and antagonist muscles around a joint to increase stability.", a:"coactivation",
         variants:["coactivation","coactivació","coactivación"]}
   },
-  /* 20. MC - Remodelació òssia */
+  /* 19. MC - Remodelació òssia */
   {
     type:"mc",
     ca:{q:"Quines cèl·lules del teixit ossi s'encarreguen de reabsorbir teixit ossi?", o:["Osteoblasts","Osteocits","Osteoclasts","Cèl·lules osteoprogenitores"], a:2},
     es:{q:"¿Qué células del tejido óseo se encargan de reabsorber tejido óseo?", o:["Osteoblastos","Osteocitos","Osteoclastos","Células osteoprogenitoras"], a:2},
     en:{q:"Which bone tissue cells are responsible for resorbing bone tissue?", o:["Osteoblasts","Osteocytes","Osteoclasts","Osteoprogenitor cells"], a:2}
   },
-  /* 21. ORDER - Remodelació òssia */
+  /* 20. ORDER - Remodelació òssia */
   {
     type:"order", shuffle:true,
     ca:{q:"Ordena les etapes del cicle de remodelació òssia (1-4):", items:["Activació (osteocits detecten microdanys)","Resorció (osteoclasts reabsorbeixen os)","Formació (osteoblasts dipositen matriu)","Mineralització (la matriu es mineralitza)"], a:[1,2,3,4]},
     es:{q:"Ordena las etapas del ciclo de remodelación ósea (1-4):", items:["Activación (osteocitos detectan microdaños)","Resorción (osteoclastos reabsorben hueso)","Formación (osteoblastos depositan matriz)","Mineralización (la matriz se mineraliza)"], a:[1,2,3,4]},
     en:{q:"Order the stages of the bone remodeling cycle (1-4):", items:["Activation (osteocytes detect microdamage)","Resorption (osteoclasts resorb bone)","Formation (osteoblasts deposit matrix)","Mineralization (the matrix mineralizes)"], a:[1,2,3,4]}
   },
-  /* 22. MC - Adaptació òssia */
+  /* 21. MC - Adaptació òssia */
   {
     type:"mc",
     ca:{q:"Què necessita l'os per mantenir-se sa?", o:["Només exercici intens","Càrrega adequada, energia, nutrients, descans i hormones","Només calci","Només repòs"], a:1},
     es:{q:"¿Qué necesita el hueso para mantenerse sano?", o:["Solo ejercicio intenso","Carga adecuada, energía, nutrientes, descanso y hormonas","Solo calcio","Solo reposo"], a:1},
     en:{q:"What does bone need to stay healthy?", o:["Only intense exercise","Adequate load, energy, nutrients, rest and hormones","Only calcium","Only rest"], a:1}
   },
-  /* 23. FILL - Tendó */
+  /* 22. FILL - Tendó */
   {
     type:"fill",
     ca:{q:"El ________ és el teixit connectiu que uneix el múscul a l'os i transmet la força.", a:"tendó",
@@ -804,35 +782,35 @@ const EX = [
     en:{q:"The ________ is the connective tissue that attaches muscle to bone and transmits force.", a:"tendon",
         variants:["tendon","tendó","tendón"]}
   },
-  /* 24. MC - Lligament */
+  /* 23. MC - Lligament */
   {
     type:"mc",
     ca:{q:"Quina és la funció principal dels lligaments?", o:["Unir múscul i os","Unir os amb os i estabilitzar l'articulació","Produir líquid sinovial","Generar força"], a:1},
     es:{q:"¿Cuál es la función principal de los ligamentos?", o:["Unir músculo y hueso","Unir hueso con hueso y estabilizar la articulación","Producir líquido sinovial","Generar fuerza"], a:1},
     en:{q:"What is the main function of ligaments?", o:["Attach muscle to bone","Attach bone to bone and stabilize the joint","Produce synovial fluid","Generate force"], a:1}
   },
-  /* 25. MC - Cartílag */
+  /* 24. MC - Cartílag */
   {
     type:"mc",
     ca:{q:"Per què el cartílag articular necessita moviment i càrrega?", o:["Perquè no té vasos sanguinis i necessita que el líquid sinovial li aporti nutrients","Perquè es regenera molt ràpid","Perquè és un teixit ossi","Perquè no té cèl·lules"], a:0},
     es:{q:"¿Por qué el cartílago articular necesita movimiento y carga?", o:["Porque no tiene vasos sanguíneos y necesita que el líquido sinovial le aporte nutrientes","Porque se regenera muy rápido","Porque es un tejido óseo","Porque no tiene células"], a:0},
     en:{q:"Why does articular cartilage need movement and load?", o:["Because it has no blood vessels and needs synovial fluid to provide nutrients","Because it regenerates very quickly","Because it is bone tissue","Because it has no cells"], a:0}
   },
-  /* 26. MC - Propiocepció */
+  /* 25. MC - Propiocepció */
   {
     type:"mc",
     ca:{q:"Quin receptor detecta la longitud i el canvi de longitud del múscul?", o:["Òrgan tendinós de Golgi","Huso muscular","Receptors articulars","Nociceptors"], a:1},
     es:{q:"¿Qué receptor detecta la longitud y el cambio de longitud del músculo?", o:["Órgano tendinoso de Golgi","Huso muscular","Receptores articulares","Nociceptores"], a:1},
     en:{q:"Which receptor detects muscle length and changes in length?", o:["Golgi tendon organ","Muscle spindle","Joint receptors","Nociceptors"], a:1}
   },
-  /* 27. MATCH - Propiocepció */
+  /* 26. MATCH - Propiocepció */
   {
     type:"match", shuffle:true,
     ca:{q:"Relaciona cada receptor propioceptiu amb la seva funció:", pairs:[["Huso muscular","Detecta longitud i canvi de longitud del múscul"],["Òrgan tendinós de Golgi","Detecta la tensió que genera el múscul al tendó"],["Receptors articulars","Detecten posició i moviment de l'articulació"]]},
     es:{q:"Relaciona cada receptor propioceptivo con su función:", pairs:[["Huso muscular","Detecta longitud y cambio de longitud del músculo"],["Órgano tendinoso de Golgi","Detecta la tensión que genera el músculo en el tendón"],["Receptores articulares","Detectan posición y movimiento de la articulación"]]},
     en:{q:"Match each proprioceptive receptor with its function:", pairs:[["Muscle spindle","Detects muscle length and changes in length"],["Golgi tendon organ","Detects the tension generated by the muscle at the tendon"],["Joint receptors","Detect joint position and movement"]]}
   },
-  /* 28. FILL - Plànol sagital */
+  /* 27. FILL - Flexió */
   {
     type:"fill",
     ca:{q:"El moviment de ________ redueix l'angle entre dos ossos o parts del cos (per exemple, un plié).", a:"flexió",
@@ -841,59 +819,6 @@ const EX = [
         variants:["flexión","flexió","flexion"]},
     en:{q:"________ movement reduces the angle between two bones or body parts (e.g., a plié).", a:"flexion",
         variants:["flexion","flexió","flexión"]}
-  },
-  /* 29. MC - Plànol frontal */
-  {
-    type:"mc",
-    ca:{q:"Quin moviment separa una extremitat de la línia mitjana del cos (per exemple, obrir els braços a 2a posició)?", o:["Flexió","Extensió","Abducció","Adducció"], a:2},
-    es:{q:"¿Qué movimiento separa una extremidad de la línea media del cuerpo (por ejemplo, abrir los brazos a 2ª posición)?", o:["Flexión","Extensión","Abducción","Adducción"], a:2},
-    en:{q:"Which movement moves a limb away from the body's midline (e.g., opening the arms to 2nd position)?", o:["Flexion","Extension","Abduction","Adduction"], a:2}
-  },
-  /* 30. MC - Plànol transversal */
-  {
-    type:"mc",
-    ca:{q:"La rotació externa (en dehors) és un moviment que es produeix en quin plànol?", o:["Sagital","Frontal o coronal","Transversal","Oblic"], a:2},
-    es:{q:"La rotación externa (en dehors) es un movimiento que se produce en ¿qué plano?", o:["Sagital","Frontal o coronal","Transversal","Oblicuo"], a:2},
-    en:{q:"External rotation (en dehors) occurs in which plane?", o:["Sagittal","Frontal or coronal","Transverse","Oblique"], a:2}
-  },
-  /* 31. MC - Calci i ATP */
-  {
-    type:"mc",
-    ca:{q:"Quin és el paper del calci en la contracció muscular?", o:["Permet que la miosina s'uneixi a l'actina","Trenca l'ATP","Forma els filaments prims","Allibera acetilcolina"], a:0},
-    es:{q:"¿Cuál es el papel del calcio en la contracción muscular?", o:["Permite que la miosina se una a la actina","Rompe el ATP","Forma los filamentos delgados","Libera acetilcolina"], a:0},
-    en:{q:"What is the role of calcium in muscle contraction?", o:["It allows myosin to bind to actin","It breaks down ATP","It forms thin filaments","It releases acetylcholine"], a:0}
-  },
-  /* 32. FILL - ATP */
-  {
-    type:"fill",
-    ca:{q:"L'________ és necessari perquè la miosina es desprengui de l'actina i es repeteixi el cicle de contracció.", a:"ATP",
-        variants:["atp","adenosina trifosfat","adenosina trifosfato"]},
-    es:{q:"El ________ es necesario para que la miosina se desprenda de la actina y se repita el ciclo de contracción.", a:"ATP",
-        variants:["atp","adenosina trifosfato","adenosina trifosfat"]},
-    en:{q:"________ is required for myosin to detach from actin and repeat the contraction cycle.", a:"ATP",
-        variants:["atp","adenosine triphosphate"]}
-  },
-  /* 33. ESSAY - Rigor mortis */
-  {
-    type:"essay",
-    ca:{
-      scenario:"Després de la mort, els músculs es tornen rígids (rigor mortis) i aquesta rigidesa desapareix al cap d'unes hores.",
-      q:"Explica per què es produeix la rigidesa inicial i per què desapareix després, relacionant-ho amb l'ATP i el cicle de la miosina.",
-      keywords:["atp","miosina","actina","despreniment","calci","rigidesa","descomposicio","proteines"],
-      model:"Sense ATP, la miosina queda unida a l'actina i no es pot desprendre, de manera que el múscul es manté contret i rígid. Amb el temps, la degradació de les proteïnes i la descomposició del teixit fan que la rigidesa desaparegui."
-    },
-    es:{
-      scenario:"Después de la muerte, los músculos se vuelven rígidos (rigor mortis) y esta rigidez desaparece al cabo de unas horas.",
-      q:"Explica por qué se produce la rigidez inicial y por qué desaparece después, relacionándolo con el ATP y el ciclo de la miosina.",
-      keywords:["atp","miosina","actina","desprendimiento","calcio","rigidez","descomposicion","proteinas"],
-      model:"Sin ATP, la miosina queda unida a la actina y no puede desprenderse, de modo que el músculo permanece contraído y rígido. Con el tiempo, la degradación de las proteínas y la descomposición del tejido hacen que la rigidez desaparezca."
-    },
-    en:{
-      scenario:"After death, muscles become rigid (rigor mortis) and this rigidity disappears after a few hours.",
-      q:"Explain why the initial rigidity occurs and why it disappears later, relating it to ATP and the myosin cycle.",
-      keywords:["atp","myosin","actin","detachment","calcium","rigidity","decomposition","proteins"],
-      model:"Without ATP, myosin remains bound to actin and cannot detach, so the muscle stays contracted and rigid. Over time, protein degradation and tissue decomposition make the rigidity disappear."
-    }
   }
 ];
 
