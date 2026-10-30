@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Nerviós I - Exercicis</title>
+<style>
+  :root{
+    --primary:#0f4c5c; --secondary:#1b7f8c; --accent:#e36414;
+    --bg:#f4f7f8; --card:#ffffff; --text:#1f2933; --muted:#5c6b73;
+    --ok:#2a9d8f; --err:#c1121f; --review:#8a5a00; --essay:#6a4c93;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px;line-height:1.55;}
+  header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:28px 22px;border-radius:14px;margin-bottom:18px;box-shadow:0 6px 18px rgba(15,76,92,.25);}
+  header h1{margin:0 0 8px;font-size:1.7rem;}
+  header p{margin:0;opacity:.92;font-size:.98rem;}
+  .howto{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:18px;box-shadow:0 3px 10px rgba(0,0,0,.07);border-left:5px solid var(--accent);}
+  .howto summary{cursor:pointer;font-weight:700;color:var(--primary);font-size:1.05rem;list-style:none;display:flex;align-items:center;gap:8px;}
+  .howto summary::-webkit-details-marker{display:none;}
+  .howto summary::before{content:"▶";font-size:.8rem;transition:.2s;color:var(--accent);}
+  .howto[open] summary::before{transform:rotate(90deg);}
+  .howto .howto-body{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .howto .step{background:#f4f9fa;border-radius:10px;padding:12px 14px;border:1px solid #e0ecee;}
+  .howto .step h4{margin:0 0 6px;font-size:.9rem;color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;}
+  .howto .step p{margin:0;font-size:.88rem;color:var(--muted);}
+  .howto .legend{margin-top:14px;font-size:.85rem;color:var(--muted);background:#fbfdfd;padding:10px 14px;border-radius:8px;border:1px dashed #cbd5d9;}
+  .howto .legend b{color:var(--primary);}
+  .howto .legend code{background:#eef4f5;padding:1px 6px;border-radius:4px;font-size:.82rem;}
+  .lang-switch{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .lang-switch button{background:#fff;border:2px solid var(--secondary);color:var(--secondary);padding:8px 18px;border-radius:30px;font-weight:600;cursor:pointer;transition:.2s;font-size:.9rem;}
+  .lang-switch button.active,.lang-switch button:hover{background:var(--secondary);color:#fff;}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;background:#fff;padding:14px 16px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.07);align-items:center;}
+  .toolbar button{background:var(--primary);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;transition:.2s;}
+  .toolbar button:hover{background:var(--secondary);}
+  .toolbar button.alt{background:var(--accent);}
+  .toolbar button.alt:hover{background:#c0520e;}
+  .toolbar button.ghost{background:#eef4f5;color:var(--primary);border:2px solid var(--secondary);}
+  .toolbar button.ghost:hover{background:var(--secondary);color:#fff;}
+  .toolbar button.review{background:var(--review);}
+  .toolbar button.review:hover{background:#6b4600;}
+  .status{margin-left:auto;font-size:.85rem;color:var(--muted);font-weight:600;}
+  .exercise{background:var(--card);border-radius:12px;padding:20px 22px;margin-bottom:18px;box-shadow:0 3px 10px rgba(0,0,0,.07);border-left:5px solid var(--secondary);transition:.3s;}
+  .exercise.failed{border-left-color:var(--err);}
+  .exercise.corrected{border-left-color:var(--ok);}
+  .exercise h3{margin:0 0 12px;font-size:1.05rem;color:var(--primary);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .badge{font-size:.72rem;background:var(--accent);color:#fff;padding:3px 10px;border-radius:20px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;}
+  .q{font-weight:600;margin-bottom:10px;}
+  .options label{display:block;background:#eef4f5;padding:9px 13px;border-radius:8px;margin-bottom:7px;cursor:pointer;transition:.15s;border:1px solid transparent;}
+  .options label:hover{background:#d9e8ea;}
+  .options input{margin-right:8px;}
+  input[type="text"], select{width:100%;padding:10px 12px;border:2px solid #cbd5d9;border-radius:8px;font-size:.95rem;font-family:inherit;background:#fbfdfd;}
+  input[type="text"]:focus, select:focus{outline:none;border-color:var(--secondary);background:#fff;}
+  .match-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;align-items:center;}
+  .match-row span{background:#eef4f5;padding:8px 12px;border-radius:8px;font-size:.9rem;}
+  .match-row select{padding:8px;}
+  .order-list{list-style:none;padding:0;margin:0 0 10px;}
+  .order-list li{background:#eef4f5;padding:9px 13px;border-radius:8px;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+  .order-list input{width:60px;text-align:center;}
+  .btn-check{background:var(--primary);color:#fff;border:none;padding:11px 26px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;transition:.2s;}
+  .btn-check:hover{background:var(--secondary);}
+  .feedback{margin-top:10px;font-weight:600;font-size:.9rem;display:none;padding:9px 13px;border-radius:8px;}
+  .feedback.ok{background:#d8f3ef;color:#1b6b5e;display:block;}
+  .feedback.err{background:#fde2e4;color:#a4131d;display:block;}
+  .banner{background:#fff3cd;border:1px solid #ffe08a;color:#7a5b00;padding:12px 16px;border-radius:10px;margin-bottom:18px;font-size:.9rem;display:none;}
+  .banner.show{display:block;}
+  .banner button{margin-left:10px;background:var(--primary);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600;}
+  .banner button.ghost{background:#fff;color:var(--primary);border:1px solid var(--primary);}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:30px;padding:18px;}
+  .review-mode .exercise:not(.failed){display:none;}
+  .review-mode .exercise.failed{display:block;}
+  @media(max-width:600px){.match-row{grid-template-columns:1fr;}header h1{font-size:1.35rem;}.status{margin-left:0;width:100%;}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 Sistema Nerviós I — Exercicis</h1>
+  <p>Fisiología · Curs 2026-2027 · Dra. Cèlia Painous</p>
+</header>
+
+<details class="howto" open>
+  <summary id="howto-titol">ℹ️ Funcionament resumit — com utilitzar aquesta activitat</summary>
+  <div class="howto-body" id="howto-body"></div>
+  <div class="legend" id="howto-legend"></div>
+</details>
+
+<div class="lang-switch">
+  <button class="active" onclick="setLang('ca')">Català</button>
+  <button onclick="setLang('es')">Castellano</button>
+  <button onclick="setLang('en')">English</button>
+</div>
+
+<div class="toolbar">
+  <button class="ghost" id="btn-save" onclick="saveSession()">💾 Guardar sessió</button>
+  <button class="ghost" id="btn-load" onclick="loadSession()">📂 Recuperar sessió</button>
+  <button class="ghost" id="btn-reset" onclick="resetSession()">🗑️ Esborrar sessió</button>
+  <button class="review" id="reviewBtn" onclick="toggleReview()">🔁 Repàs d'errors</button>
+  <button class="ghost" id="btn-print" onclick="imprimir()">🖨 Imprimir</button>
+  <button class="ghost" id="btn-export" onclick="exportar()">📤 Exportar JSON</button>
+  <button class="ghost" id="btn-import" onclick="document.getElementById('fileInput').click()">📥 Importar JSON</button>
+  <input type="file" id="fileInput" accept=".json,application/json" style="display:none" onchange="importar(event)">
+  <span class="status" id="status">Sessió no guardada</span>
+</div>
+
+<div class="banner" id="banner"></div>
+<main id="quiz"></main>
+<footer>Fet per a pràctica de fisiologia · Sistema Nerviós I</footer>
+
+<script>
+/* ===== TRADUCCIONS ===== */
+const T = {
+  ca: {
+    check:"Comprova", correct:"✅ Correcte!", incorrect:"❌ Incorrecte. Resposta correcta: ",
+    select:"— Selecciona —", ex:"Exercici",
+    saved:"Sessió guardada correctament.", loaded:"Sessió recuperada.", noSession:"No hi ha cap sessió guardada.",
+    reset:"Sessió esborrada.", reviewOn:"Mode repàs activat: només es mostren els exercicis fallats.",
+    reviewOff:"Mode repàs desactivat: es mostren tots els exercicis.", reviewEmpty:"Encara no hi ha exercicis fallats per repassar.",
+    restorePrompt:"S'ha trobat una sessió guardada. Vols recuperar-la?", yes:"Sí, recupera", no:"No, comença de nou",
+    variantsOk:(c)=>`✔ Correcte. L'escriptura correcta és «${c}».`,
+    types:{fill:"Omple el buit",mc:"Elecció múltiple",match:"Relaciona",order:"Ordena",short:"Resposta curta"},
+    demanarNom:"Escriu el teu nom i cognoms:",
+    missatgeLliurament:"L'arxiu en PDF del Sistema Nerviós I s'ha de fer arribar a la professora per email. També penjar una còpia d'ell a la intranet. També cal fer una còpia de l'arxiu JSON que guarda la feina feta.",
+    imprimirTitol:"Full de resultats · Sistema Nerviós I", imprimirAlumne:"Alumne/a:", imprimirData:"Data:",
+    imprimirResum:"Resum", imprimirTotal:"Total preguntes", imprimirFetes:"Respostes fetes", imprimirEncerts:"Encerts", imprimirPct:"Percentatge",
+    imprimirDetall:"Detall de preguntes", imprimirNum:"Núm.", imprimirPregunta:"Pregunta", imprimirResposta:"Resposta", imprimirCorrecta:"Correcta",
+    imprimirEncert:"Encert", imprimirSi:"Sí", imprimirNo:"No", imprimirPendent:"Pendent",
+    popupBlocked:"El navegador ha bloquejat la finestra d'impressió. Activa les finestres emergents.",
+    toolbar:{
+      save:"💾 Guardar sessió", load:"📂 Recuperar sessió", reset:"🗑️ Esborrar sessió",
+      review:"🔁 Repàs d'errors", print:"🖨 Imprimir", export:"📤 Exportar JSON", import:"📥 Importar JSON",
+      reviewExit:"🔁 Sortir del repàs"
+    },
+    "howto-titol":"ℹ️ Funcionament resumit — com utilitzar aquesta activitat",
+    "howto-pas1-titol":"1. Idioma","howto-pas1-text":"Canvia entre <b>català</b>, <b>castellà</b> i <b>anglès</b>.",
+    "howto-pas2-titol":"2. Tipus d'exercici","howto-pas2-text":"5 tipus: <b>omplir buits</b>, <b>elecció múltiple</b>, <b>relacionar</b>, <b>ordenar</b> i de <b>redacció</b>.",
+    "howto-pas3-titol":"3. Comprovar","howto-pas3-text":"El botó <b>Comprova</b> corregeix. En redacció es validen <b>paraules clau</b>.",
+    "howto-pas4-titol":"4. Feedback","howto-pas4-text":"Verd = correcte, vermell = incorrecte amb la resposta correcta o model.",
+    "howto-pas5-titol":"5. Repàs d'errors","howto-pas5-text":"El botó <b>🔁 Repàs d'errors</b> amaga els encertats i mostra només els fallats.",
+    "howto-pas6-titol":"6. Guardar / Recuperar","howto-pas6-text":"<b>💾 Guardar</b> desa al navegador. <b>📂 Recuperar</b> restaura. <b>🗑️ Esborrar</b> elimina.",
+    "howto-pas7-titol":"7. Imprimir / Exportar / Importar","howto-pas7-text":"<b>🖨 Imprimir</b> genera full de resultats. <b>📤 Exportar</b> descarrega JSON. <b>📥 Importar</b> carrega un JSON exportat (per revisar).",
+    "howto-enviar-titol":"📤 Com enviar la feina a la professora",
+    "howto-enviar-intro":"Un cop hagis acabat l'activitat, fes aquests <b>3 passos</b>:",
+    "howto-enviar-pas1":"<b>Guarda la sessió.</b> Prem <b>💾 Guardar sessió</b> i escriu el teu <b>nom i cognoms</b>. Així el PDF i el JSON sortiran amb el teu nom.",
+    "howto-enviar-pas2":"<b>Penja el PDF a la carpeta compartida.</b> Prem <b>🖨 Imprimir</b>, tria <b>\"Desa com a PDF\"</b>, desa'l com a <code>cognom_nom_t4.pdf</code> i puja'l a la carpeta de la intranet.",
+    "howto-enviar-pas3":"<b>Envia el JSON per correu.</b> Prem <b>📤 Exportar JSON</b>, desa'l com a <code>cognom_nom_t4.json</code> i envia'l adjunt a la professora.",
+    "howto-enviar-avis":"<b>⚠️ Important:</b> treballa sempre des del <b>mateix navegador i el mateix ordinador</b>. Si canvies d'equip, exporta el JSON abans de marxar i importa'l a l'altre amb <b>📥 Importar JSON</b>.",
+    "howto-legend":"<b>Consell:</b> fes servir el <b>Repàs d'errors</b>. Les dades es guarden a <code>localStorage</code>."
+  },
+  es: {
+    check:"Comprobar", correct:"✅ ¡Correcto!", incorrect:"❌ Incorrecto. Respuesta correcta: ",
+    select:"— Selecciona —", ex:"Ejercicio",
+    saved:"Sesión guardada correctamente.", loaded:"Sesión recuperada.", noSession:"No hay ninguna sesión guardada.",
+    reset:"Sesión borrada.", reviewOn:"Modo repaso activado: solo se muestran los ejercicios fallados.",
+    reviewOff:"Modo repaso desactivado: se muestran todos los ejercicios.", reviewEmpty:"Todavía no hay ejercicios fallados para repasar.",
+    restorePrompt:"Se ha encontrado una sesión guardada. ¿Quieres recuperarla?", yes:"Sí, recuperar", no:"No, empezar de nuevo",
+    variantsOk:(c)=>`✔ Correcto. La escritura correcta es «${c}».`,
+    types:{fill:"Rellenar hueco",mc:"Elección múltiple",match:"Relacionar",order:"Ordenar",short:"Respuesta corta"},
+    demanarNom:"Escribe tu nombre y apellidos:",
+    missatgeLliurament:"El archivo en PDF del Sistema Nervioso I debe hacerse llegar a la profesora por email. También hay que colgar una copia en la intranet. También hay que hacer una copia del archivo JSON.",
+    imprimirTitol:"Hoja de resultados · Sistema Nervioso I", imprimirAlumne:"Alumno/a:", imprimirData:"Fecha:",
+    imprimirResum:"Resumen", imprimirTotal:"Total preguntas", imprimirFetes:"Respuestas hechas", imprimirEncerts:"Aciertos", imprimirPct:"Porcentaje",
+    imprimirDetall:"Detalle de preguntas", imprimirNum:"N.º", imprimirPregunta:"Pregunta", imprimirResposta:"Respuesta", imprimirCorrecta:"Correcta",
+    imprimirEncert:"Acierto", imprimirSi:"Sí", imprimirNo:"No", imprimirPendent:"Pendiente",
+    popupBlocked:"El navegador ha bloqueado la ventana de impresión.",
+    toolbar:{
+      save:"💾 Guardar sesión", load:"📂 Recuperar sesión", reset:"🗑️ Borrar sesión",
+      review:"🔁 Repaso de errores", print:"🖨 Imprimir", export:"📤 Exportar JSON", import:"📥 Importar JSON",
+      reviewExit:"🔁 Salir del repaso"
+    },
+    "howto-titol":"ℹ️ Funcionamiento resumido — cómo utilizar esta actividad",
+    "howto-pas1-titol":"1. Idioma","howto-pas1-text":"Cambia entre <b>catalán</b>, <b>castellano</b> e <b>inglés</b>.",
+    "howto-pas2-titol":"2. Tipo de ejercicio","howto-pas2-text":"5 tipos: <b>rellenar huecos</b>, <b>elección múltiple</b>, <b>relacionar</b>, <b>ordenar</b> y de <b>redacción</b>.",
+    "howto-pas3-titol":"3. Comprobar","howto-pas3-text":"El botón <b>Comprueba</b> corrige. En redacción se validan <b>palabras clave</b>.",
+    "howto-pas4-titol":"4. Feedback","howto-pas4-text":"Verde = correcto, rojo = incorrecto con la respuesta correcta o modelo.",
+    "howto-pas5-titol":"5. Repaso de errores","howto-pas5-text":"El botón <b>🔁 Repaso</b> esconde los ejercicios correctos.",
+    "howto-pas6-titol":"6. Guardar / Recuperar","howto-pas6-text":"<b>💾 Guardar</b> guarda en el navegador. <b>📂 Recuperar</b> restaura. <b>🗑️ Borrar</b> elimina.",
+    "howto-pas7-titol":"7. Imprimir / Exportar / Importar","howto-pas7-text":"<b>🖨 Imprimir</b> genera hoja. <b>📤 Exportar</b> descarga JSON. <b>📥 Importar</b> carga un JSON exportado.",
+    "howto-enviar-titol":"📤 Cómo enviar el trabajo a la profesora",
+    "howto-enviar-intro":"Cuando hayas terminado la actividad, haz estos <b>3 pasos</b>:",
+    "howto-enviar-pas1":"<b>Guarda la sesión.</b> Pulsa <b>💾 Guardar sesión</b> y escribe tu <b>nombre y apellidos</b>. Así el PDF y el JSON saldrán con tu nombre.",
+    "howto-enviar-pas2":"<b>Cuelga el PDF en la carpeta compartida.</b> Pulsa <b>🖨 Imprimir</b>, elige <b>\"Guardar como PDF\"</b>, guárdalo como <code>apellido_nombre_t4.pdf</code> y súbelo a la carpeta de la intranet.",
+    "howto-enviar-pas3":"<b>Envía el JSON por correo.</b> Pulsa <b>📤 Exportar JSON</b>, guárdalo como <code>apellido_nombre_t4.json</code> y envíalo adjunto a la profesora.",
+    "howto-enviar-avis":"<b>⚠️ Importante:</b> trabaja siempre desde el <b>mismo navegador y el mismo ordenador</b>. Si cambias de equipo, exporta el JSON antes de irte e impórtalo en el otro con <b>📥 Importar JSON</b>.",
+    "howto-legend":"<b>Consejo:</b> usa <b>Repaso de errores</b>. Los datos se guardan en <code>localStorage</code>."
+  },
+  en: {
+    check:"Check", correct:"✅ Correct!", incorrect:"❌ Incorrect. Correct answer: ",
+    select:"— Select —", ex:"Exercise",
+    saved:"Session saved successfully.", loaded:"Session restored.", noSession:"No saved session found.",
+    reset:"Session deleted.", reviewOn:"Review mode on: only failed exercises are shown.",
+    reviewOff:"Review mode off: all exercises are shown.", reviewEmpty:"No failed exercises to review yet.",
+    restorePrompt:"A saved session was found. Do you want to restore it?", yes:"Yes, restore", no:"No, start fresh",
+    variantsOk:(c)=>`✔ Correct. The correct spelling is «${c}».`,
+    types:{fill:"Fill in the blank",mc:"Multiple choice",match:"Match",order:"Order",short:"Short answer"},
+    demanarNom:"Write your name and surname:",
+    missatgeLliurament:"The PDF file of Nervous System I must be sent to the teacher by email. A copy must also be uploaded to the intranet. You must also copy the JSON file.",
+    imprimirTitol:"Results sheet · Nervous System I", imprimirAlumne:"Student:", imprimirData:"Date:",
+    imprimirResum:"Summary", imprimirTotal:"Total questions", imprimirFetes:"Questions answered", imprimirEncerts:"Correct", imprimirPct:"Percentage",
+    imprimirDetall:"Question detail", imprimirNum:"No.", imprimirPregunta:"Question", imprimirResposta:"Answer", imprimirCorrecta:"Correct",
+    imprimirEncert:"Correct?", imprimirSi:"Yes", imprimirNo:"No", imprimirPendent:"Pending",
+    popupBlocked:"The browser has blocked the print window.",
+    toolbar:{
+      save:"💾 Save session", load:"📂 Restore session", reset:"🗑️ Delete session",
+      review:"🔁 Review errors", print:"🖨 Print", export:"📤 Export JSON", import:"📥 Import JSON",
+      reviewExit:"🔁 Exit review"
+    },
+    "howto-titol":"ℹ️ Summary of how it works",
+    "howto-pas1-titol":"1. Language","howto-pas1-text":"Switch between <b>Catalan</b>, <b>Spanish</b> and <b>English</b>.",
+    "howto-pas2-titol":"2. Exercise type","howto-pas2-text":"5 types: <b>fill in the blanks</b>, <b>multiple choice</b>, <b>match</b>, <b>order</b> and <b>essay</b>.",
+    "howto-pas3-titol":"3. Check","howto-pas3-text":"The <b>Check</b> button corrects. In essays, <b>keywords</b> are validated.",
+    "howto-pas4-titol":"4. Feedback","howto-pas4-text":"Green = correct, red = incorrect with correct or model answer.",
+    "howto-pas5-titol":"5. Review errors","howto-pas5-text":"The <b>🔁 Review</b> button hides correct exercises.",
+    "howto-pas6-titol":"6. Save / Restore","howto-pas6-text":"<b>💾 Save</b> stores in the browser. <b>📂 Restore</b> brings it back. <b>🗑️ Delete</b> removes it.",
+    "howto-pas7-titol":"7. Print / Export / Import","howto-pas7-text":"<b>🖨 Print</b> generates a results sheet. <b>📤 Export</b> downloads JSON. <b>📥 Import</b> loads an exported JSON.",
+    "howto-enviar-titol":"📤 How to send your work to the teacher",
+    "howto-enviar-intro":"Once you have finished the activity, follow these <b>3 steps</b>:",
+    "howto-enviar-pas1":"<b>Save the session.</b> Click <b>💾 Save session</b> and write your <b>name and surname</b>. This way the PDF and the JSON will show your name.",
+    "howto-enviar-pas2":"<b>Upload the PDF to the shared folder.</b> Click <b>🖨 Print</b>, choose <b>\"Save as PDF\"</b>, save it as <code>surname_name_t4.pdf</code> and upload it to the intranet folder.",
+    "howto-enviar-pas3":"<b>Send the JSON by email.</b> Click <b>📤 Export JSON</b>, save it as <code>surname_name_t4.json</code> and send it attached to the teacher.",
+    "howto-enviar-avis":"<b>⚠️ Important:</b> always work from the <b>same browser and the same computer</b>. If you change device, export the JSON before leaving and import it on the other device with <b>📥 Import JSON</b>.",
+    "howto-legend":"<b>Tip:</b> use <b>Review errors</b>. Data is stored in <code>localStorage</code>."
+  }
+};
+
+/* ===== EXERCICIS (20) — TEMA 4 ===== */
+const EX = [
+  {type:"mc",ca:{q:"Quina és la funció principal de la neurona?",o:["Produir mielina","Rebre, processar i transmetre informació","Transportar oxigen","Protegir exclusivament contra infeccions"],a:1},es:{q:"¿Cuál es la función principal de la neurona?",o:["Producir mielina","Recibir, procesar y transmitir información","Transportar oxígeno","Proteger exclusivamente frente a infecciones"],a:1},en:{q:"What is the main function of a neuron?",o:["Produce myelin","Receive, process and transmit information","Transport oxygen","Exclusively protect against infections"],a:1}},
+
+  {type:"fill",ca:{q:"Les ________ són cèl·lules del sistema nerviós que donen suport, protegeixen i aïllen les neurones.",a:"cèl·lules glials",variants:["cèl·lules glials","celulas gliales","glial cells","glia"]},es:{q:"Las ________ son células del sistema nervioso que apoyan, protegen y aíslan las neuronas.",a:"células gliales",variants:["células gliales","cèl·lules glials","glial cells","glia"]},en:{q:"________ are nervous system cells that support, protect and insulate neurons.",a:"glial cells",variants:["glial cells","glia","cèl·lules glials","células gliales"]}},
+
+  {type:"mc",ca:{q:"Quines cèl·lules produeixen mielina al Sistema Nerviós Central (SNC) i al Perifèric (SNP)?",o:["Els astròcits exclusivament","La microglia","Els oligodendrocits al SNC i les cèl·lules de Schwann al SNP","Les neurones postsinàptiques"],a:2},es:{q:"¿Qué células producen mielina en el Sistema Nervioso Central (SNC) y en el Periférico (SNP)?",o:["Los astrocitos exclusivamente","La microglía","Los oligodendrocitos en el SNC y las células de Schwann en el SNP","Las neuronas postsinápticas"],a:2},en:{q:"Which cells produce myelin in the Central Nervous System (CNS) and Peripheral (PNS)?",o:["Astrocytes exclusively","Microglia","Oligodendrocytes in the CNS and Schwann cells in the PNS","Postsynaptic neurons"],a:2}},
+
+  {type:"mc",ca:{q:"Què és la mielina?",o:["Una proteïna que uneix el múscul a l'os","Una capa aïllant rica en lípids que envolta segments de l'axó","Un tipus de neurona sensorial","El líquid que circula per la medul·la espinal"],a:1},es:{q:"¿Qué es la mielina?",o:["Una proteína que une el músculo al hueso","Una capa aislante rica en lípidos que envuelve segmentos del axón","Un tipo de neurona sensorial","El líquido que circula por la médula espinal"],a:1},en:{q:"What is myelin?",o:["A protein that attaches muscle to bone","A lipid-rich insulating layer that wraps segments of the axon","A type of sensory neuron","The fluid circulating in the spinal cord"],a:1}},
+
+  {type:"fill",ca:{q:"En la conducció saltatòria, el potencial d'acció es regenera únicament en els ________.",a:"nodes de Ranvier",variants:["nodes de Ranvier","nòduls de Ranvier"]},es:{q:"En la conducción saltatoria, el potencial de acción se regenera únicamente en los ________.",a:"nódulos de Ranvier",variants:["nódulos de Ranvier","nodos de Ranvier"]},en:{q:"In saltatory conduction, the action potential regenerates only at the ________.",a:"nodes of Ranvier",variants:["nodes of Ranvier","nódulos de Ranvier"]}},
+
+  {type:"mc",ca:{q:"Quin és el principal avantatge de la conducció saltatòria respecte a la contínua?",o:["És més lenta però més precisa","És ultra-ràpida i gasta menys energia","Permet que el senyal es debiliti progressivament","Només es produeix en neurones sense mielina"],a:1},es:{q:"¿Cuál es la principal ventaja de la conducción saltatoria respecto a la continua?",o:["Es más lenta pero más precisa","Es ultrarrápida y gasta menos energía","Permite que la señal se debilite progresivamente","Solo se produce en neuronas sin mielina"],a:1},en:{q:"What is the main advantage of saltatory conduction over continuous?",o:["It is slower but more precise","It is ultra-fast and uses less energy","It allows the signal to weaken progressively","It only occurs in unmyelinated neurons"],a:1}},
+
+  {type:"order",shuffle:true,ca:{q:"Ordena les etapes del potencial d'acció (1-3):",items:["En repòs (l'interior és més negatiu)","El estímul supera el llindar i es genera el potencial","L'impuls recorre l'axó sense perdre intensitat"],a:[1,2,3]},es:{q:"Ordena las etapas del potencial de acción (1-3):",items:["En reposo (el interior es más negativo)","El estímulo supera el umbral y se genera el potencial","El impulso recorre el axón sin perder intensidad"],a:[1,2,3]},en:{q:"Order the stages of the action potential (1-3):",items:["At rest (the inside is more negative)","The stimulus exceeds the threshold and the potential is generated","The impulse travels along the axon without losing intensity"],a:[1,2,3]}},
+
+  {type:"mc",ca:{q:"Què significa que el potencial d'acció segueix el principi de «tot o res»?",o:["Que el seu tamany augmenta quan l'estímul és més intens","Que es genera completament quan s'assoleix el llindar","Que només apareix en neurones mielinitzades","Que pot aturar-se a mig axó"],a:1},es:{q:"¿Qué significa que el potencial de acción sigue el principio de «todo o nada»?",o:["Que su tamaño aumenta cuando el estímulo es más intenso","Que se genera completamente cuando se alcanza el umbral","Que solo aparece en neuronas mielinizadas","Que puede detenerse a mitad del axón"],a:1},en:{q:"What does it mean that the action potential follows the 'all-or-nothing' principle?",o:["Its size increases when the stimulus is more intense","It is generated completely when the threshold is reached","It only appears in myelinated neurons","It can stop halfway along the axon"],a:1}},
+
+  {type:"fill",ca:{q:"Per augmentar la intensitat de l'estímul, els potencials d'acció no augmenten de tamany, sinó que augmenta la seva ________.",a:"freqüència",variants:["freqüència","frecuencia","frequency"]},es:{q:"Para aumentar la intensidad del estímulo, los potenciales de acción no aumentan de tamaño, sino que aumenta su ________.",a:"frecuencia",variants:["frecuencia","freqüència","frequency"]},en:{q:"To increase stimulus intensity, action potentials do not increase in size, but their ________ increases.",a:"frequency",variants:["frequency","freqüència","frecuencia"]}},
+
+  {type:"mc",ca:{q:"Què succeeix a la sinapsis perquè la informació passi d'una neurona a una altra?",o:["L'impulsió elèctrica salta directament sense mediadors","La neurona presinàptica allibera neurotransmissors a l'espai sinàptic","L'axó es fusiona amb la dendrita","El potencial d'acció s'atura i no continua"],a:1},es:{q:"¿Qué sucede en la sinapsis para que la información pase de una neurona a otra?",o:["El impulso eléctrico salta directamente sin mediadores","La neurona presináptica libera neurotransmisores al espacio sináptico","El axón se fusiona con la dendrita","El potencial de acción se detiene y no continúa"],a:1},en:{q:"What happens at the synapse so that information passes from one neuron to another?",o:["The electrical impulse jumps directly without mediators","The presynaptic neuron releases neurotransmitters into the synaptic space","The axon fuses with the dendrite","The action potential stops and does not continue"],a:1}},
+
+  {type:"match",shuffle:true,ca:{q:"Relaciona cada concepte amb la seva descripció:",pairs:[["Sinapsi","Comunicació entre neurones mitjançant neurotransmissors"],["Neurotransmissor","Missatger químic que excita o inhibeix la neurona postsinàptica"],["Hendidura sinàptica","Espai entre la neurona presinàptica i la postsinàptica"]]},es:{q:"Relaciona cada concepto con su descripción:",pairs:[["Sinapsis","Comunicación entre neuronas mediante neurotransmisores"],["Neurotransmisor","Mensajero químico que excita o inhibe la neurona postsináptica"],["Hendidura sináptica","Espacio entre la neurona presináptica y la postsináptica"]]},en:{q:"Match each concept with its description:",pairs:[["Synapse","Communication between neurons via neurotransmitters"],["Neurotransmitter","Chemical messenger that excites or inhibits the postsynaptic neuron"],["Synaptic cleft","Space between the presynaptic and postsynaptic neuron"]]}},
+
+  {type:"mc",ca:{q:"Com s'organitza el Sistema Nerviós Central (SNC)?",o:["Nervis cranials, nervis espinals i ganglis","Encèfal i medul·la espinal","Sistema somàtic i sistema autònom","Simpàtic i parasimpàtic"],a:1},es:{q:"¿Cómo se organiza el Sistema Nervioso Central (SNC)?",o:["Nervios craneales, nervios espinales y ganglios","Encéfalo y médula espinal","Sistema somático y sistema autónomo","Simpático y parasimpático"],a:1},en:{q:"How is the Central Nervous System (CNS) organized?",o:["Cranial nerves, spinal nerves and ganglia","Brain and spinal cord","Somatic system and autonomic system","Sympathetic and parasympathetic"],a:1}},
+
+  {type:"mc",ca:{q:"Quina és la funció del Sistema Nerviós Perifèric (SNP)?",o:["Integrar i processar la informació de manera centralitzada","Comunicar el SNC amb la resta del cos","Produir mielina per al SNC","Regular exclusivament les emocions"],a:1},es:{q:"¿Cuál es la función del Sistema Nervioso Periférico (SNP)?",o:["Integrar y procesar la información de forma centralizada","Comunicar el SNC con el resto del cuerpo","Producir mielina para el SNC","Regular exclusivamente las emociones"],a:1},en:{q:"What is the function of the Peripheral Nervous System (PNS)?",o:["Integrate and process information centrally","Communicate the CNS with the rest of the body","Produce myelin for the CNS","Exclusively regulate emotions"],a:1}},
+
+  {type:"mc",ca:{q:"Segons la presentació, és cert que les persones creatives utilitzen més el hemisferi dret i les racionals l'esquerre?",o:["Sí, és una llei absoluta de la neurociència","No, és un mite. La creativitat i el raonament requereixen xarxes de tots dos hemisferis","Sí, però només en la infància","Depèn del sexe de la persona"],a:1},es:{q:"Según la presentación, ¿es cierto que las personas creativas utilizan más el hemisferio derecho y las racionales el izquierdo?",o:["Sí, es una ley absoluta de la neurociencia","No, es un mito. La creatividad y el razonamiento requieren redes de ambos hemisferios","Sí, pero solo en la infancia","Depende del sexo de la persona"],a:1},en:{q:"According to the presentation, is it true that creative people use the right hemisphere more and rational people the left?",o:["Yes, it is an absolute law of neuroscience","No, it is a myth. Creativity and reasoning require networks from both hemispheres","Yes, but only in childhood","It depends on the person's sex"],a:1}},
+
+  {type:"match",shuffle:true,ca:{q:"Relaciona cada lòbul cerebral amb la seva funció principal:",pairs:[["Lòbul frontal","Planificació, control del moviment voluntari i conducta social"],["Lòbul parietal","Integració de la sensibilitat i orientació espacial"],["Lòbul temporal","Audició, memòria i comprensió del llenguatge"],["Lòbul occipital","Processa la informació visual"]]},es:{q:"Relaciona cada lóbulo cerebral con su función principal:",pairs:[["Lóbulo frontal","Planificación, control del movimiento voluntario y conducta social"],["Lóbulo parietal","Integración de la sensibilidad y orientación espacial"],["Lóbulo temporal","Audición, memoria y comprensión del lenguaje"],["Lóbulo occipital","Procesa la información visual"]]},en:{q:"Match each brain lobe with its main function:",pairs:[["Frontal lobe","Planning, voluntary movement control and social behavior"],["Parietal lobe","Integration of sensitivity and spatial orientation"],["Temporal lobe","Hearing, memory and language comprehension"],["Occipital lobe","Processes visual information"]]}},
+
+  {type:"mc",ca:{q:"Quin lòbul cerebral rep i interpreta la informació del tacte, la pressió, el dolor i la temperatura?",o:["Lòbul frontal","Lòbul parietal","Lòbul temporal","Lòbul occipital"],a:1},es:{q:"¿Qué lóbulo cerebral recibe e interpreta la información del tacto, la presión, el dolor y la temperatura?",o:["Lóbulo frontal","Lóbulo parietal","Lóbulo temporal","Lóbulo occipital"],a:1},en:{q:"Which brain lobe receives and interprets information about touch, pressure, pain and temperature?",o:["Frontal lobe","Parietal lobe","Temporal lobe","Occipital lobe"],a:1}},
+
+  {type:"mc",ca:{q:"Quina estructura regula la temperatura corporal, la gana, la set, la son i les respostes hormonals?",o:["Tàlem","Hipotàlem","Ganglis basals","Cerebel"],a:1},es:{q:"¿Qué estructura regula la temperatura corporal, el hambre, la sed, el sueño y las respuestas hormonales?",o:["Tálamo","Hipotálamo","Ganglios basales","Cerebelo"],a:1},en:{q:"Which structure regulates body temperature, hunger, thirst, sleep and hormonal responses?",o:["Thalamus","Hypothalamus","Basal ganglia","Cerebellum"],a:1}},
+
+  {type:"mc",ca:{q:"Quina és la funció principal dels ganglis basals?",o:["Processar la informació visual","Seleccionar i automatitzar el moviment (fluïdesa i amplitud)","Regular el ritme cardíac i la respiració","Detectar la longitud del múscul"],a:1},es:{q:"¿Cuál es la función principal de los ganglios basales?",o:["Procesar la información visual","Seleccionar y automatizar el movimiento (fluidez y amplitud)","Regular el ritmo cardíaco y la respiración","Detectar la longitud del músculo"],a:1},en:{q:"What is the main function of the basal ganglia?",o:["Process visual information","Select and automate movement (fluidity and amplitude)","Regulate heart rate and breathing","Detect muscle length"],a:1}},
+
+  {type:"mc",ca:{q:"Quina funció vital regula el tronc de l'encèfal?",o:["La planificació del moviment fi","La respiració i el ritme cardiovascular","La visió en color","L'aprenentatge de nous idiomes"],a:1},es:{q:"¿Qué función vital regula el tronco del encéfalo?",o:["La planificación del movimiento fino","La respiración y el ritmo cardiovascular","La visión en color","El aprendizaje de nuevos idiomas"],a:1},en:{q:"Which vital function does the brainstem regulate?",o:["Planning fine movement","Respiration and cardiovascular rhythm","Color vision","Learning new languages"],a:1}},
+
+  {type:"fill",ca:{q:"El ________ compara el moviment previst amb el realitzat i corregeix els errors, permetent l'aprenentatge motor (per exemple, en repetir una pirueta).",a:"cerebel",variants:["cerebel","cerebelo","cerebellum"]},es:{q:"El ________ compara el movimiento previsto con el realizado y corrige los errores, permitiendo el aprendizaje motor (por ejemplo, al repetir una pirueta).",a:"cerebelo",variants:["cerebelo","cerebel","cerebellum"]},en:{q:"The ________ compares the intended movement with the actual one and corrects errors, enabling motor learning (e.g., when repeating a pirouette).",a:"cerebellum",variants:["cerebellum","cerebel","cerebelo"]}},
+
+  {type:"mc",ca:{q:"Quin tipus de fibres condueixen la informació sensorial cap al cervell?",o:["Vies descendents","Vies ascendents","Nervis motors","Ganglis simpàtics"],a:1},es:{q:"¿Qué tipo de fibras conducen la información sensorial hacia el cerebro?",o:["Vías descendentes","Vías ascendentes","Nervios motores","Ganglios simpáticos"],a:1},en:{q:"Which type of fibers carry sensory information to the brain?",o:["Descending pathways","Ascending pathways","Motor nerves","Sympathetic ganglia"],a:1}},
+
+  {type:"mc",ca:{q:"Què és l'arc reflex?",o:["Una resposta voluntària que passa per l'escorça cerebral","Una resposta automàtica que passa per la medul·la espinal sense passar per la consciència","Un moviment après a través de la pràctica","Una sinapsis exclusivament elèctrica"],a:1},es:{q:"¿Qué es el arco reflejo?",o:["Una respuesta voluntaria que pasa por la corteza cerebral","Una respuesta automática que pasa por la médula espinal sin pasar por la conciencia","Un movimiento aprendido a través de la práctica","Una sinapsis exclusivamente eléctrica"],a:1},en:{q:"What is the reflex arc?",o:["A voluntary response that passes through the cerebral cortex","An automatic response that passes through the spinal cord without consciousness","A movement learned through practice","An exclusively electrical synapse"],a:1}}
+];
+
+/* ===== ESTAT ===== */
+let currentLang = "ca";
+let results = {};
+let reviewMode = false;
+let estat = { nomAlumne:"" };
+const STORAGE_KEY = "sistemanervios_t4_v1";
+
+/* ===== RENDER ===== */
+function setLang(lang){
+  currentLang = lang;
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  document.querySelector(`.lang-switch button[onclick="setLang('${lang}')"]`).classList.add("active");
+  renderToolbar();
+  render(); applyReviewFilter(); renderHowto();
+}
+
+function renderToolbar(){
+  const t = T[currentLang].toolbar;
+  document.getElementById("btn-save").textContent = t.save;
+  document.getElementById("btn-load").textContent = t.load;
+  document.getElementById("btn-reset").textContent = t.reset;
+  document.getElementById("btn-print").textContent = t.print;
+  document.getElementById("btn-export").textContent = t.export;
+  document.getElementById("btn-import").textContent = t.import;
+  document.getElementById("reviewBtn").textContent = reviewMode ? t.reviewExit : t.review;
+}
+
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function barrejarOpcions(ex){
+  if(!ex.shuffle) return {opcions:ex[currentLang].o, correcteIndex:ex[currentLang].a};
+  const opcions = ex[currentLang].o;
+  const parells = opcions.map((t,i)=>({t,orig:i}));
+  const barrejats = shuffleArray(parells);
+  return {opcions:barrejats.map(x=>x.t), correcteIndex:barrejats.findIndex(x=>x.orig===ex[currentLang].a)};
+}
+
+function renderHowto(){
+  const t = T[currentLang];
+  const titol = document.getElementById("howto-titol");
+  const body = document.getElementById("howto-body");
+  const legend = document.getElementById("howto-legend");
+  if(!titol||!body||!legend) return;
+  titol.textContent = t["howto-titol"];
+
+  let html = "";
+  for(let i=1;i<=7;i++){
+    html += `<div class="step"><h4>${t["howto-pas"+i+"-titol"]}</h4><p>${t["howto-pas"+i+"-text"]}</p></div>`;
+  }
+  html += `
+    <div class="step" style="grid-column:1/-1;background:#e8f5e9;border-color:#a5d6a7;">
+      <h4 style="color:#2e7d32;">${t["howto-enviar-titol"]}</h4>
+      <p>${t["howto-enviar-intro"]}</p>
+      <ol style="margin:8px 0 0 18px;padding:0;font-size:.88rem;color:#1f2933;">
+        <li>${t["howto-enviar-pas1"]}</li>
+        <li>${t["howto-enviar-pas2"]}</li>
+        <li>${t["howto-enviar-pas3"]}</li>
+      </ol>
+      <p style="margin-top:10px;">${t["howto-enviar-avis"]}</p>
+    </div>`;
+  body.innerHTML = html;
+  legend.innerHTML = t["howto-legend"];
+}
+
+function render(){
+  const quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+  EX.forEach((ex,i)=>{
+    const d = ex[currentLang];
+    const div = document.createElement("div");
+    div.className = "exercise";
+    div.id = "ex"+i;
+    let html = `<h3>${T[currentLang].ex} ${i+1} <span class="badge">${T[currentLang].types[ex.type]}</span></h3>`;
+    html += `<p class="q">${d.q}</p>`;
+    if(ex.type==="mc"){
+      const {opcions, correcteIndex} = barrejarOpcions(ex);
+      ex._correcteIndexActual = correcteIndex;
+      html += `<div class="options">`;
+      opcions.forEach((opt,j)=>{ html += `<label><input type="radio" name="q${i}" value="${j}"> ${opt}</label>`; });
+      html += `</div>`;
+    } else if(ex.type==="fill"||ex.type==="short"){
+      html += `<input type="text" id="in${i}" placeholder="${T[currentLang].select.replace('— ','').replace(' —','')}...">`;
+    } else if(ex.type==="match"){
+      const parells = d.pairs;
+      let ordreOpcions = parells.map((_,k)=>k);
+      if(ex.shuffle) ordreOpcions = shuffleArray(ordreOpcions);
+      ex._ordreOpcions = ordreOpcions;
+      parells.forEach((p,j)=>{
+        html += `<div class="match-row"><span>${p[0]}</span><select id="m${i}_${j}"><option value="">${T[currentLang].select}</option>${ordreOpcions.map((origIdx)=>`<option value="${origIdx}">${parells[origIdx][1]}</option>`).join("")}</select></div>`;
+      });
+    } else if(ex.type==="order"){
+      let items = d.items.slice();
+      let ordreItems;
+      if(ex.shuffle){
+        const idxs = items.map((_,k)=>k);
+        const barrejats = shuffleArray(idxs);
+        items = barrejats.map(k=>d.items[k]);
+        ordreItems = barrejats.map(orig=>orig+1);
+      } else { ordreItems = items.map((_,k)=>k+1); }
+      ex._ordreCorrecte = ordreItems;
+      html += `<ul class="order-list">`;
+      items.forEach((it,j)=>{ html += `<li><input type="number" min="1" max="${items.length}" id="o${i}_${j}"> ${it}</li>`; });
+      html += `</ul>`;
+    }
+    html += `<button class="btn-check" onclick="check(${i})">${T[currentLang].check}</button>`;
+    html += `<div class="feedback" id="fb${i}"></div>`;
+    div.innerHTML = html;
+    quiz.appendChild(div);
+  });
+  updateStatus();
+}
+
+/* ===== CORRECCIÓ ===== */
+function normalize(s){
+  return s.toString().toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[.,;:!?·\-_.]/g,"").replace(/\s+/g,"");
+}
+
+function check(i, silent){
+  const ex = EX[i], d = ex[currentLang];
+  const fb = document.getElementById("fb"+i);
+  const card = document.getElementById("ex"+i);
+  let ok = false, correctText = "";
+
+  if(ex.type==="mc"){
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    const correcteIndex = ex._correcteIndexActual !== undefined ? ex._correcteIndexActual : d.a;
+    if(sel && parseInt(sel.value)===correcteIndex) ok = true;
+    correctText = d.o[correcteIndex];
+  } else if(ex.type==="fill"||ex.type==="short"){
+    const val = document.getElementById("in"+i).value;
+    const variants = d.variants && d.variants.length ? d.variants : [d.a];
+    if(variants.some(v=>normalize(v)===normalize(val))) ok = true;
+    correctText = d.a;
+    if(ok && normalize(val)!==normalize(d.a) && d.variants && d.variants.length){
+      fb.className = "feedback ok";
+      fb.innerHTML = T[currentLang].variantsOk(d.a);
+      results[i] = true;
+      card.classList.remove("corrected","failed"); card.classList.add("corrected");
+      if(!silent){ updateStatus(); if(reviewMode) applyReviewFilter(); }
+      return;
+    }
+  } else if(ex.type==="match"){
+    ok = true;
+    d.pairs.forEach((p,j)=>{ const sel = document.getElementById("m"+i+"_"+j).value; if(parseInt(sel)!==j) ok=false; });
+    correctText = d.pairs.map((p,j)=>`${p[0]} → ${p[1]}`).join("; ");
+  } else if(ex.type==="order"){
+    ok = true;
+    const ordreCorrecte = ex._ordreCorrecte || d.a;
+    ordreCorrecte.forEach((val,j)=>{ const inp = document.getElementById("o"+i+"_"+j).value; if(parseInt(inp)!==val) ok=false; });
+    correctText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+  }
+
+  fb.className = "feedback " + (ok?"ok":"err");
+  fb.textContent = ok ? T[currentLang].correct : T[currentLang].incorrect + correctText;
+  results[i] = ok;
+  card.classList.remove("corrected","failed"); card.classList.add(ok?"corrected":"failed");
+  if(!silent){ updateStatus(); if(reviewMode) applyReviewFilter(); }
+}
+
+/* ===== REPÀS ===== */
+function toggleReview(){
+  if(!reviewMode){
+    const failed = Object.keys(results).filter(k=>results[k]===false);
+    if(failed.length===0){
+      showBanner(T[currentLang].reviewEmpty);
+      return;
+    }
+    reviewMode = true;
+    document.body.classList.add("review-mode");
+    document.getElementById("reviewBtn").textContent = T[currentLang].toolbar.reviewExit;
+    showBanner(T[currentLang].reviewOn);
+  } else {
+    reviewMode = false;
+    document.body.classList.remove("review-mode");
+    document.getElementById("reviewBtn").textContent = T[currentLang].toolbar.review;
+    showBanner(T[currentLang].reviewOff);
+  }
+  applyReviewFilter();
+  updateStatus();
+}
+
+function applyReviewFilter(){
+  document.querySelectorAll(".exercise").forEach(card=>{
+    card.classList.remove("failed","corrected");
+    const idx = parseInt(card.id.replace("ex",""));
+    if(results[idx]===true) card.classList.add("corrected");
+    if(results[idx]===false) card.classList.add("failed");
+  });
+}
+
+/* ===== SESSIÓ ===== */
+function collectState(){
+  const state = { lang:currentLang, results:results, reviewMode:reviewMode, nomAlumne:estat.nomAlumne||"", answers:{}, timestamp:Date.now() };
+  EX.forEach((ex,i)=>{
+    const d = ex[currentLang];
+    if(ex.type==="mc"){ const sel = document.querySelector(`input[name="q${i}"]:checked`); state.answers[i] = sel ? parseInt(sel.value) : null; }
+    else if(ex.type==="fill"||ex.type==="short"){ state.answers[i] = document.getElementById("in"+i).value; }
+    else if(ex.type==="match"){ state.answers[i] = d.pairs.map((_,j)=>document.getElementById("m"+i+"_"+j).value); }
+    else if(ex.type==="order"){ state.answers[i] = d.items.map((_,j)=>document.getElementById("o"+i+"_"+j).value); }
+  });
+  return state;
+}
+
+function saveSession(){
+  if(!estat.nomAlumne){
+    const nom = prompt(T[currentLang].demanarNom);
+    if(!nom) return;
+    estat.nomAlumne = nom.trim();
+  }
+  const state = collectState();
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); showBanner(T[currentLang].saved); }
+  catch(e){ showBanner("⚠️ No s'ha pogut guardar: "+e.message); }
+}
+
+function loadSession(silent){
+  let raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw){
+    if(!silent) showBanner(T[currentLang].noSession);
+    return false;
+  }
+  try{
+    const state = JSON.parse(raw);
+    applyState(state);
+    if(!silent) showBanner(T[currentLang].loaded);
+    return true;
+  }catch(e){
+    if(!silent) showBanner("⚠️ Error en recuperar: "+e.message);
+    return false;
+  }
+}
+
+function applyState(state){
+  currentLang = state.lang || "ca";
+  document.querySelectorAll(".lang-switch button").forEach(b=>b.classList.remove("active"));
+  const btn = document.querySelector(`.lang-switch button[onclick="setLang('${currentLang}')"]`);
+  if(btn) btn.classList.add("active");
+  results = state.results || {};
+  estat.nomAlumne = state.nomAlumne || "";
+  reviewMode = false;
+  document.body.classList.remove("review-mode");
+  renderToolbar();
+  render(); renderHowto();
+  EX.forEach((ex,i)=>{
+    const val = state.answers ? state.answers[i] : null;
+    if(val===undefined||val===null) return;
+    if(ex.type==="mc"){ const radio = document.querySelector(`input[name="q${i}"][value="${val}"]`); if(radio) radio.checked = true; }
+    else if(ex.type==="fill"||ex.type==="short"){ const inp = document.getElementById("in"+i); if(inp) inp.value = val; }
+    else if(ex.type==="match"){ val.forEach((v,j)=>{ const sel = document.getElementById("m"+i+"_"+j); if(sel) sel.value = v; }); }
+    else if(ex.type==="order"){ val.forEach((v,j)=>{ const inp = document.getElementById("o"+i+"_"+j); if(inp) inp.value = v; }); }
+  });
+  Object.keys(results).forEach(k=>{ const i = parseInt(k); if(!isNaN(i)) check(i, true); });
+  applyReviewFilter(); updateStatus();
+}
+
+function resetSession(){
+  localStorage.removeItem(STORAGE_KEY);
+  results = {}; estat.nomAlumne = ""; reviewMode = false;
+  document.body.classList.remove("review-mode");
+  renderToolbar();
+  render(); showBanner(T[currentLang].reset); updateStatus();
+}
+
+/* ===== UTILITATS ===== */
+function showBanner(msg, withPrompt){
+  const b = document.getElementById("banner");
+  b.innerHTML = msg;
+  if(withPrompt){
+    const yes = document.createElement("button"); yes.textContent = T[currentLang].yes;
+    yes.onclick = ()=>{ loadSession(); b.classList.remove("show"); };
+    const no = document.createElement("button"); no.className = "ghost"; no.textContent = T[currentLang].no;
+    no.onclick = ()=>{ resetSession(); b.classList.remove("show"); };
+    b.appendChild(yes); b.appendChild(no);
+  }
+  b.classList.add("show");
+  if(!withPrompt){ clearTimeout(b._t); b._t = setTimeout(()=>b.classList.remove("show"),3500); }
+}
+
+function mostrarMissatgeLliurament(){
+  const b = document.getElementById("banner");
+  b.innerHTML = T[currentLang].missatgeLliurament;
+  b.classList.add("show");
+  clearTimeout(b._t); b._t = setTimeout(()=>b.classList.remove("show"),20000);
+}
+
+function updateStatus(){
+  const total = EX.length;
+  const done = Object.keys(results).length;
+  const ok = Object.values(results).filter(v=>v===true).length;
+  const ko = Object.values(results).filter(v=>v===false).length;
+  const labels = { ca:`Respostes: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`, es:`Respuestas: ${done}/${total} · ✅ ${ok} · ❌ ${ko}`, en:`Answers: ${done}/${total} · ✅ ${ok} · ❌ ${ko}` };
+  document.getElementById("status").textContent = labels[currentLang];
+}
+
+/* ===== IMPRIMIR ===== */
+function imprimir(){
+  const lang = currentLang, t = T[lang];
+  let encerts = 0, fetes = 0;
+  EX.forEach((p,i)=>{ const resp = results[i]; if(resp!==undefined){ fetes++; if(resp===true) encerts++; } });
+  const total = EX.length;
+  const pct = total ? Math.round((encerts/total)*100) : 0;
+  const filesDetall = EX.map((p,i)=>{
+    const d = p[lang], resp = results[i], ok = resp===true;
+    const est = (resp===undefined)?t.imprimirPendent:(ok?t.imprimirSi:t.imprimirNo);
+    const color = (resp===undefined)?"#999":(ok?"#2e7d32":"#c62828");
+    let respostaAlumne = "—";
+    if(p.type==="mc"){ const sel = document.querySelector(`input[name="q${i}"]:checked`); if(sel) respostaAlumne = d.o[parseInt(sel.value)] || "—"; }
+    else if(p.type==="fill"||p.type==="short"){ const inp = document.getElementById("in"+i); respostaAlumne = inp ? inp.value : "—"; }
+    else if(p.type==="match"||p.type==="order"){ respostaAlumne = (resp===true)?"Correcte":(resp===false?"Incorrecte":"—"); }
+    let respostaCorrecta = "—";
+    if(p.type==="mc") respostaCorrecta = d.o[d.a];
+    else if(p.type==="fill"||p.type==="short") respostaCorrecta = d.a;
+    else if(p.type==="match") respostaCorrecta = d.pairs.map(pp=>`${pp[0]} → ${pp[1]}`).join("; ");
+    else if(p.type==="order") respostaCorrecta = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+    return `<tr><td>${i+1}</td><td>${d.q.replace(/<[^>]+>/g,"").slice(0,120)}</td><td>${respostaAlumne}</td><td>${respostaCorrecta}</td><td style="color:${color};font-weight:700">${est}</td></tr>`;
+  }).join("");
+  const nomAlumne = estat.nomAlumne || "(sense nom)";
+  const html = `<!DOCTYPE html><html lang="${lang}"><head><meta charset="UTF-8"><title>${t.imprimirTitol}</title>
+    <style>body{font-family:Georgia,serif;color:#1f2933;padding:1.5rem;font-size:11pt}
+    h1{color:#0f4c5c;font-size:16pt;margin:0 0 .2rem}
+    h2{color:#0f4c5c;font-size:13pt;margin:1rem 0 .3rem;border-bottom:2px solid #e36414;padding-bottom:.2rem}
+    .meta{display:flex;gap:2rem;margin:.6rem 0 1rem;font-size:10.5pt}
+    .meta span{display:inline-block;border-bottom:1px solid #999;min-width:180px}
+    table{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:9.5pt}
+    th,td{border:1px solid #ccc;padding:.3rem .45rem;text-align:left;vertical-align:top}
+    th{background:#eef4f5;color:#0f4c5c}
+    .resum-grid{display:grid;grid-template-columns:1fr 1fr;gap:.3rem 1.5rem;font-size:10.5pt}
+    @media print{body{padding:0}}</style></head><body>
+    <h1>${t.imprimirTitol}</h1>
+    <div class="meta"><div>${t.imprimirAlumne} <span>${nomAlumne}</span></div><div>${t.imprimirData} <span>${new Date().toLocaleDateString()}</span></div></div>
+    <h2>${t.imprimirResum}</h2>
+    <div class="resum-grid"><div><strong>${t.imprimirTotal}:</strong> ${total}</div><div><strong>${t.imprimirFetes}:</strong> ${fetes}</div><div><strong>${t.imprimirEncerts}:</strong> ${encerts}</div><div><strong>${t.imprimirPct}:</strong> ${pct} %</div></div>
+    <h2>${t.imprimirDetall}</h2>
+    <table><thead><tr><th>${t.imprimirNum}</th><th>${t.imprimirPregunta}</th><th>${t.imprimirResposta}</th><th>${t.imprimirCorrecta}</th><th>${t.imprimirEncert}</th></tr></thead><tbody>${filesDetall}</tbody></table>
+    </body></html>`;
+  const win = window.open("", "_blank");
+  if(!win){ alert(t.popupBlocked); return; }
+  win.document.open(); win.document.write(html); win.document.close(); win.focus();
+  setTimeout(()=>{ try{ win.print(); }catch(e){} mostrarMissatgeLliurament(); }, 400);
+}
+
+/* ===== EXPORTAR ===== */
+function exportar(){
+  const state = collectState();
+  let encerts = 0, fetes = 0;
+  const detall = EX.map((p,i)=>{
+    const resp = state.results[i], ok = resp===true;
+    if(resp!==undefined){ fetes++; if(ok) encerts++; }
+    const d = p[currentLang];
+     let respostaText = "";
+    if(p.type==="mc"){ const sel = state.answers[i]; respostaText = (sel!==null&&sel!==undefined)?(d.o[sel]||""):""; }
+    else if(p.type==="fill"||p.type==="short"){ respostaText = state.answers[i] || ""; }
+    else if(p.type==="match"||p.type==="order"){ respostaText = JSON.stringify(state.answers[i]||[]); }
+    let correctaText = "";
+    if(p.type==="mc") correctaText = d.o[d.a];
+    else if(p.type==="fill"||p.type==="short") correctaText = d.a;
+    else if(p.type==="match") correctaText = d.pairs.map(pp=>`${pp[0]} → ${pp[1]}`).join("; ");
+    else if(p.type==="order") correctaText = d.items.map((it,j)=>`${d.a[j]}. ${it}`).join(" | ");
+    return { num:i+1, tipus:p.type, encert:resp===undefined?null:ok, resposta_alumne:respostaText, resposta_correcta:correctaText };
+  });
+  const data = {
+    activitat:"Sistema Nerviós I",
+    alumne: state.nomAlumne || "(sense nom)",
+    data_exportacio: new Date().toISOString(),
+    idioma_actual: currentLang,
+    total_preguntes: EX.length,
+    respostes_fetes: fetes,
+    encerts: encerts,
+    answers: state.answers,
+    detall
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const avui = new Date().toISOString().slice(0,10);
+  const nomFitxer = (state.nomAlumne || "sense_nom").replace(/\s+/g,"_");
+  a.download = `${nomFitxer}_${avui}_t4.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  mostrarMissatgeLliurament();
+}
+
+/* ===== IMPORTAR ===== */
+function importar(ev){
+  const file = ev.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      const results = {};
+      if(Array.isArray(data.detall)){
+        data.detall.forEach(d=>{ if(d.encert!==null&&d.encert!==undefined) results[d.num-1] = d.encert; });
+      } else if(data.results){
+        Object.assign(results, data.results);
+      }
+      const state = {
+        lang: data.idioma_actual || data.lang || "ca",
+        results: results,
+        reviewMode: false,
+        nomAlumne: data.alumne || data.nomAlumne || "",
+        answers: data.answers || {},
+        timestamp: data.data_exportacio ? new Date(data.data_exportacio).getTime() : Date.now()
+      };
+      applyState(state);
+      showBanner(`✅ Sessió importada: ${state.nomAlumne||"sense nom"} · ${Object.keys(results).length} respostes.`);
+    } catch(err){ alert("❌ No s'ha pogut importar el JSON: "+err.message); }
+    finally { ev.target.value = ""; }
+  };
+  reader.readAsText(file);
+}
+
+/* ===== INICIALITZACIÓ ===== */
+function init(){
+  let raw = localStorage.getItem(STORAGE_KEY);
+  renderToolbar(); render(); renderHowto();
+  if(raw){
+    setTimeout(()=>{ showBanner(T[currentLang].restorePrompt, true); }, 400);
+  }
+}
+init();
+</script>
+</body>
+</html>
+  
