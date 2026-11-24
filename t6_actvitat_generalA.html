@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Hormonal y Danza - Diapositivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .slide {
+            width: 100%;
+            max-width: 1000px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            margin-bottom: 40px;
+            overflow: hidden;
+            page-break-inside: avoid;
+        }
+        .slide-header {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            color: white;
+            padding: 20px 30px;
+        }
+        .slide-header h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        .slide-header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        .slide-body {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px 30px;
+            gap: 25px;
+        }
+        .content-main {
+            flex: 2;
+            min-width: 300px;
+        }
+        .content-side {
+            flex: 1;
+            min-width: 220px;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f3460;
+            border-left: 5px solid #e94560;
+            padding-left: 12px;
+            margin-bottom: 12px;
+            margin-top: 15px;
+        }
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul li {
+            padding: 6px 0 6px 22px;
+            position: relative;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #2d3436;
+        }
+        ul li::before {
+            content: "▸";
+            color: #e94560;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .practical-box {
+            background: #f0f7ff;
+            border-left: 4px solid #0f3460;
+            padding: 12px 16px;
+            margin-top: 18px;
+            border-radius: 0 8px 8px 0;
+        }
+        .practical-box strong {
+            color: #0f3460;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .practical-box p {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.5;
+        }
+        .image-placeholder {
+            background: #e8eef5;
+            border: 2px dashed #b0c4de;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            color: #4a6a8a;
+            font-size: 0.85rem;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .image-placeholder .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .source {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            font-style: italic;
+        }
+        .source strong {
+            color: #555;
+        }
+        .tag {
+            display: inline-block;
+            background: #0f3460;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-right: 5px;
+            margin-top: 8px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        @media (max-width: 700px) {
+            .slide-body {
+                flex-direction: column;
+            }
+            .content-side {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- DIAPOSITIVA 1: Introducción -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>1. Introducción al sistema hormonal</h2>
+        <div class="subtitle">Conceptos básicos y relevancia para el bailarín</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Concepto de hormona y glándula endocrina</div>
+            <ul>
+                <li>Las <strong>hormonas</strong> son mensajeros químicos secretados por glándulas endocrinas que viajan por la sangre para actuar sobre tejidos diana específicos.</li>
+                <li>Regulan procesos como el metabolismo, el crecimiento, la respuesta al estrés y la reproducción.</li>
+            </ul>
+            <div class="section-title">Regulación nerviosa vs. hormonal</div>
+            <ul>
+                <li>La regulación nerviosa es rápida y de corta duración; la hormonal es más lenta pero sostenida.</li>
+                <li>Ambos sistemas se integran (eje hipotálamo-hipofisario) para coordinar la respuesta del organismo al esfuerzo dancístico.</li>
+            </ul>
+            <div class="section-title">Características generales</div>
+            <ul>
+                <li><strong>Especificidad:</strong> cada hormona actúa sobre receptores concretos.</li>
+                <li><strong>Retroalimentación (feedback):</strong> mecanismo de autorregulación (negativo y positivo).</li>
+                <li><strong>Ritmos circadianos:</strong> variaciones hormonales a lo largo del día que afectan al rendimiento.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Comprender los ritmos circadianos permite al bailarín elegir las horas de ensayo más eficaces (por ejemplo, la temperatura corporal y la fuerza suelen alcanzar su pico a media tarde). Respetar los ritmos hormonales naturales mejora la calidad del movimiento y reduce el riesgo de lesiones asociadas a la fatiga.</p>
+            </div>
+            <div class="source"><strong>Fuente:</strong> Conceptos generales de fisiología endocrina aplicada al ejercicio (síntesis de literatura fisiológica básica).</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🧬</div>
+                <div>Esquema del eje hipotálamo-hipófisis-glándula periférica</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">⏰</div>
+                <div>Gráfico de ritmo circadiano del cortisol</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 2: Glándulas principales -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>2. Principales glándulas y hormonas</h2>
+        <div class="subtitle">Implicadas en la actividad física y la danza</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Eje hipotálamo-hipofisario</div>
+            <ul>
+                <li>Hipotálamo: hormona liberadora de corticotropina (CRH), hormona liberadora de hormona del crecimiento (GHRH).</li>
+                <li>Hipófisis: hormona adrenocorticótropa (ACTH), hormona del crecimiento (GH).</li>
+            </ul>
+            <div class="section-title">Tiroides</div>
+            <ul>
+                <li>Hormonas tiroideas (T3, T4): regulan el metabolismo energético basal y la capacidad oxidativa del músculo [citation:4].</li>
+            </ul>
+            <div class="section-title">Glándulas suprarrenales</div>
+            <ul>
+                <li><strong>Cortisol:</strong> hormona del estrés, moviliza sustratos energéticos.</li>
+                <li><strong>Adrenalina y noradrenalina:</strong> respuesta aguda al esfuerzo (activación simpática) [citation:1].</li>
+            </ul>
+            <div class="section-title">Páncreas y gónadas</div>
+            <ul>
+                <li>Insulina y glucagón: regulación de la glucosa [citation:5].</li>
+                <li>Estrógeno, progesterona y testosterona: influyen en el rendimiento y la composición corporal.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>El conocimiento de las glándulas implicadas ayuda al bailarín a interpretar señales corporales: por ejemplo, una fatiga inexplicable puede relacionarse con una función tiroidea alterada, y la irregularidad del ciclo menstrual con un desequilibrio energético. La educación hormonal es una herramienta de autocuidado.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Thyroid hormones and muscle adaptation [citation:4]; Pancreatic hormones during exercise [citation:5]; Stress hormones in dance performance [citation:1].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🫀</div>
+                <div>Mapa corporal de glándulas endocrinas</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">⚖️</div>
+                <div>Diagrama insulina/glucagón</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 3: Respuesta hormonal al esfuerzo -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>3. Respuesta hormonal al esfuerzo en la danza</h2>
+        <div class="subtitle">Adaptaciones agudas y crónicas</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Activación simpático-suprarrenal</div>
+            <ul>
+                <li>Durante la clase y la actuación se elevan la adrenalina y la noradrenalina, especialmente antes de una actuación en bailarines experimentados [citation:1].</li>
+            </ul>
+            <div class="section-title">Cortisol: esfuerzo agudo vs. crónico</div>
+            <ul>
+                <li>El cortisol aumenta progresivamente desde el reposo hasta después de la actuación, con mayores incrementos en bailarines expertos [citation:1].</li>
+                <li>El estrés crónico sostenido puede afectar la recuperación y el sistema inmune.</li>
+            </ul>
+            <div class="section-title">Hormona del crecimiento e IGF-1</div>
+            <ul>
+                <li>La GH se libera en respuesta al ejercicio intenso y participa en la reparación y el desarrollo muscular.</li>
+            </ul>
+            <div class="section-title">Adaptaciones según intensidad</div>
+            <ul>
+                <li>El baile aeróbico (danza contemporánea de larga duración) prioriza adaptaciones oxidativas; el anaeróbico (saltos, explosividad) estimula vías glucolíticas.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Planificar la intensidad de los ensayos en función del objetivo (resistencia vs. potencia) permite modular la respuesta hormonal. Un calentamiento adecuado atenúa el pico excesivo de cortisol pre-actuación, y una progresión gradual en la carga evita la cronificación del estrés hormonal.</p>
+            </div>
+            <div class="source"><strong>Fuente:</strong> Analysis of stress hormone before and after dance performance [citation:1].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">📈</div>
+                <div>Gráfico: cortisol en reposo, pre y post-actuación</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">💪</div>
+                <div>Esquema GH-IGF-1 y reparación muscular</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 4: Metabolismo energético -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>4. Metabolismo energético y regulación hormonal</h2>
+        <div class="subtitle">Insulina, glucagón y disponibilidad de sustratos</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Insulina y glucagón</div>
+            <ul>
+                <li>Durante el ejercicio moderado, el glucagón aumenta y la insulina disminuye, favoreciendo la glucogenólisis hepática y la gluconeogénesis [citation:5].</li>
+                <li>Este equilibrio es esencial para mantener la glucemia durante la clase o la actuación.</li>
+            </ul>
+            <div class="section-title">Glucogenólisis y lipólisis</div>
+            <ul>
+                <li>La caída de insulina facilita la movilización de ácidos grasos libres del tejido adiposo [citation:5].</li>
+                <li>El glucagón estimula la oxidación de grasas en el hígado, ahorrando glucógeno muscular.</li>
+            </ul>
+            <div class="section-title">Prevención de la fatiga</div>
+            <ul>
+                <li>Una regulación hormonal eficiente retrasa la aparición de la fatiga y mantiene la calidad técnica del movimiento.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>La ingesta de hidratos de carbono antes del ensayo debe ser suficiente para evitar una caída de la glucemia mediada por un exceso relativo de insulina. Los bailarines con horarios irregulares deben cuidar la regularidad de las comidas para no comprometer el equilibrio glucagón-insulina durante la práctica.</p>
+            </div>
+            <div class="source"><strong>Fuente:</strong> Role of the endocrine pancreas in control of fuel metabolism during exercise [citation:5].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🍬</div>
+                <div>Esquema: insulina baja → movilización de grasa</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🔋</div>
+                <div>Curva de glucemia durante el ejercicio</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 5: Estrés escénico -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>5. Hormonas y control del estrés en la danza</h2>
+        <div class="subtitle">Estrés escénico y estrategias de regulación</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Respuesta de cortisol y catecolaminas</div>
+            <ul>
+                <li>Antes de una actuación, el cortisol y la noradrenalina se elevan de forma significativa, especialmente en bailarines con más experiencia [citation:1].</li>
+                <li>La valoración cognitiva (amenaza vs. desafío) media la respuesta de cortisol: percibir la actuación como un desafío se asocia con menor cortisol y ansiedad [citation:7].</li>
+            </ul>
+            <div class="section-title">Efectos del estrés crónico</div>
+            <ul>
+                <li>El estrés sostenido puede alterar la recuperación, aumentar la vulnerabilidad a lesiones y afectar al sistema inmune.</li>
+            </ul>
+            <div class="section-title">Técnicas de regulación</div>
+            <ul>
+                <li>La satisfacción de necesidades psicológicas básicas (autonomía, competencia, relación) se asocia con menor respuesta de cortisol [citation:7].</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Implementar rutinas pre-actuación que incluyan respiración controlada, visualización positiva y un calentamiento estructurado ayuda a modular la respuesta hormonal del estrés. Fomentar un entorno de ensayo que apoye la autonomía del bailarín reduce la percepción de amenaza y mejora la homeostasis hormonal en escena.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Stress hormones in dance performance [citation:1]; Basic psychological need satisfaction and cortisol responses [citation:7].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🎭</div>
+                <div>Bailarín antes de actuar: respuesta de estrés</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🧘</div>
+                <div>Respiración y regulación del cortisol</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 6: Rendimiento y ritmos circadianos -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>6. Sistema hormonal y rendimiento en la danza</h2>
+        <div class="subtitle">Tiroides, ritmos circadianos y calidad del movimiento</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Hormonas tiroideas y energía</div>
+            <ul>
+                <li>Las hormonas tiroideas (T3/T4) son reguladores permisivos del metabolismo oxidativo y de la síntesis proteica muscular [citation:4].</li>
+                <li>Un estado tiroideo adecuado permite que el músculo responda al entrenamiento y se recupere.</li>
+            </ul>
+            <div class="section-title">Flexibilidad, fuerza y coordinación</div>
+            <ul>
+                <li>Las fluctuaciones hormonales (estrógeno, progesterona, relaxina) se asocian con variaciones en la rigidez muscular y la flexibilidad, aunque los efectos varían entre individuos [citation:13].</li>
+            </ul>
+            <div class="section-title">Ritmos circadianos y horarios</div>
+            <ul>
+                <li>La temperatura corporal y el rendimiento neuromuscular siguen un ritmo circadiano; la tarde suele ser más favorable para la potencia y la flexibilidad.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Programar los ensayos de mayor exigencia física en las franjas horarias en las que el bailarín rinde mejor (habitualmente media tarde) puede mejorar la calidad del trabajo. Si el horario es fijo, adaptar el calentamiento a la hora del día compensa las fluctuaciones hormonales circadianas.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Thyroid hormones and muscle adaptation [citation:4]; Menstrual cycle and musculoskeletal function in dancers [citation:13].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🌡️</div>
+                <div>Curva de temperatura corporal a lo largo del día</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🦋</div>
+                <div>Glándula tiroides y metabolismo</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 7: Ciclo menstrual y danza -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>7. Hormonas, ciclo menstrual y danza</h2>
+        <div class="subtitle">Rendimiento, amenorrea y prevención</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Fases del ciclo y rendimiento</div>
+            <ul>
+                <li>Los cambios en estrógeno, progesterona y relaxina se asocian con variaciones en variables musculoesqueléticas, pero los efectos absolutos varían más entre individuos que dentro de una misma persona [citation:13].</li>
+                <li>No hay evidencia consistente de que una fase sea universalmente mejor para el rendimiento; el seguimiento individual es clave.</li>
+            </ul>
+            <div class="section-title">Amenorrea del bailarín</div>
+            <ul>
+                <li>La amenorrea hipotalámica funcional es común en deportes estéticos como el ballet y la danza [citation:3][citation:14].</li>
+                <li>Se asocia con baja disponibilidad energética y baja densidad ósea (Triada de la Atleta Femenina), aumentando el riesgo de fracturas por estrés [citation:3].</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>El registro del ciclo menstrual (síntomas, energía, molestias) permite a la bailarina y a su equipo técnico adaptar la carga de trabajo. La ausencia de menstruación no debe normalizarse: es una señal de alarma que requiere evaluación médica y ajuste nutricional para proteger la salud ósea y hormonal.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Menstrual cycle and musculoskeletal function in dancers [citation:13]; Functional hypothalamic amenorrhea in aesthetic sports [citation:3][citation:14].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">📅</div>
+                <div>Gráfico de fases del ciclo menstrual</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🦴</div>
+                <div>Triada de la Atleta Femenina</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 8: Composición corporal -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>8. Hormonas y composición corporal del bailarín</h2>
+        <div class="subtitle">Equilibrio entre estética y salud endocrina</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Regulación hormonal del peso y la masa muscular</div>
+            <ul>
+                <li>Las hormonas tiroideas, el cortisol y las hormonas sexuales influyen en el balance entre síntesis y degradación proteica.</li>
+                <li>La baja disponibilidad energética reduce la T3 y puede atenuar la eficiencia adaptativa del músculo [citation:4].</li>
+            </ul>
+            <div class="section-title">Riesgos de trastornos alimentarios</div>
+            <ul>
+                <li>Las bailarinas presentan tasas elevadas de insatisfacción corporal y conductas de riesgo, con impacto endocrino negativo [citation:8].</li>
+            </ul>
+            <div class="section-title">Estética vs. salud</div>
+            <ul>
+                <li>La presión estética puede llevar a restricciones calóricas que alteran el eje reproductivo y tiroideo.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Priorizar la salud hormonal sobre ideales estéticos no sostenibles: una alimentación suficiente y variada, junto con un enfoque de composición corporal basado en el rendimiento y no solo en la apariencia, protege la función endocrina y la longevidad de la carrera dancística.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Thyroid hormones and adaptation [citation:4]; Dancer health and eating disorders context [citation:8].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🍎</div>
+                <div>Balance energético y señales hormonales</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">⚖️</div>
+                <div>Presión estética vs. salud</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 9: Recuperación y descanso -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>9. Hormonas, recuperación y descanso</h2>
+        <div class="subtitle">Melatonina, GH y estrategias de recuperación</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Melatonina y calidad del sueño</div>
+            <ul>
+                <li>La melatonina regula el ritmo circadiano y facilita la conciliación del sueño; su administración ha mostrado mejoras en la latencia y calidad del sueño en estudios clínicos [citation:6][citation:11].</li>
+            </ul>
+            <div class="section-title">Hormona del crecimiento y reparación</div>
+            <ul>
+                <li>La GH se libera principalmente durante el sueño profundo y participa en la reparación tisular y la adaptación muscular.</li>
+            </ul>
+            <div class="section-title">Estrategias de recuperación</div>
+            <ul>
+                <li>Higiene del sueño, regularidad de horarios y exposición controlada a la luz.</li>
+                <li>Nutrición adecuada post-esfuerzo para favorecer la recuperación hormonal.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico para la danza</strong>
+                <p>Proteger el sueño es una intervención hormonal de primer orden: mantener horarios regulares, evitar pantallas antes de dormir y crear un ambiente oscuro y fresco favorece la melatonina y la liberación de GH. En periodos de actuaciones nocturnas, planificar días de descanso compensatorio ayuda a restaurar el equilibrio hormonal.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Melatonin clinical efficacy on sleep [citation:6][citation:11]; General physiology of GH during sleep.</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🌙</div>
+                <div>Ciclo sueño-vigilia y melatonina</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🛌</div>
+                <div>Fases del sueño y liberación de GH</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 10: Alteraciones y conclusiones -->
+<div class="slide">
+    <div class="slide-header">
+        <h2>10. Alteraciones hormonales y aplicaciones prácticas</h2>
+        <div class="subtitle">Conclusiones para el bailarín</div>
+    </div>
+    <div class="slide-body">
+        <div class="content-main">
+            <div class="section-title">Alteraciones relevantes</div>
+            <ul>
+                <li><strong>Sobreentrenamiento y fatiga suprarrenal:</strong> el cortisol crónicamente elevado compromete la recuperación.</li>
+                <li><strong>Disfunciones tiroideas:</strong> tanto el hipo como el hipertiroidismo reducen la tolerancia al ejercicio [citation:9].</li>
+                <li><strong>Diabetes:</strong> requiere ajuste de la práctica y monitorización glucémica.</li>
+            </ul>
+            <div class="section-title">Pautas para el equilibrio hormonal</div>
+            <ul>
+                <li>Periodización de la carga (alternar intensidad y descanso) [citation:8].</li>
+                <li>Nutrición suficiente y regular; seguimiento del ciclo menstrual.</li>
+                <li>Trabajo interdisciplinar: medicina, nutrición y psicología del deporte.</li>
+            </ul>
+            <div class="section-title">Reflexión final</div>
+            <ul>
+                <li>El bailarín es un sistema integrado neuro-endocrino-motor. Respetar las señales hormonales no limita el arte: lo sostiene a lo largo de una carrera.</li>
+            </ul>
+            <div class="practical-box">
+                <strong>Aspecto práctico final</strong>
+                <p>Incorporar revisiones periódicas de salud hormonal (tiroides, hierro, vitamina D, función menstrual) y educar al bailarín en la lectura de sus señales corporales son inversiones directas en rendimiento y longevidad profesional. La danza de alto nivel exige un cuerpo que no solo ejecute, sino que se regule.</p>
+            </div>
+            <div class="source"><strong>Fuentes:</strong> Thyroid status and exercise tolerance [citation:9]; Periodization and dancer health [citation:8]; Functional hypothalamic amenorrhea consequences [citation:3][citation:14].</div>
+        </div>
+        <div class="content-side">
+            <div class="image-placeholder">
+                <div class="icon">🩺</div>
+                <div>Equipo interdisciplinar de salud del bailarín</div>
+            </div>
+            <div class="image-placeholder">
+                <div class="icon">🎯</div>
+                <div>Resumen visual: equilibrio hormonal y danza</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
