@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Hormonal y Danza - Diapositivas Secundarias</title>
+    <title>Sistema Hormonal i Dansa - Diapositives Secundàries</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -14,6 +14,19 @@
             align-items: center;
             padding: 20px;
         }
+        /* Estil per al selector d'idioma */
+        .lang-switch {
+            display: flex; gap: 10px; margin-bottom: 20px; width: 100%; max-width: 1050px;
+        }
+        .lang-switch button {
+            background: #fff; border: 2px solid #e94560; color: #e94560;
+            padding: 8px 18px; border-radius: 30px; font-weight: 600; cursor: pointer;
+            transition: .2s; font-size: .9rem; font-family: inherit;
+        }
+        .lang-switch button.active, .lang-switch button:hover {
+            background: #e94560; color: #fff;
+        }
+
         .slide {
             width: 100%;
             max-width: 1050px;
@@ -106,414 +119,975 @@
 </head>
 <body>
 
+<div class="lang-switch">
+    <button id="btn-ca" class="active" onclick="setLang('ca')">Català</button>
+    <button id="btn-es" onclick="setLang('es')">Castellano</button>
+    <button id="btn-en" onclick="setLang('en')">English</button>
+</div>
+
+<div id="content-container">
+
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 1.1: Profundización Introducción -->
+<!-- DIAPOSITIVA SECUNDARIA 1.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>1.1 Profundización: Comunicación hormonal y ritmos biológicos <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Mecanismos de acción y su impacto en el horario dancístico</div>
+        <h2><span class="l-1-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-1-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Mecanismos de acción hormonal</div>
-        <ul>
-            <li><strong>Hormonas liposolubles</strong> (esteroideas, tiroideas): atraviesan la membrana celular y actúan sobre receptores intracelulares, modificando la expresión génica. Su efecto es más lento pero duradero.</li>
-            <li><strong>Hormonas hidrosolubles</strong> (peptídicas, catecolaminas): se unen a receptores de membrana y activan segundos mensajeros (AMPc, IP3). Su respuesta es rápida y de corta duración.</li>
-            <li>Esta diferencia explica por qué el cortisol (liposoluble) tarda más en manifestarse pero tiene efectos sostenidos, mientras que la adrenalina (hidrosoluble) actúa en segundos.</li>
-        </ul>
-        <div class="section-title">Ritmos circadianos y rendimiento dancístico</div>
-        <ul>
-            <li>El cortisol sigue un ritmo circadiano marcado: pico matutino (aproximadamente 8:00) y descenso nocturno. Esto influye en la disponibilidad energética y la percepción de esfuerzo.</li>
-            <li>La temperatura corporal central alcanza su máximo entre las 16:00 y las 18:00, lo que favorece la potencia muscular y la flexibilidad.</li>
-            <li>La melatonina se eleva con la oscuridad y facilita el sueño; la exposición a pantallas antes de dormir la suprime.</li>
-        </ul>
+        <div class="section-title l-1-1-s1-title"></div>
+        <ul class="l-1-1-s1-list"></ul>
+        <div class="section-title l-1-1-s2-title"></div>
+        <ul class="l-1-1-s2-list"></ul>
         <div class="image-placeholder">
             <div class="icon">📊</div>
-            <div>Gráfico comparativo: curvas de cortisol, temperatura y melatonina a lo largo de 24 horas</div>
+            <div class="l-1-1-img"></div>
         </div>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Mapa de ritmos personales</strong>
-            <p>Durante una semana, el alumnado registrará cada día:</p>
-            <ol>
-                <li>Hora de acostarse y levantarse, y calidad percibida del sueño (1-5).</li>
-                <li>Nivel de energía en tres momentos del día: mañana, tarde y noche (1-5).</li>
-                <li>Momento del día en que se sintió más ágil durante el ensayo.</li>
-            </ol>
-            <p style="margin-top:8px;">Con los datos, elaborar un gráfico personal y responder: ¿en qué franja horaria coincide tu pico de energía con el pico de temperatura corporal descrito en la teoría? ¿Ajustarías tus ensayos? Justifica la respuesta.</p>
+            <strong class="l-1-1-ex-title"></strong>
+            <div class="l-1-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuentes:</strong> Conceptos de fisiología endocrina general; <em>Melatonin has been shown to synchronize the circadian rhythms and improve sleep quality</em> [citation:6].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-1-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 2.1: Glándulas - Tiroides -->
+<!-- DIAPOSITIVA SECUNDARIA 2.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>2.1 Profundización: Tiroides y metabolismo energético <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">T3, T4 y su papel en la adaptación al esfuerzo</div>
+        <h2><span class="l-2-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-2-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Funciones de las hormonas tiroideas en el músculo</div>
-        <ul>
-            <li>Las hormonas tiroideas (T3 y T4) regulan la tasa metabólica basal y son <strong>permisivas</strong> para la acción de otras hormonas: sin un nivel adecuado de T3, el músculo no responde óptimamente al entrenamiento.</li>
-            <li>Participan en la regulación del metabolismo oxidativo, la síntesis de proteínas contráctiles y la densidad mitocondrial.</li>
-            <li>Una revisión sobre el efecto de las hormonas tiroideas en el sistema cardiovascular y muscular señala que tanto el hipotiroidismo como el hipertiroidismo reducen la tolerancia al ejercicio [citation:1].</li>
-        </ul>
-        <div class="section-title">Implicaciones para el bailarín</div>
-        <ul>
-            <li><strong>Hipotiroidismo:</strong> fatiga precoz, intolerancia al frío, recuperación lenta, sensación de pesadez muscular.</li>
-            <li><strong>Hipertiroidismo:</strong> taquicardia, sudoración excesiva, pérdida de peso no intencionada, sensación de nerviosismo.</li>
-            <li>Ambas situaciones alteran la calidad del movimiento y deben evaluarse médicamente antes de atribuirlas a falta de forma física.</li>
-        </ul>
+        <div class="section-title l-2-1-s1-title"></div>
+        <ul class="l-2-1-s1-list"></ul>
+        <div class="section-title l-2-1-s2-title"></div>
+        <ul class="l-2-1-s2-list"></ul>
         <div class="image-placeholder">
             <div class="icon">🦋</div>
-            <div>Esquema: eje hipotálamo-hipófisis-tiroides y retroalimentación negativa</div>
+            <div class="l-2-1-img"></div>
         </div>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Señales de alerta tiroidea</strong>
-            <p>En grupos de 3-4 personas, elaborar una lista de <strong>5 señales corporales</strong> que un bailarín podría notar durante una semana de ensayos intensos y que podrían confundirse con "falta de entrenamiento" pero que, en realidad, sugieren una posible disfunción tiroidea.</p>
-            <p>Después, responder: ¿cuál sería el protocolo adecuado si un compañero presenta fatiga persistente + intolerancia al frío + recuperación lenta durante más de dos semanas? ¿A quién debería consultar y qué información debería llevar a la consulta?</p>
+            <strong class="l-2-1-ex-title"></strong>
+            <div class="l-2-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> <em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em> [citation:1].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-2-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 2.2: Glándulas - Páncreas -->
+<!-- DIAPOSITIVA SECUNDARIA 2.2 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>2.2 Profundización: Páncreas endocrino y homeostasis glucémica <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Insulina, glucagón y el eje hígado-músculo durante la danza</div>
+        <h2><span class="l-2-2-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-2-2-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Mecanismo de regulación durante el ejercicio</div>
-        <ul>
-            <li>En ejercicio de intensidad moderada, la secreción de <strong>glucagón aumenta</strong> y la de <strong>insulina disminuye</strong> [citation:2].</li>
-            <li>Este patrón es crítico para mantener la glucemia: el glucagón estimula la glucogenólisis hepática y la gluconeogénesis, mientras que la caída de insulina permite la movilización de ácidos grasos libres del tejido adiposo [citation:2].</li>
-            <li>La revisión de Wasserman et al. destaca que la disposición anatómica del páncreas (drenaje a la vena porta) permite que estas hormonas regulen directamente el metabolismo hepático durante el esfuerzo [citation:2].</li>
-        </ul>
-        <div class="section-title">Aplicación en danza</div>
-        <ul>
-            <li>En clases de danza contemporánea de 90 minutos, el equilibrio insulina-glucagón permite mantener la glucemia estable si la ingesta previa fue adecuada.</li>
-            <li>Un ayuno prolongado antes del ensayo puede comprometer la respuesta del glucagón y acelerar la fatiga.</li>
-        </ul>
+        <div class="section-title l-2-2-s1-title"></div>
+        <ul class="l-2-2-s1-list"></ul>
+        <div class="section-title l-2-2-s2-title"></div>
+        <ul class="l-2-2-s2-list"></ul>
         <div class="image-placeholder">
             <div class="icon">⚖️</div>
-            <div>Diagrama: eje páncreas-hígado durante ejercicio moderado</div>
+            <div class="l-2-2-img"></div>
         </div>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Simulación de elecciones nutricionales</strong>
-            <p>Se plantean tres escenarios antes de un ensayo de 2 horas:</p>
-            <ol>
-                <li><strong>Escenario A:</strong> Ayuno desde la noche anterior.</li>
-                <li><strong>Escenario B:</strong> Desayuno rico en hidratos de carbono 2 horas antes (avena + fruta).</li>
-                <li><strong>Escenario C:</strong> Comida copiosa 30 minutos antes (pasta abundante + salsa).</li>
-            </ol>
-            <p style="margin-top:8px;">Para cada escenario, predecir qué ocurrirá con la insulina y el glucagón durante el ensayo, y cómo afectará a la energía percibida. Justificar con los mecanismos explicados y proponer cuál es la opción más favorable.</p>
+            <strong class="l-2-2-ex-title"></strong>
+            <div class="l-2-2-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> <em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em> [citation:2].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-2-2-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 3.1: Respuesta hormonal - Datos -->
+<!-- DIAPOSITIVA SECUNDARIA 3.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>3.1 Profundización: Evidencia sobre cortisol y catecolaminas en escena <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Estudios comparativos entre bailarines expertos y noveles</div>
+        <h2><span class="l-3-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-3-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Hallazgos del estudio de referencia</div>
-        <ul>
-            <li>Un estudio comparó bailarines con más de 5 años de experiencia (expertos) frente a bailarines con menos de 5 años (noveles) en tres momentos: reposo, antes y después de una actuación [citation:3].</li>
-            <li><strong>Cortisol:</strong> aumentó progresivamente en ambos grupos (reposo → pre → post). Los expertos mostraron niveles significativamente más altos que los noveles después de la actuación [citation:3].</li>
-            <li><strong>Noradrenalina:</strong> los expertos presentaron niveles significativamente más altos antes de la actuación en comparación con los noveles [citation:3].</li>
-            <li><strong>Adrenalina:</strong> no se encontraron diferencias significativas entre grupos [citation:3].</li>
-        </ul>
-        <div class="section-title">Interpretación para la práctica dancística</div>
-        <ul>
-            <li>La mayor respuesta de cortisol en expertos sugiere una <strong>mayor activación fisiológica</strong> ante la demanda escénica, posiblemente relacionada con una mayor implicación emocional y física en la performance.</li>
-            <li>La noradrenalina elevada pre-actuación en expertos refleja una preparación neuroendocrina más intensa para el esfuerzo inminente.</li>
-            <li>Estos datos no indican que los noveles "no se estresen", sino que la respuesta hormonal se modula con la experiencia y el significado atribuido a la actuación.</li>
-        </ul>
+        <div class="section-title l-3-1-s1-title"></div>
+        <ul class="l-3-1-s1-list"></ul>
+        <div class="section-title l-3-1-s2-title"></div>
+        <ul class="l-3-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Análisis de gráfico</strong>
-            <p>Se proporciona al alumnado un gráfico simplificado con los datos del estudio (cortisol en los tres momentos, dos grupos). A partir de él, responder:</p>
-            <ol>
-                <li>¿En qué momento se observa la mayor diferencia entre grupos? ¿Por qué?</li>
-                <li>¿Qué implicaciones tiene para el calentamiento pre-actuación de bailarines noveles frente a expertos?</li>
-                <li>Si fueras profesor/a de danza, ¿modificarías el protocolo de preparación para una actuación según la experiencia del bailarín? Justifica.</li>
-            </ol>
+            <strong class="l-3-1-ex-title"></strong>
+            <div class="l-3-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> <em>The Analysis of Stress Hormone Before and After Dance Performance according to the Career</em> [citation:3].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-3-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 4.1: Metabolismo - Detalle -->
+<!-- DIAPOSITIVA SECUNDARIA 4.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>4.1 Profundización: Cascada hormonal de la movilización de sustratos <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Del glucógeno hepático a la oxidación de grasas</div>
+        <h2><span class="l-4-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-4-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Secuencia de eventos durante el ejercicio moderado</div>
-        <ul>
-            <li><strong>Minuto 0-5:</strong> Caída de insulina; el glucagón comienza a elevarse. El hígado inicia glucogenólisis para mantener la glucemia [citation:2].</li>
-            <li><strong>Minuto 5-20:</strong> El glucagón estimula la gluconeogénesis hepática a partir de aminoácidos y lactato. La lipólisis del tejido adiposo se activa por la baja insulina [citation:2].</li>
-            <li><strong>Minuto 20-60:</strong> Los ácidos grasos libres (NEFA) llegan al hígado y al músculo. El glucagón favorece la oxidación de NEFA en el hígado, preservando glucógeno para el músculo activo [citation:2].</li>
-            <li><strong>Más de 60 minutos:</strong> La contribución de las grasas aumenta progresivamente; el glucógeno muscular se economiza. Este es el fundamento de la resistencia aeróbica en danza contemporánea.</li>
-        </ul>
-        <div class="section-title">El papel de la insulina en el músculo</div>
-        <ul>
-            <li>Durante el ejercicio, la insulina baja permite que el músculo capte glucosa por vía independiente de insulina (GLUT-4 translocado por la contracción).</li>
-            <li>Esta adaptación es clave para que el bailarín pueda utilizar glucosa sanguínea sin necesidad de un pico insulínico.</li>
-        </ul>
+        <div class="section-title l-4-1-s1-title"></div>
+        <ul class="l-4-1-s1-list"></ul>
+        <div class="section-title l-4-1-s2-title"></div>
+        <ul class="l-4-1-s2-list"></ul>
         <div class="image-placeholder">
             <div class="icon">🔬</div>
-            <div>Esquema: cascada glucagón → glucogenólisis → gluconeogénesis → oxidación de grasas</div>
+            <div class="l-4-1-img"></div>
         </div>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Línea temporal metabólica</strong>
-            <p>Dibujar una línea temporal de 0 a 90 minutos de ensayo. En ella, representar con colores:</p>
-            <ol>
-                <li>Nivel de insulina (curva descendente).</li>
-                <li>Nivel de glucagón (curva ascendente).</li>
-                <li>Contribución energética: glucógeno vs. grasas (dos áreas que se cruzan).</li>
-            </ol>
-            <p style="margin-top:8px;">Después, marcar en la línea temporal el momento en que el bailarín debería ingerir una pequeña cantidad de hidratos de carbono si el ensayo se prolonga más de 90 minutos. Justificar con los mecanismos hormonales estudiados.</p>
+            <strong class="l-4-1-ex-title"></strong>
+            <div class="l-4-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> <em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em> [citation:2].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-4-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 5.1: Estrés escénico - Estrategias -->
+<!-- DIAPOSITIVA SECUNDARIA 5.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>5.1 Profundización: Intervención sobre la respuesta de estrés <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Del cortisol elevado a la regulación consciente</div>
+        <h2><span class="l-5-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-5-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Por qué la percepción importa</div>
-        <ul>
-            <li>La respuesta de cortisol no depende solo de la intensidad del estresor, sino de la <strong>valoración cognitiva</strong> que el bailarín hace de la situación.</li>
-            <li>Si la actuación se percibe como una <strong>amenaza</strong> (miedo al fracaso, juicio externo), el cortisol se eleva más y la ansiedad aumenta.</li>
-            <li>Si se percibe como un <strong>desafío</strong> (oportunidad de mostrar el trabajo, reto asumible), la respuesta hormonal es más moderada y el rendimiento mejora.</li>
-            <li>La satisfacción de las necesidades psicológicas básicas (autonomía, competencia, relación) se asocia con respuestas de cortisol más adaptativas en contextos de danza.</li>
-        </ul>
-        <div class="section-title">Estrategias con base fisiológica</div>
-        <ul>
-            <li><strong>Respiración diafragmática lenta (4-6 por minuto):</strong> activa el nervio vago y contrarresta la activación simpática.</li>
-            <li><strong>Calentamiento estructurado:</strong> eleva la temperatura muscular y modula la percepción de preparación, reduciendo la incertidumbre.</li>
-            <li><strong>Rutina pre-actuación fija:</strong> la previsibilidad reduce la carga cognitiva y la respuesta de estrés.</li>
-        </ul>
+        <div class="section-title l-5-1-s1-title"></div>
+        <ul class="l-5-1-s1-list"></ul>
+        <div class="section-title l-5-1-s2-title"></div>
+        <ul class="l-5-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Diseño de una rutina pre-actuación</strong>
-            <p>En parejas, diseñar una rutina de 10 minutos previa a una actuación que incluya:</p>
-            <ol>
-                <li>2 minutos de respiración controlada (especificar ritmo).</li>
-                <li>5 minutos de calentamiento articular y muscular.</li>
-                <li>3 minutos de visualización positiva (describir qué se visualiza).</li>
-            </ol>
-            <p style="margin-top:8px;">Después, intercambiar la rutina con otra pareja y evaluarla según estos criterios: ¿reduce la incertidumbre? ¿Activa el cuerpo sin generar fatiga? ¿Es realista en el contexto de un espectáculo?</p>
+            <strong class="l-5-1-ex-title"></strong>
+            <div class="l-5-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuentes:</strong> <em>Stress hormones in dance performance</em> [citation:3]; hallazgos sobre necesidades psicológicas básicas y cortisol en contextos de danza.</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-5-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 6.1: Rendimiento - Tiroides -->
+<!-- DIAPOSITIVA SECUNDARIA 6.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>6.1 Profundización: Tiroides, rendimiento y señales de alarma <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Cuando el metabolismo no acompaña</div>
+        <h2><span class="l-6-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-6-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Efectos del estado tiroideo en el rendimiento dancístico</div>
-        <ul>
-            <li>La revisión de Gonçalves et al. concluye que las alteraciones tiroideas (tanto por exceso como por defecto) comprometen la tolerancia al ejercicio y la función muscular [citation:1].</li>
-            <li><strong>Hipotiroidismo:</strong> reduce la capacidad oxidativa muscular, enlentece la relajación muscular y disminuye la potencia. El bailarín puede sentir que "le faltan fuerzas" sin causa aparente.</li>
-            <li><strong>Hipertiroidismo:</strong> acelera el metabolismo basal, puede provocar pérdida de peso y masa muscular, taquicardia y fatiga paradójica (sensación de agitación con agotamiento rápido).</li>
-        </ul>
-        <div class="section-title">Diferencia entre fatiga normal y fatiga tiroidea</div>
-        <ul>
-            <li><strong>Fatiga normal:</strong> mejora con descanso, nutrición e hidratación; se relaciona con la carga de entrenamiento.</li>
-            <li><strong>Fatiga tiroidea:</strong> persiste a pesar del descanso, se acompaña de otros signos (frío/calor excesivo, cambios de peso, alteraciones del ánimo, estreñimiento o diarrea).</li>
-        </ul>
+        <div class="section-title l-6-1-s1-title"></div>
+        <ul class="l-6-1-s1-list"></ul>
+        <div class="section-title l-6-1-s2-title"></div>
+        <ul class="l-6-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Caso clínico simulado</strong>
-            <p>Una bailarina de 22 años refiere: "Desde hace un mes me cuesta mucho terminar los ensayos. Antes aguantaba 3 horas y ahora a las 2 estoy agotada. Tengo frío en clase cuando las demás están bien. He engordado 2 kg sin cambiar la dieta. Duermo 8 horas pero me levanto cansada."</p>
-            <ol>
-                <li>¿Qué señales sugieren una posible disfunción tiroidea?</li>
-                <li>¿Qué otras causas habría que descartar antes de concluir que es tiroides?</li>
-                <li>¿Qué recomendación darías a esta bailarina como profesor/a?</li>
-                <li>¿Qué análisis solicitarías al médico y por qué?</li>
-            </ol>
+            <strong class="l-6-1-ex-title"></strong>
+            <div class="l-6-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> <em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em> [citation:1].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-6-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 7.1: Ciclo menstrual - Amenorrea -->
+<!-- DIAPOSITIVA SECUNDARIA 7.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>7.1 Profundización: Amenorrea hipotalámica funcional en danza <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Cuando el cuerpo "apaga" la función reproductiva por falta de energía</div>
+        <h2><span class="l-7-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-7-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Mecanismo fisiopatológico</div>
-        <ul>
-            <li>La <strong>amenorrea hipotalámica funcional</strong> es frecuente en deportes estéticos como el ballet y la danza [citation:5].</li>
-            <li>Se produce por una supresión del generador de pulsos de GnRH en el hipotálamo, generalmente por <strong>baja disponibilidad energética</strong> (ingesta insuficiente para el gasto) y/o estrés elevado [citation:5][citation:11].</li>
-            <li>La consecuencia es un hipoestrogenismo que afecta a la salud ósea: menor densidad mineral ósea y mayor riesgo de fracturas por estrés [citation:11].</li>
-            <li>Estudios en bailarinas de ballet elite confirman una alta prevalencia de menarquia tardía e irregularidades menstruales [citation:4].</li>
-        </ul>
-        <div class="section-title">Por qué no debe normalizarse</div>
-        <ul>
-            <li>La ausencia de menstruación no es un "efecto normal del entrenamiento". Es una señal de que el eje reproductivo está comprometido.</li>
-            <li>El hipoestrogenismo prolongado tiene efectos sobre el hueso que pueden no ser reversibles completamente.</li>
-            <li>La intervención principal es <strong>aumentar la disponibilidad energética</strong> (más ingesta, menos gasto excesivo) y reducir el estrés, no necesariamente abandonar la danza.</li>
-        </ul>
+        <div class="section-title l-7-1-s1-title"></div>
+        <ul class="l-7-1-s1-list"></ul>
+        <div class="section-title l-7-1-s2-title"></div>
+        <ul class="l-7-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Mito o realidad</strong>
-            <p>Clasificar las siguientes afirmaciones como "mito" o "realidad" y justificar con la evidencia:</p>
-            <ol>
-                <li>"Si no me viene la regla es porque entreno mucho, es normal en bailarinas."</li>
-                <li>"La amenorrea solo afecta a la fertilidad, no a los huesos."</li>
-                <li>"Comer más y descansar puede restaurar el ciclo sin dejar de bailar."</li>
-                <li>"Si tengo fracturas por estrés repetidas, puede tener relación con la falta de estrógenos."</li>
-            </ol>
-            <p style="margin-top:8px;">Después, redactar una recomendación de 3 líneas para una compañera que celebra no tener la regla "porque así está más ligera para bailar".</p>
+            <strong class="l-7-1-ex-title"></strong>
+            <div class="l-7-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuentes:</strong> <em>Menses Requires Energy: A Review</em> [citation:5]; <em>Special problems of the female athlete</em> [citation:11]; revisión de factores de riesgo en bailarinas de ballet elite [citation:4].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-7-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 8.1: Composición corporal -->
+<!-- DIAPOSITIVA SECUNDARIA 8.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>8.1 Profundización: Disponibilidad energética y señales endocrinas <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Qué ocurre cuando la ingesta no cubre el gasto</div>
+        <h2><span class="l-8-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-8-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">El concepto de "baja disponibilidad energética" (LEA)</div>
-        <ul>
-            <li>La LEA ocurre cuando la energía ingerida menos la gastada en ejercicio queda por debajo de lo necesario para funciones fisiológicas básicas.</li>
-            <li>El cuerpo responde <strong>priorizando funciones vitales</strong> y "apagando" las que considera no esenciales en ese momento: reproducción (amenorrea), crecimiento, síntesis ósea.</li>
-            <li>Las hormonas tiroideas pueden descender (T3 baja) como mecanismo de ahorro energético, lo que reduce aún más el metabolismo y perpetúa el ciclo.</li>
-        </ul>
-        <div class="section-title">Presión estética y riesgo endocrino</div>
-        <ul>
-            <li>La presión por un ideal corporal delgado en danza puede llevar a restricciones calóricas crónicas.</li>
-            <li>Revisiones sistemáticas señalan una asociación entre trastornos alimentarios, alteraciones menstruales y baja densidad mineral ósea en bailarinas [citation:10].</li>
-            <li>La consecuencia no es solo estética: es un desequilibrio hormonal con impacto en la salud ósea, la recuperación y el rendimiento a largo plazo.</li>
-        </ul>
+        <div class="section-title l-8-1-s1-title"></div>
+        <ul class="l-8-1-s1-list"></ul>
+        <div class="section-title l-8-1-s2-title"></div>
+        <ul class="l-8-1-s2-list"></ul>
         <div class="image-placeholder">
             <div class="icon">🔄</div>
-            <div>Ciclo: restricción calórica → baja T3 y estrógenos → menor rendimiento → más restricción</div>
+            <div class="l-8-1-img"></div>
         </div>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Análisis de un ciclo de riesgo</strong>
-            <p>Leer el siguiente caso: "Una bailarina quiere estar más delgada para un papel principal. Reduce sus comidas a una ensalada al día y aumenta los ensayos a 5 horas. A las 6 semanas, está más delgada pero se lesiona (fractura por estrés en el pie). El médico le dice que tiene baja densidad ósea."</p>
-            <ol>
-                <li>Identificar al menos 3 señales hormonales que probablemente estén alteradas.</li>
-                <li>Explicar la relación entre la restricción calórica y la fractura por estrés.</li>
-                <li>Proponer un plan de intervención realista que no implique abandonar la danza.</li>
-            </ol>
+            <strong class="l-8-1-ex-title"></strong>
+            <div class="l-8-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuentes:</strong> Revisión sobre trastornos alimentarios y densidad ósea en bailarinas [citation:10]; <em>Menses Requires Energy</em> [citation:5].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-8-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 9.1: Recuperación - Sueño -->
+<!-- DIAPOSITIVA SECUNDARIA 9.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>9.1 Profundización: Melatonina, sueño y recuperación hormonal <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">La intervención más subestimada del bailarín</div>
+        <h2><span class="l-9-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-9-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Evidencia sobre melatonina y sueño</div>
-        <ul>
-            <li>La melatonina exógena ha demostrado reducir la <strong>latencia del sueño</strong> (tiempo para dormirse) y aumentar el tiempo total de sueño en metaanálisis [citation:6].</li>
-            <li>La melatonina endógena se secreta en oscuridad y se suprime con la luz, especialmente la luz azul de pantallas.</li>
-            <li>Su función principal no es "inducir" el sueño directamente, sino <strong>sincronizar el ritmo circadiano</strong> y señalar al cuerpo que es momento de dormir [citation:6].</li>
-        </ul>
-        <div class="section-title">Hormona del crecimiento y sueño profundo</div>
-        <ul>
-            <li>La GH se libera en pulsos, principalmente durante el sueño de ondas lentas (fases 3 y 4).</li>
-            <li>Participa en la reparación de tejidos, la síntesis proteica muscular y la movilización de grasas.</li>
-            <li>Un sueño fragmentado o insuficiente reduce la liberación de GH y compromete la recuperación tras ensayos intensos.</li>
-        </ul>
+        <div class="section-title l-9-1-s1-title"></div>
+        <ul class="l-9-1-s1-list"></ul>
+        <div class="section-title l-9-1-s2-title"></div>
+        <ul class="l-9-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Auditoría del sueño</strong>
-            <p>Durante 5 días, registrar:</p>
-            <ol>
-                <li>Hora de acostarse y de levantarse.</li>
-                <li>Uso de pantallas en la hora previa a dormir (sí/no y tipo).</li>
-                <li>Número de despertares nocturnos.</li>
-                <li>Sensación de descanso al levantarse (1-5).</li>
-            </ol>
-            <p style="margin-top:8px;">Al finalizar, calcular el promedio de horas de sueño y correlacionarlo con la energía en el ensayo del día siguiente. Proponer <strong>una modificación concreta</strong> en la rutina nocturna y comprometerse a aplicarla durante la siguiente semana.</p>
+            <strong class="l-9-1-ex-title"></strong>
+            <div class="l-9-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuente:</strong> Metaanálisis sobre melatonina y calidad del sueño; <em>Melatonin has been shown to synchronize the circadian rhythms and improve the onset, duration and quality of sleep</em> [citation:6].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-9-1-source"></span></div>
     </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- DIAPOSITIVA SECUNDARIA 10.1: Alteraciones - Integración -->
+<!-- DIAPOSITIVA SECUNDARIA 10.1 -->
 <!-- ============================================================ -->
 <div class="slide">
     <div class="slide-header">
-        <h2>10.1 Profundización: Integración y señales de derivación médica <span class="badge">Ampliación</span></h2>
-        <div class="subtitle">Cuándo el profesor debe actuar y cuándo derivar</div>
+        <h2><span class="l-10-1-title"></span> <span class="badge l-badge"></span></h2>
+        <div class="subtitle l-10-1-sub"></div>
     </div>
     <div class="slide-body">
-        <div class="section-title">Límites del rol docente</div>
-        <ul>
-            <li>El profesor de danza no diagnostica ni trata trastornos hormonales. Su función es <strong>observar, registrar y derivar</strong> cuando sea necesario.</li>
-            <li>Señales que justifican una conversación y posible derivación médica:
-                <ul style="margin-top:4px;">
-                    <li>Fatiga persistente que no mejora con descanso durante más de 2-3 semanas.</li>
-                    <li>Pérdida o ganancia de peso no intencionada en poco tiempo.</li>
-                    <li>Ausencia de menstruación durante 3 meses o más (en bailarinas no embarazadas).</li>
-                    <li>Fracturas por estrés repetidas o lesiones que no curan.</li>
-                    <li>Cambios marcados de ánimo, frío/calor excesivo, alteraciones del apetito.</li>
-                </ul>
-            </li>
-        </ul>
-        <div class="section-title">Trabajo interdisciplinar</div>
-        <ul>
-            <li>El equipo ideal incluye médico del deporte, nutricionista, fisioterapeuta y psicólogo del deporte.</li>
-            <li>La comunicación entre profesionales y el profesor de danza permite adaptar la carga de trabajo mientras se investiga la causa de los síntomas.</li>
-            <li>El objetivo no es retirar al bailarín de la danza, sino <strong>mantenerlo bailando de forma sostenible</strong>.</li>
-        </ul>
+        <div class="section-title l-10-1-s1-title"></div>
+        <ul class="l-10-1-s1-list"></ul>
+        <div class="section-title l-10-1-s2-title"></div>
+        <ul class="l-10-1-s2-list"></ul>
         <div class="exercise-box">
-            <strong>Ejercicio práctico: Protocolo de observación y derivación</strong>
-            <p>Diseñar, en grupos, un <strong>protocolo sencillo de 1 página</strong> que un profesor de danza podría usar para registrar señales de alerta en sus alumnos. Debe incluir:</p>
-            <ol>
-                <li>3-4 indicadores observables en clase (ej. frecuencia de lesiones, cambios de peso visibles, ausencias por fatiga).</li>
-                <li>Un semáforo de actuación: verde (normal), amarillo (observar y hablar), rojo (derivar).</li>
-                <li>Qué decir y qué NO decir al alumno en la conversación (ej. evitar diagnósticos, evitar comentarios sobre el cuerpo).</li>
-                <li>A quién derivar según el tipo de señal.</li>
-            </ol>
-            <p style="margin-top:8px;">Presentar el protocolo al resto de la clase y defender las decisiones tomadas.</p>
+            <strong class="l-10-1-ex-title"></strong>
+            <div class="l-10-1-ex-content"></div>
         </div>
-        <div class="source"><strong>Fuentes:</strong> Síntesis de las revisiones sobre salud del bailarín citadas en las diapositivas anteriores [citation:1][citation:4][citation:5].</div>
+        <div class="source"><span class="l-source-title"></span> <span class="l-10-1-source"></span></div>
     </div>
 </div>
+
+</div>
+
+<script>
+const translations = {
+    ca: {
+        badge: "Ampliació",
+        source: "Fonts:",
+        s1_1: {
+            title: "1.1 Aprofundiment: Comunicació hormonal i ritmes biològics",
+            sub: "Mecanismes d'acció i el seu impacte en l'horari dancístic",
+            s1_title: "Mecanismes d'acció hormonal",
+            s1_list: [
+                "<strong>Hormones liposolubles</strong> (esteroïdals, tiroïdals): travessen la membrana cel·lular i actuen sobre receptors intracel·lulars, modificant l'expressió gènica. El seu efecte és més lent però durador.",
+                "<strong>Hormones hidrosolubles</strong> (peptídiques, catecolamines): s'uneixen a receptors de membrana i activen segons missatgers (AMPc, IP3). La seva resposta és ràpida i de curta durada.",
+                "Aquesta diferència explica per què el cortisol (liposoluble) tarda més a manifestar-se però té efectes sostinguts, mentre que l'adrenalina (hidrosoluble) actua en segons."
+            ],
+            s2_title: "Ritmes circadians i rendiment dancístic",
+            s2_list: [
+                "El cortisol segueix un ritme circadià marcat: pic matutí (aproximadament 8:00) i descens nocturn. Això influeix en la disponibilitat energètica i la percepció d'esforç.",
+                "La temperatura corporal central assoleix el seu màxim entre les 16:00 i les 18:00, cosa que afavoreix la potència muscular i la flexibilitat.",
+                "La melatonina s'eleva amb la foscor i facilita el son; l'exposició a pantalles abans de dormir la suprimeix."
+            ],
+            img: "Gràfic comparatiu: corbes de cortisol, temperatura i melatonina al llarg de 24 hores",
+            ex_title: "Exercici pràctic: Mapa de ritmes personals",
+            ex_content: "<p>Durant una setmana, l'alumnat registrarà cada dia:</p><ol><li>Hora d'anar a dormir i llevar-se, i qualitat percebuda del son (1-5).</li><li>Nivell d'energia en tres moments del dia: matí, tarda i nit (1-5).</li><li>Moment del dia en què es va sentir més àgil durant l'assaig.</li></ol><p style='margin-top:8px;'>Amb les dades, elaborar un gràfic personal i respondre: en quina franja horària coincideix el teu pic d'energia amb el pic de temperatura corporal descrit a la teoria? Ajustaries els teus assajos? Justifica la resposta.</p>",
+            source: "Conceptes de fisiologia endocrina general; <em>Melatonin has been shown to synchronize the circadian rhythms and improve sleep quality</em>."
+        },
+        s2_1: {
+            title: "2.1 Aprofundiment: Tiroides i metabolisme energètic",
+            sub: "T3, T4 i el seu paper en l'adaptació a l'esforç",
+            s1_title: "Funcions de les hormones tiroïdals en el múscul",
+            s1_list: [
+                "Les hormones tiroïdals (T3 i T4) regulen la taxa metabòlica basal i són <strong>permisives</strong> per a l'acció d'altres hormones: sense un nivell adequat de T3, el múscul no respon òptimament a l'entrenament.",
+                "Participen en la regulació del metabolisme oxidatiu, la síntesi de proteïnes contràctils i la densitat mitocondrial.",
+                "Una revisió sobre l'efecte de les hormones tiroïdals en el sistema cardiovascular i muscular assenyala que tant l'hipotiroidisme com l'hipertiroidisme redueixen la tolerància a l'exercici."
+            ],
+            s2_title: "Implicacions per al ballarí",
+            s2_list: [
+                "<strong>Hipotiroidisme:</strong> fatiga precoç, intolerància al fred, recuperació lenta, sensació de pesadesa muscular.",
+                "<strong>Hipertiroidisme:</strong> taquicàrdia, sudoració excessiva, pèrdua de pes no intencionada, sensació de nerviosisme.",
+                "Ambdues situacions alteren la qualitat del moviment i s'han d'avaluar mèdicament abans d'atribuir-les a falta de forma física."
+            ],
+            img: "Esquema: eix hipotàlem-hipòfisi-tiroides i retroalimentació negativa",
+            ex_title: "Exercici pràctic: Senyals d'alerta tiroïdal",
+            ex_content: "<p>En grups de 3-4 persones, elaborar una llista de <strong>5 senyals corporals</strong> que un ballarí podria notar durant una setmana d'assajos intensos i que podrien confondre's amb 'falta d'entrenament' però que, en realitat, suggereixen una possible disfunció tiroïdal.</p><p>Després, respondre: quin seria el protocol adequat si un company presenta fatiga persistent + intolerància al fred + recuperació lenta durant més de dues setmanes? A qui hauria de consultar i quina informació hauria de portar a la consulta?</p>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s2_2: {
+            title: "2.2 Aprofundiment: Pàncrees endocrí i homeòstasi glucèmica",
+            sub: "Insulina, glucagó i l'eix fetge-múscul durant la dansa",
+            s1_title: "Mecanisme de regulació durant l'exercici",
+            s1_list: [
+                "En exercici d'intensitat moderada, la secreció de <strong>glucagó augmenta</strong> i la d'<strong>insulina disminueix</strong>.",
+                "Aquest patró és crític per mantenir la glucèmia: el glucagó estimula la glucogenòlisi hepàtica i la gluconeogènesi, mentre que la caiguda d'insulina permet la mobilització d'àcids grassos lliures del teixit adipós.",
+                "La revisió de Wasserman et al. destaca que la disposició anatòmica del pàncrees (drenatge a la vena porta) permet que aquestes hormones regulin directament el metabolisme hepàtic durant l'esforç."
+            ],
+            s2_title: "Aplicació en dansa",
+            s2_list: [
+                "En classes de dansa contemporània de 90 minuts, l'equilibri insulina-glucagó permet mantenir la glucèmia estable si la ingesta prèvia va ser adequada.",
+                "Un dejuni perllongat abans de l'assaig pot comprometre la resposta del glucagó i accelerar la fatiga."
+            ],
+            img: "Diagrama: eix pàncrees-fetge durant exercici moderat",
+            ex_title: "Exercici pràctic: Simulació d'eleccions nutricionals",
+            ex_content: "<p>Es plantegen tres escenaris abans d'un assaig de 2 hores:</p><ol><li><strong>Escenari A:</strong> Dejuni des de la nit anterior.</li><li><strong>Escenari B:</strong> Esmorzar ric en hidrats de carboni 2 hores abans (civada + fruita).</li><li><strong>Escenari C:</strong> Menjar copiós 30 minuts abans (pasta abundant + salsa).</li></ol><p style='margin-top:8px;'>Per a cada escenari, predir què passarà amb la insulina i el glucagó durant l'assaig, i com afectarà l'energia percebuda. Justificar amb els mecanismes explicats i proposar quina és l'opció més favorable.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s3_1: {
+            title: "3.1 Aprofundiment: Evidència sobre cortisol i catecolamines en escena",
+            sub: "Estudis comparatius entre ballarins experts i novells",
+            s1_title: "Troballes de l'estudi de referència",
+            s1_list: [
+                "Un estudi va comparar ballarins amb més de 5 anys d'experiència (experts) davant de ballarins amb menys de 5 anys (novells) en tres moments: repòs, abans i després d'una actuació.",
+                "<strong>Cortisol:</strong> va augmentar progressivament en ambdós grups (repòs → pre → post). Els experts van mostrar nivells significativament més alts que els novells després de l'actuació.",
+                "<strong>Noradrenalina:</strong> els experts van presentar nivells significativament més alts abans de l'actuació en comparació amb els novells.",
+                "<strong>Adrenalina:</strong> no es van trobar diferències significatives entre grups."
+            ],
+            s2_title: "Interpretació per a la pràctica dancística",
+            s2_list: [
+                "La major resposta de cortisol en experts suggereix una <strong>major activació fisiològica</strong> davant la demanda escènica, possiblement relacionada amb una major implicació emocional i física en la performance.",
+                "La noradrenalina elevada pre-actuació en experts reflecteix una preparació neuroendocrina més intensa per a l'esforç imminent.",
+                "Aquestes dades no indiquen que els novells 'no s'estressin', sinó que la resposta hormonal es modula amb l'experiència i el significat atribuït a l'actuació."
+            ],
+            ex_title: "Exercici pràctic: Anàlisi de gràfic",
+            ex_content: "<p>Es proporciona a l'alumnat un gràfic simplificat amb les dades de l'estudi (cortisol en els tres moments, dos grups). A partir d'ell, respondre:</p><ol><li>En quin moment s'observa la major diferència entre grups? Per què?</li><li>Quines implicacions té per a l'escalfament pre-actuació de ballarins novells davant d'experts?</li><li>Si fossis professor/a de dansa, modificaries el protocol de preparació per a una actuació segons l'experiència del ballarí? Justifica.</li></ol>",
+            source: "<em>The Analysis of Stress Hormone Before and After Dance Performance according to the Career</em>."
+        },
+        s4_1: {
+            title: "4.1 Aprofundiment: Cascada hormonal de la mobilització de substrats",
+            sub: "Del glucogen hepàtic a l'oxidació de greixos",
+            s1_title: "Seqüència d'esdeveniments durant l'exercici moderat",
+            s1_list: [
+                "<strong>Minut 0-5:</strong> Caiguda d'insulina; el glucagó comença a elevar-se. El fetge inicia glucogenòlisi per mantenir la glucèmia.",
+                "<strong>Minut 5-20:</strong> El glucagó estimula la gluconeogènesi hepàtica a partir d'aminoàcids i lactat. La lipòlisi del teixit adipós s'activa per la baixa insulina.",
+                "<strong>Minut 20-60:</strong> Els àcids grassos lliures (NEFA) arriben al fetge i al múscul. El glucagó afavoreix l'oxidació de NEFA al fetge, preservant glucogen per al múscul actiu.",
+                "<strong>Més de 60 minuts:</strong> La contribució dels greixos augmenta progressivament; el glucogen muscular s'economitza. Aquest és el fonament de la resistència aeròbica en dansa contemporània."
+            ],
+            s2_title: "El paper de la insulina en el múscul",
+            s2_list: [
+                "Durant l'exercici, la insulina baixa permet que el múscul capti glucosa per via independent d'insulina (GLUT-4 translocat per la contracció).",
+                "Aquesta adaptació és clau perquè el ballarí pugui utilitzar glucosa sanguínia sense necessitat d'un pic insulínic."
+            ],
+            img: "Esquema: cascada glucagó → glucogenòlisi → gluconeogènesi → oxidació de greixos",
+            ex_title: "Exercici pràctic: Línia temporal metabòlica",
+            ex_content: "<p>Dibuixar una línia temporal de 0 a 90 minuts d'assaig. En ella, representar amb colors:</p><ol><li>Nivell d'insulina (corba descendent).</li><li>Nivell de glucagó (corba ascendent).</li><li>Contribució energètica: glucogen vs. greixos (dues àrees que es creuen).</li></ol><p style='margin-top:8px;'>Després, marcar a la línia temporal el moment en què el ballarí hauria d'ingerir una petita quantitat d'hidrats de carboni si l'assaig es prolonga més de 90 minuts. Justificar amb els mecanismes hormonals estudiats.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s5_1: {
+            title: "5.1 Aprofundiment: Intervenció sobre la resposta d'estrès",
+            sub: "Del cortisol elevat a la regulació conscient",
+            s1_title: "Per què la percepció importa",
+            s1_list: [
+                "La resposta de cortisol no depèn només de la intensitat de l'estressor, sinó de la <strong>valoració cognitiva</strong> que el ballarí fa de la situació.",
+                "Si l'actuació es percep com una <strong>amenaça</strong> (por al fracàs, judici extern), el cortisol s'eleva més i l'ansietat augmenta.",
+                "Si es percep com un <strong>desafiament</strong> (oportunitat de mostrar la feina, repte assumible), la resposta hormonal és més moderada i el rendiment millora.",
+                "La satisfacció de les necessitats psicològiques bàsiques (autonomia, competència, relació) s'associa amb respostes de cortisol més adaptatives en contextos de dansa."
+            ],
+            s2_title: "Estratègies amb base fisiològica",
+            s2_list: [
+                "<strong>Respiració diafragmàtica lenta (4-6 per minut):</strong> activa el nervi vague i contraresta l'activació simpàtica.",
+                "<strong>Escalfament estructurat:</strong> eleva la temperatura muscular i modula la percepció de preparació, reduint la incertesa.",
+                "<strong>Rutina pre-actuació fixa:</strong> la previsibilitat redueix la càrrega cognitiva i la resposta d'estrès."
+            ],
+            ex_title: "Exercici pràctic: Disseny d'una rutina pre-actuació",
+            ex_content: "<p>En parelles, dissenyar una rutina de 10 minuts prèvia a una actuació que inclogui:</p><ol><li>2 minuts de respiració controlada (especificar ritme).</li><li>5 minuts d'escalfament articular i muscular.</li><li>3 minuts de visualització positiva (descriure què es visualitza).</li></ol><p style='margin-top:8px;'>Després, intercanviar la rutina amb una altra parella i avaluar-la segons aquests criteris: redueix la incertesa? Activa el cos sense generar fatiga? És realista en el context d'un espectacle?</p>",
+            source: "<em>Stress hormones in dance performance</em>; troballes sobre necessitats psicològiques bàsiques i cortisol en contextos de dansa."
+        },
+        s6_1: {
+            title: "6.1 Aprofundiment: Tiroides, rendiment i senyals d'alarma",
+            sub: "Quan el metabolisme no acompanya",
+            s1_title: "Efectes de l'estat tiroïdal en el rendiment dancístic",
+            s1_list: [
+                "La revisió de Gonçalves et al. conclou que les alteracions tiroïdals (tant per excés com per defecte) comprometen la tolerància a l'exercici i la funció muscular.",
+                "<strong>Hipotiroidisme:</strong> redueix la capacitat oxidativa muscular, alenteix la relaxació muscular i disminueix la potència. El ballarí pot sentir que 'li falten forces' sense causa aparent.",
+                "<strong>Hipertiroidisme:</strong> accelera el metabolisme basal, pot provocar pèrdua de pes i massa muscular, taquicàrdia i fatiga paradoxal (sensació d'agitació amb esgotament ràpid)."
+            ],
+            s2_title: "Diferència entre fatiga normal i fatiga tiroïdal",
+            s2_list: [
+                "<strong>Fatiga normal:</strong> millora amb descans, nutrició i hidratació; es relaciona amb la càrrega d'entrenament.",
+                "<strong>Fatiga tiroïdal:</strong> persisteix malgrat el descans, s'acompanya d'altres signes (fred/calor excessiu, canvis de pes, alteracions de l'ànim, restrenyiment o diarrea)."
+            ],
+            ex_title: "Exercici pràctic: Cas clínic simulat",
+            ex_content: "<p>Una ballarina de 22 anys refereix: 'Des de fa un mes em costa molt acabar els assajos. Abans aguantava 3 hores i ara a les 2 estic esgotada. Tinc fred a classe quan les altres estan bé. He engreixat 2 kg sense canviar la dieta. Dormo 8 hores però em llevo cansada.'</p><ol><li>Quins senyals suggereixen una possible disfunció tiroïdal?</li><li>Quines altres causes caldria descartar abans de concloure que és tiroides?</li><li>Quina recomanació donaries a aquesta ballarina com a professor/a?</li><li>Quines anàlisis sol·licitaries al metge i per què?</li></ol>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s7_1: {
+            title: "7.1 Aprofundiment: Amenorrea hipotalàmica funcional en dansa",
+            sub: "Quan el cos 'apaga' la funció reproductiva per falta d'energia",
+            s1_title: "Mecanisme fisiopatològic",
+            s1_list: [
+                "L'<strong>amenorrea hipotalàmica funcional</strong> és freqüent en esports estètics com el ballet i la dansa.",
+                "Es produeix per una supressió del generador de polsos de GnRH a l'hipotàlem, generalment per <strong>baixa disponibilitat energètica</strong> (ingesta insuficient per a la despesa) i/o estrès elevat.",
+                "La conseqüència és un hipoestrogenisme que afecta la salut òssia: menor densitat mineral òssia i major risc de fractures per estrès.",
+                "Estudis en ballarines de ballet d'elit confirmen una alta prevalença de menarquia tardana i irregularitats menstruals."
+            ],
+            s2_title: "Per què no s'ha de normalitzar",
+            s2_list: [
+                "L'absència de menstruació no és un 'efecte normal de l'entrenament'. És un senyal que l'eix reproductiu està compromès.",
+                "L'hipoestrogenisme perllongat té efectes sobre l'os que poden no ser reversibles completament.",
+                "La intervenció principal és <strong>augmentar la disponibilitat energètica</strong> (més ingesta, menys despesa excessiva) i reduir l'estrès, no necessàriament abandonar la dansa."
+            ],
+            ex_title: "Exercici pràctic: Mite o realitat",
+            ex_content: "<p>Classificar les afirmacions següents com a 'mite' o 'realitat' i justificar amb l'evidència:</p><ol><li>'Si no em ve la regla és perquè entreno molt, és normal en ballarines.'</li><li>'L'amenorrea només afecta la fertilitat, no els ossos.'</li><li>'Menjar més i descansar pot restaurar el cicle sense deixar de ballar.'</li><li>'Si tinc fractures per estrès repetides, pot tenir relació amb la falta d'estrògens.'</li></ol><p style='margin-top:8px;'>Després, redactar una recomanació de 3 línies per a una companya que celebra no tenir la regla 'perquè així està més lleugera per ballar'.</p>",
+            source: "<em>Menses Requires Energy: A Review</em>; <em>Special problems of the female athlete</em>; revisió de factors de risc en ballarines de ballet d'elit."
+        },
+        s8_1: {
+            title: "8.1 Aprofundiment: Disponibilitat energètica i senyals endocrines",
+            sub: "Què passa quan la ingesta no cobreix la despesa",
+            s1_title: "El concepte de 'baixa disponibilitat energètica' (LEA)",
+            s1_list: [
+                "La LEA ocorre quan l'energia ingerida menys la gastada en exercici queda per sota del necessari per a funcions fisiològiques bàsiques.",
+                "El cos respon <strong>prioritzant funcions vitals</strong> i 'apagant' les que considera no essencials en aquell moment: reproducció (amenorrea), creixement, síntesi òssia.",
+                "Les hormones tiroïdals poden descendir (T3 baixa) com a mecanisme d'estalvi energètic, cosa que redueix encara més el metabolisme i perpetua el cicle."
+            ],
+            s2_title: "Pressió estètica i risc endocrí",
+            s2_list: [
+                "La pressió per un ideal corporal prim en dansa pot portar a restriccions calòriques cròniques.",
+                "Revisions sistemàtiques assenyalen una associació entre trastorns alimentaris, alteracions menstruals i baixa densitat mineral òssia en ballarines.",
+                "La conseqüència no és només estètica: és un desequilibri hormonal amb impacte en la salut òssia, la recuperació i el rendiment a llarg termini."
+            ],
+            img: "Cicle: restricció calòrica → baixa T3 i estrògens → menor rendiment → més restricció",
+            ex_title: "Exercici pràctic: Anàlisi d'un cicle de risc",
+            ex_content: "<p>Llegir el cas següent: 'Una ballarina vol estar més prima per a un paper principal. Redueix els àpats a una amanida al dia i augmenta els assajos a 5 hores. A les 6 setmanes, està més prima però es lesiona (fractura per estrès al peu). El metge li diu que té baixa densitat òssia.'</p><ol><li>Identificar almenys 3 senyals hormonals que probablement estiguin alterades.</li><li>Explicar la relació entre la restricció calòrica i la fractura per estrès.</li><li>Proposar un pla d'intervenció realista que no impliqui abandonar la dansa.</li></ol>",
+            source: "Revisió sobre trastorns alimentaris i densitat òssia en ballarines; <em>Menses Requires Energy</em>."
+        },
+        s9_1: {
+            title: "9.1 Aprofundiment: Melatonina, son i recuperació hormonal",
+            sub: "La intervenció més subestimada del ballarí",
+            s1_title: "Evidència sobre melatonina i son",
+            s1_list: [
+                "La melatonina exògena ha demostrat reduir la <strong>latència del son</strong> (temps per adormir-se) i augmentar el temps total de son en metaanàlisis.",
+                "La melatonina endògena es secreta en foscor i se suprimeix amb la llum, especialment la llum blava de pantalles.",
+                "La seva funció principal no és 'induir' el son directament, sinó <strong>sincronitzar el ritme circadià</strong> i assenyalar al cos que és moment de dormir."
+            ],
+            s2_title: "Hormona del creixement i son profund",
+            s2_list: [
+                "La GH s'allibera en polsos, principalment durant el son d'ones lentes (fases 3 i 4).",
+                "Participa en la reparació de teixits, la síntesi proteica muscular i la mobilització de greixos.",
+                "Un son fragmentat o insuficient redueix l'alliberament de GH i compromet la recuperació després d'assajos intensos."
+            ],
+            ex_title: "Exercici pràctic: Auditoria del son",
+            ex_content: "<p>Durant 5 dies, registrar:</p><ol><li>Hora d'anar a dormir i de llevar-se.</li><li>Ús de pantalles a l'hora prèvia a dormir (sí/no i tipus).</li><li>Nombre de despertars nocturns.</li><li>Sensació de descans en llevar-se (1-5).</li></ol><p style='margin-top:8px;'>En finalitzar, calcular la mitjana d'hores de son i correlacionar-la amb l'energia a l'assaig de l'endemà. Proposar <strong>una modificació concreta</strong> en la rutina nocturna i comprometre's a aplicar-la durant la setmana següent.</p>",
+            source: "Metaanàlisi sobre melatonina i qualitat del son; <em>Melatonin has been shown to synchronize the circadian rhythms and improve the onset, duration and quality of sleep</em>."
+        },
+        s10_1: {
+            title: "10.1 Aprofundiment: Integració i senyals de derivació mèdica",
+            sub: "Quan el professor ha d'actuar i quan derivar",
+            s1_title: "Límits del rol docent",
+            s1_list: [
+                "El professor de dansa no diagnostica ni tracta trastorns hormonals. La seva funció és <strong>observar, registrar i derivar</strong> quan calgui.",
+                "Senyals que justifiquen una conversa i possible derivació mèdica:",
+                "<ul style='margin-top:4px;'><li>Fatiga persistent que no millora amb descans durant més de 2-3 setmanes.</li><li>Pèrdua o guany de pes no intencionat en poc temps.</li><li>Absència de menstruació durant 3 mesos o més (en ballarines no embarassades).</li><li>Fractures per estrès repetides o lesions que no curen.</li><li>Canvis marcats d'ànim, fred/calor excessiu, alteracions de la gana.</li></ul>"
+            ],
+            s2_title: "Treball interdisciplinari",
+            s2_list: [
+                "L'equip ideal inclou metge de l'esport, nutricionista, fisioterapeuta i psicòleg de l'esport.",
+                "La comunicació entre professionals i el professor de dansa permet adaptar la càrrega de treball mentre s'investiga la causa dels símptomes.",
+                "L'objectiu no és retirar el ballarí de la dansa, sinó <strong>mantenir-lo ballant de forma sostenible</strong>."
+            ],
+            ex_title: "Exercici pràctic: Protocol d'observació i derivació",
+            ex_content: "<p>Dissenyar, en grups, un <strong>protocol senzill d'1 pàgina</strong> que un professor de dansa podria fer servir per registrar senyals d'alerta als seus alumnes. Ha d'incloure:</p><ol><li>3-4 indicadors observables a classe (ex. freqüència de lesions, canvis de pes visibles, absències per fatiga).</li><li>Un semàfor d'actuació: verd (normal), groc (observar i parlar), vermell (derivar).</li><li>Què dir i què NO dir a l'alumne en la conversa (ex. evitar diagnòstics, evitar comentaris sobre el cos).</li><li>A qui derivar segons el tipus de senyal.</li></ol><p style='margin-top:8px;'>Presentar el protocol a la resta de la classe i defensar les decisions preses.</p>",
+            source: "Síntesi de les revisions sobre salut del ballarí citades a les diapositives anteriors."
+        }
+    },
+    es: {
+        badge: "Ampliación",
+        source: "Fuentes:",
+        s1_1: {
+            title: "1.1 Profundización: Comunicación hormonal y ritmos biológicos",
+            sub: "Mecanismos de acción y su impacto en el horario dancístico",
+            s1_title: "Mecanismos de acción hormonal",
+            s1_list: [
+                "<strong>Hormonas liposolubles</strong> (esteroideas, tiroideas): atraviesan la membrana celular y actúan sobre receptores intracelulares, modificando la expresión génica. Su efecto es más lento pero duradero.",
+                "<strong>Hormonas hidrosolubles</strong> (peptídicas, catecolaminas): se unen a receptores de membrana y activan segundos mensajeros (AMPc, IP3). Su respuesta es rápida y de corta duración.",
+                "Esta diferencia explica por qué el cortisol (liposoluble) tarda más en manifestarse pero tiene efectos sostenidos, mientras que la adrenalina (hidrosoluble) actúa en segundos."
+            ],
+            s2_title: "Ritmos circadianos y rendimiento dancístico",
+            s2_list: [
+                "El cortisol sigue un ritmo circadiano marcado: pico matutino (aproximadamente 8:00) y descenso nocturno. Esto influye en la disponibilidad energética y la percepción de esfuerzo.",
+                "La temperatura corporal central alcanza su máximo entre las 16:00 y las 18:00, lo que favorece la potencia muscular y la flexibilidad.",
+                "La melatonina se eleva con la oscuridad y facilita el sueño; la exposición a pantallas antes de dormir la suprime."
+            ],
+            img: "Gráfico comparativo: curvas de cortisol, temperatura y melatonina a lo largo de 24 horas",
+            ex_title: "Ejercicio práctico: Mapa de ritmos personales",
+            ex_content: "<p>Durante una semana, el alumnado registrará cada día:</p><ol><li>Hora de acostarse y levantarse, y calidad percibida del sueño (1-5).</li><li>Nivel de energía en tres momentos del día: mañana, tarde y noche (1-5).</li><li>Momento del día en que se sintió más ágil durante el ensayo.</li></ol><p style='margin-top:8px;'>Con los datos, elaborar un gráfico personal y responder: ¿en qué franja horaria coincide tu pico de energía con el pico de temperatura corporal descrito en la teoría? ¿Ajustarías tus ensayos? Justifica la respuesta.</p>",
+            source: "Conceptos de fisiología endocrina general; <em>Melatonin has been shown to synchronize the circadian rhythms and improve sleep quality</em>."
+        },
+        s2_1: {
+            title: "2.1 Profundización: Tiroides y metabolismo energético",
+            sub: "T3, T4 y su papel en la adaptación al esfuerzo",
+            s1_title: "Funciones de las hormonas tiroideas en el músculo",
+            s1_list: [
+                "Las hormonas tiroideas (T3 y T4) regulan la tasa metabólica basal y son <strong>permisivas</strong> para la acción de otras hormonas: sin un nivel adecuado de T3, el músculo no responde óptimamente al entrenamiento.",
+                "Participan en la regulación del metabolismo oxidativo, la síntesis de proteínas contráctiles y la densidad mitocondrial.",
+                "Una revisión sobre el efecto de las hormonas tiroideas en el sistema cardiovascular y muscular señala que tanto el hipotiroidismo como el hipertiroidismo reducen la tolerancia al ejercicio."
+            ],
+            s2_title: "Implicaciones para el bailarín",
+            s2_list: [
+                "<strong>Hipotiroidismo:</strong> fatiga precoz, intolerancia al frío, recuperación lenta, sensación de pesadez muscular.",
+                "<strong>Hipertiroidismo:</strong> taquicardia, sudoración excesiva, pérdida de peso no intencionada, sensación de nerviosismo.",
+                "Ambas situaciones alteran la calidad del movimiento y deben evaluarse médicamente antes de atribuirlas a falta de forma física."
+            ],
+            img: "Esquema: eje hipotálamo-hipófisis-tiroides y retroalimentación negativa",
+            ex_title: "Ejercicio práctico: Señales de alerta tiroidea",
+            ex_content: "<p>En grupos de 3-4 personas, elaborar una lista de <strong>5 señales corporales</strong> que un bailarín podría notar durante una semana de ensayos intensos y que podrían confundirse con 'falta de entrenamiento' pero que, en realidad, sugieren una posible disfunción tiroidea.</p><p>Después, responder: ¿cuál sería el protocolo adecuado si un compañero presenta fatiga persistente + intolerancia al frío + recuperación lenta durante más de dos semanas? ¿A quién debería consultar y qué información debería llevar a la consulta?</p>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s2_2: {
+            title: "2.2 Profundización: Páncreas endocrino y homeostasis glucémica",
+            sub: "Insulina, glucagón y el eje hígado-músculo durante la danza",
+            s1_title: "Mecanismo de regulación durante el ejercicio",
+            s1_list: [
+                "En ejercicio de intensidad moderada, la secreción de <strong>glucagón aumenta</strong> y la de <strong>insulina disminuye</strong>.",
+                "Este patrón es crítico para mantener la glucemia: el glucagón estimula la glucogenólisis hepática y la gluconeogénesis, mientras que la caída de insulina permite la movilización de ácidos grasos libres del tejido adiposo.",
+                "La revisión de Wasserman et al. destaca que la disposición anatómica del páncreas (drenaje a la vena porta) permite que estas hormonas regulen directamente el metabolismo hepático durante el esfuerzo."
+            ],
+            s2_title: "Aplicación en danza",
+            s2_list: [
+                "En clases de danza contemporánea de 90 minutos, el equilibrio insulina-glucagón permite mantener la glucemia estable si la ingesta previa fue adecuada.",
+                "Un ayuno prolongado antes del ensayo puede comprometer la respuesta del glucagón y acelerar la fatiga."
+            ],
+            img: "Diagrama: eje páncreas-hígado durante ejercicio moderado",
+            ex_title: "Ejercicio práctico: Simulación de elecciones nutricionales",
+            ex_content: "<p>Se plantean tres escenarios antes de un ensayo de 2 horas:</p><ol><li><strong>Escenario A:</strong> Ayuno desde la noche anterior.</li><li><strong>Escenario B:</strong> Desayuno rico en hidratos de carbono 2 horas antes (avena + fruta).</li><li><strong>Escenario C:</strong> Comida copiosa 30 minutos antes (pasta abundante + salsa).</li></ol><p style='margin-top:8px;'>Para cada escenario, predecir qué ocurrirá con la insulina y el glucagón durante el ensayo, y cómo afectará a la energía percibida. Justificar con los mecanismos explicados y proponer cuál es la opción más favorable.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s3_1: {
+            title: "3.1 Profundización: Evidencia sobre cortisol y catecolaminas en escena",
+            sub: "Estudios comparativos entre bailarines expertos y noveles",
+            s1_title: "Hallazgos del estudio de referencia",
+            s1_list: [
+                "Un estudio comparó bailarines con más de 5 años de experiencia (expertos) frente a bailarines con menos de 5 años (noveles) en tres momentos: reposo, antes y después de una actuación.",
+                "<strong>Cortisol:</strong> aumentó progresivamente en ambos grupos (reposo → pre → post). Los expertos mostraron niveles significativamente más altos que los noveles después de la actuación.",
+                "<strong>Noradrenalina:</strong> los expertos presentaron niveles significativamente más altos antes de la actuación en comparación con los noveles.",
+                "<strong>Adrenalina:</strong> no se encontraron diferencias significativas entre grupos."
+            ],
+            s2_title: "Interpretación para la práctica dancística",
+            s2_list: [
+                "La mayor respuesta de cortisol en expertos sugiere una <strong>mayor activación fisiológica</strong> ante la demanda escénica, posiblemente relacionada con una mayor implicación emocional y física en la performance.",
+                "La noradrenalina elevada pre-actuación en expertos refleja una preparación neuroendocrina más intensa para el esfuerzo inminente.",
+                "Estos datos no indican que los noveles 'no se estresen', sino que la respuesta hormonal se modula con la experiencia y el significado atribuido a la actuación."
+            ],
+            ex_title: "Ejercicio práctico: Análisis de gráfico",
+            ex_content: "<p>Se proporciona al alumnado un gráfico simplificado con los datos del estudio (cortisol en los tres momentos, dos grupos). A partir de él, responder:</p><ol><li>¿En qué momento se observa la mayor diferencia entre grupos? ¿Por qué?</li><li>¿Qué implicaciones tiene para el calentamiento pre-actuación de bailarines noveles frente a expertos?</li><li>Si fueras profesor/a de danza, ¿modificarías el protocolo de preparación para una actuación según la experiencia del bailarín? Justifica.</li></ol>",
+            source: "<em>The Analysis of Stress Hormone Before and After Dance Performance according to the Career</em>."
+        },
+        s4_1: {
+            title: "4.1 Profundización: Cascada hormonal de la movilización de sustratos",
+            sub: "Del glucógeno hepático a la oxidación de grasas",
+            s1_title: "Secuencia de eventos durante el ejercicio moderado",
+            s1_list: [
+                "<strong>Minuto 0-5:</strong> Caída de insulina; el glucagón comienza a elevarse. El hígado inicia glucogenólisis para mantener la glucemia.",
+                "<strong>Minuto 5-20:</strong> El glucagón estimula la gluconeogénesis hepática a partir de aminoácidos y lactato. La lipólisis del tejido adiposo se activa por la baja insulina.",
+                "<strong>Minuto 20-60:</strong> Los ácidos grasos libres (NEFA) llegan al hígado y al músculo. El glucagón favorece la oxidación de NEFA en el hígado, preservando glucógeno para el músculo activo.",
+                "<strong>Más de 60 minutos:</strong> La contribución de las grasas aumenta progresivamente; el glucógeno muscular se economiza. Este es el fundamento de la resistencia aeróbica en danza contemporánea."
+            ],
+            s2_title: "El papel de la insulina en el músculo",
+            s2_list: [
+                "Durante el ejercicio, la insulina baja permite que el músculo capte glucosa por vía independiente de insulina (GLUT-4 translocado por la contracción).",
+                "Esta adaptación es clave para que el bailarín pueda utilizar glucosa sanguínea sin necesidad de un pico insulínico."
+            ],
+            img: "Esquema: cascada glucagón → glucogenólisis → gluconeogénesis → oxidación de grasas",
+            ex_title: "Ejercicio práctico: Línea temporal metabólica",
+            ex_content: "<p>Dibujar una línea temporal de 0 a 90 minutos de ensayo. En ella, representar con colores:</p><ol><li>Nivel de insulina (curva descendente).</li><li>Nivel de glucagón (curva ascendente).</li><li>Contribución energética: glucógeno vs. grasas (dos áreas que se cruzan).</li></ol><p style='margin-top:8px;'>Después, marcar en la línea temporal el momento en que el bailarín debería ingerir una pequeña cantidad de hidratos de carbono si el ensayo se prolonga más de 90 minutos. Justificar con los mecanismos hormonales estudiados.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s5_1: {
+            title: "5.1 Profundización: Intervención sobre la respuesta de estrés",
+            sub: "Del cortisol elevado a la regulación consciente",
+            s1_title: "Por qué la percepción importa",
+            s1_list: [
+                "La respuesta de cortisol no depende solo de la intensidad del estresor, sino de la <strong>valoración cognitiva</strong> que el bailarín hace de la situación.",
+                "Si la actuación se percibe como una <strong>amenaza</strong> (miedo al fracaso, juicio externo), el cortisol se eleva más y la ansiedad aumenta.",
+                "Si se percibe como un <strong>desafío</strong> (oportunidad de mostrar el trabajo, reto asumible), la respuesta hormonal es más moderada y el rendimiento mejora.",
+                "La satisfacción de las necesidades psicológicas básicas (autonomía, competencia, relación) se asocia con respuestas de cortisol más adaptativas en contextos de danza."
+            ],
+            s2_title: "Estrategias con base fisiológica",
+            s2_list: [
+                "<strong>Respiración diafragmática lenta (4-6 por minuto):</strong> activa el nervio vago y contrarresta la activación simpática.",
+                "<strong>Calentamiento estructurado:</strong> eleva la temperatura muscular y modula la percepción de preparación, reduciendo la incertidumbre.",
+                "<strong>Rutina pre-actuación fija:</strong> la previsibilidad reduce la carga cognitiva y la respuesta de estrés."
+            ],
+            ex_title: "Ejercicio práctico: Diseño de una rutina pre-actuación",
+            ex_content: "<p>En parejas, diseñar una rutina de 10 minutos previa a una actuación que incluya:</p><ol><li>2 minutos de respiración controlada (especificar ritmo).</li><li>5 minutos de calentamiento articular y muscular.</li><li>3 minutos de visualización positiva (describir qué se visualiza).</li></ol><p style='margin-top:8px;'>Después, intercambiar la rutina con otra pareja y evaluarla según estos criterios: ¿reduce la incertidumbre? ¿Activa el cuerpo sin generar fatiga? ¿Es realista en el contexto de un espectáculo?</p>",
+            source: "<em>Stress hormones in dance performance</em>; hallazgos sobre necesidades psicológicas básicas y cortisol en contextos de danza."
+        },
+        s6_1: {
+            title: "6.1 Profundización: Tiroides, rendimiento y señales de alarma",
+            sub: "Cuando el metabolismo no acompaña",
+            s1_title: "Efectos del estado tiroideo en el rendimiento dancístico",
+            s1_list: [
+                "La revisión de Gonçalves et al. concluye que las alteraciones tiroideas (tanto por exceso como por defecto) comprometen la tolerancia al ejercicio y la función muscular.",
+                "<strong>Hipotiroidismo:</strong> reduce la capacidad oxidativa muscular, enlentece la relajación muscular y disminuye la potencia. El bailarín puede sentir que 'le faltan fuerzas' sin causa aparente.",
+                "<strong>Hipertiroidismo:</strong> acelera el metabolismo basal, puede provocar pérdida de peso y masa muscular, taquicardia y fatiga paradójica (sensación de agitación con agotamiento rápido)."
+            ],
+            s2_title: "Diferencia entre fatiga normal y fatiga tiroidea",
+            s2_list: [
+                "<strong>Fatiga normal:</strong> mejora con descanso, nutrición e hidratación; se relaciona con la carga de entrenamiento.",
+                "<strong>Fatiga tiroidea:</strong> persiste a pesar del descanso, se acompaña de otros signos (frío/calor excesivo, cambios de peso, alteraciones del ánimo, estreñimiento o diarrea)."
+            ],
+            ex_title: "Ejercicio práctico: Caso clínico simulado",
+            ex_content: "<p>Una bailarina de 22 años refiere: 'Desde hace un mes me cuesta mucho terminar los ensayos. Antes aguantaba 3 horas y ahora a las 2 estoy agotada. Tengo frío en clase cuando las demás están bien. He engordado 2 kg sin cambiar la dieta. Duermo 8 horas pero me levanto cansada.'</p><ol><li>¿Qué señales sugieren una posible disfunción tiroidea?</li><li>¿Qué otras causas habría que descartar antes de concluir que es tiroides?</li><li>¿Qué recomendación darías a esta bailarina como profesor/a?</li><li>¿Qué análisis solicitarías al médico y por qué?</li></ol>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s7_1: {
+            title: "7.1 Profundización: Amenorrea hipotalámica funcional en danza",
+            sub: "Cuando el cuerpo 'apaga' la función reproductiva por falta de energía",
+            s1_title: "Mecanismo fisiopatológico",
+            s1_list: [
+                "La <strong>amenorrea hipotalámica funcional</strong> es frecuente en deportes estéticos como el ballet y la danza.",
+                "Se produce por una supresión del generador de pulsos de GnRH en el hipotálamo, generalmente por <strong>baja disponibilidad energética</strong> (ingesta insuficiente para el gasto) y/o estrés elevado.",
+                "La consecuencia es un hipoestrogenismo que afecta a la salud ósea: menor densidad mineral ósea y mayor riesgo de fracturas por estrés.",
+                "Estudios en bailarinas de ballet elite confirman una alta prevalencia de menarquia tardía e irregularidades menstruales."
+            ],
+            s2_title: "Por qué no debe normalizarse",
+            s2_list: [
+                "La ausencia de menstruación no es un 'efecto normal del entrenamiento'. Es una señal de que el eje reproductivo está comprometido.",
+                "El hipoestrogenismo prolongado tiene efectos sobre el hueso que pueden no ser reversibles completamente.",
+                "La intervención principal es <strong>aumentar la disponibilidad energética</strong> (más ingesta, menos gasto excesivo) y reducir el estrés, no necesariamente abandonar la danza."
+            ],
+            ex_title: "Ejercicio práctico: Mito o realidad",
+            ex_content: "<p>Clasificar las siguientes afirmaciones como 'mito' o 'realidad' y justificar con la evidencia:</p><ol><li>'Si no me viene la regla es porque entreno mucho, es normal en bailarinas.'</li><li>'La amenorrea solo afecta a la fertilidad, no a los huesos.'</li><li>'Comer más y descansar puede restaurar el ciclo sin dejar de bailar.'</li><li>'Si tengo fracturas por estrés repetidas, puede tener relación con la falta de estrógenos.'</li></ol><p style='margin-top:8px;'>Después, redactar una recomendación de 3 líneas para una compañera que celebra no tener la regla 'porque así está más ligera para bailar'.</p>",
+            source: "<em>Menses Requires Energy: A Review</em>; <em>Special problems of the female athlete</em>; revisión de factores de riesgo en bailarinas de ballet elite."
+        },
+        s8_1: {
+            title: "8.1 Profundización: Disponibilidad energética y señales endocrinas",
+            sub: "Qué ocurre cuando la ingesta no cubre el gasto",
+            s1_title: "El concepto de 'baja disponibilidad energética' (LEA)",
+            s1_list: [
+                "La LEA ocurre cuando la energía ingerida menos la gastada en ejercicio queda por debajo de lo necesario para funciones fisiológicas básicas.",
+                "El cuerpo responde <strong>priorizando funciones vitales</strong> y 'apagando' las que considera no esenciales en ese momento: reproducción (amenorrea), crecimiento, síntesis ósea.",
+                "Las hormonas tiroideas pueden descender (T3 baja) como mecanismo de ahorro energético, lo que reduce aún más el metabolismo y perpetúa el ciclo."
+            ],
+            s2_title: "Presión estética y riesgo endocrino",
+            s2_list: [
+                "La presión por un ideal corporal delgado en danza puede llevar a restricciones calóricas crónicas.",
+                "Revisiones sistemáticas señalan una asociación entre trastornos alimentarios, alteraciones menstruales y baja densidad mineral ósea en bailarinas.",
+                "La consecuencia no es solo estética: es un desequilibrio hormonal con impacto en la salud ósea, la recuperación y el rendimiento a largo plazo."
+            ],
+            img: "Ciclo: restricción calórica → baja T3 y estrógenos → menor rendimiento → más restricción",
+            ex_title: "Ejercicio práctico: Análisis de un ciclo de riesgo",
+            ex_content: "<p>Leer el siguiente caso: 'Una bailarina quiere estar más delgada para un papel principal. Reduce sus comidas a una ensalada al día y aumenta los ensayos a 5 horas. A las 6 semanas, está más delgada pero se lesiona (fractura por estrés en el pie). El médico le dice que tiene baja densidad ósea.'</p><ol><li>Identificar al menos 3 señales hormonales que probablemente estén alteradas.</li><li>Explicar la relación entre la restricción calórica y la fractura por estrés.</li><li>Proponer un plan de intervención realista que no implique abandonar la danza.</li></ol>",
+            source: "Revisión sobre trastornos alimentarios y densidad ósea en bailarinas; <em>Menses Requires Energy</em>."
+        },
+        s9_1: {
+            title: "9.1 Profundización: Melatonina, sueño y recuperación hormonal",
+            sub: "La intervención más subestimada del bailarín",
+            s1_title: "Evidencia sobre melatonina y sueño",
+            s1_list: [
+                "La melatonina exógena ha demostrado reducir la <strong>latencia del sueño</strong> (tiempo para dormirse) y aumentar el tiempo total de sueño en metaanálisis.",
+                "La melatonina endógena se secreta en oscuridad y se suprime con la luz, especialmente la luz azul de pantallas.",
+                "Su función principal no es 'inducir' el sueño directamente, sino <strong>sincronizar el ritmo circadiano</strong> y señalar al cuerpo que es momento de dormir."
+            ],
+            s2_title: "Hormona del crecimiento y sueño profundo",
+            s2_list: [
+                "La GH se libera en pulsos, principalmente durante el sueño de ondas lentas (fases 3 y 4).",
+                "Participa en la reparación de tejidos, la síntesis proteica muscular y la movilización de grasas.",
+                "Un sueño fragmentado o insuficiente reduce la liberación de GH y compromete la recuperación tras ensayos intensos."
+            ],
+            ex_title: "Ejercicio práctico: Auditoría del sueño",
+            ex_content: "<p>Durante 5 días, registrar:</p><ol><li>Hora de acostarse y de levantarse.</li><li>Uso de pantallas en la hora previa a dormir (sí/no y tipo).</li><li>Número de despertares nocturnos.</li><li>Sensación de descanso al levantarse (1-5).</li></ol><p style='margin-top:8px;'>Al finalizar, calcular el promedio de horas de sueño y correlacionarlo con la energía en el ensayo del día siguiente. Proponer <strong>una modificación concreta</strong> en la rutina nocturna y comprometerse a aplicarla durante la siguiente semana.</p>",
+            source: "Metaanálisis sobre melatonina y calidad del sueño; <em>Melatonin has been shown to synchronize the circadian rhythms and improve the onset, duration and quality of sleep</em>."
+        },
+        s10_1: {
+            title: "10.1 Profundización: Integración y señales de derivación médica",
+            sub: "Cuándo el profesor debe actuar y cuándo derivar",
+            s1_title: "Límites del rol docente",
+            s1_list: [
+                "El profesor de danza no diagnostica ni trata trastornos hormonales. Su función es <strong>observar, registrar y derivar</strong> cuando sea necesario.",
+                "Señales que justifican una conversación y posible derivación médica:",
+                "<ul style='margin-top:4px;'><li>Fatiga persistente que no mejora con descanso durante más de 2-3 semanas.</li><li>Pérdida o ganancia de peso no intencionada en poco tiempo.</li><li>Ausencia de menstruación durante 3 meses o más (en bailarinas no embarazadas).</li><li>Fracturas por estrés repetidas o lesiones que no curan.</li><li>Cambios marcados de ánimo, frío/calor excesivo, alteraciones del apetito.</li></ul>"
+            ],
+            s2_title: "Trabajo interdisciplinar",
+            s2_list: [
+                "El equipo ideal incluye médico del deporte, nutricionista, fisioterapeuta y psicólogo del deporte.",
+                "La comunicación entre profesionales y el profesor de danza permite adaptar la carga de trabajo mientras se investiga la causa de los síntomas.",
+                "El objetivo no es retirar al bailarín de la danza, sino <strong>mantenerlo bailando de forma sostenible</strong>."
+            ],
+            ex_title: "Ejercicio práctico: Protocolo de observación y derivación",
+            ex_content: "<p>Diseñar, en grupos, un <strong>protocolo sencillo de 1 página</strong> que un profesor de danza podría usar para registrar señales de alerta en sus alumnos. Debe incluir:</p><ol><li>3-4 indicadores observables en clase (ej. frecuencia de lesiones, cambios de peso visibles, ausencias por fatiga).</li><li>Un semáforo de actuación: verde (normal), amarillo (observar y hablar), rojo (derivar).</li><li>Qué decir y qué NO decir al alumno en la conversación (ej. evitar diagnósticos, evitar comentarios sobre el cuerpo).</li><li>A quién derivar según el tipo de señal.</li></ol><p style='margin-top:8px;'>Presentar el protocolo al resto de la clase y defender las decisiones tomadas.</p>",
+            source: "Síntesis de las revisiones sobre salud del bailarín citadas en las diapositivas anteriores."
+        }
+    },
+    en: {
+        badge: "Expansion",
+        source: "Sources:",
+        s1_1: {
+            title: "1.1 Deep dive: Hormonal communication and biological rhythms",
+            sub: "Mechanisms of action and their impact on dance schedules",
+            s1_title: "Mechanisms of hormonal action",
+            s1_list: [
+                "<strong>Fat-soluble hormones</strong> (steroid, thyroid): cross the cell membrane and act on intracellular receptors, modifying gene expression. Their effect is slower but longer-lasting.",
+                "<strong>Water-soluble hormones</strong> (peptide, catecholamines): bind to membrane receptors and activate second messengers (cAMP, IP3). Their response is fast and short-lived.",
+                "This difference explains why cortisol (fat-soluble) takes longer to manifest but has sustained effects, while adrenaline (water-soluble) acts within seconds."
+            ],
+            s2_title: "Circadian rhythms and dance performance",
+            s2_list: [
+                "Cortisol follows a marked circadian rhythm: morning peak (around 8:00) and nocturnal decline. This influences energy availability and perceived exertion.",
+                "Core body temperature peaks between 16:00 and 18:00, which favors muscle power and flexibility.",
+                "Melatonin rises with darkness and facilitates sleep; exposure to screens before bed suppresses it."
+            ],
+            img: "Comparative chart: cortisol, temperature and melatonin curves over 24 hours",
+            ex_title: "Practical exercise: Personal rhythm map",
+            ex_content: "<p>For one week, students will record each day:</p><ol><li>Bedtime and wake-up time, and perceived sleep quality (1-5).</li><li>Energy level at three times of day: morning, afternoon and night (1-5).</li><li>Time of day when they felt most agile during rehearsal.</li></ol><p style='margin-top:8px;'>Using the data, create a personal chart and answer: in which time slot does your energy peak coincide with the body temperature peak described in theory? Would you adjust your rehearsals? Justify your answer.</p>",
+            source: "General endocrine physiology concepts; <em>Melatonin has been shown to synchronize the circadian rhythms and improve sleep quality</em>."
+        },
+        s2_1: {
+            title: "2.1 Deep dive: Thyroid and energy metabolism",
+            sub: "T3, T4 and their role in adaptation to exertion",
+            s1_title: "Functions of thyroid hormones in muscle",
+            s1_list: [
+                "Thyroid hormones (T3 and T4) regulate basal metabolic rate and are <strong>permissive</strong> for the action of other hormones: without adequate T3 levels, muscle does not respond optimally to training.",
+                "They participate in regulating oxidative metabolism, contractile protein synthesis and mitochondrial density.",
+                "A review on the effect of thyroid hormones on the cardiovascular and muscular systems indicates that both hypothyroidism and hyperthyroidism reduce exercise tolerance."
+            ],
+            s2_title: "Implications for the dancer",
+            s2_list: [
+                "<strong>Hypothyroidism:</strong> early fatigue, cold intolerance, slow recovery, feeling of muscle heaviness.",
+                "<strong>Hyperthyroidism:</strong> tachycardia, excessive sweating, unintentional weight loss, feeling of nervousness.",
+                "Both situations alter movement quality and must be medically evaluated before attributing them to lack of fitness."
+            ],
+            img: "Diagram: hypothalamus-pituitary-thyroid axis and negative feedback",
+            ex_title: "Practical exercise: Thyroid warning signs",
+            ex_content: "<p>In groups of 3-4 people, make a list of <strong>5 bodily signs</strong> that a dancer might notice during a week of intense rehearsals and that could be confused with 'lack of training' but actually suggest a possible thyroid dysfunction.</p><p>Then answer: what would be the appropriate protocol if a classmate presents persistent fatigue + cold intolerance + slow recovery for more than two weeks? Who should they consult and what information should they bring to the consultation?</p>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s2_2: {
+            title: "2.2 Deep dive: Endocrine pancreas and glycemic homeostasis",
+            sub: "Insulin, glucagon and the liver-muscle axis during dance",
+            s1_title: "Regulation mechanism during exercise",
+            s1_list: [
+                "In moderate-intensity exercise, <strong>glucagon secretion increases</strong> and <strong>insulin decreases</strong>.",
+                "This pattern is critical for maintaining glycemia: glucagon stimulates hepatic glycogenolysis and gluconeogenesis, while the drop in insulin allows mobilization of free fatty acids from adipose tissue.",
+                "Wasserman et al.'s review highlights that the anatomical arrangement of the pancreas (drainage to the portal vein) allows these hormones to directly regulate hepatic metabolism during exertion."
+            ],
+            s2_title: "Application in dance",
+            s2_list: [
+                "In 90-minute contemporary dance classes, the insulin-glucagon balance keeps glycemia stable if prior intake was adequate.",
+                "Prolonged fasting before rehearsal can compromise the glucagon response and accelerate fatigue."
+            ],
+            img: "Diagram: pancreas-liver axis during moderate exercise",
+            ex_title: "Practical exercise: Nutritional choice simulation",
+            ex_content: "<p>Three scenarios are proposed before a 2-hour rehearsal:</p><ol><li><strong>Scenario A:</strong> Fasting since the previous night.</li><li><strong>Scenario B:</strong> Carbohydrate-rich breakfast 2 hours before (oats + fruit).</li><li><strong>Scenario C:</strong> Copious meal 30 minutes before (abundant pasta + sauce).</li></ol><p style='margin-top:8px;'>For each scenario, predict what will happen to insulin and glucagon during rehearsal, and how it will affect perceived energy. Justify with the mechanisms explained and propose which is the most favorable option.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s3_1: {
+            title: "3.1 Deep dive: Evidence on cortisol and catecholamines on stage",
+            sub: "Comparative studies between expert and novice dancers",
+            s1_title: "Findings of the reference study",
+            s1_list: [
+                "A study compared dancers with more than 5 years of experience (experts) versus dancers with less than 5 years (novices) at three moments: rest, before and after a performance.",
+                "<strong>Cortisol:</strong> increased progressively in both groups (rest → pre → post). Experts showed significantly higher levels than novices after the performance.",
+                "<strong>Noradrenaline:</strong> experts had significantly higher levels before the performance compared to novices.",
+                "<strong>Adrenaline:</strong> no significant differences were found between groups."
+            ],
+            s2_title: "Interpretation for dance practice",
+            s2_list: [
+                "The greater cortisol response in experts suggests <strong>greater physiological activation</strong> in response to stage demands, possibly related to greater emotional and physical involvement in the performance.",
+                "Elevated pre-performance noradrenaline in experts reflects a more intense neuroendocrine preparation for imminent exertion.",
+                "These data do not indicate that novices 'don't get stressed', but that the hormonal response is modulated by experience and the meaning attributed to the performance."
+            ],
+            ex_title: "Practical exercise: Chart analysis",
+            ex_content: "<p>Students are provided with a simplified chart of the study data (cortisol at three moments, two groups). Based on it, answer:</p><ol><li>At what moment is the greatest difference between groups observed? Why?</li><li>What implications does this have for pre-performance warm-up of novice versus expert dancers?</li><li>If you were a dance teacher, would you modify the preparation protocol for a performance depending on the dancer's experience? Justify.</li></ol>",
+            source: "<em>The Analysis of Stress Hormone Before and After Dance Performance according to the Career</em>."
+        },
+        s4_1: {
+            title: "4.1 Deep dive: Hormonal cascade of substrate mobilization",
+            sub: "From hepatic glycogen to fat oxidation",
+            s1_title: "Sequence of events during moderate exercise",
+            s1_list: [
+                "<strong>Minute 0-5:</strong> Insulin drop; glucagon begins to rise. The liver initiates glycogenolysis to maintain glycemia.",
+                "<strong>Minute 5-20:</strong> Glucagon stimulates hepatic gluconeogenesis from amino acids and lactate. Adipose tissue lipolysis is activated by low insulin.",
+                "<strong>Minute 20-60:</strong> Free fatty acids (NEFA) reach the liver and muscle. Glucagon favors NEFA oxidation in the liver, preserving glycogen for active muscle.",
+                "<strong>More than 60 minutes:</strong> Fat contribution progressively increases; muscle glycogen is economized. This is the basis of aerobic endurance in contemporary dance."
+            ],
+            s2_title: "The role of insulin in muscle",
+            s2_list: [
+                "During exercise, low insulin allows muscle to take up glucose via an insulin-independent pathway (GLUT-4 translocated by contraction).",
+                "This adaptation is key for the dancer to use blood glucose without needing an insulin spike."
+            ],
+            img: "Diagram: glucagon cascade → glycogenolysis → gluconeogenesis → fat oxidation",
+            ex_title: "Practical exercise: Metabolic timeline",
+            ex_content: "<p>Draw a timeline from 0 to 90 minutes of rehearsal. On it, represent with colors:</p><ol><li>Insulin level (descending curve).</li><li>Glucagon level (ascending curve).</li><li>Energy contribution: glycogen vs. fats (two intersecting areas).</li></ol><p style='margin-top:8px;'>Then, mark on the timeline the moment when the dancer should ingest a small amount of carbohydrates if the rehearsal extends beyond 90 minutes. Justify with the hormonal mechanisms studied.</p>",
+            source: "<em>Role of the endocrine pancreas in control of fuel metabolism by the liver during exercise</em>."
+        },
+        s5_1: {
+            title: "5.1 Deep dive: Intervention on the stress response",
+            sub: "From elevated cortisol to conscious regulation",
+            s1_title: "Why perception matters",
+            s1_list: [
+                "The cortisol response depends not only on stressor intensity, but on the <strong>cognitive appraisal</strong> the dancer makes of the situation.",
+                "If the performance is perceived as a <strong>threat</strong> (fear of failure, external judgment), cortisol rises more and anxiety increases.",
+                "If perceived as a <strong>challenge</strong> (opportunity to show the work, manageable challenge), the hormonal response is more moderate and performance improves.",
+                "Satisfaction of basic psychological needs (autonomy, competence, relatedness) is associated with more adaptive cortisol responses in dance contexts."
+            ],
+            s2_title: "Physiologically-based strategies",
+            s2_list: [
+                "<strong>Slow diaphragmatic breathing (4-6 per minute):</strong> activates the vagus nerve and counteracts sympathetic activation.",
+                "<strong>Structured warm-up:</strong> raises muscle temperature and modulates perception of readiness, reducing uncertainty.",
+                "<strong>Fixed pre-performance routine:</strong> predictability reduces cognitive load and the stress response."
+            ],
+            ex_title: "Practical exercise: Designing a pre-performance routine",
+            ex_content: "<p>In pairs, design a 10-minute routine before a performance that includes:</p><ol><li>2 minutes of controlled breathing (specify rhythm).</li><li>5 minutes of joint and muscle warm-up.</li><li>3 minutes of positive visualization (describe what is visualized).</li></ol><p style='margin-top:8px;'>Then, exchange the routine with another pair and evaluate it according to these criteria: does it reduce uncertainty? Does it activate the body without generating fatigue? Is it realistic in the context of a show?</p>",
+            source: "<em>Stress hormones in dance performance</em>; findings on basic psychological needs and cortisol in dance contexts."
+        },
+        s6_1: {
+            title: "6.1 Deep dive: Thyroid, performance and warning signs",
+            sub: "When metabolism doesn't keep up",
+            s1_title: "Effects of thyroid status on dance performance",
+            s1_list: [
+                "Gonçalves et al.'s review concludes that thyroid alterations (both excess and deficiency) compromise exercise tolerance and muscle function.",
+                "<strong>Hypothyroidism:</strong> reduces muscle oxidative capacity, slows muscle relaxation and decreases power. The dancer may feel 'lacking strength' without apparent cause.",
+                "<strong>Hyperthyroidism:</strong> accelerates basal metabolism, can cause weight and muscle mass loss, tachycardia and paradoxical fatigue (feeling of agitation with rapid exhaustion)."
+            ],
+            s2_title: "Difference between normal fatigue and thyroid fatigue",
+            s2_list: [
+                "<strong>Normal fatigue:</strong> improves with rest, nutrition and hydration; related to training load.",
+                "<strong>Thyroid fatigue:</strong> persists despite rest, accompanied by other signs (excessive cold/heat, weight changes, mood alterations, constipation or diarrhea)."
+            ],
+            ex_title: "Practical exercise: Simulated clinical case",
+            ex_content: "<p>A 22-year-old dancer reports: 'For a month it's been very hard to finish rehearsals. I used to last 3 hours and now at 2 I'm exhausted. I'm cold in class when others are fine. I've gained 2 kg without changing my diet. I sleep 8 hours but wake up tired.'</p><ol><li>What signs suggest a possible thyroid dysfunction?</li><li>What other causes should be ruled out before concluding it's thyroid?</li><li>What recommendation would you give this dancer as a teacher?</li><li>What tests would you request from the doctor and why?</li></ol>",
+            source: "<em>Effect of thyroid hormones on cardiovascular and muscle systems and on exercise tolerance: a brief review</em>."
+        },
+        s7_1: {
+            title: "7.1 Deep dive: Functional hypothalamic amenorrhea in dance",
+            sub: "When the body 'turns off' reproductive function due to lack of energy",
+            s1_title: "Pathophysiological mechanism",
+            s1_list: [
+                "<strong>Functional hypothalamic amenorrhea</strong> is common in aesthetic sports such as ballet and dance.",
+                "It is produced by suppression of the GnRH pulse generator in the hypothalamus, generally due to <strong>low energy availability</strong> (insufficient intake for expenditure) and/or elevated stress.",
+                "The consequence is hypoestrogenism that affects bone health: lower bone mineral density and increased risk of stress fractures.",
+                "Studies in elite ballet dancers confirm a high prevalence of late menarche and menstrual irregularities."
+            ],
+            s2_title: "Why it should not be normalized",
+            s2_list: [
+                "Absence of menstruation is not a 'normal effect of training'. It is a sign that the reproductive axis is compromised.",
+                "Prolonged hypoestrogenism has effects on bone that may not be fully reversible.",
+                "The main intervention is to <strong>increase energy availability</strong> (more intake, less excessive expenditure) and reduce stress, not necessarily abandoning dance."
+            ],
+            ex_title: "Practical exercise: Myth or reality",
+            ex_content: "<p>Classify the following statements as 'myth' or 'reality' and justify with evidence:</p><ol><li>'If I don't get my period it's because I train a lot, it's normal for dancers.'</li><li>'Amenorrhea only affects fertility, not bones.'</li><li>'Eating more and resting can restore the cycle without stopping dancing.'</li><li>'If I have repeated stress fractures, it may be related to lack of estrogens.'</li></ol><p style='margin-top:8px;'>Then, write a 3-line recommendation for a classmate who celebrates not getting her period 'because she's lighter for dancing'.</p>",
+            source: "<em>Menses Requires Energy: A Review</em>; <em>Special problems of the female athlete</em>; review of risk factors in elite ballet dancers."
+        },
+        s8_1: {
+            title: "8.1 Deep dive: Energy availability and endocrine signals",
+            sub: "What happens when intake doesn't cover expenditure",
+            s1_title: "The concept of 'low energy availability' (LEA)",
+            s1_list: [
+                "LEA occurs when energy intake minus energy expended in exercise falls below what is needed for basic physiological functions.",
+                "The body responds by <strong>prioritizing vital functions</strong> and 'turning off' those it considers non-essential at that moment: reproduction (amenorrhea), growth, bone synthesis.",
+                "Thyroid hormones may decrease (low T3) as an energy-saving mechanism, which further reduces metabolism and perpetuates the cycle."
+            ],
+            s2_title: "Aesthetic pressure and endocrine risk",
+            s2_list: [
+                "Pressure for a thin body ideal in dance can lead to chronic caloric restriction.",
+                "Systematic reviews indicate an association between eating disorders, menstrual alterations and low bone mineral density in dancers.",
+                "The consequence is not only aesthetic: it is a hormonal imbalance with impact on bone health, recovery and long-term performance."
+            ],
+            img: "Cycle: caloric restriction → low T3 and estrogens → lower performance → more restriction",
+            ex_title: "Practical exercise: Analyzing a risk cycle",
+            ex_content: "<p>Read the following case: 'A dancer wants to be thinner for a lead role. She reduces her meals to one salad a day and increases rehearsals to 5 hours. At 6 weeks, she is thinner but gets injured (stress fracture in her foot). The doctor tells her she has low bone density.'</p><ol><li>Identify at least 3 hormonal signals that are probably altered.</li><li>Explain the relationship between caloric restriction and the stress fracture.</li><li>Propose a realistic intervention plan that does not involve abandoning dance.</li></ol>",
+            source: "Review on eating disorders and bone density in dancers; <em>Menses Requires Energy</em>."
+        },
+        s9_1: {
+            title: "9.1 Deep dive: Melatonin, sleep and hormonal recovery",
+            sub: "The dancer's most underestimated intervention",
+            s1_title: "Evidence on melatonin and sleep",
+            s1_list: [
+                "Exogenous melatonin has been shown to reduce <strong>sleep latency</strong> (time to fall asleep) and increase total sleep time in meta-analyses.",
+                "Endogenous melatonin is secreted in darkness and suppressed by light, especially blue light from screens.",
+                "Its main function is not to 'induce' sleep directly, but to <strong>synchronize the circadian rhythm</strong> and signal the body that it is time to sleep."
+            ],
+            s2_title: "Growth hormone and deep sleep",
+            s2_list: [
+                "GH is released in pulses, mainly during slow-wave sleep (stages 3 and 4).",
+                "It participates in tissue repair, muscle protein synthesis and fat mobilization.",
+                "Fragmented or insufficient sleep reduces GH release and compromises recovery after intense rehearsals."
+            ],
+            ex_title: "Practical exercise: Sleep audit",
+            ex_content: "<p>For 5 days, record:</p><ol><li>Bedtime and wake-up time.</li><li>Screen use in the hour before sleep (yes/no and type).</li><li>Number of nighttime awakenings.</li><li>Feeling of rest upon waking (1-5).</li></ol><p style='margin-top:8px;'>At the end, calculate the average hours of sleep and correlate it with energy at the next day's rehearsal. Propose <strong>one concrete modification</strong> in the nighttime routine and commit to applying it during the following week.</p>",
+            source: "Meta-analysis on melatonin and sleep quality; <em>Melatonin has been shown to synchronize the circadian rhythms and improve the onset, duration and quality of sleep</em>."
+        },
+        s10_1: {
+            title: "10.1 Deep dive: Integration and medical referral signs",
+            sub: "When the teacher should act and when to refer",
+            s1_title: "Limits of the teaching role",
+            s1_list: [
+                "The dance teacher does not diagnose or treat hormonal disorders. Their role is to <strong>observe, record and refer</strong> when necessary.",
+                "Signs that justify a conversation and possible medical referral:",
+                "<ul style='margin-top:4px;'><li>Persistent fatigue that does not improve with rest for more than 2-3 weeks.</li><li>Unintentional weight loss or gain in a short time.</li><li>Absence of menstruation for 3 months or more (in non-pregnant dancers).</li><li>Repeated stress fractures or injuries that do not heal.</li><li>Marked mood changes, excessive cold/heat, appetite alterations.</li></ul>"
+            ],
+            s2_title: "Interdisciplinary work",
+            s2_list: [
+                "The ideal team includes sports physician, nutritionist, physiotherapist and sports psychologist.",
+                "Communication between professionals and the dance teacher allows adapting the workload while investigating the cause of symptoms.",
+                "The goal is not to remove the dancer from dance, but to <strong>keep them dancing sustainably</strong>."
+            ],
+            ex_title: "Practical exercise: Observation and referral protocol",
+            ex_content: "<p>In groups, design a <strong>simple 1-page protocol</strong> that a dance teacher could use to record warning signs in their students. It must include:</p><ol><li>3-4 observable indicators in class (e.g., injury frequency, visible weight changes, absences due to fatigue).</li><li>An action traffic light: green (normal), yellow (observe and talk), red (refer).</li><li>What to say and what NOT to say to the student in the conversation (e.g., avoid diagnoses, avoid comments about the body).</li><li>Who to refer to depending on the type of signal.</li></ol><p style='margin-top:8px;'>Present the protocol to the rest of the class and defend the decisions made.</p>",
+            source: "Synthesis of dancer health reviews cited in the previous slides."
+        }
+    }
+};
+
+function setLang(lang) {
+    // Actualitzar botons
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+
+    const t = translations[lang];
+
+    // Actualitzar elements generals
+    document.querySelectorAll('.l-badge').forEach(el => el.textContent = t.badge);
+    document.querySelectorAll('.l-source-title').forEach(el => el.textContent = t.source);
+
+    // Funció auxiliar per omplir una diapositiva
+    function fillSlide(id, data) {
+        document.querySelector(`.l-${id}-title`).textContent = data.title;
+        document.querySelector(`.l-${id}-sub`).textContent = data.sub;
+        document.querySelector(`.l-${id}-s1-title`).textContent = data.s1_title;
+        document.querySelector(`.l-${id}-s1-list`).innerHTML = data.s1_list.map(item => `<li>${item}</li>`).join('');
+        document.querySelector(`.l-${id}-s2-title`).textContent = data.s2_title;
+        document.querySelector(`.l-${id}-s2-list`).innerHTML = data.s2_list.map(item => `<li>${item}</li>`).join('');
+        
+        if (data.img) {
+            const imgEl = document.querySelector(`.l-${id}-img`);
+            if(imgEl) imgEl.textContent = data.img;
+        }
+
+        document.querySelector(`.l-${id}-ex-title`).textContent = data.ex_title;
+        document.querySelector(`.l-${id}-ex-content`).innerHTML = data.ex_content;
+        document.querySelector(`.l-${id}-source`).innerHTML = data.source;
+    }
+
+    // Omplir totes les diapositives
+    fillSlide('1-1', t.s1_1);
+    fillSlide('2-1', t.s2_1);
+    fillSlide('2-2', t.s2_2);
+    fillSlide('3-1', t.s3_1);
+    fillSlide('4-1', t.s4_1);
+    fillSlide('5-1', t.s5_1);
+    fillSlide('6-1', t.s6_1);
+    fillSlide('7-1', t.s7_1);
+    fillSlide('8-1', t.s8_1);
+    fillSlide('9-1', t.s9_1);
+    fillSlide('10-1', t.s10_1);
+}
+
+// Inicialitzar en Català en carregar
+window.onload = () => setLang('ca');
+</script>
 
 </body>
 </html>
